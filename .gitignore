@@ -17,3 +17,5 @@ dist/
 build/
 .env
 .env.local
+
+.vercel
