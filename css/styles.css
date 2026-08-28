@@ -1,64 +1,55 @@
 /* ==========================================================================
-   YOUNG APOSTLES FC — OFFICIAL FC BARCELONA LAYOUT FORMAT & DESIGN SYSTEM
-   Exact Layout, Aesthetics, Typography & Components of fcbarcelona.com
+   YOUNG APOSTLES FC — CLEAN FC BARCELONA PORTAL DESIGN SYSTEM
+   Spacious, Minimalist, Tab-Driven Architecture. Strictly No Emojis.
    ========================================================================== */
 
-/* Design Tokens & CSS Custom Properties */
 :root {
-  /* FC Barcelona Midnight & Sapphire Palette */
-  --fcb-bg-darkest: #040814;
-  --fcb-bg-dark: #080E1F;
-  --fcb-bg-card: #0F1A36;
-  --fcb-bg-card-hover: #16244C;
-  --fcb-bg-card-alt: #0B132B;
-  
-  /* Brand Accent Colors */
-  --fcb-blue-primary: #004D98;
-  --fcb-blue-vibrant: #0EA5E9;
-  --fcb-cyan-glow: #38BDF8;
-  --fcb-gold: #FFCA00;
-  --fcb-gold-dark: #E2B755;
-  --fcb-red-accent: #A50044;
-  --fcb-emerald: #10B981;
+  /* Barça Palette */
+  --bg-main: #040814;
+  --bg-navbar: rgba(8, 14, 31, 0.96);
+  --bg-card: #0E1834;
+  --bg-card-hover: #152248;
+  --bg-alt: #080E20;
+
+  /* Accent Colors */
+  --color-gold: #FFCA00;
+  --color-gold-hover: #FFFFFF;
+  --color-blue-primary: #004D98;
+  --color-cyan: #38BDF8;
+  --color-emerald: #10B981;
+  --color-red: #EF4444;
 
   /* Typography Colors */
-  --fcb-text-white: #FFFFFF;
-  --fcb-text-light: #F1F5F9;
-  --fcb-text-muted: #8E9BB0;
-  --fcb-text-subtle: #5A6982;
-  
-  /* Borders & Glass Accents */
-  --fcb-border-subtle: rgba(255, 255, 255, 0.08);
-  --fcb-border-highlight: rgba(14, 165, 233, 0.35);
-  --fcb-border-gold: rgba(255, 202, 0, 0.4);
-  
-  /* Elevation Shadows */
-  --fcb-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --fcb-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
-  --fcb-shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
-  --fcb-glow-blue: 0 0 25px rgba(14, 165, 233, 0.25);
+  --text-white: #FFFFFF;
+  --text-light: #F1F5F9;
+  --text-muted: #8E9BB0;
+  --text-subtle: #526078;
+
+  /* Borders & Shadows */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(56, 189, 248, 0.3);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.6);
 
   /* Fonts */
-  --font-condensed: 'Oswald', 'Outfit', sans-serif;
+  --font-barca: 'Oswald', 'Outfit', sans-serif;
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Lexend', sans-serif;
 
-  /* Layout Consts */
-  --container-width: 1280px;
-  --header-height: 76px;
-  --top-bar-height: 38px;
+  /* Layout */
+  --max-w: 1240px;
+  --nav-h: 76px;
+  --top-h: 36px;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 14px;
   --radius-pill: 9999px;
 
-  /* Transitions */
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --trans-fast: 0.2s ease;
-  --trans-normal: 0.35s var(--ease);
+  --trans-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset & Global Base */
+/* Reset */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -67,22 +58,18 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--header-height) + var(--top-bar-height) + 16px);
   color-scheme: dark;
 }
 
-body.fcb-layout {
+body.barca-theme {
   font-family: var(--font-body);
   font-size: 0.9375rem;
   line-height: 1.6;
-  color: var(--fcb-text-light);
-  background-color: var(--fcb-bg-darkest);
-  background-image: 
-    radial-gradient(circle at 10% 10%, rgba(0, 77, 152, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 40%, rgba(14, 165, 233, 0.08) 0%, transparent 35%);
+  color: var(--text-light);
+  background-color: var(--bg-main);
+  background-image: radial-gradient(circle at 50% -10%, rgba(0, 77, 152, 0.18) 0%, transparent 60%);
   background-attachment: fixed;
   overflow-x: hidden;
-  position: relative;
 }
 
 img {
@@ -91,54 +78,36 @@ img {
   display: block;
 }
 
-a {
+a, button {
   color: inherit;
   text-decoration: none;
-  transition: color var(--trans-fast), opacity var(--trans-fast);
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: all var(--trans-fast);
 }
 
 ul {
   list-style: none;
 }
 
-button, input, select, textarea {
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-}
-
 .font-bold { font-weight: 700; }
-.color-gold { color: var(--fcb-gold) !important; }
-.color-cyan { color: var(--fcb-cyan-glow) !important; }
-
-.section-container {
-  width: 100%;
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.section {
-  padding: 5rem 0;
-  position: relative;
-}
+.color-gold { color: var(--color-gold) !important; }
 
 /* ==========================================================================
-   1. TOP GLOBAL UTILITY BAR (Barça Ecosystem Strip)
+   1. TOP BAR
    ========================================================================== */
-.top-nav-bar {
+.top-bar {
   background: #02050E;
-  height: var(--top-bar-height);
-  border-bottom: 1px solid var(--fcb-border-subtle);
+  height: var(--top-h);
+  border-bottom: 1px solid var(--border-subtle);
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--fcb-text-muted);
-  position: relative;
-  z-index: 1002;
 }
 
-.top-nav-bar__container {
-  max-width: var(--container-width);
+.top-bar__inner {
+  max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
   height: 100%;
@@ -147,326 +116,227 @@ button, input, select, textarea {
   justify-content: space-between;
 }
 
-.top-nav-bar__partners {
+.top-bar__partners {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  letter-spacing: 0.05em;
+  gap: 0.75rem;
+  color: var(--text-muted);
 }
 
-.partner-label {
+.partner-title {
+  color: var(--text-subtle);
   font-size: 0.6875rem;
-  color: var(--fcb-text-subtle);
   font-weight: 700;
 }
 
-.partner-item {
+.partner-name {
+  color: var(--text-light);
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: var(--fcb-text-light);
 }
 
-.partner-item i {
-  color: var(--fcb-gold);
+.partner-name i {
+  color: var(--color-gold);
 }
 
-.partner-divider {
-  color: var(--fcb-border-subtle);
+.partner-sep {
+  color: var(--border-subtle);
 }
 
-.top-nav-bar__services {
+.top-bar__links {
   display: flex;
   align-items: center;
   gap: 1.25rem;
 }
 
-.top-service-link {
+.top-link {
+  font-family: var(--font-barca);
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-family: var(--font-condensed);
-  font-size: 0.8125rem;
-  letter-spacing: 0.05em;
-  color: var(--fcb-text-muted);
 }
 
-.top-service-link:hover {
-  color: var(--fcb-text-white);
+.top-link:hover {
+  color: var(--text-white);
 }
 
-.top-service-link--highlight {
-  color: var(--fcb-gold);
+.top-link--gold {
+  color: var(--color-gold);
 }
 
-.top-service-link--highlight:hover {
+.top-link--gold:hover {
   color: #FFFFFF;
-}
-
-/* Language dropdown */
-.lang-selector {
-  position: relative;
-}
-
-.lang-btn {
-  background: transparent;
-  border: none;
-  color: var(--fcb-text-muted);
-  font-size: 0.75rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.2rem 0.4rem;
-}
-
-.lang-btn:hover {
-  color: var(--fcb-text-white);
-}
-
-.lang-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 0.4rem 0;
-  min-width: 110px;
-  display: none;
-  box-shadow: var(--fcb-shadow-md);
-  z-index: 1005;
-}
-
-.lang-dropdown.show {
-  display: block;
-}
-
-.lang-item {
-  display: block;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.75rem;
-  color: var(--fcb-text-light);
-}
-
-.lang-item:hover, .lang-item.active {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--fcb-gold);
 }
 
 .top-socials {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin-left: 0.5rem;
 }
 
 .top-socials a {
-  color: var(--fcb-text-muted);
+  color: var(--text-muted);
   font-size: 0.8125rem;
 }
 
 .top-socials a:hover {
-  color: var(--fcb-cyan-glow);
+  color: var(--color-gold);
 }
 
 /* ==========================================================================
-   2. MAIN BRAND NAVIGATION HEADER (Barça Header)
+   2. NAVBAR
    ========================================================================== */
-.main-header {
+.navbar {
   position: sticky;
   top: 0;
   left: 0;
   width: 100%;
-  height: var(--header-height);
-  background: rgba(8, 14, 31, 0.95);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--fcb-border-subtle);
+  height: var(--nav-h);
+  background: var(--bg-navbar);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
   z-index: 1000;
-  transition: all var(--trans-normal);
 }
 
-.main-header.scrolled {
-  background: rgba(4, 8, 20, 0.98);
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
-  border-bottom-color: rgba(14, 165, 233, 0.2);
-}
-
-.main-header__container {
-  max-width: var(--container-width);
+.navbar__inner {
+  max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
 }
 
-/* Overhanging Club Crest (Barça Signature) */
-.header-crest-link {
-  position: relative;
+.navbar__crest {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 1002;
   margin-right: 1.5rem;
 }
 
-.header-crest-img {
-  width: 64px;
-  height: 64px;
+.navbar__crest-img {
+  width: 60px;
+  height: 60px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
-  transition: transform var(--trans-normal);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  transition: transform var(--trans-smooth);
 }
 
-.header-crest-link:hover .header-crest-img {
-  transform: scale(1.06) rotate(3deg);
+.navbar__crest:hover .navbar__crest-img {
+  transform: scale(1.06);
 }
 
-/* Primary Navigation Menu */
-.header-nav {
+.navbar__nav {
   display: flex;
   align-items: center;
   flex-grow: 1;
 }
 
-.header-menu {
+.navbar__menu {
   display: flex;
   align-items: center;
-  gap: 0.15rem;
+  gap: 0.25rem;
 }
 
-.menu-link {
-  font-family: var(--font-condensed);
+.nav-btn {
+  font-family: var(--font-barca);
   font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--fcb-text-light);
+  color: var(--text-light);
   padding: 0.6rem 0.85rem;
   border-radius: var(--radius-sm);
   position: relative;
-  transition: color var(--trans-fast), background var(--trans-fast);
 }
 
-.menu-link:hover {
-  color: var(--fcb-gold);
+.nav-btn:hover {
+  color: var(--color-gold);
   background: rgba(255, 255, 255, 0.04);
 }
 
-.menu-link.active {
-  color: var(--fcb-gold);
+.nav-btn.active {
+  color: var(--color-gold);
 }
 
-.menu-link.active::after {
+.nav-btn.active::after {
   content: '';
   position: absolute;
   bottom: -16px;
   left: 0;
   width: 100%;
   height: 3px;
-  background: var(--fcb-gold);
-  box-shadow: 0 0 8px rgba(255, 202, 0, 0.6);
+  background: var(--color-gold);
+  box-shadow: 0 0 8px rgba(255, 202, 0, 0.5);
 }
 
-.menu-link--special {
-  color: var(--fcb-cyan-glow);
-}
-
-/* Right Actions */
-.header-actions {
+.navbar__actions {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.action-btn {
-  background: transparent;
-  border: none;
-  color: var(--fcb-text-light);
+.icon-action-btn {
+  color: var(--text-light);
   font-size: 1.1rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  transition: color var(--trans-fast), transform var(--trans-fast);
+  padding: 0.4rem;
 }
 
-.action-btn:hover {
-  color: var(--fcb-gold);
-  transform: scale(1.1);
+.icon-action-btn:hover {
+  color: var(--color-gold);
 }
 
-/* Barça Culers / Member Button */
-.btn-culers-pass {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--fcb-gold);
+.btn-member-pill {
+  background: var(--color-gold);
   color: #040814;
-  font-family: var(--font-condensed);
+  font-family: var(--font-barca);
   font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  padding: 0.55rem 1.15rem;
+  padding: 0.5rem 1.15rem;
   border-radius: var(--radius-pill);
-  box-shadow: 0 4px 14px rgba(255, 202, 0, 0.35);
-  transition: all var(--trans-normal);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
 }
 
-.btn-culers-pass:hover {
+.btn-member-pill:hover {
   background: #FFFFFF;
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
   transform: translateY(-1px);
 }
 
-/* Mobile Hamburger Toggle */
-.mobile-nav-toggle {
+.mobile-toggle {
   display: none;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
   padding: 0.5rem;
 }
 
-.mobile-nav-toggle .bar {
-  display: block;
-  width: 24px;
+.mobile-toggle span {
+  width: 22px;
   height: 2px;
-  background-color: #FFFFFF;
-  margin: 5px 0;
+  background: #FFFFFF;
   border-radius: 2px;
-  transition: transform var(--trans-normal), opacity var(--trans-normal);
 }
 
-.mobile-nav-toggle.active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.mobile-nav-toggle.active .bar:nth-child(2) { opacity: 0; }
-.mobile-nav-toggle.active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-/* Search Overlay */
-.search-overlay {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background: var(--fcb-bg-dark);
-  border-bottom: 1px solid var(--fcb-border-highlight);
-  padding: 1rem 0;
+/* Search Drawer */
+.search-drawer {
   display: none;
-  box-shadow: var(--fcb-shadow-lg);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-highlight);
+  padding: 0.85rem 0;
 }
 
-.search-overlay.active {
+.search-drawer.show {
   display: block;
-  animation: slideDown 0.25s ease forwards;
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.search-container {
-  max-width: var(--container-width);
+.search-drawer__inner {
+  max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
   display: flex;
@@ -474,84 +344,54 @@ button, input, select, textarea {
   gap: 1rem;
 }
 
-.search-container input {
+.search-drawer__inner input {
   width: 100%;
   background: transparent;
   border: none;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: #FFFFFF;
   outline: none;
 }
 
-.search-close {
-  background: transparent;
-  border: none;
+.search-drawer__close {
   font-size: 1.5rem;
-  color: var(--fcb-text-muted);
-  cursor: pointer;
-}
-
-.search-close:hover {
-  color: #FFFFFF;
+  color: var(--text-muted);
 }
 
 /* ==========================================================================
-   3. MATCHDAY SCROLLER STRIP (Barça Match Strip)
-   ========================================================================== */
-.matches-scroller-strip {
-  background: #060C1B;
-  border-bottom: 1px solid var(--fcb-border-subtle);
+   3. MATCH STRIP (Clean 1-Row Barça Style)
+   ========================================================================= */
+.match-strip {
+  background: #060B19;
+  border-bottom: 1px solid var(--border-subtle);
   padding: 1.25rem 0;
-  overflow: hidden;
 }
 
-.matches-scroller__container {
-  max-width: var(--container-width);
+.match-strip__inner {
+  max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
-}
-
-.matches-scroller__track {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  grid-template-columns: 0.9fr 1.2fr 0.9fr;
+  gap: 1.25rem;
 }
 
-.match-strip-item {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+.match-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 1rem;
+  padding: 1rem 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: all var(--trans-normal);
-  position: relative;
 }
 
-.match-strip-item:hover {
-  background: var(--fcb-bg-card-hover);
-  border-color: var(--fcb-border-highlight);
-  transform: translateY(-2px);
-}
-
-.match-strip-item--featured {
+.match-card--featured {
   border-color: rgba(255, 202, 0, 0.4);
-  background: linear-gradient(135deg, rgba(15, 26, 54, 0.95), rgba(8, 14, 31, 0.95));
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, rgba(14, 24, 52, 0.95), rgba(8, 14, 31, 0.95));
 }
 
-.match-strip-item--featured::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--fcb-gold), var(--fcb-cyan-glow));
-}
-
-.match-strip-header {
+.match-card__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -559,55 +399,100 @@ button, input, select, textarea {
   font-size: 0.75rem;
 }
 
-.comp-tag {
-  font-family: var(--font-condensed);
+.comp-label {
+  font-family: var(--font-barca);
   font-weight: 700;
-  color: var(--fcb-text-muted);
+  color: var(--text-muted);
   letter-spacing: 0.04em;
 }
 
-.comp-tag--highlight {
-  color: var(--fcb-gold);
+.comp-label--gold {
+  color: var(--color-gold);
 }
 
-.match-status-badge {
+.status-pill {
   font-size: 0.6875rem;
   font-weight: 800;
-  padding: 0.15rem 0.5rem;
+  padding: 0.1rem 0.45rem;
   border-radius: var(--radius-pill);
   background: rgba(255, 255, 255, 0.08);
-  color: var(--fcb-text-light);
 }
 
-.status-ft {
+.status-pill--ft {
   background: rgba(16, 185, 129, 0.15);
-  color: var(--fcb-emerald);
+  color: var(--color-emerald);
 }
 
-.match-countdown-pill {
-  font-family: var(--font-condensed);
+.countdown-badge {
+  font-family: var(--font-barca);
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--fcb-cyan-glow);
-  background: rgba(14, 165, 233, 0.12);
+  color: var(--color-cyan);
+  background: rgba(56, 189, 248, 0.12);
   padding: 0.15rem 0.5rem;
   border-radius: var(--radius-pill);
 }
 
-.match-date-badge {
+.date-label {
   font-size: 0.6875rem;
-  color: var(--fcb-text-muted);
+  color: var(--text-muted);
 }
 
-.match-strip-teams {
+.match-card__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.35rem;
 }
 
-.strip-team {
+.team-side {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.team-crest {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+.team-name {
+  font-family: var(--font-barca);
+  font-size: 0.875rem;
+  color: var(--text-white);
+}
+
+.match-score {
+  font-family: var(--font-barca);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.match-score--winner {
+  color: var(--color-emerald);
+}
+
+.card-text-link {
+  font-family: var(--font-barca);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-cyan);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+.match-card__versus-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.versus-team {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -615,85 +500,39 @@ button, input, select, textarea {
   flex: 1;
 }
 
-.strip-crest {
-  width: 38px;
-  height: 38px;
-  object-fit: contain;
-  margin-bottom: 0.35rem;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+.versus-team .team-crest {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 0.25rem;
 }
 
-.strip-team-name {
-  font-family: var(--font-condensed);
-  font-size: 0.8125rem;
-  color: var(--fcb-text-white);
-  line-height: 1.1;
-  max-width: 90px;
-}
-
-.strip-score {
-  font-family: var(--font-condensed);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--fcb-text-muted);
-  margin-top: 0.2rem;
-}
-
-.score-winner {
-  color: var(--fcb-emerald);
-}
-
-.strip-role {
+.team-role {
   font-size: 0.625rem;
-  color: var(--fcb-text-muted);
-  margin-top: 0.15rem;
+  color: var(--text-muted);
 }
 
-.strip-vs-divider {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: var(--font-condensed);
-  font-size: 0.875rem;
+.versus-sep {
+  font-family: var(--font-barca);
+  font-size: 0.9375rem;
   font-weight: 700;
-  color: var(--fcb-gold);
+  color: var(--color-gold);
 }
 
-.strip-vs-divider small {
-  font-size: 0.625rem;
-  color: var(--fcb-text-muted);
-}
-
-.strip-venue-info {
+.match-card__venue {
   font-size: 0.6875rem;
-  color: var(--fcb-text-muted);
+  color: var(--text-muted);
   text-align: center;
   margin-bottom: 0.5rem;
 }
 
-.strip-venue-info i {
-  color: var(--fcb-cyan-glow);
+.match-card__venue i {
+  color: var(--color-cyan);
 }
 
-.match-strip-action {
-  font-family: var(--font-condensed);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--fcb-cyan-glow);
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--fcb-border-subtle);
-}
-
-.btn-match-cta {
-  background: var(--fcb-gold);
+.btn-strip-cta {
+  background: var(--color-gold);
   color: #040814;
-  font-family: var(--font-condensed);
+  font-family: var(--font-barca);
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.05em;
@@ -701,1322 +540,871 @@ button, input, select, textarea {
   padding: 0.45rem 0.75rem;
   border-radius: var(--radius-sm);
   display: block;
+  width: 100%;
 }
 
-.btn-match-cta:hover {
+.btn-strip-cta:hover {
   background: #FFFFFF;
 }
 
 /* ==========================================================================
-   4. HERO MAGAZINE MOSAIC (Barça Hero Grid)
+   4. DYNAMIC TAB VIEWS ARCHITECTURE
    ========================================================================== */
-.hero-magazine-section {
-  padding: 2rem 0 3.5rem;
+.app-views-container {
+  min-height: 60vh;
+}
+
+.tab-view {
+  display: none;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.tab-view.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.view-container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+}
+
+/* ==========================================================================
+   5. MAGAZINE HERO (HOME VIEW)
+   ========================================================================== */
+.magazine-container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
 }
 
 .magazine-grid {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 1.5rem;
   display: grid;
   grid-template-columns: 1.4fr 1fr;
-  grid-template-rows: 240px 240px;
+  grid-template-rows: 230px 230px;
   gap: 1.25rem;
 }
 
-.magazine-tile {
+.hero-tile {
   position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  transition: transform var(--trans-normal), border-color var(--trans-normal);
+  transition: transform var(--trans-smooth), border-color var(--trans-smooth);
 }
 
-.magazine-tile:hover {
-  border-color: var(--fcb-border-highlight);
+.hero-tile:hover {
+  border-color: var(--border-highlight);
   transform: translateY(-3px);
-  box-shadow: var(--fcb-shadow-lg);
+  box-shadow: var(--shadow-lg);
 }
 
-.magazine-tile--main {
+.hero-tile--main {
   grid-column: 1 / 2;
   grid-row: 1 / 3;
 }
 
-.tile-image-wrapper {
+.hero-tile__img {
   position: absolute;
   inset: 0;
-  z-index: 1;
-}
-
-.tile-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease);
+  transition: transform 0.6s ease;
 }
 
-.magazine-tile:hover .tile-img {
+.hero-tile:hover .hero-tile__img {
   transform: scale(1.05);
 }
 
-.tile-gradient-overlay {
+.hero-tile__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, #060B19 12%, rgba(6, 11, 25, 0.8) 45%, rgba(6, 11, 25, 0.2) 80%, transparent 100%);
+  background: linear-gradient(0deg, #040814 15%, rgba(4, 8, 20, 0.75) 50%, transparent 90%);
 }
 
-.tile-content {
+.hero-tile__body {
   position: relative;
   z-index: 2;
   padding: 2rem;
 }
 
-.magazine-tile--secondary .tile-content {
+.hero-tile--sub .hero-tile__body {
   padding: 1.25rem;
 }
 
-.tile-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.category-badge {
-  font-family: var(--font-condensed);
+.tag-pill {
+  font-family: var(--font-barca);
   font-size: 0.6875rem;
   font-weight: 800;
   letter-spacing: 0.08em;
-  padding: 0.2rem 0.65rem;
+  padding: 0.2rem 0.6rem;
   border-radius: var(--radius-pill);
-  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 0.6rem;
 }
 
-.category-badge--gold {
-  background: var(--fcb-gold);
-  color: #040814;
-}
+.tag-pill--gold { background: var(--color-gold); color: #040814; }
+.tag-pill--cyan { background: rgba(56, 189, 248, 0.2); color: var(--color-cyan); }
+.tag-pill--blue { background: rgba(0, 77, 152, 0.4); color: #93C5FD; }
 
-.category-badge--cyan {
-  background: rgba(14, 165, 233, 0.2);
-  color: var(--fcb-cyan-glow);
-  border: 1px solid rgba(14, 165, 233, 0.4);
-}
-
-.category-badge--blue {
-  background: rgba(0, 77, 152, 0.35);
-  color: #93C5FD;
-  border: 1px solid rgba(147, 197, 253, 0.3);
-}
-
-.publish-time {
-  font-size: 0.75rem;
-  color: var(--fcb-text-muted);
-}
-
-.tile-headline {
-  font-family: var(--font-condensed);
-  font-size: clamp(1.6rem, 3vw, 2.35rem);
+.hero-tile__title {
+  font-family: var(--font-barca);
+  font-size: clamp(1.6rem, 2.5vw, 2.25rem);
   font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: 0.02em;
-  color: var(--fcb-text-white);
-  margin-bottom: 0.85rem;
+  line-height: 1.15;
+  color: var(--text-white);
+  margin-bottom: 0.75rem;
 }
 
-.tile-headline--sub {
-  font-size: 1.2rem;
+.hero-tile__title--sub {
+  font-size: 1.15rem;
   line-height: 1.25;
 }
 
-.tile-summary {
+.hero-tile__desc {
   font-size: 0.9375rem;
-  color: var(--fcb-text-muted);
-  line-height: 1.6;
+  color: var(--text-muted);
   margin-bottom: 1.5rem;
-  max-width: 580px;
+  max-width: 540px;
 }
 
-.tile-actions {
+.hero-tile__actions {
   display: flex;
+  gap: 0.75rem;
   flex-wrap: wrap;
-  gap: 0.85rem;
 }
 
-.btn-tile-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--fcb-gold);
-  color: #040814;
-  font-family: var(--font-condensed);
+.btn-barca {
+  font-family: var(--font-barca);
   font-size: 0.875rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  padding: 0.65rem 1.35rem;
-  border-radius: var(--radius-sm);
-  transition: all var(--trans-normal);
-}
-
-.btn-tile-primary:hover {
-  background: #FFFFFF;
-  transform: translateY(-2px);
-}
-
-.btn-tile-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  color: #FFFFFF;
-  font-family: var(--font-condensed);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 0.65rem 1.35rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--fcb-border-subtle);
-  transition: all var(--trans-normal);
-}
-
-.btn-tile-secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-}
-
-.tile-link {
-  font-family: var(--font-condensed);
-  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: var(--fcb-cyan-glow);
+  padding: 0.65rem 1.35rem;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.btn-barca--gold {
+  background: var(--color-gold);
+  color: #040814;
+}
+
+.btn-barca--gold:hover {
+  background: #FFFFFF;
+}
+
+.btn-barca--ghost {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-barca--ghost:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.tile-read-link {
+  font-family: var(--font-barca);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-cyan);
 }
 
 /* ==========================================================================
-   SECTION COMMON TITLES
+   6. SHELF SECTIONS (Videos, Store, etc.)
    ========================================================================== */
-.section-title-bar {
+.home-shelf-section {
+  max-width: var(--max-w);
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+}
+
+.home-shelf-section--alt {
+  margin-bottom: 5rem;
+}
+
+.shelf-header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 2.25rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid var(--fcb-border-subtle);
+  margin-bottom: 1.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.section-title-wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.section-super-title {
-  font-family: var(--font-condensed);
-  font-size: 0.8125rem;
+.shelf-super {
+  font-family: var(--font-barca);
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--fcb-gold);
-  margin-bottom: 0.25rem;
+  letter-spacing: 0.1em;
+  color: var(--color-gold);
+  display: block;
+  margin-bottom: 0.2rem;
 }
 
-.section-main-title {
-  font-family: var(--font-condensed);
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+.shelf-title {
+  font-family: var(--font-barca);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--fcb-text-white);
+  color: var(--text-white);
   line-height: 1.1;
 }
 
-.view-all-link {
-  font-family: var(--font-condensed);
-  font-size: 0.875rem;
+.shelf-view-all {
+  font-family: var(--font-barca);
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: var(--fcb-cyan-glow);
+  color: var(--color-cyan);
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
 }
 
-.view-all-link:hover {
+.shelf-view-all:hover {
   color: #FFFFFF;
 }
 
-/* ==========================================================================
-   5. APOSTLES TV+ VIDEO HUB
-   ========================================================================== */
-.video-hub-section {
-  background: #050A17;
-}
-
-.video-shelf-grid {
+/* Video Grid */
+.video-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem;
 }
 
 .video-card {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: all var(--trans-normal);
 }
 
 .video-card:hover {
-  border-color: var(--fcb-border-highlight);
-  transform: translateY(-4px);
-  box-shadow: var(--fcb-shadow-md);
+  border-color: var(--border-highlight);
+  transform: translateY(-3px);
 }
 
-.video-thumb-wrapper {
+.video-card__thumb {
   position: relative;
   height: 170px;
-  overflow: hidden;
   background: #000000;
+  overflow: hidden;
 }
 
-.video-thumb-img {
+.video-card__thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s var(--ease);
+  transition: transform 0.5s ease;
 }
 
-.video-card:hover .video-thumb-img {
-  transform: scale(1.08);
+.video-card:hover .video-card__thumb img {
+  transform: scale(1.06);
 }
 
-.video-play-btn {
+.play-circle {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 202, 0, 0.9);
-  color: #040814;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  background: var(--color-gold);
+  color: #040814;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  transition: transform var(--trans-fast), background var(--trans-fast);
+  font-size: 0.95rem;
 }
 
-.video-card:hover .video-play-btn {
-  transform: translate(-50%, -50%) scale(1.15);
-  background: #FFFFFF;
-}
-
-.video-duration {
+.duration-tag {
   position: absolute;
-  bottom: 0.65rem;
-  right: 0.65rem;
-  background: rgba(0, 0, 0, 0.75);
+  bottom: 0.5rem;
+  right: 0.5rem;
+  background: rgba(0, 0, 0, 0.8);
   color: #FFFFFF;
   font-size: 0.6875rem;
   font-weight: 700;
-  padding: 0.15rem 0.45rem;
+  padding: 0.1rem 0.4rem;
   border-radius: var(--radius-sm);
 }
 
-.video-card-body {
+.video-card__content {
   padding: 1.15rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
 }
 
-.video-tag {
-  font-family: var(--font-condensed);
+.video-cat {
+  font-family: var(--font-barca);
   font-size: 0.6875rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--fcb-cyan-glow);
-  margin-bottom: 0.4rem;
+  color: var(--color-cyan);
+  margin-bottom: 0.35rem;
 }
 
-.video-title {
-  font-family: var(--font-condensed);
+.video-heading {
+  font-family: var(--font-barca);
   font-size: 1.05rem;
   font-weight: 600;
-  color: var(--fcb-text-white);
-  line-height: 1.3;
-  margin-bottom: 0.6rem;
-  flex-grow: 1;
+  color: var(--text-white);
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
 }
 
-.video-date {
+.video-meta {
   font-size: 0.75rem;
-  color: var(--fcb-text-muted);
+  color: var(--text-muted);
+}
+
+/* Store Spotlight Cards */
+.store-spotlight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.store-item-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.store-item-card:hover {
+  border-color: var(--border-highlight);
+  transform: translateY(-3px);
+}
+
+.kit-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--color-gold);
+  color: #040814;
+  font-family: var(--font-barca);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.store-item-card__icon {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4.5rem;
+  color: var(--color-gold);
+  margin-bottom: 1rem;
+}
+
+.store-item-card__icon--cyan {
+  color: var(--color-cyan);
+}
+
+.store-item-card__info h4 {
+  font-family: var(--font-barca);
+  font-size: 1.1rem;
+  color: var(--text-white);
+}
+
+.store-item-card__info p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.store-item-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.price {
+  font-family: var(--font-barca);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.btn-buy {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  font-family: var(--font-barca);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-buy:hover {
+  background: var(--color-gold);
+  color: #040814;
 }
 
 /* ==========================================================================
-   6. SQUAD PLAYERS SPOTLIGHT
+   7. SQUAD VIEW
    ========================================================================== */
-.squad-spotlight-section {
-  background: var(--fcb-bg-dark);
-}
-
-.squad-position-tabs {
+.pos-filter-tabs {
   display: flex;
-  align-items: center;
   gap: 0.5rem;
-  margin-bottom: 2.25rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
 }
 
-.pos-tab-btn {
-  font-family: var(--font-condensed);
-  font-size: 0.875rem;
+.pos-btn {
+  font-family: var(--font-barca);
+  font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 0.55rem 1.25rem;
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1.15rem;
   border-radius: var(--radius-pill);
-  color: var(--fcb-text-muted);
-  cursor: pointer;
-  transition: all var(--trans-normal);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
 }
 
-.pos-tab-btn:hover {
+.pos-btn:hover {
   color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.06);
 }
 
-.pos-tab-btn.active {
-  background: var(--fcb-gold);
+.pos-btn.active {
+  background: var(--color-gold);
   color: #040814;
-  border-color: var(--fcb-gold);
-  box-shadow: 0 4px 14px rgba(255, 202, 0, 0.3);
+  border-color: var(--color-gold);
 }
 
-.players-grid {
+.squad-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
 }
 
-.player-card-barca {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+.player-card-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
-  transition: all var(--trans-normal);
+  transition: all var(--trans-smooth);
 }
 
-.player-card-barca:hover {
-  border-color: var(--fcb-border-highlight);
-  transform: translateY(-6px);
-  box-shadow: var(--fcb-shadow-lg);
+.player-card-box:hover {
+  border-color: var(--border-highlight);
+  transform: translateY(-4px);
 }
 
-.player-card-avatar {
-  height: 200px;
-  background: linear-gradient(180deg, #0A1738 0%, #060B19 100%);
-  position: relative;
+.player-card-box__avatar {
+  height: 180px;
+  background: linear-gradient(180deg, #0C1838 0%, #060B19 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  position: relative;
 }
 
-.player-card-icon {
-  font-size: 5rem;
+.player-card-box__avatar i {
+  font-size: 4.5rem;
   color: rgba(255, 255, 255, 0.12);
-  transition: transform var(--trans-normal);
 }
 
-.player-card-barca:hover .player-card-icon {
-  transform: scale(1.15) translateY(-6px);
-  color: rgba(14, 165, 233, 0.25);
-}
-
-.player-card-number-bg {
+.player-card-box__num {
   position: absolute;
   top: 0.5rem;
-  right: 0.85rem;
-  font-family: var(--font-condensed);
-  font-size: 3rem;
+  right: 0.75rem;
+  font-family: var(--font-barca);
+  font-size: 2.75rem;
   font-weight: 900;
   color: rgba(255, 255, 255, 0.12);
   line-height: 1;
 }
 
-.player-card-info {
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
+.player-card-box__info {
+  padding: 1.15rem;
 }
 
-.player-card-role {
-  font-family: var(--font-condensed);
-  font-size: 0.75rem;
+.player-role-tag {
+  font-family: var(--font-barca);
+  font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--fcb-cyan-glow);
+  color: var(--color-cyan);
   text-transform: uppercase;
 }
 
-.player-card-name {
-  font-family: var(--font-condensed);
-  font-size: 1.35rem;
+.player-name-text {
+  font-family: var(--font-barca);
+  font-size: 1.25rem;
   font-weight: 700;
-  color: var(--fcb-text-white);
-  line-height: 1.15;
-  margin: 0.25rem 0 0.75rem;
+  color: #FFFFFF;
+  margin: 0.2rem 0 0.6rem;
 }
 
-.player-card-footer {
+.player-meta-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   font-size: 0.75rem;
-  color: var(--fcb-text-muted);
-  padding-top: 0.65rem;
-  border-top: 1px solid var(--fcb-border-subtle);
+  color: var(--text-muted);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-subtle);
 }
 
 /* ==========================================================================
-   7. MATCH CENTER & LEAGUE STANDINGS
+   8. FIXTURES & STANDINGS VIEWS
    ========================================================================== */
-.matches-tables-section {
-  background: var(--fcb-bg-darkest);
-}
-
-.matches-tables-layout {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 3rem;
-}
-
-/* Fixtures List */
-.fixtures-list-wrapper {
+.fixtures-table-list {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
 }
 
-.fixture-row-card {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+.fixture-ticket-row {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 1.15rem 1.25rem;
+  padding: 1.25rem 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: all var(--trans-normal);
+  gap: 1rem;
 }
 
-.fixture-row-card:hover {
-  background: var(--fcb-bg-card-hover);
-  border-color: var(--fcb-border-highlight);
-  transform: translateX(4px);
+.fixture-ticket-row:hover {
+  border-color: var(--border-highlight);
 }
 
-.fixture-meta-left {
+.fixture-meta {
   display: flex;
   flex-direction: column;
-  min-width: 120px;
+  min-width: 140px;
 }
 
-.fixture-date-text {
-  font-family: var(--font-condensed);
-  font-size: 0.8125rem;
+.fixture-date {
+  font-family: var(--font-barca);
+  font-size: 0.875rem;
   font-weight: 700;
-  color: var(--fcb-text-white);
+  color: #FFFFFF;
 }
 
-.fixture-comp-text {
+.fixture-comp {
   font-size: 0.6875rem;
-  color: var(--fcb-cyan-glow);
+  color: var(--color-cyan);
   font-weight: 600;
 }
 
-.fixture-matchup {
+.fixture-teams-box {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  flex-grow: 1;
-  justify-content: center;
+  gap: 1rem;
 }
 
-.fixture-team-col {
+.team-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--font-condensed);
+  font-family: var(--font-barca);
   font-size: 0.9375rem;
 }
 
-.fixture-crest-sm {
+.team-crest-sm {
   width: 28px;
   height: 28px;
   object-fit: contain;
 }
 
-.fixture-vs-badge {
-  font-family: var(--font-condensed);
-  font-size: 0.75rem;
+.vs-text {
+  font-family: var(--font-barca);
   font-weight: 800;
-  color: var(--fcb-text-muted);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-pill);
-}
-
-.btn-fixture-action {
-  font-family: var(--font-condensed);
+  color: var(--text-muted);
   font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  padding: 0.45rem 0.95rem;
+}
+
+.fixture-venue {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.fixture-venue i {
+  color: var(--color-cyan);
+}
+
+.btn-ticket-gold {
+  background: var(--color-gold);
+  color: #040814;
+  font-family: var(--font-barca);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  padding: 0.5rem 1.15rem;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
-  border: 1px solid var(--fcb-border-subtle);
-  transition: all var(--trans-fast);
 }
 
-.btn-fixture-action:hover {
-  background: var(--fcb-cyan-glow);
-  color: #040814;
-}
-
-.btn-fixture-action--gold {
-  background: var(--fcb-gold);
-  color: #040814;
-  border-color: var(--fcb-gold);
-}
-
-.btn-fixture-action--gold:hover {
+.btn-ticket-gold:hover {
   background: #FFFFFF;
 }
 
 /* Standings Table */
-.standings-table-container {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.barca-standings-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
-  text-align: left;
-}
-
-.barca-standings-table th {
-  background: #050A18;
-  font-family: var(--font-condensed);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--fcb-text-muted);
-  padding: 0.85rem 1rem;
-  border-bottom: 1px solid var(--fcb-border-subtle);
-}
-
-.barca-standings-table td {
-  padding: 0.85rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  color: var(--fcb-text-light);
-}
-
-.barca-standings-table tbody tr:hover td {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.table-row-apostles td {
-  background: rgba(255, 202, 0, 0.08);
-  border-top: 1px solid rgba(255, 202, 0, 0.25);
-  border-bottom: 1px solid rgba(255, 202, 0, 0.25);
-}
-
-.table-row-apostles:hover td {
-  background: rgba(255, 202, 0, 0.12) !important;
-}
-
-.pos-col { width: 44px; }
-
-.pos-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.pos--lead {
-  background: rgba(16, 185, 129, 0.2);
-  color: var(--fcb-emerald);
-}
-
-.pos--apostles {
-  background: var(--fcb-gold);
-  color: #040814;
-  font-weight: 900;
-}
-
-.club-col {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-family: var(--font-condensed);
-  font-weight: 600;
-}
-
-.table-crest-xs {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-}
-
-.pts-col {
-  font-family: var(--font-condensed);
-  font-size: 1rem;
-}
-
-/* ==========================================================================
-   8. STORE & MERCHANDISE SECTION
-   ========================================================================== */
-.official-store-section {
-  background: var(--fcb-bg-dark);
-}
-
-.store-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-}
-
-.product-card {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  transition: all var(--trans-normal);
-}
-
-.product-card:hover {
-  border-color: var(--fcb-border-highlight);
-  transform: translateY(-5px);
-  box-shadow: var(--fcb-shadow-lg);
-}
-
-.product-badge {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  background: var(--fcb-gold);
-  color: #040814;
-  font-family: var(--font-condensed);
-  font-size: 0.6875rem;
-  font-weight: 800;
-  padding: 0.2rem 0.55rem;
-  border-radius: var(--radius-sm);
-  z-index: 2;
-}
-
-.product-image-box {
-  height: 200px;
-  background: radial-gradient(circle, #15234A 0%, #0A1128 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.product-icon-placeholder {
-  font-size: 5rem;
-  color: rgba(255, 255, 255, 0.25);
-  transition: transform var(--trans-normal);
-}
-
-.product-card:hover .product-icon-placeholder {
-  transform: scale(1.12);
-  color: var(--fcb-gold);
-}
-
-.product-details {
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.product-name {
-  font-family: var(--font-condensed);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--fcb-text-white);
-  line-height: 1.2;
-  margin-bottom: 0.25rem;
-}
-
-.product-color {
-  font-size: 0.75rem;
-  color: var(--fcb-text-muted);
-  margin-bottom: 1.25rem;
-}
-
-.product-footer {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.product-price {
-  font-family: var(--font-condensed);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--fcb-gold);
-}
-
-.btn-buy-product {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--fcb-border-subtle);
-  color: #FFFFFF;
-  font-family: var(--font-condensed);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 0.45rem 0.85rem;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--trans-fast);
-}
-
-.btn-buy-product:hover {
-  background: var(--fcb-gold);
-  color: #040814;
-  border-color: var(--fcb-gold);
-}
-
-/* ==========================================================================
-   9. MEMBERSHIP SECTION (Barça Culers Pass)
-   ========================================================================== */
-.membership-section {
-  background: var(--fcb-bg-darkest);
-}
-
-.membership-banner {
-  background: linear-gradient(135deg, #0A173B 0%, #060B1A 60%, #151A2E 100%);
-  border: 1px solid rgba(255, 202, 0, 0.3);
-  border-radius: var(--radius-lg);
-  padding: 3.5rem;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 3rem;
-  align-items: center;
-  box-shadow: var(--fcb-shadow-lg);
-}
-
-.membership-tag {
-  font-family: var(--font-condensed);
-  font-size: 0.8125rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  color: var(--fcb-gold);
-  display: inline-block;
-  margin-bottom: 0.75rem;
-}
-
-.membership-title {
-  font-family: var(--font-condensed);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  color: var(--fcb-text-white);
-  line-height: 1.05;
-  margin-bottom: 1rem;
-}
-
-.membership-desc {
-  color: var(--fcb-text-muted);
-  font-size: 0.95rem;
-  line-height: 1.7;
-  margin-bottom: 1.75rem;
-}
-
-.membership-perks-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
-  margin-bottom: 2.25rem;
-}
-
-.membership-perks-list span {
-  font-size: 0.875rem;
-  color: var(--fcb-text-light);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.membership-perks-list i {
-  color: var(--fcb-gold);
-}
-
-.membership-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.btn-member-join {
-  background: var(--fcb-gold);
-  color: #040814;
-  font-family: var(--font-condensed);
-  font-size: 0.875rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  padding: 0.85rem 1.75rem;
-  border-radius: var(--radius-sm);
-  transition: all var(--trans-normal);
-}
-
-.btn-member-join:hover {
-  background: #FFFFFF;
-  transform: translateY(-2px);
-}
-
-.btn-member-learn {
-  background: transparent;
-  color: #FFFFFF;
-  border: 1px solid var(--fcb-border-subtle);
-  font-family: var(--font-condensed);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  padding: 0.85rem 1.75rem;
-  border-radius: var(--radius-sm);
-  transition: all var(--trans-normal);
-}
-
-.btn-member-learn:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* Digital Pass Visual */
-.digital-member-card {
-  background: linear-gradient(135deg, #004D98 0%, #060E26 60%, #FFCA00 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 2rem;
-  height: 220px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
-}
-
-.card-chip {
-  font-size: 1.75rem;
-  color: var(--fcb-gold);
-}
-
-.card-crest-watermark {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  width: 50px;
-  height: 50px;
-  opacity: 0.75;
-}
-
-.card-title {
-  font-family: var(--font-condensed);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.card-type {
-  font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  color: var(--fcb-gold);
-}
-
-.card-number {
-  font-family: monospace;
-  font-size: 1rem;
-  letter-spacing: 0.15em;
-  color: var(--fcb-text-light);
-}
-
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--fcb-text-muted);
-}
-
-/* ==========================================================================
-   10. HERITAGE & TRANSFERS
-   ========================================================================== */
-.club-history-section {
-  background: var(--fcb-bg-dark);
-}
-
-.club-heritage-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 4rem;
-}
-
-.heritage-card {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
-  border-radius: var(--radius-md);
-  padding: 2rem;
-  transition: all var(--trans-normal);
-}
-
-.heritage-card:hover {
-  border-color: var(--fcb-border-highlight);
-  transform: translateY(-4px);
-}
-
-.heritage-number {
-  font-family: var(--font-condensed);
-  font-size: 2.75rem;
-  font-weight: 700;
-  color: var(--fcb-gold);
-  line-height: 1;
-  margin-bottom: 0.75rem;
-}
-
-.heritage-title {
-  font-family: var(--font-condensed);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--fcb-text-white);
-  margin-bottom: 0.65rem;
-}
-
-.heritage-text {
-  color: var(--fcb-text-muted);
-  font-size: 0.9375rem;
-  line-height: 1.65;
-}
-
-.transfers-heading {
-  font-family: var(--font-condensed);
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--fcb-text-white);
-  margin-bottom: 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.transfers-table-scroll {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+.clean-table-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   overflow-x: auto;
 }
 
-.barca-transfers-table {
+.standings-table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
   font-size: 0.875rem;
+  text-align: left;
 }
 
-.barca-transfers-table th {
-  background: #050A18;
-  font-family: var(--font-condensed);
+.standings-table th {
+  background: #02050E;
+  font-family: var(--font-barca);
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--fcb-text-muted);
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--fcb-border-subtle);
+  color: var(--text-muted);
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.barca-transfers-table td {
-  padding: 1rem 1.25rem;
+.standings-table td {
+  padding: 0.85rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.transfer-row--highlight td {
-  background: rgba(255, 202, 0, 0.06);
+.row-highlight td {
+  background: rgba(255, 202, 0, 0.08);
 }
 
-.dest-col {
-  color: var(--fcb-cyan-glow);
+.pos-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.pos--gold {
+  background: var(--color-gold);
+  color: #040814;
+}
+
+.club-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-barca);
   font-weight: 600;
 }
 
-.tag-pill {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.06);
+.table-crest {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
-.tag--intl {
-  background: rgba(14, 165, 233, 0.15);
-  color: var(--fcb-cyan-glow);
-  border: 1px solid rgba(14, 165, 233, 0.3);
+.pts-cell {
+  font-family: var(--font-barca);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-cyan);
 }
 
 /* ==========================================================================
-   11. SUPPORT & CONTACT CENTER
+   9. HERITAGE, TICKETS & MEMBERSHIP
    ========================================================================== */
-.support-section {
-  background: var(--fcb-bg-darkest);
-}
-
-.support-grid {
+.heritage-split-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3.5rem;
-  align-items: flex-start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
 }
 
-.support-lead {
-  color: var(--fcb-text-muted);
-  font-size: 1rem;
-  line-height: 1.7;
-  margin-bottom: 2rem;
+.heritage-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 2rem;
 }
 
-.support-contacts-list {
+.heritage-yr {
+  font-family: var(--font-barca);
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  display: block;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.heritage-box h3 {
+  font-family: var(--font-barca);
+  font-size: 1.25rem;
+  color: #FFFFFF;
+  margin-bottom: 0.6rem;
+}
+
+.heritage-box p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.membership-card-banner {
+  background: linear-gradient(135deg, #091534 0%, #040814 100%);
+  border: 1px solid rgba(255, 202, 0, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.membership-info-left p {
+  color: var(--text-muted);
+  margin: 0.85rem 0 1.5rem;
+}
+
+.membership-perk-pills {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  margin-bottom: 2.5rem;
+  gap: 0.5rem;
 }
 
-.support-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.support-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-sm);
-  background: rgba(14, 165, 233, 0.12);
-  color: var(--fcb-cyan-glow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.15rem;
-  flex-shrink: 0;
-}
-
-.support-item strong {
-  font-family: var(--font-condensed);
-  font-size: 1.05rem;
-  color: var(--fcb-text-white);
-}
-
-.support-item p {
+.membership-perk-pills span {
   font-size: 0.875rem;
-  color: var(--fcb-text-muted);
-  margin-top: 0.15rem;
-}
-
-.support-socials-group {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.social-barca-btn {
-  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.15rem;
-  border-radius: var(--radius-pill);
-  font-family: var(--font-condensed);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
-  color: var(--fcb-text-light);
-  transition: all var(--trans-normal);
 }
 
-.social-barca-btn:hover {
-  background: var(--fcb-gold);
-  color: #040814;
-  border-color: var(--fcb-gold);
+.membership-perk-pills i {
+  color: var(--color-gold);
 }
 
-/* Contact Form */
-.support-form-box {
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+.member-form {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 2.25rem;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-.form-title {
-  font-family: var(--font-condensed);
-  font-size: 1.5rem;
+.member-form h3 {
+  font-family: var(--font-barca);
+  font-size: 1.2rem;
+  color: #FFFFFF;
+}
+
+.member-form input {
+  background: #02050E;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.85rem;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.member-form input:focus {
+  border-color: var(--color-gold);
+}
+
+.form-feedback {
+  display: none;
+  font-size: 0.8125rem;
+  color: var(--color-emerald);
+  text-align: center;
   font-weight: 700;
-  color: var(--fcb-text-white);
+}
+
+/* Tickets Grid */
+.tickets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.ticket-tier-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.ticket-tier-card--featured {
+  border-color: rgba(255, 202, 0, 0.4);
+}
+
+.popular-tag {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-family: var(--font-barca);
+  font-size: 0.625rem;
+  font-weight: 800;
+  background: var(--color-gold);
+  color: #040814;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.ticket-tier-card h3 {
+  font-family: var(--font-barca);
+  font-size: 1.25rem;
+  color: #FFFFFF;
+}
+
+.ticket-cost {
+  font-family: var(--font-barca);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin: 0.5rem 0;
+  display: block;
+}
+
+.ticket-tier-card p {
+  color: var(--text-muted);
+  font-size: 0.875rem;
   margin-bottom: 1.5rem;
 }
 
-.barca-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
-}
-
-.form-group-barca {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.form-group-barca label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--fcb-text-muted);
-  text-transform: uppercase;
-}
-
-.form-group-barca input,
-.form-group-barca select,
-.form-group-barca textarea {
-  background: #050A18;
-  border: 1px solid var(--fcb-border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 0.75rem 1rem;
-  color: #FFFFFF;
-  outline: none;
-  transition: border-color var(--trans-fast);
-}
-
-.form-group-barca input:focus,
-.form-group-barca select:focus,
-.form-group-barca textarea:focus {
-  border-color: var(--fcb-cyan-glow);
-  box-shadow: 0 0 10px rgba(14, 165, 233, 0.2);
-}
-
-.btn-barca-submit {
-  background: var(--fcb-gold);
-  color: #040814;
-  font-family: var(--font-condensed);
-  font-size: 0.875rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  padding: 0.85rem;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: all var(--trans-normal);
-}
-
-.btn-barca-submit:hover {
-  background: #FFFFFF;
-}
-
-.form-toast-msg {
-  display: none;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.8125rem;
-  text-align: center;
-  font-weight: 700;
-}
-
-.form-toast-msg--success {
-  display: block;
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--fcb-emerald);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
 /* ==========================================================================
-   12. OFFICIAL GLOBAL SPONSORS STRIP
+   10. MODAL
    ========================================================================== */
-.sponsors-footer-strip {
-  background: #02040A;
-  border-top: 1px solid var(--fcb-border-subtle);
-  border-bottom: 1px solid var(--fcb-border-subtle);
-  padding: 2rem 0;
-  text-align: center;
-}
-
-.sponsors-title-label {
-  font-family: var(--font-condensed);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--fcb-text-subtle);
-  margin-bottom: 1.25rem;
-}
-
-.sponsors-logos-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.sponsor-logo-item {
-  font-family: var(--font-condensed);
-  font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--fcb-text-muted);
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  opacity: 0.8;
-  transition: opacity var(--trans-fast);
-}
-
-.sponsor-logo-item:hover {
-  opacity: 1;
-  color: #FFFFFF;
-}
-
-/* ==========================================================================
-   13. MODAL OVERLAY (Barça Format)
-   ========================================================================== */
-.barca-modal {
+.news-modal {
   position: fixed;
   inset: 0;
   z-index: 3000;
@@ -2026,352 +1414,214 @@ button, input, select, textarea {
   padding: 1.5rem;
 }
 
-.barca-modal.active {
+.news-modal.active {
   display: flex;
 }
 
-.barca-modal__backdrop {
+.news-modal__backdrop {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
-.barca-modal__window {
+.news-modal__window {
   position: relative;
-  background: var(--fcb-bg-dark);
-  border: 1px solid var(--fcb-border-highlight);
+  background: var(--bg-card);
+  border: 1px solid var(--border-highlight);
   border-radius: var(--radius-md);
-  max-width: 700px;
+  max-width: 680px;
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
-  padding: 2.25rem;
+  padding: 2rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.94); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.barca-modal__close-btn {
+.news-modal__close {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255, 255, 255, 0.08);
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
   font-size: 1.5rem;
   color: #FFFFFF;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--trans-fast);
-}
-
-.barca-modal__close-btn:hover {
-  background: var(--fcb-red-accent);
 }
 
 /* ==========================================================================
-   14. OFFICIAL FC BARCELONA-STYLE MEGA FOOTER
+   11. FOOTER
    ========================================================================== */
 .barca-footer {
   background: #02040A;
-  padding: 4.5rem 0 2rem;
-  color: var(--fcb-text-muted);
+  border-top: 1px solid var(--border-subtle);
+  padding: 4rem 0 2rem;
+  color: var(--text-muted);
 }
 
-.barca-footer__container {
-  max-width: var(--container-width);
+.footer-container {
+  max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
-.footer-top-row {
+.footer-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid var(--fcb-border-subtle);
-  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 2.5rem;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
-.footer-brand-lockup {
+.footer-brand {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.footer-crest-lg {
-  width: 64px;
-  height: 64px;
-  object-fit: contain;
-}
-
-.footer-brand-title {
-  font-family: var(--font-condensed);
-  font-size: 1.35rem;
-  font-weight: 700;
+.footer-brand h3 {
+  font-family: var(--font-barca);
+  font-size: 1.25rem;
   color: #FFFFFF;
-  letter-spacing: 0.04em;
 }
 
-.footer-brand-motto {
+.footer-brand p {
   font-size: 0.8125rem;
-  color: var(--fcb-gold);
+  color: var(--color-gold);
 }
 
-.footer-social-cluster {
+.footer-socials {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
 
-.social-cluster-label {
-  font-family: var(--font-condensed);
-  font-size: 0.75rem;
-  font-weight: 700;
+.footer-socials span {
+  font-family: var(--font-barca);
+  font-size: 0.6875rem;
   letter-spacing: 0.08em;
-  color: var(--fcb-text-subtle);
+  color: var(--text-subtle);
 }
 
-.social-icons-bar {
+.social-pills {
   display: flex;
-  gap: 0.65rem;
+  gap: 0.5rem;
 }
 
-.social-icons-bar a {
-  width: 38px;
-  height: 38px;
+.social-pills a {
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-sm);
-  background: var(--fcb-bg-card);
-  border: 1px solid var(--fcb-border-subtle);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #FFFFFF;
-  transition: all var(--trans-fast);
 }
 
-.social-icons-bar a:hover {
-  background: var(--fcb-gold);
+.social-pills a:hover {
+  background: var(--color-gold);
   color: #040814;
 }
 
-/* Multi-Column Sitemap */
-.footer-columns-grid {
+.footer-cols {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-bottom: 3.5rem;
+  margin-bottom: 3rem;
 }
 
-.footer-col-title {
-  font-family: var(--font-condensed);
+.footer-col h4 {
+  font-family: var(--font-barca);
   font-size: 0.875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
   color: #FFFFFF;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
-.footer-links-list {
+.footer-col ul {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.5rem;
 }
 
-.footer-links-list a {
+.footer-nav-link {
   font-size: 0.8125rem;
-  color: var(--fcb-text-muted);
+  color: var(--text-muted);
+  text-align: left;
 }
 
-.footer-links-list a:hover {
-  color: var(--fcb-gold);
-  padding-left: 3px;
+.footer-nav-link:hover {
+  color: var(--color-gold);
 }
 
-.footer-bottom-legal {
+.footer-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--fcb-border-subtle);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
   font-size: 0.75rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.legal-links {
-  display: flex;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-}
-
-.legal-links a:hover {
-  color: #FFFFFF;
-}
-
-/* Floating Back to top */
-.back-to-top-btn {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 44px;
-  height: 44px;
-  background: var(--fcb-gold);
-  color: #040814;
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(255, 202, 0, 0.4);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px);
-  transition: all var(--trans-normal);
-  z-index: 1001;
-}
-
-.back-to-top-btn.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.back-to-top-btn:hover {
-  background: #FFFFFF;
 }
 
 /* ==========================================================================
-   RESPONSIVE MEDIA QUERIES
+   RESPONSIVE
    ========================================================================== */
 @media (max-width: 1024px) {
-  .matches-scroller__track {
-    grid-template-columns: repeat(2, 1fr);
+  .match-strip__inner {
+    grid-template-columns: 1fr;
   }
-
   .magazine-grid {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
   }
-
-  .magazine-tile--main {
+  .hero-tile--main {
     grid-column: span 1;
-    min-height: 380px;
+    min-height: 360px;
   }
-
-  .video-shelf-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .matches-tables-layout {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-
-  .store-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .membership-banner {
-    grid-template-columns: 1fr;
-    padding: 2.5rem;
-  }
-
-  .club-heritage-grid {
+  .video-grid, .store-spotlight-grid, .heritage-split-grid, .tickets-grid {
     grid-template-columns: 1fr;
   }
-
-  .support-grid {
+  .membership-card-banner {
     grid-template-columns: 1fr;
-  }
-
-  .footer-columns-grid {
-    grid-template-columns: repeat(3, 1fr);
+    padding: 2rem;
   }
 }
 
 @media (max-width: 768px) {
-  .top-nav-bar__partners {
-    display: none;
-  }
-
-  .header-nav {
+  .top-bar__partners { display: none; }
+  .navbar__nav {
     position: fixed;
-    top: var(--header-height);
+    top: var(--nav-h);
     left: 0;
     width: 100%;
-    height: calc(100vh - var(--header-height));
-    background: rgba(6, 11, 25, 0.98);
-    backdrop-filter: blur(20px);
+    height: calc(100vh - var(--nav-h));
+    background: #040814;
     flex-direction: column;
     align-items: flex-start;
     padding: 1.5rem;
     transform: translateX(-100%);
-    transition: transform var(--trans-normal);
+    transition: transform var(--trans-smooth);
     overflow-y: auto;
   }
-
-  .header-nav.active {
+  .navbar__nav.show {
     transform: translateX(0);
   }
-
-  .header-menu {
+  .navbar__menu {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
     gap: 0.5rem;
   }
-
-  .menu-link {
+  .nav-btn {
     width: 100%;
+    text-align: left;
     font-size: 1.15rem;
-    padding: 0.75rem 1rem;
   }
-
-  .btn-culers-pass {
-    display: none;
-  }
-
-  .mobile-nav-toggle {
-    display: block;
-  }
-
-  .matches-scroller__track {
-    grid-template-columns: 1fr;
-  }
-
-  .video-shelf-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .store-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-top-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .footer-social-cluster {
-    align-items: flex-start;
-  }
-
-  .footer-columns-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+  .btn-member-pill { display: none; }
+  .mobile-toggle { display: flex; }
+  .footer-cols { grid-template-columns: 1fr; }
+  .footer-head { flex-direction: column; align-items: flex-start; }
+  .footer-socials { align-items: flex-start; }
 }
