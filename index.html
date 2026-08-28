@@ -3,930 +3,710 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <meta name="description" content="Official Young Apostles FC Website. News, first team fixtures, tickets, standings, squad, and Apostles TV+.">
+  <meta name="description" content="Official Young Apostles FC Website. News, fixtures, squad, tickets, and Apostles TV+.">
   <title>Official Young Apostles FC Website</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/official-logo.png">
   <link rel="apple-touch-icon" href="assets/official-logo.png">
 
-  <!-- Google Fonts: Oswald (Barça Headline style) + Outfit + Lexend -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600&family=Oswald:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome Icons (Strictly icons only, zero emojis) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="barca-theme">
+<body>
 
-  <!-- =========================================================================
-       1. TOP BAR (Minimalist Partner & Service Strip)
-       ========================================================================= -->
-  <aside class="top-bar">
-    <div class="top-bar__inner">
-      <div class="top-bar__partners">
-        <span class="partner-title">MAIN PARTNERS</span>
-        <span class="partner-name"><i class="fa-solid fa-trophy"></i> GHANA PREMIER LEAGUE</span>
-        <span class="partner-sep">|</span>
-        <span class="partner-name"><i class="fa-solid fa-building-columns"></i> ACCESS BANK</span>
+  <!-- =========================================================
+       ANNOUNCEMENT BAR (Dark navy, promo left, CTAs right)
+       ========================================================= -->
+  <div class="announce-bar">
+    <div class="announce-bar__inner">
+      <div class="announce-left">
+        <i class="fa-solid fa-bolt announce-icon"></i>
+        <span>New season, new era — Young Apostles FC enters the Ghana Premier League</span>
+        <span class="announce-code">2026/27 SEASON</span>
       </div>
-
-      <div class="top-bar__links">
-        <button class="top-link tab-nav-btn" data-view="tickets-view"><i class="fa-solid fa-ticket"></i> TICKETS</button>
-        <button class="top-link tab-nav-btn" data-view="store-view"><i class="fa-solid fa-bag-shopping"></i> STORE</button>
-        <button class="top-link top-link--gold tab-nav-btn" data-view="membership-view"><i class="fa-solid fa-crown"></i> APOSTLES MEMBERS</button>
-        <button class="top-link tab-nav-btn" data-view="tv-view"><i class="fa-solid fa-play"></i> APOSTLES TV+</button>
-
-        <div class="top-socials">
-          <a href="https://twitter.com/youngapostlesfc" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="https://web.facebook.com/YoungApostlesgh" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/officialyafc/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-        </div>
-      </div>
-    </div>
-  </aside>
-
-  <!-- =========================================================================
-       2. PRIMARY NAVIGATION HEADER (Barça Clean Header)
-       ========================================================================= -->
-  <header class="navbar" id="navbar">
-    <div class="navbar__inner">
-      
-      <!-- Overhanging Club Crest -->
-      <a href="#" class="navbar__crest tab-nav-btn" data-view="home-view" aria-label="Home">
-        <img src="assets/official-logo.png" alt="Young Apostles FC" class="navbar__crest-img" width="66" height="66">
-      </a>
-
-      <!-- Primary Tab Navigation -->
-      <nav class="navbar__nav" id="mainNav" aria-label="Main menu">
-        <ul class="navbar__menu">
-          <li><button class="nav-btn tab-nav-btn active" data-view="home-view">HOME</button></li>
-          <li><button class="nav-btn tab-nav-btn" data-view="firstteam-view">FIRST TEAM</button></li>
-          <li><button class="nav-btn tab-nav-btn" data-view="matches-view">MATCHES & TICKETS</button></li>
-          <li><button class="nav-btn tab-nav-btn" data-view="standings-view">STANDINGS</button></li>
-          <li><button class="nav-btn tab-nav-btn" data-view="tv-view">APOSTLES TV+</button></li>
-          <li><button class="nav-btn tab-nav-btn" data-view="club-view">CLUB & HISTORY</button></li>
-          <li><button class="nav-btn tab-nav-btn" data-view="transfers-view">TRANSFERS</button></li>
-          <li><button class="nav-btn tab-nav-btn" data-view="store-view">STORE</button></li>
-        </ul>
-      </nav>
-
-      <!-- Right Header Actions -->
-      <div class="navbar__actions">
-        <button class="icon-action-btn" id="searchToggleBtn" aria-label="Search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-
-        <button class="btn-member-pill tab-nav-btn" data-view="membership-view">
-          <i class="fa-solid fa-id-card"></i> BECOME A MEMBER
-        </button>
-
-        <button class="mobile-toggle" id="mobileToggle" aria-label="Open mobile menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-
-    </div>
-
-    <!-- Search Bar Overlay -->
-    <div class="search-drawer" id="searchDrawer">
-      <div class="search-drawer__inner">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Search first team, news, matches, players, video..." id="searchInput">
-        <button class="search-drawer__close" id="searchCloseBtn">&times;</button>
-      </div>
-    </div>
-  </header>
-
-  <!-- =========================================================================
-       3. MATCH STRIP (Single-Row Clean Barça Scroller)
-       ========================================================================= -->
-  <section class="match-strip">
-    <div class="match-strip__inner">
-
-      <!-- Previous Match -->
-      <div class="match-card match-card--prev">
-        <div class="match-card__head">
-          <span class="comp-label">GPL · PREVIOUS</span>
-          <span class="status-pill status-pill--ft">FT</span>
-        </div>
-        <div class="match-card__row">
-          <div class="team-side">
-            <img src="assets/official-logo.png" alt="Young Apostles FC" class="team-crest">
-            <span class="team-name font-bold">Young Apostles</span>
-          </div>
-          <span class="match-score match-score--winner">2</span>
-        </div>
-        <div class="match-card__row">
-          <div class="team-side">
-            <img src="assets/opponents/chelsea.png" alt="FC Samartex" class="team-crest" onerror="this.src='assets/official-logo.png'">
-            <span class="team-name">FC Samartex</span>
-          </div>
-          <span class="match-score">0</span>
-        </div>
-        <a href="#newsModal" class="card-text-link open-news-modal" data-news-id="1">Match Report <i class="fa-solid fa-angle-right"></i></a>
-      </div>
-
-      <!-- Next Match (Featured with Live Countdown) -->
-      <div class="match-card match-card--next match-card--featured">
-        <div class="match-card__head">
-          <span class="comp-label comp-label--gold"><i class="fa-solid fa-star"></i> NEXT MATCH · GPL MD 1</span>
-          <span class="countdown-badge" id="nextMatchCountdown">06d : 14h : 32m : 48s</span>
-        </div>
-        <div class="match-card__versus-box">
-          <div class="versus-team">
-            <img src="assets/opponents/vision.png" alt="Vision FC" class="team-crest" onerror="this.src='assets/official-logo.png'">
-            <span class="team-name">Vision FC</span>
-            <span class="team-role">HOME</span>
-          </div>
-          <div class="versus-sep">VS</div>
-          <div class="versus-team">
-            <img src="assets/official-logo.png" alt="Young Apostles FC" class="team-crest">
-            <span class="team-name font-bold">Young Apostles</span>
-            <span class="team-role">AWAY</span>
-          </div>
-        </div>
-        <div class="match-card__venue"><i class="fa-solid fa-location-dot"></i> Nii Adjei Kraku Stadium · 15:00 GMT</div>
-        <button class="btn-strip-cta tab-nav-btn" data-view="matches-view">MATCH PREVIEW & TICKETS</button>
-      </div>
-
-      <!-- Following Fixture -->
-      <div class="match-card match-card--upcoming">
-        <div class="match-card__head">
-          <span class="comp-label">GPL MD 2 · HOME</span>
-          <span class="date-label">11 SEP 2026</span>
-        </div>
-        <div class="match-card__versus-box">
-          <div class="versus-team">
-            <img src="assets/official-logo.png" alt="Young Apostles FC" class="team-crest">
-            <span class="team-name font-bold">Young Apostles</span>
-          </div>
-          <div class="versus-sep">VS</div>
-          <div class="versus-team">
-            <img src="assets/opponents/aduana.png" alt="Aduana Stars" class="team-crest" onerror="this.src='assets/official-logo.png'">
-            <span class="team-name">Aduana Stars</span>
-          </div>
-        </div>
-        <div class="match-card__venue"><i class="fa-solid fa-location-dot"></i> Wenchi Sports Stadium</div>
-        <button class="card-text-link tab-nav-btn" data-view="matches-view">Match Center <i class="fa-solid fa-angle-right"></i></button>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- =========================================================================
-       DYNAMIC APP VIEWS CONTAINER (Clean Tabbed Experience)
-       ========================================================================= -->
-  <main class="app-views-container">
-
-    <!-- VIEW 1: HOME (Focused, Clean Barça Magazine Layout) -->
-    <section class="tab-view active" id="home-view">
-      
-      <!-- Magazine Hero Mosaic -->
-      <div class="magazine-container">
-        <div class="magazine-grid">
-          
-          <!-- Large Main Featured Story -->
-          <article class="hero-tile hero-tile--main">
-            <img src="assets/promotion-celebration.jpg" alt="Young Apostles Promotion" class="hero-tile__img" onerror="this.src='assets/team-banner.jpg'">
-            <div class="hero-tile__overlay"></div>
-            <div class="hero-tile__body">
-              <span class="tag-pill tag-pill--gold">FIRST TEAM</span>
-              <h1 class="hero-tile__title">
-                <a href="#newsModal" class="open-news-modal" data-news-id="1">
-                  PRIDE OF WENCHI: YOUNG APOSTLES READY FOR HISTORIC PREMIER LEAGUE CAMPAIGN
-                </a>
-              </h1>
-              <p class="hero-tile__desc">
-                Following intensive pre-season training in Sunyani, the first team squad is fully primed for Friday's Ghana Premier League opener against Vision FC.
-              </p>
-              <div class="hero-tile__actions">
-                <a href="#newsModal" class="btn-barca btn-barca--gold open-news-modal" data-news-id="1">
-                  READ ARTICLE <i class="fa-solid fa-arrow-right"></i>
-                </a>
-                <button class="btn-barca btn-barca--ghost tab-nav-btn" data-view="tv-view">
-                  <i class="fa-solid fa-play"></i> WATCH ON APOSTLES TV+
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Side Story 1 -->
-          <article class="hero-tile hero-tile--sub">
-            <img src="assets/team-banner.jpg" alt="Mathew Anim Cudjoe story" class="hero-tile__img">
-            <div class="hero-tile__overlay"></div>
-            <div class="hero-tile__body">
-              <span class="tag-pill tag-pill--cyan">GLOBAL APOSTLES</span>
-              <h2 class="hero-tile__title hero-tile__title--sub">
-                <a href="#newsModal" class="open-news-modal" data-news-id="2">
-                  From Wenchi to Scotland: How Mathew Anim Cudjoe's Breakthrough Inspired A Generation
-                </a>
-              </h2>
-              <a href="#newsModal" class="tile-read-link open-news-modal" data-news-id="2">Read Story <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-          </article>
-
-          <!-- Side Story 2 -->
-          <article class="hero-tile hero-tile--sub">
-            <img src="assets/news-1.jpg" alt="Communications update" class="hero-tile__img" onerror="this.src='assets/team-banner.jpg'">
-            <div class="hero-tile__overlay"></div>
-            <div class="hero-tile__body">
-              <span class="tag-pill tag-pill--blue">COMMUNICATIONS</span>
-              <h2 class="hero-tile__title hero-tile__title--sub">
-                <a href="#newsModal" class="open-news-modal" data-news-id="3">
-                  Vincent Henneh: "Squad is Battle-Ready and Focused on Tactical Discipline"
-                </a>
-              </h2>
-              <a href="#newsModal" class="tile-read-link open-news-modal" data-news-id="3">Read Press Release <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-          </article>
-
-        </div>
-      </div>
-
-      <!-- Apostles TV+ Video Shelf on Home -->
-      <div class="home-shelf-section">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-play"></i> VIDEO & MEDIA</span>
-            <h2 class="shelf-title">APOSTLES TV+</h2>
-          </div>
-          <button class="shelf-view-all tab-nav-btn" data-view="tv-view">ALL VIDEOS <i class="fa-solid fa-angle-right"></i></button>
-        </div>
-
-        <div class="video-grid">
-          <div class="video-card">
-            <div class="video-card__thumb">
-              <img src="assets/promotion-celebration.jpg" alt="Playoff Highlights" onerror="this.src='assets/team-banner.jpg'">
-              <div class="play-circle"><i class="fa-solid fa-play"></i></div>
-              <span class="duration-tag">08:42</span>
-            </div>
-            <div class="video-card__content">
-              <span class="video-cat">MATCH HIGHLIGHTS</span>
-              <h3 class="video-heading">GPL Playoff Thriller: Apostles vs Techiman Heroes Shootout</h3>
-              <span class="video-meta">Accra Sports Stadium · 4.2k views</span>
-            </div>
-          </div>
-
-          <div class="video-card">
-            <div class="video-card__thumb">
-              <img src="assets/news-2.jpg" alt="Inside Training" onerror="this.src='assets/team-banner.jpg'">
-              <div class="play-circle"><i class="fa-solid fa-play"></i></div>
-              <span class="duration-tag">05:15</span>
-            </div>
-            <div class="video-card__content">
-              <span class="video-cat">INSIDE TRAINING</span>
-              <h3 class="video-heading">Tactical Drills & Finishing Camp in Sunyani</h3>
-              <span class="video-meta">First Team · 2.8k views</span>
-            </div>
-          </div>
-
-          <div class="video-card">
-            <div class="video-card__thumb">
-              <img src="assets/news-3.jpg" alt="Youth Academy" onerror="this.src='assets/team-banner.jpg'">
-              <div class="play-circle"><i class="fa-solid fa-play"></i></div>
-              <span class="duration-tag">12:30</span>
-            </div>
-            <div class="video-card__content">
-              <span class="video-cat">DOCUMENTARY</span>
-              <h3 class="video-heading">The Making of an Apostle: Scouting Grassroots Talents</h3>
-              <span class="video-meta">Academy · 3.5k views</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Clean Store Spotlight on Home -->
-      <div class="home-shelf-section home-shelf-section--alt">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-bag-shopping"></i> OFFICIAL KITS</span>
-            <h2 class="shelf-title">2026/27 OFFICIAL MERCHANDISE</h2>
-          </div>
-          <button class="shelf-view-all tab-nav-btn" data-view="store-view">VISIT STORE <i class="fa-solid fa-angle-right"></i></button>
-        </div>
-
-        <div class="store-spotlight-grid">
-          <div class="store-item-card">
-            <span class="kit-badge">HOME KIT</span>
-            <div class="store-item-card__icon"><i class="fa-solid fa-shirt"></i></div>
-            <div class="store-item-card__info">
-              <h4>Official Home Match Jersey 26/27</h4>
-              <p>Royal Navy & Gold</p>
-              <div class="store-item-card__bottom">
-                <span class="price">GHS 350.00</span>
-                <button class="btn-buy tab-nav-btn" data-view="store-view">BUY NOW</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="store-item-card">
-            <span class="kit-badge">AWAY KIT</span>
-            <div class="store-item-card__icon store-item-card__icon--cyan"><i class="fa-solid fa-shirt"></i></div>
-            <div class="store-item-card__info">
-              <h4>Official Away Match Jersey 26/27</h4>
-              <p>Ice Sapphire & White</p>
-              <div class="store-item-card__bottom">
-                <span class="price">GHS 350.00</span>
-                <button class="btn-buy tab-nav-btn" data-view="store-view">BUY NOW</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="store-item-card">
-            <span class="kit-badge">PRE-MATCH</span>
-            <div class="store-item-card__icon"><i class="fa-solid fa-vest"></i></div>
-            <div class="store-item-card__info">
-              <h4>Pre-Match Training Top</h4>
-              <p>Midnight Black & Gold</p>
-              <div class="store-item-card__bottom">
-                <span class="price">GHS 220.00</span>
-                <button class="btn-buy tab-nav-btn" data-view="store-view">BUY NOW</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- VIEW 2: FIRST TEAM SQUAD -->
-    <section class="tab-view" id="firstteam-view">
-      <div class="view-container">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-shirt"></i> FIRST TEAM</span>
-            <h2 class="shelf-title">2026/27 SQUAD ROSTER</h2>
-          </div>
-        </div>
-
-        <div class="pos-filter-tabs">
-          <button class="pos-btn active" data-filter="all">ALL PLAYERS</button>
-          <button class="pos-btn" data-filter="goalkeeper">GOALKEEPERS</button>
-          <button class="pos-btn" data-filter="defender">DEFENDERS</button>
-          <button class="pos-btn" data-filter="midfielder">MIDFIELDERS</button>
-          <button class="pos-btn" data-filter="forward">FORWARDS</button>
-        </div>
-
-        <div class="squad-cards-grid" id="squadCardsGrid">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 3: MATCHES & TICKETS -->
-    <section class="tab-view" id="matches-view">
-      <div class="view-container">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-calendar-days"></i> MATCH SCHEDULE</span>
-            <h2 class="shelf-title">GHANA PREMIER LEAGUE FIXTURES & TICKETS</h2>
-          </div>
-        </div>
-
-        <div class="fixtures-table-list">
-          
-          <div class="fixture-ticket-row">
-            <div class="fixture-meta">
-              <span class="fixture-date">FRI 4 SEP · 15:00 GMT</span>
-              <span class="fixture-comp">GPL · MATCHDAY 1</span>
-            </div>
-            <div class="fixture-teams-box">
-              <div class="team-item">
-                <img src="assets/opponents/vision.png" alt="Vision FC" class="team-crest-sm" onerror="this.src='assets/official-logo.png'">
-                <span>Vision FC</span>
-              </div>
-              <span class="vs-text">VS</span>
-              <div class="team-item">
-                <img src="assets/official-logo.png" alt="Young Apostles FC" class="team-crest-sm">
-                <span class="font-bold">Young Apostles</span>
-              </div>
-            </div>
-            <div class="fixture-venue"><i class="fa-solid fa-location-dot"></i> Nii Adjei Kraku Stadium</div>
-            <button class="btn-ticket-gold tab-nav-btn" data-view="tickets-view">BUY TICKETS</button>
-          </div>
-
-          <div class="fixture-ticket-row">
-            <div class="fixture-meta">
-              <span class="fixture-date">FRI 11 SEP · 15:00 GMT</span>
-              <span class="fixture-comp">GPL · MATCHDAY 2</span>
-            </div>
-            <div class="fixture-teams-box">
-              <div class="team-item">
-                <img src="assets/official-logo.png" alt="Young Apostles FC" class="team-crest-sm">
-                <span class="font-bold">Young Apostles</span>
-              </div>
-              <span class="vs-text">VS</span>
-              <div class="team-item">
-                <img src="assets/opponents/aduana.png" alt="Aduana Stars" class="team-crest-sm" onerror="this.src='assets/official-logo.png'">
-                <span>Aduana Stars</span>
-              </div>
-            </div>
-            <div class="fixture-venue"><i class="fa-solid fa-location-dot"></i> Wenchi Sports Stadium</div>
-            <button class="btn-ticket-gold tab-nav-btn" data-view="tickets-view">BUY TICKETS</button>
-          </div>
-
-          <div class="fixture-ticket-row">
-            <div class="fixture-meta">
-              <span class="fixture-date">SUN 20 SEP · 15:00 GMT</span>
-              <span class="fixture-comp">GPL · MATCHDAY 3</span>
-            </div>
-            <div class="fixture-teams-box">
-              <div class="team-item">
-                <img src="assets/opponents/medeama.png" alt="Medeama SC" class="team-crest-sm" onerror="this.src='assets/official-logo.png'">
-                <span>Medeama SC</span>
-              </div>
-              <span class="vs-text">VS</span>
-              <div class="team-item">
-                <img src="assets/official-logo.png" alt="Young Apostles FC" class="team-crest-sm">
-                <span class="font-bold">Young Apostles</span>
-              </div>
-            </div>
-            <div class="fixture-venue"><i class="fa-solid fa-location-dot"></i> TnA Stadium, Tarkwa</div>
-            <button class="btn-ticket-gold tab-nav-btn" data-view="tickets-view">BUY TICKETS</button>
-          </div>
-
-          <div class="fixture-ticket-row">
-            <div class="fixture-meta">
-              <span class="fixture-date">SUN 27 SEP · 15:00 GMT</span>
-              <span class="fixture-comp">GPL · MATCHDAY 4</span>
-            </div>
-            <div class="fixture-teams-box">
-              <div class="team-item">
-                <img src="assets/official-logo.png" alt="Young Apostles FC" class="team-crest-sm">
-                <span class="font-bold">Young Apostles</span>
-              </div>
-              <span class="vs-text">VS</span>
-              <div class="team-item">
-                <img src="assets/opponents/bechem.png" alt="Bechem United" class="team-crest-sm" onerror="this.src='assets/official-logo.png'">
-                <span>Bechem United</span>
-              </div>
-            </div>
-            <div class="fixture-venue"><i class="fa-solid fa-location-dot"></i> Wenchi Sports Stadium</div>
-            <button class="btn-ticket-gold tab-nav-btn" data-view="tickets-view">BUY TICKETS</button>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 4: LEAGUE STANDINGS -->
-    <section class="tab-view" id="standings-view">
-      <div class="view-container">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-ranking-star"></i> TABLE</span>
-            <h2 class="shelf-title">GHANA PREMIER LEAGUE STANDINGS</h2>
-          </div>
-        </div>
-
-        <div class="clean-table-box">
-          <table class="standings-table">
-            <thead>
-              <tr>
-                <th>POS</th>
-                <th>CLUB</th>
-                <th>P</th>
-                <th>W</th>
-                <th>D</th>
-                <th>L</th>
-                <th>GF</th>
-                <th>GA</th>
-                <th>GD</th>
-                <th>PTS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="pos-badge pos--gold">1</span></td>
-                <td class="club-cell">
-                  <img src="assets/opponents/kotoko.png" alt="Asante Kotoko" class="table-crest" onerror="this.src='assets/official-logo.png'">
-                  <span>Asante Kotoko</span>
-                </td>
-                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                <td class="pts-cell">0</td>
-              </tr>
-              <tr class="row-highlight">
-                <td><span class="pos-badge pos--gold">2</span></td>
-                <td class="club-cell">
-                  <img src="assets/official-logo.png" alt="Young Apostles FC" class="table-crest">
-                  <span class="font-bold">Young Apostles FC</span>
-                </td>
-                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                <td class="pts-cell color-gold">0</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">3</span></td>
-                <td class="club-cell">
-                  <img src="assets/opponents/hearts.png" alt="Hearts of Oak" class="table-crest" onerror="this.src='assets/official-logo.png'">
-                  <span>Hearts of Oak</span>
-                </td>
-                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                <td class="pts-cell">0</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">4</span></td>
-                <td class="club-cell">
-                  <img src="assets/opponents/medeama.png" alt="Medeama SC" class="table-crest" onerror="this.src='assets/official-logo.png'">
-                  <span>Medeama SC</span>
-                </td>
-                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                <td class="pts-cell">0</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">5</span></td>
-                <td class="club-cell">
-                  <img src="assets/opponents/aduana.png" alt="Aduana Stars" class="table-crest" onerror="this.src='assets/official-logo.png'">
-                  <span>Aduana Stars</span>
-                </td>
-                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                <td class="pts-cell">0</td>
-              </tr>
-              <tr>
-                <td><span class="pos-badge">6</span></td>
-                <td class="club-cell">
-                  <img src="assets/opponents/bechem.png" alt="Bechem United" class="table-crest" onerror="this.src='assets/official-logo.png'">
-                  <span>Bechem United</span>
-                </td>
-                <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
-                <td class="pts-cell">0</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 5: APOSTLES TV+ -->
-    <section class="tab-view" id="tv-view">
-      <div class="view-container">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-play"></i> APOSTLES TV+</span>
-            <h2 class="shelf-title">ALL VIDEOS & EXCLUSIVE FOOTAGE</h2>
-          </div>
-        </div>
-
-        <div class="video-grid">
-          <div class="video-card">
-            <div class="video-card__thumb">
-              <img src="assets/promotion-celebration.jpg" alt="Playoff Highlights" onerror="this.src='assets/team-banner.jpg'">
-              <div class="play-circle"><i class="fa-solid fa-play"></i></div>
-              <span class="duration-tag">08:42</span>
-            </div>
-            <div class="video-card__content">
-              <span class="video-cat">HIGHLIGHTS</span>
-              <h3 class="video-heading">GPL Playoff Thriller: Apostles vs Techiman Heroes Shootout</h3>
-              <span class="video-meta">Accra Sports Stadium · 4.2k views</span>
-            </div>
-          </div>
-
-          <div class="video-card">
-            <div class="video-card__thumb">
-              <img src="assets/news-2.jpg" alt="Inside Training" onerror="this.src='assets/team-banner.jpg'">
-              <div class="play-circle"><i class="fa-solid fa-play"></i></div>
-              <span class="duration-tag">05:15</span>
-            </div>
-            <div class="video-card__content">
-              <span class="video-cat">INSIDE TRAINING</span>
-              <h3 class="video-heading">Tactical Drills & Finishing Camp in Sunyani</h3>
-              <span class="video-meta">First Team · 2.8k views</span>
-            </div>
-          </div>
-
-          <div class="video-card">
-            <div class="video-card__thumb">
-              <img src="assets/news-3.jpg" alt="Youth Academy" onerror="this.src='assets/team-banner.jpg'">
-              <div class="play-circle"><i class="fa-solid fa-play"></i></div>
-              <span class="duration-tag">12:30</span>
-            </div>
-            <div class="video-card__content">
-              <span class="video-cat">DOCUMENTARY</span>
-              <h3 class="video-heading">The Making of an Apostle: Scouting Grassroots Talents</h3>
-              <span class="video-meta">Academy · 3.5k views</span>
-            </div>
-          </div>
-
-          <div class="video-card">
-            <div class="video-card__thumb">
-              <img src="assets/news-4.jpg" alt="Wenchi Stadium Tour" onerror="this.src='assets/team-banner.jpg'">
-              <div class="play-circle"><i class="fa-solid fa-play"></i></div>
-              <span class="duration-tag">04:50</span>
-            </div>
-            <div class="video-card__content">
-              <span class="video-cat">FACILITIES</span>
-              <h3 class="video-heading">Wenchi Sports Stadium: Upgrades & Matchday Tour</h3>
-              <span class="video-meta">Facilities · 1.9k views</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 6: CLUB & HISTORY -->
-    <section class="tab-view" id="club-view">
-      <div class="view-container">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-shield"></i> THE CLUB</span>
-            <h2 class="shelf-title">HERITAGE, FOUNDATION & VALUES</h2>
-          </div>
-        </div>
-
-        <div class="heritage-split-grid">
-          <div class="heritage-box">
-            <span class="heritage-yr">2012</span>
-            <h3>Club Founded in Wenchi</h3>
-            <p>Young Apostles Football Club was established in Wenchi, Bono Region with the defining creed <em>"... agya na ƆwƆ tumi"</em> to develop young footballing talent and represent the municipality with pride.</p>
-          </div>
-          <div class="heritage-box">
-            <span class="heritage-yr">2024</span>
-            <h3>Ascent to the Ghana Premier League</h3>
-            <p>Won the National Division One League Zonal championship and clinched victory in the promotional playoff against Techiman Heroes at the Accra Sports Stadium.</p>
-          </div>
-          <div class="heritage-box">
-            <span class="heritage-yr">50+</span>
-            <h3>Youth Academy Graduates</h3>
-            <p>Consistently developing top-tier professionals who have advanced to Ghanaian Premier League giants and European clubs.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 7: TRANSFERS -->
-    <section class="tab-view" id="transfers-view">
-      <div class="view-container">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-arrow-right-arrow-left"></i> ALUMNI</span>
-            <h2 class="shelf-title">ACADEMY & TRANSFER RECORDS</h2>
-          </div>
-        </div>
-
-        <div class="clean-table-box">
-          <table class="standings-table">
-            <thead>
-              <tr>
-                <th>PLAYER</th>
-                <th>DESTINATION CLUB</th>
-                <th>YEAR</th>
-                <th>CATEGORY</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="row-highlight">
-                <td><strong>Mathew Anim Cudjoe</strong></td>
-                <td class="color-gold">Dundee United (Scotland) / Kotoko</td>
-                <td>2019 / 2021</td>
-                <td><span class="tag-pill tag-pill--gold">International Permanent</span></td>
-              </tr>
-              <tr>
-                <td><strong>Abass Samari</strong></td>
-                <td>Accra Lions FC</td>
-                <td>2021</td>
-                <td><span class="tag-pill">GPL Transfer</span></td>
-              </tr>
-              <tr>
-                <td><strong>Richard Achaw</strong></td>
-                <td>Ashanti Gold SC (Ashgold)</td>
-                <td>2021</td>
-                <td><span class="tag-pill">GPL Transfer</span></td>
-              </tr>
-              <tr>
-                <td><strong>Solomon Adomako</strong></td>
-                <td>Accra Great Olympics</td>
-                <td>2021</td>
-                <td><span class="tag-pill">GPL Transfer</span></td>
-              </tr>
-              <tr>
-                <td><strong>Vincent Adu Gyamfi</strong></td>
-                <td>Legon Cities FC</td>
-                <td>2020</td>
-                <td><span class="tag-pill">GPL Transfer</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 8: STORE -->
-    <section class="tab-view" id="store-view">
-      <div class="view-container">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-bag-shopping"></i> OFFICIAL STORE</span>
-            <h2 class="shelf-title">KITS, TRAINING WEAR & ACCESSORIES</h2>
-          </div>
-        </div>
-
-        <div class="store-spotlight-grid">
-          <div class="store-item-card">
-            <span class="kit-badge">HOME KIT</span>
-            <div class="store-item-card__icon"><i class="fa-solid fa-shirt"></i></div>
-            <div class="store-item-card__info">
-              <h4>Official Home Match Jersey 26/27</h4>
-              <p>Royal Navy & Gold</p>
-              <div class="store-item-card__bottom">
-                <span class="price">GHS 350.00</span>
-                <button class="btn-buy" onclick="alert('Item added to cart!')">BUY NOW</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="store-item-card">
-            <span class="kit-badge">AWAY KIT</span>
-            <div class="store-item-card__icon store-item-card__icon--cyan"><i class="fa-solid fa-shirt"></i></div>
-            <div class="store-item-card__info">
-              <h4>Official Away Match Jersey 26/27</h4>
-              <p>Ice Sapphire & White</p>
-              <div class="store-item-card__bottom">
-                <span class="price">GHS 350.00</span>
-                <button class="btn-buy" onclick="alert('Item added to cart!')">BUY NOW</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="store-item-card">
-            <span class="kit-badge">TRAINING</span>
-            <div class="store-item-card__icon"><i class="fa-solid fa-vest"></i></div>
-            <div class="store-item-card__info">
-              <h4>Pre-Match Training Top</h4>
-              <p>Midnight Black & Gold</p>
-              <div class="store-item-card__bottom">
-                <span class="price">GHS 220.00</span>
-                <button class="btn-buy" onclick="alert('Item added to cart!')">BUY NOW</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="store-item-card">
-            <span class="kit-badge">ACCESSORIES</span>
-            <div class="store-item-card__icon"><i class="fa-solid fa-graduation-cap"></i></div>
-            <div class="store-item-card__info">
-              <h4>Official Supporters Cap & Scarf</h4>
-              <p>Wenchi Pride Edition</p>
-              <div class="store-item-card__bottom">
-                <span class="price">GHS 120.00</span>
-                <button class="btn-buy" onclick="alert('Item added to cart!')">BUY NOW</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 9: MEMBERSHIP & SUPPORTERS -->
-    <section class="tab-view" id="membership-view">
-      <div class="view-container">
-        <div class="membership-card-banner">
-          <div class="membership-info-left">
-            <span class="shelf-super"><i class="fa-solid fa-crown"></i> SUPPORTERS MEMBERSHIP</span>
-            <h2 class="shelf-title">BECOME AN OFFICIAL APOSTLE</h2>
-            <p>Unlock priority ticketing at Wenchi Sports Stadium, 15% discount at the official club store, exclusive Apostles TV+ footage, and your digital supporter pass.</p>
-            <div class="membership-perk-pills">
-              <span><i class="fa-solid fa-check"></i> Priority Match Tickets</span>
-              <span><i class="fa-solid fa-check"></i> 15% Store Discount</span>
-              <span><i class="fa-solid fa-check"></i> Digital Member Pass</span>
-            </div>
-          </div>
-
-          <div class="membership-form-right">
-            <form id="memberRegisterForm" class="member-form">
-              <h3>Supporter Registration</h3>
-              <input type="text" placeholder="Full Name *" required>
-              <input type="email" placeholder="Email Address *" required>
-              <input type="tel" placeholder="Phone / WhatsApp Number">
-              <button type="submit" class="btn-barca btn-barca--gold">JOIN OFFICIAL FAN CLUB</button>
-              <div class="form-feedback" id="memberFormFeedback"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 10: TICKETS & STADIUM -->
-    <section class="tab-view" id="tickets-view">
-      <div class="view-container">
-        <div class="shelf-header">
-          <div class="shelf-header__title-group">
-            <span class="shelf-super"><i class="fa-solid fa-ticket"></i> MATCHDAY PASSES</span>
-            <h2 class="shelf-title">WENCHI SPORTS STADIUM TICKETS</h2>
-          </div>
-        </div>
-
-        <div class="tickets-grid">
-          <div class="ticket-tier-card">
-            <h3>POPULAR STAND</h3>
-            <span class="ticket-cost">GHS 20.00</span>
-            <p>Open seating across North and East terraces.</p>
-            <button class="btn-barca btn-barca--gold" onclick="alert('Ticket booking selected!')">BOOK SEAT</button>
-          </div>
-          <div class="ticket-tier-card ticket-tier-card--featured">
-            <span class="popular-tag">RECOMMENDED</span>
-            <h3>COVERED VIP STAND</h3>
-            <span class="ticket-cost">GHS 50.00</span>
-            <p>Shaded central seating with premier midfield view.</p>
-            <button class="btn-barca btn-barca--gold" onclick="alert('VIP Ticket booking selected!')">BOOK VIP</button>
-          </div>
-          <div class="ticket-tier-card">
-            <h3>SEASON MEMBERSHIP PASS</h3>
-            <span class="ticket-cost">GHS 300.00</span>
-            <p>All 17 Ghana Premier League home fixtures included.</p>
-            <button class="btn-barca btn-barca--gold" onclick="alert('Season pass selected!')">GET SEASON PASS</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- =========================================================================
-       NEWS ARTICLE MODAL (Minimalist & Clean)
-       ========================================================================= -->
-  <div class="news-modal" id="newsModal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="news-modal__backdrop"></div>
-    <div class="news-modal__window">
-      <button class="news-modal__close" id="newsModalClose" aria-label="Close modal">&times;</button>
-      <div class="news-modal__content" id="newsModalBody">
-        <!-- Content injected dynamically by main.js -->
+      <div class="announce-right">
+        <button class="ann-login-btn"><i class="fa-regular fa-user"></i> Login</button>
+        <a href="#membership" class="ann-plans-btn"><i class="fa-solid fa-crown"></i> Become a Member</a>
+        <span class="ann-lang">EN</span>
       </div>
     </div>
   </div>
 
-  <!-- =========================================================================
-       FOOTER (Clean FC Barcelona Style)
-       ========================================================================= -->
-  <footer class="barca-footer">
-    <div class="footer-container">
-      
-      <!-- Top Brand Row -->
-      <div class="footer-head">
-        <div class="footer-brand">
-          <img src="assets/official-logo.png" alt="Young Apostles FC" width="56" height="56">
-          <div>
-            <h3>YOUNG APOSTLES FC</h3>
-            <p>... agya na ƆwƆ tumi · Wenchi, Bono Region</p>
+  <!-- =========================================================
+       MAIN NAVBAR — White background, Barça exact structure
+       ========================================================= -->
+  <header class="main-nav" id="mainNav">
+    <!-- Accent stripe under navbar (Barça has a red/gold stripe) -->
+    <div class="nav-accent-stripe"></div>
+
+    <div class="main-nav__inner">
+
+      <!-- Club Crest (overhangs) -->
+      <a href="#" class="nav-crest" aria-label="Young Apostles FC Home">
+        <img src="assets/official-logo.png" alt="Young Apostles FC" class="nav-crest__img" width="72" height="72">
+      </a>
+
+      <!-- Left navigation group -->
+      <nav class="nav-group nav-group--left" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#tickets" class="nav-link">TICKETS <i class="fa-solid fa-angle-down nav-chevron"></i></a>
+          </li>
+          <li class="nav-item">
+            <a href="#store" class="nav-link">STORE</a>
+          </li>
+          <li class="nav-item">
+            <a href="#membership" class="nav-link">MEMBERSHIP</a>
+          </li>
+          <li class="nav-item">
+            <a href="#apostlestv" class="nav-link">APOSTLES TV+</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Right navigation group -->
+      <nav class="nav-group nav-group--right" aria-label="Club navigation">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#firstteam" class="nav-link">FIRST TEAM <i class="fa-solid fa-angle-down nav-chevron"></i></a>
+          </li>
+          <li class="nav-item">
+            <a href="#club" class="nav-link">CLUB <i class="fa-solid fa-angle-down nav-chevron"></i></a>
+          </li>
+          <li class="nav-item">
+            <a href="#standings" class="nav-link">STANDINGS</a>
+          </li>
+          <li class="nav-item">
+            <a href="#transfers" class="nav-link">TRANSFERS</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Search icon -->
+      <button class="nav-search-btn" id="searchToggle" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+
+      <!-- Mobile hamburger -->
+      <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile Nav Drawer -->
+    <div class="nav-mobile-drawer" id="navMobileDrawer">
+      <ul class="nav-mobile-list">
+        <li><a href="#" class="nav-mobile-link" onclick="closeMobileNav()">HOME</a></li>
+        <li><a href="#firstteam" class="nav-mobile-link" onclick="closeMobileNav()">FIRST TEAM</a></li>
+        <li><a href="#calendar" class="nav-mobile-link" onclick="closeMobileNav()">MATCHES & TICKETS</a></li>
+        <li><a href="#standings" class="nav-mobile-link" onclick="closeMobileNav()">STANDINGS</a></li>
+        <li><a href="#apostlestv" class="nav-mobile-link" onclick="closeMobileNav()">APOSTLES TV+</a></li>
+        <li><a href="#club" class="nav-mobile-link" onclick="closeMobileNav()">CLUB & HISTORY</a></li>
+        <li><a href="#transfers" class="nav-mobile-link" onclick="closeMobileNav()">TRANSFERS</a></li>
+        <li><a href="#store" class="nav-mobile-link" onclick="closeMobileNav()">STORE</a></li>
+        <li><a href="#membership" class="nav-mobile-link" onclick="closeMobileNav()">MEMBERSHIP</a></li>
+      </ul>
+    </div>
+
+    <!-- Search Drawer -->
+    <div class="nav-search-drawer" id="searchDrawer">
+      <div class="search-drawer-inner">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Search news, players, fixtures, videos...">
+        <button class="search-close-btn" id="searchClose">&times;</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       HERO SECTION — Full-width dark background, huge centered title
+       ========================================================= -->
+  <section class="hero-section" id="home">
+    <div class="hero-bg">
+      <img src="assets/promotion-celebration.jpg" alt="Young Apostles FC GPL Promotion" class="hero-bg-img" onerror="this.src='assets/team-banner.jpg'">
+      <div class="hero-bg-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <h1 class="hero-headline">
+        YOUNG APOSTLES FC: PRIDE OF WENCHI ARRIVES IN THE GHANA PREMIER LEAGUE
+      </h1>
+      <div class="hero-meta">
+        <span class="hero-category-tag">FIRST TEAM</span>
+        <span class="hero-time"><i class="fa-regular fa-clock"></i> Official Club Announcement</span>
+      </div>
+    </div>
+
+    <!-- Three story cards below the headline (Barça exact format) -->
+    <div class="hero-story-cards">
+      <a href="#newsModal" class="story-card open-news-modal" data-news-id="1">
+        <img src="assets/news-1.jpg" alt="GPL Season Launch" onerror="this.src='assets/team-banner.jpg'">
+        <div class="story-card__label">Season Launch</div>
+      </a>
+      <a href="#newsModal" class="story-card open-news-modal" data-news-id="2">
+        <img src="assets/news-2.jpg" alt="Mathew Anim Cudjoe Story" onerror="this.src='assets/team-banner.jpg'">
+        <div class="story-card__label">Global Apostles</div>
+      </a>
+      <a href="#newsModal" class="story-card story-card--score open-news-modal" data-news-id="3">
+        <img src="assets/promotion-celebration.jpg" alt="Match Result 2-0" onerror="this.src='assets/team-banner.jpg'">
+        <div class="story-card__score-overlay">
+          <div class="score-badge">
+            <img src="assets/official-logo.png" alt="YAFC" class="score-crest">
+            <span class="score-num">2</span>
+            <span class="score-num score-num--right">0</span>
+            <img src="assets/opponents/chelsea.png" alt="Opponent" class="score-crest" onerror="this.src='assets/official-logo.png'">
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       MAIN PARTNERS STRIP — White background
+       ========================================================= -->
+  <div class="partners-strip">
+    <div class="partners-strip__inner">
+      <span class="partners-label">MAIN PARTNERS</span>
+      <div class="partners-logos">
+        <div class="partner-logo-item"><i class="fa-solid fa-trophy"></i> GHANA PREMIER LEAGUE</div>
+        <div class="partner-logo-item partner-logo-item--pipe"></div>
+        <div class="partner-logo-item"><i class="fa-solid fa-building-columns"></i> ACCESS BANK</div>
+        <div class="partner-logo-item partner-logo-item--pipe"></div>
+        <div class="partner-logo-item"><i class="fa-solid fa-shield-halved"></i> GFA GHANA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       APOSTLES ACCESS — Ticket Categories (Barça Tickets section)
+       ========================================================= -->
+  <section class="access-section" id="tickets">
+    <div class="access-section__inner">
+      <div class="section-header-plain">
+        <h2 class="section-heading-plain">APOSTLES TICKETS & ACCESS</h2>
+        <div class="section-arrows">
+          <button class="arrow-btn" id="accessPrev" aria-label="Previous"><i class="fa-solid fa-angle-left"></i></button>
+          <button class="arrow-btn" id="accessNext" aria-label="Next"><i class="fa-solid fa-angle-right"></i></button>
+        </div>
+      </div>
+
+      <div class="access-cards-track" id="accessTrack">
+        <a href="#matchcenter" class="access-card">
+          <img src="assets/team-banner.jpg" alt="GPL Football" onerror="this.src='assets/official-logo.png'">
+          <div class="access-card__label">GPL FOOTBALL <i class="fa-solid fa-angles-right"></i></div>
+        </a>
+        <a href="#apostlestv" class="access-card">
+          <img src="assets/promotion-celebration.jpg" alt="Apostles TV+" onerror="this.src='assets/official-logo.png'">
+          <div class="access-card__label">APOSTLES TV+ <i class="fa-solid fa-angles-right"></i></div>
+        </a>
+        <a href="#store" class="access-card">
+          <img src="assets/news-1.jpg" alt="Official Store" onerror="this.src='assets/official-logo.png'">
+          <div class="access-card__label">OFFICIAL STORE <i class="fa-solid fa-angles-right"></i></div>
+        </a>
+        <a href="#membership" class="access-card">
+          <img src="assets/news-2.jpg" alt="Membership" onerror="this.src='assets/official-logo.png'">
+          <div class="access-card__label">MEMBERSHIP <i class="fa-solid fa-angles-right"></i></div>
+        </a>
+        <a href="#firstteam" class="access-card">
+          <img src="assets/news-3.jpg" alt="First Team" onerror="this.src='assets/official-logo.png'">
+          <div class="access-card__label">FIRST TEAM SQUAD <i class="fa-solid fa-angles-right"></i></div>
+        </a>
+        <a href="#standings" class="access-card">
+          <img src="assets/news-4.jpg" alt="League Table" onerror="this.src='assets/official-logo.png'">
+          <div class="access-card__label">GPL STANDINGS <i class="fa-solid fa-angles-right"></i></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       CALENDAR / FIXTURES — Dark navy, countdown + fixture cards
+       ========================================================= -->
+  <section class="calendar-section" id="calendar">
+    <div class="calendar-section__inner">
+
+      <div class="calendar-top-bar">
+        <span class="calendar-label">CALENDAR</span>
+        <div class="calendar-next-match">
+          <span class="next-match-text">NEXT MATCH</span>
+          <div class="countdown-display" id="mainCountdown">
+            <div class="cd-unit"><span class="cd-num" id="cdDays">06</span><span class="cd-sub">DAYS</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cdHours">14</span><span class="cd-sub">HOURS</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cdMins">32</span><span class="cd-sub">MINS</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cdSecs">48</span><span class="cd-sub">SECS</span></div>
+          </div>
+        </div>
+        <a href="#tickets" class="sync-cal-btn">TICKET INFO <i class="fa-solid fa-ticket"></i></a>
+      </div>
+
+      <div class="fixture-cards-grid">
+
+        <!-- Fixture 1 -->
+        <div class="fixture-card">
+          <div class="fixture-card__teams">
+            <div class="fx-team">
+              <img src="assets/opponents/vision.png" alt="Vision FC" class="fx-crest" onerror="this.src='assets/official-logo.png'">
+              <span class="fx-name">Vision FC</span>
+            </div>
+            <span class="fx-vs"><i class="fa-solid fa-bolt"></i></span>
+            <div class="fx-team">
+              <img src="assets/official-logo.png" alt="Young Apostles FC" class="fx-crest">
+              <span class="fx-name font-bold">Young Apostles</span>
+            </div>
+          </div>
+          <div class="fixture-card__info">
+            <p class="fx-datetime">Friday, September 4, 15:00 GMT</p>
+            <p class="fx-comp">GPL · Matchday 1 · Away</p>
+            <p class="fx-venue">Nii Adjei Kraku Stadium</p>
+            <a href="#matchcenter" class="fx-match-link"><i class="fa-solid fa-circle-play"></i> Match Centre</a>
           </div>
         </div>
 
-        <div class="footer-socials">
-          <span>FOLLOW YOUNG APOSTLES</span>
-          <div class="social-pills">
+        <!-- Fixture 2 -->
+        <div class="fixture-card">
+          <div class="fixture-card__teams">
+            <div class="fx-team">
+              <img src="assets/official-logo.png" alt="Young Apostles FC" class="fx-crest">
+              <span class="fx-name font-bold">Young Apostles</span>
+            </div>
+            <span class="fx-vs"><i class="fa-solid fa-bolt"></i></span>
+            <div class="fx-team">
+              <img src="assets/opponents/aduana.png" alt="Aduana Stars" class="fx-crest" onerror="this.src='assets/official-logo.png'">
+              <span class="fx-name">Aduana Stars</span>
+            </div>
+          </div>
+          <div class="fixture-card__info">
+            <p class="fx-datetime">Friday, September 11, 15:00 GMT</p>
+            <p class="fx-comp">GPL · Matchday 2 · Home</p>
+            <p class="fx-venue">Wenchi Sports Stadium</p>
+            <a href="#tickets" class="fx-match-link"><i class="fa-solid fa-circle-play"></i> Match Centre</a>
+          </div>
+        </div>
+
+        <!-- Fixture 3 -->
+        <div class="fixture-card">
+          <div class="fixture-card__teams">
+            <div class="fx-team">
+              <img src="assets/opponents/medeama.png" alt="Medeama SC" class="fx-crest" onerror="this.src='assets/official-logo.png'">
+              <span class="fx-name">Medeama SC</span>
+            </div>
+            <span class="fx-vs"><i class="fa-solid fa-bolt"></i></span>
+            <div class="fx-team">
+              <img src="assets/official-logo.png" alt="Young Apostles FC" class="fx-crest">
+              <span class="fx-name font-bold">Young Apostles</span>
+            </div>
+          </div>
+          <div class="fixture-card__info">
+            <p class="fx-datetime">Sunday, September 20, 15:00 GMT</p>
+            <p class="fx-comp">GPL · Matchday 3 · Away</p>
+            <p class="fx-venue">TnA Stadium, Tarkwa</p>
+            <a href="#tickets" class="fx-match-link"><i class="fa-solid fa-circle-play"></i> Match Centre</a>
+          </div>
+        </div>
+
+        <!-- Next Games Panel -->
+        <div class="fixture-card fixture-card--promo">
+          <img src="assets/team-banner.jpg" alt="Next Games" class="fx-promo-img" onerror="this.src='assets/official-logo.png'">
+          <div class="fx-promo-overlay">
+            <h3 class="fx-promo-title">NEXT GAMES</h3>
+            <a href="#tickets" class="fx-promo-btn">GET TICKETS <i class="fa-solid fa-angles-right"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       APOSTLES STORIES — Horizontal scroll carousel (white bg)
+       ========================================================= -->
+  <section class="stories-section" id="news">
+    <div class="stories-section__inner">
+      <h2 class="section-heading-plain stories-heading">APOSTLES STORIES</h2>
+
+      <div class="stories-track-wrapper">
+        <div class="stories-track" id="storiesTrack">
+
+          <a href="#newsModal" class="story-pill open-news-modal" data-news-id="1">
+            <img src="assets/promotion-celebration.jpg" alt="GPL Season Launch" onerror="this.src='assets/team-banner.jpg'">
+            <span class="new-badge">NEW</span>
+            <div class="story-pill__caption">Season Launch 2026/27</div>
+          </a>
+
+          <a href="#newsModal" class="story-pill open-news-modal" data-news-id="2">
+            <img src="assets/team-banner.jpg" alt="Global Apostles">
+            <span class="new-badge">NEW</span>
+            <div class="story-pill__caption">Mathew Anim Cudjoe Story</div>
+          </a>
+
+          <a href="#newsModal" class="story-pill open-news-modal" data-news-id="3">
+            <img src="assets/news-1.jpg" alt="Club Update" onerror="this.src='assets/team-banner.jpg'">
+            <span class="new-badge">NEW</span>
+            <div class="story-pill__caption">Squad Readiness Update</div>
+          </a>
+
+          <a href="#apostlestv" class="story-pill">
+            <img src="assets/news-2.jpg" alt="Training Highlights" onerror="this.src='assets/team-banner.jpg'">
+            <span class="new-badge">NEW</span>
+            <div class="story-pill__caption">Training Highlights</div>
+          </a>
+
+          <a href="#apostlestv" class="story-pill">
+            <img src="assets/news-3.jpg" alt="Academy Watch" onerror="this.src='assets/team-banner.jpg'">
+            <span class="new-badge">NEW</span>
+            <div class="story-pill__caption">Academy Watch</div>
+          </a>
+
+          <a href="#calendar" class="story-pill">
+            <img src="assets/news-4.jpg" alt="Next Matches" onerror="this.src='assets/team-banner.jpg'">
+            <span class="new-badge">NEW</span>
+            <div class="story-pill__caption">Next Matches</div>
+          </a>
+
+          <a href="#standings" class="story-pill">
+            <img src="assets/opponents/kotoko.png" alt="GPL Opponents" onerror="this.src='assets/team-banner.jpg'">
+            <span class="new-badge">NEW</span>
+            <div class="story-pill__caption">GPL Opponents</div>
+          </a>
+
+          <button class="stories-next-btn" id="storiesNextBtn" aria-label="More stories">
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       APOSTLES TV+ SECTION — White bg, video shelf
+       ========================================================= -->
+  <section class="tv-section" id="apostlestv">
+    <div class="tv-section__inner">
+      <div class="section-header-split">
+        <div>
+          <span class="section-eyebrow">VIDEO & MEDIA</span>
+          <h2 class="section-heading-dark">APOSTLES TV+</h2>
+        </div>
+        <a href="#apostlestv" class="view-all-link-dark">ALL VIDEOS <i class="fa-solid fa-angle-right"></i></a>
+      </div>
+
+      <div class="tv-grid">
+        <div class="tv-card">
+          <div class="tv-card__thumb">
+            <img src="assets/promotion-celebration.jpg" alt="Playoff Highlights" onerror="this.src='assets/team-banner.jpg'">
+            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+            <span class="tv-duration">08:42</span>
+          </div>
+          <span class="tv-tag">HIGHLIGHTS</span>
+          <h3 class="tv-title">GPL Playoff Thriller: Apostles vs Techiman Heroes Shootout</h3>
+          <p class="tv-meta">4.2k views</p>
+        </div>
+
+        <div class="tv-card">
+          <div class="tv-card__thumb">
+            <img src="assets/news-2.jpg" alt="Inside Training" onerror="this.src='assets/team-banner.jpg'">
+            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+            <span class="tv-duration">05:15</span>
+          </div>
+          <span class="tv-tag">INSIDE TRAINING</span>
+          <h3 class="tv-title">Tactical Drills & Finishing Camp in Sunyani</h3>
+          <p class="tv-meta">2.8k views</p>
+        </div>
+
+        <div class="tv-card">
+          <div class="tv-card__thumb">
+            <img src="assets/news-3.jpg" alt="Academy Documentary" onerror="this.src='assets/team-banner.jpg'">
+            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+            <span class="tv-duration">12:30</span>
+          </div>
+          <span class="tv-tag">DOCUMENTARY</span>
+          <h3 class="tv-title">The Making of an Apostle: Scouting Grassroots Talents</h3>
+          <p class="tv-meta">3.5k views</p>
+        </div>
+
+        <div class="tv-card">
+          <div class="tv-card__thumb">
+            <img src="assets/news-4.jpg" alt="Stadium Tour" onerror="this.src='assets/team-banner.jpg'">
+            <div class="play-btn"><i class="fa-solid fa-play"></i></div>
+            <span class="tv-duration">04:50</span>
+          </div>
+          <span class="tv-tag">FACILITIES</span>
+          <h3 class="tv-title">Wenchi Sports Stadium: Upgrades & Matchday Tour</h3>
+          <p class="tv-meta">1.9k views</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       FIRST TEAM SQUAD — Dark navy, position columns (Barça mega style)
+       ========================================================= -->
+  <section class="squad-section" id="firstteam">
+    <div class="squad-section__inner">
+      <div class="section-header-split">
+        <div>
+          <span class="section-eyebrow-light">THE SQUAD</span>
+          <h2 class="section-heading-light">FIRST TEAM 2026/27</h2>
+        </div>
+        <div class="pos-filter-tabs" id="squadFilterTabs">
+          <button class="pos-tab active" data-filter="all">ALL</button>
+          <button class="pos-tab" data-filter="goalkeeper">GOALKEEPERS</button>
+          <button class="pos-tab" data-filter="defender">DEFENDERS</button>
+          <button class="pos-tab" data-filter="midfielder">MIDFIELDERS</button>
+          <button class="pos-tab" data-filter="forward">FORWARDS</button>
+        </div>
+      </div>
+
+      <div class="squad-grid" id="squadGrid">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       STANDINGS TABLE — White background
+       ========================================================= -->
+  <section class="standings-section" id="standings">
+    <div class="standings-section__inner">
+      <div class="section-header-split">
+        <div>
+          <span class="section-eyebrow">LEAGUE TABLE</span>
+          <h2 class="section-heading-dark">GHANA PREMIER LEAGUE</h2>
+        </div>
+        <a href="#calendar" class="view-all-link-dark">ALL FIXTURES <i class="fa-solid fa-angle-right"></i></a>
+      </div>
+
+      <div class="clean-table-wrap">
+        <table class="standings-tbl">
+          <thead>
+            <tr>
+              <th>POS</th>
+              <th>CLUB</th>
+              <th>P</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>GD</th>
+              <th>PTS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pos-badge">1</span></td>
+              <td class="club-col">
+                <img src="assets/opponents/kotoko.png" alt="Asante Kotoko" class="tbl-crest" onerror="this.src='assets/official-logo.png'">
+                <span>Asante Kotoko</span>
+              </td>
+              <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+              <td class="pts-col">0</td>
+            </tr>
+            <tr class="tbl-highlight">
+              <td><span class="pos-badge pos-badge--ya">2</span></td>
+              <td class="club-col">
+                <img src="assets/official-logo.png" alt="Young Apostles FC" class="tbl-crest">
+                <strong>Young Apostles FC</strong>
+              </td>
+              <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+              <td class="pts-col pts-col--ya">0</td>
+            </tr>
+            <tr>
+              <td><span class="pos-badge">3</span></td>
+              <td class="club-col">
+                <img src="assets/opponents/hearts.png" alt="Hearts of Oak" class="tbl-crest" onerror="this.src='assets/official-logo.png'">
+                <span>Hearts of Oak</span>
+              </td>
+              <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+              <td class="pts-col">0</td>
+            </tr>
+            <tr>
+              <td><span class="pos-badge">4</span></td>
+              <td class="club-col">
+                <img src="assets/opponents/medeama.png" alt="Medeama SC" class="tbl-crest" onerror="this.src='assets/official-logo.png'">
+                <span>Medeama SC</span>
+              </td>
+              <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+              <td class="pts-col">0</td>
+            </tr>
+            <tr>
+              <td><span class="pos-badge">5</span></td>
+              <td class="club-col">
+                <img src="assets/opponents/aduana.png" alt="Aduana Stars" class="tbl-crest" onerror="this.src='assets/official-logo.png'">
+                <span>Aduana Stars</span>
+              </td>
+              <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+              <td class="pts-col">0</td>
+            </tr>
+            <tr>
+              <td><span class="pos-badge">6</span></td>
+              <td class="club-col">
+                <img src="assets/opponents/bechem.png" alt="Bechem United" class="tbl-crest" onerror="this.src='assets/official-logo.png'">
+                <span>Bechem United</span>
+              </td>
+              <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+              <td class="pts-col">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       NEWS ARTICLE MODAL
+       ========================================================= -->
+  <div class="news-modal" id="newsModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="news-modal__bg"></div>
+    <div class="news-modal__box">
+      <button class="news-modal__x" id="newsModalClose">&times;</button>
+      <div id="newsModalContent"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       FOOTER — Dark navy, Barça mega columns structure
+       ========================================================= -->
+  <footer class="site-footer" id="club">
+    <div class="site-footer__inner">
+
+      <!-- Footer Brand -->
+      <div class="footer-brand-row">
+        <div class="footer-brand-group">
+          <img src="assets/official-logo.png" alt="Young Apostles FC" class="footer-crest" width="60" height="60">
+          <div class="footer-brand-text">
+            <h3>YOUNG APOSTLES FC</h3>
+            <p>... agya na ƆwƆ tumi · Wenchi, Bono Region, Ghana</p>
+          </div>
+        </div>
+
+        <div class="footer-socials-cluster">
+          <span class="footer-follow-label">FOLLOW US</span>
+          <div class="footer-social-icons">
             <a href="https://twitter.com/youngapostlesfc" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
             <a href="https://web.facebook.com/YoungApostlesgh" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
             <a href="https://www.instagram.com/officialyafc/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="mailto:youngapostlesfc@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
           </div>
         </div>
       </div>
 
-      <!-- Footer Nav Columns -->
-      <div class="footer-cols">
+      <!-- Barça-style mega footer columns — By position + by category -->
+      <div class="footer-mega-columns">
+
         <div class="footer-col">
-          <h4>FIRST TEAM</h4>
+          <h4>Goalkeepers</h4>
           <ul>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="firstteam-view">Squad Roster</button></li>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="matches-view">GPL Fixtures</button></li>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="standings-view">Standings Table</button></li>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="tv-view">Apostles TV+</button></li>
+            <li>Frank Boateng</li>
+            <li>Abdulai Kadel</li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>TICKETS & STORE</h4>
+          <h4>Defenders</h4>
           <ul>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="tickets-view">Match Tickets</button></li>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="tickets-view">Wenchi Stadium</button></li>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="store-view">Official 26/27 Kits</button></li>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="store-view">Store Accessories</button></li>
+            <li>Samuel Prempeh</li>
+            <li>Mathias Amegbe</li>
+            <li>Joseph Mensah</li>
+            <li>Razak Sarpong (C)</li>
+            <li>Ibrahim Fuseini</li>
+            <li>Vincent Mobilla</li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4>THE CLUB</h4>
+          <h4>Midfielders</h4>
           <ul>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="club-view">Club History</button></li>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="transfers-view">Transfer Alumni</button></li>
-            <li><button class="footer-nav-link tab-nav-btn" data-view="membership-view">Members Club</button></li>
-            <li><a href="mailto:youngapostlesfc@gmail.com">Contact Secretariat</a></li>
+            <li>Junior Afram</li>
+            <li>Richmond Ampong</li>
+            <li>Foster Agyarko</li>
+            <li>Issah Nyaabila</li>
+            <li>Samuel Amankwah</li>
+            <li>Gideon Gyamfi</li>
           </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Forwards</h4>
+          <ul>
+            <li><a href="#transfers">Agyemang Kingsford</a></li>
+            <li><a href="#transfers">Prince Mensah</a></li>
+            <li><a href="#transfers">Richmond Nsiah Coka</a></li>
+            <li><a href="#transfers">Sule Muntalla</a></li>
+            <li><a href="#transfers">Emmanuel Boateng</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Apostles Products</h4>
+          <ul>
+            <li><a href="#membership">Membership</a></li>
+            <li><a href="#apostlestv">Apostles TV+</a></li>
+            <li><a href="#tickets">Match Tickets</a></li>
+            <li><a href="#store">Official Store</a></li>
+            <li><a href="#tickets">Stadium Access</a></li>
+            <li><a href="#contact">Sponsorship</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>The Club</h4>
+          <ul>
+            <li><a href="#club">Wenchi Heritage</a></li>
+            <li><a href="#transfers">Alumni & Transfers</a></li>
+            <li><a href="#club">Club Crest & Motto</a></li>
+            <li>Work at the Club</li>
+            <li><a href="mailto:youngapostlesfc@gmail.com">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col" id="transfers">
+          <h4>History</h4>
+          <ul>
+            <li>Founded 2012 in Wenchi</li>
+            <li>GPL Promotion 2024</li>
+            <li>Academy — 50+ Graduates</li>
+            <li>Mathew Anim Cudjoe Era</li>
+            <li>Bono Region Champions</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Partners row in footer -->
+      <div class="footer-partners-row">
+        <span class="footer-partners-label">OFFICIAL PARTNERS</span>
+        <div class="footer-partners-logos">
+          <span><i class="fa-solid fa-trophy"></i> GHANA PREMIER LEAGUE</span>
+          <span><i class="fa-solid fa-building-columns"></i> ACCESS BANK</span>
+          <span><i class="fa-solid fa-shield-halved"></i> GFA GHANA</span>
+          <span><i class="fa-solid fa-tv"></i> STARTIMES</span>
         </div>
       </div>
 
-      <!-- Legal Bottom -->
-      <div class="footer-bottom">
-        <p>&copy; 2026 Young Apostles Football Club. All Rights Reserved.</p>
-        <p>Wenchi · Ghana Premier League</p>
+      <!-- Legal bottom -->
+      <div class="footer-legal">
+        <span>&copy; 2026 Young Apostles Football Club. All Rights Reserved.</span>
+        <div class="footer-legal-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Cookie Policy</a>
+          <a href="#">Accessibility</a>
+        </div>
       </div>
 
     </div>
   </footer>
 
-  <!-- Main JavaScript File -->
   <script src="js/main.js"></script>
 </body>
 </html>
