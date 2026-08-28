@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#006B3F"/>
+      <stop offset="100%" stop-color="#004D2E"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FCD116"/>
+      <stop offset="100%" stop-color="#D4A017"/>
+    </linearGradient>
+  </defs>
+  <!-- Shield -->
+  <path d="M60 8 L108 28 L108 62 C108 88 84 108 60 112 C36 108 12 88 12 62 L12 28 Z" fill="url(#shieldGrad)" stroke="#FCD116" stroke-width="2.5"/>
+  <!-- Crown -->
+  <path d="M38 42 L44 32 L52 40 L60 28 L68 40 L76 32 L82 42 L82 48 L38 48 Z" fill="url(#goldGrad)"/>
+  <circle cx="44" cy="32" r="3" fill="#CE1126"/>
+  <circle cx="60" cy="28" r="3.5" fill="#CE1126"/>
+  <circle cx="76" cy="32" r="3" fill="#CE1126"/>
+  <!-- Cross / Apostles symbol -->
+  <rect x="56" y="52" width="8" height="28" rx="1" fill="#FCD116"/>
+  <rect x="46" y="62" width="28" height="8" rx="1" fill="#FCD116"/>
+  <!-- Initials -->
+  <text x="60" y="98" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="14" font-weight="bold" fill="#FCD116">YAFC</text>
+</svg>
