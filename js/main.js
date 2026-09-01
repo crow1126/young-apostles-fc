@@ -184,10 +184,9 @@ const FIXTURES_ROUND_2 = [
 // 4. SHOPPING CART STATE & MANAGEMENT
 // ==========================================
 let cart = [];
-let appliedDiscount = 0; // percentage
+let appliedDiscount = 0;
 const SHIPPING_FEE = 25; // GHS
 
-// Load cart from localStorage
 try {
   const saved = localStorage.getItem('yafc_cart');
   if (saved) cart = JSON.parse(saved);
@@ -265,7 +264,6 @@ function updateCartUI() {
   const discountAmount = subtotal * appliedDiscount;
   const grandTotal = subtotal > 0 ? (subtotal - discountAmount + SHIPPING_FEE) : 0;
 
-  // Badges
   const badge = document.getElementById('cartCountBadge');
   const floatingBadge = document.getElementById('floatingCartBadge');
   const mobileCount = document.getElementById('cartCountMobile');
@@ -276,9 +274,7 @@ function updateCartUI() {
   if (mobileCount) mobileCount.textContent = count;
   if (totalItemsHeader) totalItemsHeader.textContent = count;
 
-  // Drawer list
   const listEl = document.getElementById('cartItemsList');
-  const emptyState = document.getElementById('cartEmptyState');
   const cartFooter = document.getElementById('cartFooter');
 
   if (listEl) {
@@ -315,7 +311,6 @@ function updateCartUI() {
     }
   }
 
-  // Totals display
   const subtotalEl = document.getElementById('cartSubtotal');
   const discountRow = document.getElementById('cartDiscountRow');
   const discountEl = document.getElementById('cartDiscount');
@@ -334,7 +329,6 @@ function updateCartUI() {
   }
 }
 
-// Drawer visibility
 function openCartDrawer() {
   const drawer = document.getElementById('cartDrawer');
   const overlay = document.getElementById('cartOverlay');
@@ -461,7 +455,7 @@ function openProductQuickView(productId) {
           </div>
         </div>
 
-        <!-- Customization if applicable -->
+        <!-- Customization -->
         ${product.customizable ? `
           <div class="prod-option-block customization-box">
             <label class="prod-option-label"><i class="fa-solid fa-wand-magic-sparkles text-gold"></i> PLAYER / CUSTOM PRINTING (FREE):</label>
@@ -590,7 +584,6 @@ function initCheckout() {
     });
   }
 
-  // Coupon code handler
   const couponBtn = document.getElementById('applyCouponBtn');
   const couponInput = document.getElementById('couponInput');
   const couponMsg = document.getElementById('couponMessage');
@@ -599,7 +592,7 @@ function initCheckout() {
     couponBtn.addEventListener('click', () => {
       const code = couponInput.value.trim().toUpperCase();
       if (code === 'APOSTLES10' || code === 'WENCHI10' || code === 'GPL2026') {
-        appliedDiscount = 0.10; // 10%
+        appliedDiscount = 0.10;
         if (couponMsg) {
           couponMsg.innerHTML = '<span class="text-green"><i class="fa-solid fa-check"></i> Coupon applied: 10% Discount!</span>';
         }
@@ -656,7 +649,6 @@ function handleCheckoutSubmit(e) {
     btn.innerHTML = `<i class="fa-solid fa-lock"></i> AUTHORIZE & PAY`;
     btn.disabled = false;
 
-    // Generate reference
     const orderRef = `#YAFC-${Math.floor(1000 + Math.random() * 9000)}`;
     document.getElementById('confirmedOrderRef').textContent = orderRef;
 
@@ -716,7 +708,7 @@ function renderSquad(filter = 'all') {
         <span class="player-pos-tag">${p.posName.toUpperCase()}</span>
         <h3 class="player-fullname">${p.name}</h3>
         <div class="player-meta-row">
-          <span><i class="fa-solid fa-shirt"></i> GPL 26/27</span>
+          <span><i class="fa-solid fa-shirt"></i> GPL 2026/27</span>
           <span><i class="fa-solid fa-location-dot"></i> ${p.origin}</span>
         </div>
       </div>
@@ -800,93 +792,15 @@ function closeFixturesModal() {
 }
 
 // ==========================================
-// 10. APOSTLES TV+ YOUTUBE PLAYER MODAL
+// 10. APOSTLES TV+ YOUTUBE LINKS
 // ==========================================
-function openVideoPlayer(videoUrl, title, description, tag = 'APOSTLES TV+') {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('videoIframe');
-  const titleEl = document.getElementById('videoModalTitle');
-  const descEl = document.getElementById('videoModalDesc');
-  const tagEl = document.getElementById('videoModalTag');
-
-  if (!modal) return;
-
-  if (iframe) iframe.src = videoUrl;
-  if (titleEl) titleEl.textContent = title;
-  if (descEl) descEl.textContent = description;
-  if (tagEl) tagEl.textContent = tag;
-
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeVideoPlayer() {
-  const modal = document.getElementById('videoModal');
-  const iframe = document.getElementById('videoIframe');
-  if (iframe) iframe.src = '';
-  if (modal) modal.classList.remove('active');
-  document.body.style.overflow = '';
+function openYouTubeLink(url) {
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
 
 // ==========================================
-// 11. TICKETS & MEMBERSHIP MODAL
+// 11. MEMBERSHIP MODAL
 // ==========================================
-let currentTicketPrice = 30;
-
-function openTicketModal(matchTitle, venue, date) {
-  const modal = document.getElementById('ticketModal');
-  if (!modal) return;
-
-  const titleEl = document.getElementById('tktMatchTitle');
-  const detailsEl = document.getElementById('tktMatchDetails');
-  const successBox = document.getElementById('ticketSuccessMsg');
-  const form = document.getElementById('ticketBookingForm');
-
-  if (titleEl) titleEl.textContent = matchTitle;
-  if (detailsEl) detailsEl.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${venue} · ${date}`;
-
-  if (successBox) successBox.style.display = 'none';
-  if (form) form.style.display = 'block';
-
-  // Listen to stand options
-  document.querySelectorAll('input[name="standType"]').forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      document.querySelectorAll('.stand-option').forEach(l => l.classList.remove('active'));
-      e.target.closest('.stand-option').classList.add('active');
-      currentTicketPrice = parseInt(e.target.dataset.price);
-      updateTicketTotal();
-    });
-  });
-
-  updateTicketTotal();
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function updateTicketTotal() {
-  const qtyEl = document.getElementById('tktQty');
-  const totalEl = document.getElementById('tktTotalDisplay');
-  if (!qtyEl || !totalEl) return;
-  const qty = parseInt(qtyEl.value) || 1;
-  totalEl.textContent = `GHS ${(currentTicketPrice * qty).toFixed(2)}`;
-}
-
-function handleTicketBooking(e) {
-  e.preventDefault();
-  const form = document.getElementById('ticketBookingForm');
-  const successBox = document.getElementById('ticketSuccessMsg');
-  if (form && successBox) {
-    form.style.display = 'none';
-    successBox.style.display = 'block';
-  }
-}
-
-function closeTicketModal() {
-  const modal = document.getElementById('ticketModal');
-  if (modal) modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
 function openMembershipModal() {
   const modal = document.getElementById('membershipModal');
   if (modal) {
@@ -904,10 +818,6 @@ function closeMembershipModal() {
 function joinMembership(tierName) {
   alert(`Thank you for choosing ${tierName}! Welcome to the Young Apostles FC family.`);
   closeMembershipModal();
-}
-
-function openMatchCenter(matchId) {
-  openFixturesModal();
 }
 
 // ==========================================
@@ -937,26 +847,11 @@ function initSearch() {
         return;
       }
 
-      // Search players
       const matchedPlayers = SQUAD_DATA.filter(p => p.name.toLowerCase().includes(q) || p.posName.toLowerCase().includes(q));
-      // Search products
       const matchedProducts = PRODUCTS_DATA.filter(p => p.name.toLowerCase().includes(q));
-      // Search fixtures
       const matchedFixtures = FIXTURES_ROUND_1.filter(f => f.home.toLowerCase().includes(q) || f.away.toLowerCase().includes(q));
 
       let html = '<div class="search-results-list">';
-      if (matchedProducts.length > 0) {
-        html += '<div class="sr-category">STORE ITEMS</div>';
-        matchedProducts.forEach(p => {
-          html += `
-            <div class="sr-item" onclick="openProductQuickView('${p.id}'); document.getElementById('searchDrawer').classList.remove('show');">
-              <i class="fa-solid fa-shirt text-gold"></i>
-              <span>${p.name} — <strong>GHS ${p.price}</strong></span>
-            </div>
-          `;
-        });
-      }
-
       if (matchedPlayers.length > 0) {
         html += '<div class="sr-category">FIRST TEAM PLAYERS</div>';
         matchedPlayers.slice(0, 5).forEach(p => {
@@ -964,6 +859,18 @@ function initSearch() {
             <div class="sr-item" onclick="window.location.href='#firstteam'; document.getElementById('searchDrawer').classList.remove('show');">
               <i class="fa-solid fa-user-shield text-blue"></i>
               <span>#${p.number} ${p.name} (${p.posName})</span>
+            </div>
+          `;
+        });
+      }
+
+      if (matchedProducts.length > 0) {
+        html += '<div class="sr-category">STORE ITEMS</div>';
+        matchedProducts.forEach(p => {
+          html += `
+            <div class="sr-item" onclick="openProductQuickView('${p.id}'); document.getElementById('searchDrawer').classList.remove('show');">
+              <i class="fa-solid fa-shirt text-gold"></i>
+              <span>${p.name} — <strong>GHS ${p.price}</strong></span>
             </div>
           `;
         });
@@ -1056,10 +963,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
   initSearch();
   initCountdown();
-  renderProducts('all');
-  initStoreFilters();
   renderSquad('all');
   initSquadFilter();
+  renderProducts('all');
+  initStoreFilters();
   initCheckout();
   updateCartUI();
 
@@ -1093,8 +1000,6 @@ document.addEventListener('DOMContentLoaded', () => {
       closeCartDrawer();
       closeProductModal();
       closeCheckoutModal();
-      closeTicketModal();
-      closeVideoPlayer();
       closeFixturesModal();
       closeMembershipModal();
     }

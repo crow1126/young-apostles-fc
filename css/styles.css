@@ -1073,10 +1073,14 @@ button { border: none; cursor: pointer; font-family: inherit; background: none; 
   text-align: center;
   transition: background 0.2s;
 }
-.fx-btn-action:hover { background: rgba(255,255,255,0.2); }
-.fx-btn-action--primary {
+.fx-btn-action--primary,
+.fx-btn-action--home {
   background: var(--ya-gold);
   color: var(--ya-navy);
+}
+.fx-btn-action--primary:hover,
+.fx-btn-action--home:hover {
+  background: #FFE066;
 }
 .fx-btn-action--primary:hover { background: #FFE066; }
 
