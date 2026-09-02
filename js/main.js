@@ -1,6 +1,7 @@
 /**
  * YOUNG APOSTLES FOOTBALL CLUB — OFFICIAL JAVASCRIPT
- * Team Shop, Cart System, GPL 2026/27 Fixtures, 38-Player Squad, Apostles TV+
+ * Dribbble Premier UI/UX Design System
+ * 38-Player Squad, Team Shop, Cart System, GPL 2026/27 Fixtures, Rankings & Highlights
  */
 
 // ==========================================
@@ -60,13 +61,24 @@ const SQUAD_DATA = [
 const PRODUCTS_DATA = [
   {
     id: 'kit-home',
-    name: 'Official 2026/27 Home Kit (Mayniak)',
+    name: 'Official 2026/27 Home Match Kit',
     category: 'kits',
     price: 350,
     oldPrice: 420,
-    image: 'assets/kit-home-2026.jpg',
+    image: 'assets/kit-home-hanging.jpg',
     tag: 'OFFICIAL 2026/27',
-    description: 'The official 2026/27 Young Apostles FC Home Jersey engineered by Mayniak. Features radiant golden yellow textured fabric with navy blue trims, breathable moisture-wicking technology, and the iconic club crest.',
+    description: 'The authentic 2026/27 Young Apostles FC Home Jersey engineered by Mayniak. Features radiant golden yellow textured fabric with navy blue trims, Ghana Premier League sleeve badge, breathable moisture-wicking technology, and the iconic club crest.',
+    customizable: true
+  },
+  {
+    id: 'kit-home-showcase',
+    name: 'Home Kit 2026/27 (Player Edition)',
+    category: 'kits',
+    price: 380,
+    oldPrice: 450,
+    image: 'assets/kit-home-2026.jpg',
+    tag: 'PLAYER EDITION',
+    description: 'Official 2026/27 Player Edition match jersey as modeled by Ramzy #8 and squad. Complete with matchday cut and breathable mesh ventilation.',
     customizable: true
   },
   {
@@ -123,22 +135,11 @@ const PRODUCTS_DATA = [
     tag: 'BESTSELLER',
     description: 'High-profile structured snapback with high-density embroidered Young Apostles shield crest on the front crown.',
     customizable: false
-  },
-  {
-    id: 'fan-pin-pack',
-    name: 'Matchday Silicone Band & Enamel Pin Set',
-    category: 'accessories',
-    price: 50,
-    oldPrice: 70,
-    image: 'assets/official-crest-hq.png',
-    tag: 'ACCESSORY',
-    description: 'Collector edition enamel club crest pin and 2x silicone matchday wristbands.',
-    customizable: false
   }
 ];
 
 // ==========================================
-// 3. DATA: GPL 2026/27 FULL FIXTURES
+// 3. DATA: 34-WEEK GPL FIXTURES
 // ==========================================
 const FIXTURES_ROUND_1 = [
   { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 4, 2026', type: 'Away' },
@@ -148,16 +149,16 @@ const FIXTURES_ROUND_1 = [
   { week: 5, home: 'Samartex', away: 'Young Apostles', venue: 'Nsenkyire Sports Complex', date: 'Oct 4, 2026', type: 'Away' },
   { week: 6, home: 'Young Apostles', away: 'Aduana Stars', venue: 'Wenchi Sports Stadium', date: 'Oct 11, 2026', type: 'Home' },
   { week: 7, home: 'Asante Kotoko', away: 'Young Apostles', venue: 'Baba Yara Sports Stadium', date: 'Oct 18, 2026', type: 'Away' },
-  { week: 8, home: 'Young Apostles', away: 'Swedru All Blacks', venue: 'Wenchi Sports Stadium', date: 'Oct 25, 2026', type: 'Home' },
-  { week: 9, home: 'Young Apostles', away: 'Karela United', venue: 'Wenchi Sports Stadium', date: 'Nov 1, 2026', type: 'Home' },
-  { week: 10, home: 'FC Ashantigold', away: 'Young Apostles', venue: 'Len Clay Stadium, Obuasi', date: 'Nov 8, 2026', type: 'Away' },
-  { week: 11, home: 'Young Apostles', away: 'Medeama SC', venue: 'Wenchi Sports Stadium', date: 'Nov 15, 2026', type: 'Home' },
-  { week: 12, home: 'Berekum Chelsea', away: 'Young Apostles', venue: 'Golden City Park', date: 'Nov 22, 2026', type: 'Away' },
-  { week: 13, home: 'Young Apostles', away: 'Bibiani Gold Stars', venue: 'Wenchi Sports Stadium', date: 'Nov 29, 2026', type: 'Home' },
-  { week: 14, home: 'Bechem United', away: 'Young Apostles', venue: 'Nana Fosu Gyeabour Park', date: 'Dec 6, 2026', type: 'Away' },
-  { week: 15, home: 'Young Apostles', away: 'Hearts of Oak', venue: 'Wenchi Sports Stadium', date: 'Dec 13, 2026', type: 'Home' },
-  { week: 16, home: 'Dreams FC', away: 'Young Apostles', venue: 'Tuba Astro Turf', date: 'Dec 20, 2026', type: 'Away' },
-  { week: 17, home: 'Young Apostles', away: 'Port City', venue: 'Wenchi Sports Stadium', date: 'Jan 3, 2027', type: 'Home' }
+  { week: 8, home: 'Young Apostles', away: 'Hearts of Oak', venue: 'Wenchi Sports Stadium', date: 'Oct 25, 2026', type: 'Home' },
+  { week: 9, home: 'Berekum Chelsea', away: 'Young Apostles', venue: 'Golden City Park', date: 'Nov 1, 2026', type: 'Away' },
+  { week: 10, home: 'Young Apostles', away: 'Medeama SC', venue: 'Wenchi Sports Stadium', date: 'Nov 8, 2026', type: 'Home' },
+  { week: 11, home: 'Accra Lions', away: 'Young Apostles', venue: 'Accra Sports Stadium', date: 'Nov 15, 2026', type: 'Away' },
+  { week: 12, home: 'Young Apostles', away: 'Legon Cities', venue: 'Wenchi Sports Stadium', date: 'Nov 22, 2026', type: 'Home' },
+  { week: 13, home: 'Bechem United', away: 'Young Apostles', venue: 'Nana Fosu Gyeabour Park', date: 'Nov 29, 2026', type: 'Away' },
+  { week: 14, home: 'Young Apostles', away: 'Karela United', venue: 'Wenchi Sports Stadium', date: 'Dec 6, 2026', type: 'Home' },
+  { week: 15, home: 'Nsoatreman FC', away: 'Young Apostles', venue: 'Nana Kronmansah Park', date: 'Dec 13, 2026', type: 'Away' },
+  { week: 16, home: 'Young Apostles', away: 'Gold Stars FC', venue: 'Wenchi Sports Stadium', date: 'Dec 20, 2026', type: 'Home' },
+  { week: 17, home: 'Dreams FC', away: 'Young Apostles', venue: 'Theatre of Dreams, Dawu', date: 'Jan 3, 2027', type: 'Away' }
 ];
 
 const FIXTURES_ROUND_2 = [
@@ -166,50 +167,49 @@ const FIXTURES_ROUND_2 = [
   { week: 20, home: 'Young Apostles', away: 'Debibi United', venue: 'Wenchi Sports Stadium', date: 'Jan 31, 2027', type: 'Home' },
   { week: 21, home: 'Heart of Lions', away: 'Young Apostles', venue: 'Kpando Stadium', date: 'Feb 7, 2027', type: 'Away' },
   { week: 22, home: 'Young Apostles', away: 'Samartex', venue: 'Wenchi Sports Stadium', date: 'Feb 14, 2027', type: 'Home' },
-  { week: 23, home: 'Aduana Stars', away: 'Young Apostles', venue: 'Nana Agyemang Badu Park', date: 'Feb 21, 2027', type: 'Away' },
+  { week: 23, home: 'Aduana Stars', away: 'Young Apostles', venue: 'Nana Agyemang Badu I Park', date: 'Feb 21, 2027', type: 'Away' },
   { week: 24, home: 'Young Apostles', away: 'Asante Kotoko', venue: 'Wenchi Sports Stadium', date: 'Feb 28, 2027', type: 'Home' },
-  { week: 25, home: 'Swedru All Blacks', away: 'Young Apostles', venue: 'Swedru Sports Stadium', date: 'Mar 7, 2027', type: 'Away' },
-  { week: 26, home: 'Karela United', away: 'Young Apostles', venue: 'Naa Sheriga Sports Complex', date: 'Mar 14, 2027', type: 'Away' },
-  { week: 27, home: 'Young Apostles', away: 'FC Ashantigold', venue: 'Wenchi Sports Stadium', date: 'Mar 21, 2027', type: 'Home' },
-  { week: 28, home: 'Medeama SC', away: 'Young Apostles', venue: 'TnA Stadium, Tarkwa', date: 'Apr 4, 2027', type: 'Away' },
-  { week: 29, home: 'Young Apostles', away: 'Berekum Chelsea', venue: 'Wenchi Sports Stadium', date: 'Apr 11, 2027', type: 'Home' },
-  { week: 30, home: 'Bibiani Gold Stars', away: 'Young Apostles', venue: 'DUN’s Park, Bibiani', date: 'Apr 18, 2027', type: 'Away' },
-  { week: 31, home: 'Young Apostles', away: 'Bechem United', venue: 'Wenchi Sports Stadium', date: 'Apr 25, 2027', type: 'Home' },
-  { week: 32, home: 'Hearts of Oak', away: 'Young Apostles', venue: 'Accra Sports Stadium', date: 'May 2, 2027', type: 'Away' },
-  { week: 33, home: 'Young Apostles', away: 'Dreams FC', venue: 'Wenchi Sports Stadium', date: 'May 9, 2027', type: 'Home' },
-  { week: 34, home: 'Port City', away: 'Young Apostles', venue: 'Port City Stadium', date: 'May 16, 2027', type: 'Away' }
+  { week: 25, home: 'Hearts of Oak', away: 'Young Apostles', venue: 'Accra Sports Stadium', date: 'Mar 7, 2027', type: 'Away' },
+  { week: 26, home: 'Young Apostles', away: 'Berekum Chelsea', venue: 'Wenchi Sports Stadium', date: 'Mar 14, 2027', type: 'Home' },
+  { week: 27, home: 'Medeama SC', away: 'Young Apostles', venue: 'T&A Stadium, Tarkwa', date: 'Mar 21, 2027', type: 'Away' },
+  { week: 28, home: 'Young Apostles', away: 'Accra Lions', venue: 'Wenchi Sports Stadium', date: 'Apr 4, 2027', type: 'Home' },
+  { week: 29, home: 'Legon Cities', away: 'Young Apostles', venue: 'El-Wak Stadium', date: 'Apr 11, 2027', type: 'Away' },
+  { week: 30, home: 'Young Apostles', away: 'Bechem United', venue: 'Wenchi Sports Stadium', date: 'Apr 18, 2027', type: 'Home' },
+  { week: 31, home: 'Karela United', away: 'Young Apostles', venue: 'Naa Sheriga Sports Complex', date: 'Apr 25, 2027', type: 'Away' },
+  { week: 32, home: 'Young Apostles', away: 'Nsoatreman FC', venue: 'Wenchi Sports Stadium', date: 'May 2, 2027', type: 'Home' },
+  { week: 33, home: 'Gold Stars FC', away: 'Young Apostles', venue: 'DUN’s Park, Bibiani', date: 'May 9, 2027', type: 'Away' },
+  { week: 34, home: 'Young Apostles', away: 'Dreams FC', venue: 'Wenchi Sports Stadium', date: 'May 16, 2027', type: 'Home' }
 ];
 
 // ==========================================
-// 4. SHOPPING CART STATE & MANAGEMENT
+// 4. CART & STATE MANAGEMENT
 // ==========================================
 let cart = [];
-let appliedDiscount = 0;
-const SHIPPING_FEE = 25; // GHS
 
-try {
-  const saved = localStorage.getItem('yafc_cart');
-  if (saved) cart = JSON.parse(saved);
-} catch (e) {
-  cart = [];
-}
-
-function saveCart() {
+function loadCart() {
   try {
-    localStorage.setItem('yafc_cart', JSON.stringify(cart));
-  } catch (e) {}
+    const saved = localStorage.getItem('ya_cart');
+    if (saved) cart = JSON.parse(saved);
+  } catch (e) {
+    cart = [];
+  }
   updateCartUI();
 }
 
-function addToCart(productId, size = 'L', customization = '', qty = 1) {
+function saveCart() {
+  localStorage.setItem('ya_cart', JSON.stringify(cart));
+  updateCartUI();
+}
+
+function addToCart(productId, customName = '', customNumber = '', size = 'L') {
   const product = PRODUCTS_DATA.find(p => p.id === productId);
   if (!product) return;
 
-  const itemKey = `${productId}_${size}_${customization.trim()}`;
+  const itemKey = `${productId}-${size}-${customName}-${customNumber}`;
   const existing = cart.find(item => item.key === itemKey);
 
   if (existing) {
-    existing.qty += qty;
+    existing.qty += 1;
   } else {
     cart.push({
       key: itemKey,
@@ -218,113 +218,70 @@ function addToCart(productId, size = 'L', customization = '', qty = 1) {
       price: product.price,
       image: product.image,
       size: size,
-      customization: customization.trim(),
-      qty: qty
+      customName: customName,
+      customNumber: customNumber,
+      qty: 1
     });
   }
 
   saveCart();
-  showToast(`"${product.name}" added to cart!`);
+  showToast(`Added ${product.name} to bag!`);
+  openCartDrawer();
 }
 
-function updateItemQty(itemKey, delta) {
-  const item = cart.find(i => i.key === itemKey);
-  if (!item) return;
-
-  item.qty += delta;
-  if (item.qty <= 0) {
-    cart = cart.filter(i => i.key !== itemKey);
-  }
+function removeFromCart(key) {
+  cart = cart.filter(item => item.key !== key);
   saveCart();
-}
-
-function removeItem(itemKey) {
-  cart = cart.filter(i => i.key !== itemKey);
-  saveCart();
-  showToast('Item removed from cart.');
-}
-
-function clearCart() {
-  cart = [];
-  appliedDiscount = 0;
-  saveCart();
-}
-
-function getCartSubtotal() {
-  return cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-}
-
-function getCartTotalCount() {
-  return cart.reduce((acc, item) => acc + item.qty, 0);
 }
 
 function updateCartUI() {
-  const count = getCartTotalCount();
-  const subtotal = getCartSubtotal();
-  const discountAmount = subtotal * appliedDiscount;
-  const grandTotal = subtotal > 0 ? (subtotal - discountAmount + SHIPPING_FEE) : 0;
+  const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const grandTotal = subtotal > 0 ? subtotal + 25 : 0;
 
-  const badge = document.getElementById('cartCountBadge');
-  const floatingBadge = document.getElementById('floatingCartBadge');
-  const mobileCount = document.getElementById('cartCountMobile');
-  const totalItemsHeader = document.getElementById('cartTotalItems');
+  // Badges
+  const navBadge = document.getElementById('navCartCount');
+  const floatBadge = document.getElementById('floatCartBadge');
+  const drawerCount = document.getElementById('cartItemCount');
+  const shopCounter = document.getElementById('shopCartCounter');
 
-  if (badge) badge.textContent = count;
-  if (floatingBadge) floatingBadge.textContent = count;
-  if (mobileCount) mobileCount.textContent = count;
-  if (totalItemsHeader) totalItemsHeader.textContent = count;
+  if (navBadge) navBadge.textContent = totalCount;
+  if (floatBadge) floatBadge.textContent = totalCount;
+  if (drawerCount) drawerCount.textContent = totalCount;
+  if (shopCounter) shopCounter.textContent = totalCount;
 
-  const listEl = document.getElementById('cartItemsList');
-  const cartFooter = document.getElementById('cartFooter');
-
-  if (listEl) {
-    if (cart.length === 0) {
-      listEl.innerHTML = `
-        <div class="cart-empty-state">
-          <i class="fa-solid fa-basket-shopping cart-empty-icon"></i>
-          <p>Your shopping bag is empty.</p>
-          <button class="btn-shop-now" onclick="closeCartDrawer(); window.location.href='#store';">Explore 2026/27 Kits</button>
-        </div>
-      `;
-      if (cartFooter) cartFooter.style.display = 'none';
-    } else {
-      if (cartFooter) cartFooter.style.display = 'block';
-      listEl.innerHTML = cart.map(item => `
-        <div class="cart-item">
-          <img src="${item.image}" alt="${item.name}" class="cart-item__img">
-          <div class="cart-item__details">
-            <h4 class="cart-item__title">${item.name}</h4>
-            <div class="cart-item__meta">
-              <span>Size: <strong>${item.size}</strong></span>
-              ${item.customization ? `<span class="cart-item__custom">Badge: <strong>${item.customization}</strong></span>` : ''}
-            </div>
-            <div class="cart-item__price">GHS ${(item.price * item.qty).toFixed(2)}</div>
-            <div class="cart-item__qty-ctrl">
-              <button onclick="updateItemQty('${item.key}', -1)"><i class="fa-solid fa-minus"></i></button>
-              <span>${item.qty}</span>
-              <button onclick="updateItemQty('${item.key}', 1)"><i class="fa-solid fa-plus"></i></button>
-              <button class="cart-item__del" onclick="removeItem('${item.key}')" title="Remove item"><i class="fa-regular fa-trash-can"></i></button>
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-  }
-
+  // Totals
   const subtotalEl = document.getElementById('cartSubtotal');
-  const discountRow = document.getElementById('cartDiscountRow');
-  const discountEl = document.getElementById('cartDiscount');
   const grandTotalEl = document.getElementById('cartGrandTotal');
-
   if (subtotalEl) subtotalEl.textContent = `GHS ${subtotal.toFixed(2)}`;
   if (grandTotalEl) grandTotalEl.textContent = `GHS ${grandTotal.toFixed(2)}`;
 
-  if (discountRow) {
-    if (appliedDiscount > 0 && subtotal > 0) {
-      discountRow.style.display = 'flex';
-      discountEl.textContent = `- GHS ${discountAmount.toFixed(2)}`;
+  // Cart List
+  const listEl = document.getElementById('cartItemsList');
+  if (listEl) {
+    if (cart.length === 0) {
+      listEl.innerHTML = `
+        <div style="text-align:center; padding:3rem 1rem; color:var(--text-muted);">
+          <i class="fa-solid fa-basket-shopping" style="font-size:2.5rem; margin-bottom:1rem; opacity:0.3;"></i>
+          <p>Your shopping bag is empty.</p>
+          <button class="btn-hero-primary" style="margin-top:1rem; font-size:0.85rem;" onclick="closeCartDrawer(); window.location.href='#store';">
+            Explore 2026/27 Kits
+          </button>
+        </div>
+      `;
     } else {
-      discountRow.style.display = 'none';
+      listEl.innerHTML = cart.map(item => `
+        <div class="cart-item-row">
+          <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+          <div class="cart-item-details">
+            <div class="cart-item-title">${item.name}</div>
+            <div class="cart-item-meta">Size: ${item.size} ${item.customName ? `| Printing: ${item.customName} #${item.customNumber}` : ''}</div>
+            <div class="cart-item-meta">Qty: ${item.qty}</div>
+            <div class="cart-item-price">GHS ${(item.price * item.qty).toFixed(2)}</div>
+          </div>
+          <button class="cart-item-remove" onclick="removeFromCart('${item.key}')" title="Remove item">&times;</button>
+        </div>
+      `).join('');
     }
   }
 }
@@ -334,7 +291,6 @@ function openCartDrawer() {
   const overlay = document.getElementById('cartOverlay');
   if (drawer) drawer.classList.add('open');
   if (overlay) overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
 }
 
 function closeCartDrawer() {
@@ -342,666 +298,468 @@ function closeCartDrawer() {
   const overlay = document.getElementById('cartOverlay');
   if (drawer) drawer.classList.remove('open');
   if (overlay) overlay.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function showToast(message) {
-  const toast = document.getElementById('shopToast');
-  const text = document.getElementById('shopToastText');
-  if (!toast || !text) return;
-
-  text.textContent = message;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3500);
 }
 
 // ==========================================
-// 5. STORE PRODUCTS RENDERING & FILTER
-// ==========================================
-function renderProducts(filter = 'all') {
-  const grid = document.getElementById('productGrid');
-  if (!grid) return;
-
-  const items = PRODUCTS_DATA.filter(p => filter === 'all' || p.category === filter);
-  grid.innerHTML = items.map(product => `
-    <div class="product-card">
-      <div class="product-card__thumb">
-        <span class="product-tag">${product.tag}</span>
-        <img src="${product.image}" alt="${product.name}" class="product-img">
-        <div class="product-overlay-actions">
-          <button class="btn-quick-view" onclick="openProductQuickView('${product.id}')"><i class="fa-regular fa-eye"></i> Quick View</button>
-        </div>
-      </div>
-      <div class="product-card__body">
-        <span class="product-cat">${product.category.toUpperCase()}</span>
-        <h3 class="product-name" onclick="openProductQuickView('${product.id}')">${product.name}</h3>
-        <div class="product-price-row">
-          <span class="product-price-main">GHS ${product.price.toFixed(2)}</span>
-          ${product.oldPrice ? `<span class="product-price-old">GHS ${product.oldPrice.toFixed(2)}</span>` : ''}
-        </div>
-        <div class="product-card__footer">
-          <button class="btn-add-cart-sm" onclick="addToCart('${product.id}', 'L', '', 1)">
-            <i class="fa-solid fa-bag-shopping"></i> Add to Cart
-          </button>
-          <button class="btn-customize-sm" onclick="openProductQuickView('${product.id}')" title="Personalize or View Options">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function initStoreFilters() {
-  const pills = document.querySelectorAll('.store-pill');
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      renderProducts(pill.dataset.filter);
-    });
-  });
-}
-
-// ==========================================
-// 6. PRODUCT QUICK VIEW / PERSONALIZATION MODAL
-// ==========================================
-let currentModalProductId = null;
-let selectedProductSize = 'L';
-
-function openProductQuickView(productId) {
-  const product = PRODUCTS_DATA.find(p => p.id === productId);
-  if (!product) return;
-
-  currentModalProductId = productId;
-  selectedProductSize = 'L';
-
-  const modal = document.getElementById('productModal');
-  const content = document.getElementById('productModalContent');
-  if (!modal || !content) return;
-
-  content.innerHTML = `
-    <div class="prod-modal-grid">
-      <div class="prod-modal-media">
-        <img src="${product.image}" alt="${product.name}" id="modalProductImg" class="modal-large-img">
-        ${product.customizable ? `
-          <div class="jersey-preview-badge" id="jerseyBadgePreview" style="display:none;">
-            <div class="badge-num" id="badgePreviewNum">8</div>
-            <div class="badge-name" id="badgePreviewName">RAMZY</div>
-          </div>
-        ` : ''}
-      </div>
-
-      <div class="prod-modal-info">
-        <span class="product-tag">${product.tag}</span>
-        <h2 class="prod-modal-title">${product.name}</h2>
-        <div class="prod-modal-price-row">
-          <span class="prod-modal-price">GHS ${product.price.toFixed(2)}</span>
-          ${product.oldPrice ? `<span class="prod-modal-old-price">GHS ${product.oldPrice.toFixed(2)}</span>` : ''}
-          <span class="in-stock-pill"><i class="fa-solid fa-circle-check"></i> In Stock (Wenchi Store)</span>
-        </div>
-
-        <p class="prod-modal-desc">${product.description}</p>
-
-        <!-- Size Picker -->
-        <div class="prod-option-block">
-          <label class="prod-option-label">SELECT SIZE:</label>
-          <div class="size-selector-pills">
-            <button class="size-btn" onclick="selectSize(this, 'S')">S</button>
-            <button class="size-btn" onclick="selectSize(this, 'M')">M</button>
-            <button class="size-btn active" onclick="selectSize(this, 'L')">L</button>
-            <button class="size-btn" onclick="selectSize(this, 'XL')">XL</button>
-            <button class="size-btn" onclick="selectSize(this, 'XXL')">XXL</button>
-          </div>
-        </div>
-
-        <!-- Customization -->
-        ${product.customizable ? `
-          <div class="prod-option-block customization-box">
-            <label class="prod-option-label"><i class="fa-solid fa-wand-magic-sparkles text-gold"></i> PLAYER / CUSTOM PRINTING (FREE):</label>
-            <div class="custom-input-grid">
-              <input type="text" id="customJerseyName" placeholder="Name on back (e.g. RAMZY, MENSAH)" maxlength="14" oninput="updateJerseyPreview()">
-              <input type="number" id="customJerseyNum" placeholder="No." min="1" max="99" oninput="updateJerseyPreview()">
-            </div>
-            <div class="quick-player-tags">
-              <span>Quick select:</span>
-              <button type="button" class="btn-q-player" onclick="applyQuickPlayer('RAMZY', '8')">#8 RAMZY</button>
-              <button type="button" class="btn-q-player" onclick="applyQuickPlayer('MENSAH', '7')">#7 MENSAH</button>
-              <button type="button" class="btn-q-player" onclick="applyQuickPlayer('BOATENG', '31')">#31 BOATENG</button>
-              <button type="button" class="btn-q-player" onclick="applyQuickPlayer('GAKPO', '9')">#9 GAKPO</button>
-            </div>
-          </div>
-        ` : ''}
-
-        <!-- Add to cart button row -->
-        <div class="prod-action-row">
-          <div class="qty-stepper">
-            <button onclick="stepModalQty(-1)"><i class="fa-solid fa-minus"></i></button>
-            <input type="number" id="modalQtyInput" value="1" min="1" max="10" readonly>
-            <button onclick="stepModalQty(1)"><i class="fa-solid fa-plus"></i></button>
-          </div>
-          <button class="btn-add-modal" onclick="submitModalAddToCart()">
-            <i class="fa-solid fa-bag-shopping"></i> ADD TO CART
-          </button>
-        </div>
-
-        <div class="prod-badges-guarantee">
-          <span><i class="fa-solid fa-shield-check text-gold"></i> 100% Official Mayniak Apparel</span>
-          <span><i class="fa-solid fa-truck text-gold"></i> Fast Doorstep Dispatch across Ghana</span>
-        </div>
-
-      </div>
-    </div>
-  `;
-
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function selectSize(btn, size) {
-  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedProductSize = size;
-}
-
-function applyQuickPlayer(name, num) {
-  const nameInput = document.getElementById('customJerseyName');
-  const numInput = document.getElementById('customJerseyNum');
-  if (nameInput && numInput) {
-    nameInput.value = name;
-    numInput.value = num;
-    updateJerseyPreview();
-  }
-}
-
-function updateJerseyPreview() {
-  const nameInput = document.getElementById('customJerseyName');
-  const numInput = document.getElementById('customJerseyNum');
-  const badgeWrap = document.getElementById('jerseyBadgePreview');
-  const badgeName = document.getElementById('badgePreviewName');
-  const badgeNum = document.getElementById('badgePreviewNum');
-
-  if (!badgeWrap || !nameInput || !numInput) return;
-
-  const nameVal = nameInput.value.trim().toUpperCase();
-  const numVal = numInput.value.trim();
-
-  if (nameVal || numVal) {
-    badgeWrap.style.display = 'block';
-    badgeName.textContent = nameVal || 'APOSTLE';
-    badgeNum.textContent = numVal || '26';
-  } else {
-    badgeWrap.style.display = 'none';
-  }
-}
-
-function stepModalQty(delta) {
-  const input = document.getElementById('modalQtyInput');
-  if (!input) return;
-  let val = parseInt(input.value) + delta;
-  if (val < 1) val = 1;
-  if (val > 10) val = 10;
-  input.value = val;
-}
-
-function submitModalAddToCart() {
-  if (!currentModalProductId) return;
-
-  const qtyInput = document.getElementById('modalQtyInput');
-  const nameInput = document.getElementById('customJerseyName');
-  const numInput = document.getElementById('customJerseyNum');
-
-  const qty = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
-  let customization = '';
-  if (nameInput && numInput && (nameInput.value.trim() || numInput.value.trim())) {
-    customization = `${nameInput.value.trim().toUpperCase()} #${numInput.value.trim()}`;
-  }
-
-  addToCart(currentModalProductId, selectedProductSize, customization, qty);
-  closeProductModal();
-  openCartDrawer();
-}
-
-function closeProductModal() {
-  const modal = document.getElementById('productModal');
-  if (modal) modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-// ==========================================
-// 7. CHECKOUT & MOMO SIMULATION
-// ==========================================
-function initCheckout() {
-  const proceedBtn = document.getElementById('proceedCheckoutBtn');
-  if (proceedBtn) {
-    proceedBtn.addEventListener('click', () => {
-      if (cart.length === 0) {
-        showToast('Your cart is empty.');
-        return;
-      }
-      closeCartDrawer();
-      openCheckoutModal();
-    });
-  }
-
-  const couponBtn = document.getElementById('applyCouponBtn');
-  const couponInput = document.getElementById('couponInput');
-  const couponMsg = document.getElementById('couponMessage');
-
-  if (couponBtn && couponInput) {
-    couponBtn.addEventListener('click', () => {
-      const code = couponInput.value.trim().toUpperCase();
-      if (code === 'APOSTLES10' || code === 'WENCHI10' || code === 'GPL2026') {
-        appliedDiscount = 0.10;
-        if (couponMsg) {
-          couponMsg.innerHTML = '<span class="text-green"><i class="fa-solid fa-check"></i> Coupon applied: 10% Discount!</span>';
-        }
-        saveCart();
-      } else {
-        if (couponMsg) {
-          couponMsg.innerHTML = '<span class="text-red"><i class="fa-solid fa-xmark"></i> Invalid coupon code. Try "APOSTLES10".</span>';
-        }
-      }
-    });
-  }
-}
-
-function openCheckoutModal() {
-  const modal = document.getElementById('checkoutModal');
-  if (!modal) return;
-
-  const count = getCartTotalCount();
-  const subtotal = getCartSubtotal();
-  const discountAmount = subtotal * appliedDiscount;
-  const grandTotal = subtotal - discountAmount + SHIPPING_FEE;
-
-  document.getElementById('coItemCount').textContent = count;
-  document.getElementById('coSubtotal').textContent = `GHS ${subtotal.toFixed(2)}`;
-  document.getElementById('coGrandTotal').textContent = `GHS ${grandTotal.toFixed(2)}`;
-  document.getElementById('coPayBtnAmount').textContent = `GHS ${grandTotal.toFixed(2)}`;
-
-  document.getElementById('checkoutFormStep').style.display = 'block';
-  document.getElementById('checkoutSuccessStep').style.display = 'none';
-
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeCheckoutModal() {
-  const modal = document.getElementById('checkoutModal');
-  if (modal) modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-function handleCheckoutSubmit(e) {
-  e.preventDefault();
-  const btn = document.getElementById('btnPayNow');
-  const custName = document.getElementById('custName').value.trim();
-  const custPhone = document.getElementById('custPhone').value.trim();
-  const custCity = document.getElementById('custCity').value.trim();
-  const custAddress = document.getElementById('custAddress').value.trim();
-  const method = document.querySelector('input[name="payMethod"]:checked').value;
-
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Processing MoMo Payment...`;
-  btn.disabled = true;
-
-  setTimeout(() => {
-    btn.innerHTML = `<i class="fa-solid fa-lock"></i> AUTHORIZE & PAY`;
-    btn.disabled = false;
-
-    const orderRef = `#YAFC-${Math.floor(1000 + Math.random() * 9000)}`;
-    document.getElementById('confirmedOrderRef').textContent = orderRef;
-
-    const subtotal = getCartSubtotal();
-    const discountAmount = subtotal * appliedDiscount;
-    const grandTotal = subtotal - discountAmount + SHIPPING_FEE;
-
-    const receipt = document.getElementById('receiptSummary');
-    if (receipt) {
-      receipt.innerHTML = `
-        <div class="rcpt-row"><span>Customer:</span> <strong>${custName} (${custPhone})</strong></div>
-        <div class="rcpt-row"><span>Delivery To:</span> <strong>${custAddress}, ${custCity}</strong></div>
-        <div class="rcpt-row"><span>Payment Channel:</span> <strong>${method === 'mtn_momo' ? 'MTN Mobile Money' : method === 'telecel' ? 'Telecel Cash' : 'Card'}</strong></div>
-        <div class="rcpt-divider"></div>
-        <div class="rcpt-items">
-          ${cart.map(item => `
-            <div class="rcpt-item-row">
-              <span>${item.qty}x ${item.name} (${item.size}) ${item.customization ? `[${item.customization}]` : ''}</span>
-              <strong>GHS ${(item.price * item.qty).toFixed(2)}</strong>
-            </div>
-          `).join('')}
-        </div>
-        <div class="rcpt-divider"></div>
-        <div class="rcpt-row total"><span>Total Paid:</span> <strong class="text-gold">GHS ${grandTotal.toFixed(2)}</strong></div>
-      `;
-    }
-
-    document.getElementById('checkoutFormStep').style.display = 'none';
-    document.getElementById('checkoutSuccessStep').style.display = 'block';
-  }, 1800);
-}
-
-// ==========================================
-// 8. SQUAD RENDERING & POSITION TABS
+// 5. RENDERING SQUAD GRID
 // ==========================================
 function renderSquad(filter = 'all') {
   const grid = document.getElementById('squadGrid');
   if (!grid) return;
 
-  let players = SQUAD_DATA;
-  if (filter === 'GK') players = SQUAD_DATA.filter(p => p.role === 'GK');
-  else if (filter === 'DF') players = SQUAD_DATA.filter(p => p.role === 'DF');
-  else if (filter === 'MD') players = SQUAD_DATA.filter(p => p.role === 'MD');
-  else if (filter === 'FW') players = SQUAD_DATA.filter(p => p.role === 'FW');
-  else if (filter === 'U17') players = SQUAD_DATA.filter(p => p.isU17);
+  let list = SQUAD_DATA;
+  if (filter === 'GK') list = SQUAD_DATA.filter(p => p.role === 'GK');
+  else if (filter === 'DF') list = SQUAD_DATA.filter(p => p.role === 'DF');
+  else if (filter === 'MD') list = SQUAD_DATA.filter(p => p.role === 'MD');
+  else if (filter === 'FW') list = SQUAD_DATA.filter(p => p.role === 'FW');
+  else if (filter === 'U17') list = SQUAD_DATA.filter(p => p.isU17);
 
-  grid.innerHTML = players.map(p => `
-    <div class="player-box">
-      <div class="player-box__top">
-        <div class="player-box__silhouette">
-          <i class="fa-solid fa-user-shield"></i>
-        </div>
-        <span class="player-box__num">#${p.number}</span>
-        ${p.isU17 ? '<span class="player-badge-u17">U-17</span>' : ''}
+  grid.innerHTML = list.map(player => `
+    <div class="squad-card" onclick="openPlayerModal(${player.id})">
+      <div class="squad-card__top">
+        <span class="squad-number">#${player.number}</span>
+        <span class="squad-role-tag squad-role-tag--${player.role}">
+          ${player.isU17 ? 'U-17 ' : ''}${player.role}
+        </span>
       </div>
-      <div class="player-box__info">
-        <span class="player-pos-tag">${p.posName.toUpperCase()}</span>
-        <h3 class="player-fullname">${p.name}</h3>
-        <div class="player-meta-row">
-          <span><i class="fa-solid fa-shirt"></i> GPL 2026/27</span>
-          <span><i class="fa-solid fa-location-dot"></i> ${p.origin}</span>
+      <div class="squad-name">${player.name}</div>
+      <div class="squad-pos-full">${player.posName}</div>
+      <div class="squad-stats-mini">
+        <span><i class="fa-solid fa-shirt"></i> Apps: ${player.apps}</span>
+        <span><i class="fa-solid ${player.role === 'GK' ? 'fa-shield' : 'fa-futbol'}"></i> ${player.role === 'GK' ? `CS: ${player.cleanSheets}` : `Goals: ${player.goals || 0}`}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==========================================
+// 6. RENDERING TEAM SHOP PRODUCTS
+// ==========================================
+function renderProducts(filter = 'all') {
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+
+  let list = PRODUCTS_DATA;
+  if (filter !== 'all') list = PRODUCTS_DATA.filter(p => p.category === filter);
+
+  grid.innerHTML = list.map(product => `
+    <div class="product-card">
+      <div class="product-img-wrap">
+        <img src="${product.image}" alt="${product.name}">
+        <span class="product-tag-pill">${product.tag}</span>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">${product.name}</h3>
+        <div class="product-price-row">
+          <span class="product-price">GHS ${product.price}.00</span>
+          ${product.oldPrice ? `<span class="product-old-price">GHS ${product.oldPrice}.00</span>` : ''}
+        </div>
+        <div class="product-actions">
+          <button class="btn-add-cart" onclick="addToCart('${product.id}')">
+            <i class="fa-solid fa-cart-plus"></i> Add to Bag
+          </button>
+          <button class="btn-quick-view" onclick="openProductModal('${product.id}')" title="Quick View & Customize">
+            <i class="fa-solid fa-eye"></i>
+          </button>
         </div>
       </div>
     </div>
   `).join('');
 }
 
-function initSquadFilter() {
-  const tabs = document.querySelectorAll('.pos-tab');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      renderSquad(tab.dataset.filter);
-    });
-  });
-}
-
 // ==========================================
-// 9. FIXTURES MODAL & ROUND SWITCHER
+// 7. PRODUCT MODAL & CUSTOMIZER
 // ==========================================
-function switchFixturesRound(roundNum) {
-  const btn1 = document.getElementById('tabRound1');
-  const btn2 = document.getElementById('tabRound2');
-  const btn3 = document.getElementById('tabOfficialSheet');
-  const listContainer = document.getElementById('fixturesListContainer');
-  const sheetContainer = document.getElementById('officialSheetContainer');
+function openProductModal(productId) {
+  const product = PRODUCTS_DATA.find(p => p.id === productId);
+  if (!product) return;
 
-  [btn1, btn2, btn3].forEach(b => b && b.classList.remove('active'));
+  const content = document.getElementById('productModalContent');
+  if (!content) return;
 
-  if (roundNum === 1) {
-    if (btn1) btn1.classList.add('active');
-    if (listContainer) listContainer.style.display = 'grid';
-    if (sheetContainer) sheetContainer.style.display = 'none';
-    renderFixturesList(FIXTURES_ROUND_1, 1);
-  } else if (roundNum === 2) {
-    if (btn2) btn2.classList.add('active');
-    if (listContainer) listContainer.style.display = 'grid';
-    if (sheetContainer) sheetContainer.style.display = 'none';
-    renderFixturesList(FIXTURES_ROUND_2, 2);
-  } else if (roundNum === 3) {
-    if (btn3) btn3.classList.add('active');
-    if (listContainer) listContainer.style.display = 'none';
-    if (sheetContainer) sheetContainer.style.display = 'block';
-  }
-}
-
-function renderFixturesList(list, roundNum) {
-  const container = document.getElementById('fixturesListContainer');
-  if (!container) return;
-
-  container.innerHTML = list.map(m => `
-    <div class="fx-modal-item ${m.type === 'Home' ? 'fx-home-item' : ''}">
-      <div class="fx-modal-week">WEEK ${m.week} · ${m.type.toUpperCase()}</div>
-      <div class="fx-modal-match-row">
-        <strong class="${m.home.includes('Young Apostles') ? 'text-gold' : ''}">${m.home}</strong>
-        <span class="fx-vs-mini">vs</span>
-        <strong class="${m.away.includes('Young Apostles') ? 'text-gold' : ''}">${m.away}</strong>
+  content.innerHTML = `
+    <div style="display:grid; grid-template-columns:1fr 1.2fr; gap:1.5rem;">
+      <div>
+        <img src="${product.image}" alt="${product.name}" style="border-radius:var(--radius-md); width:100%;">
       </div>
-      <div class="fx-modal-meta">
-        <span><i class="fa-regular fa-calendar"></i> ${m.date}</span>
-        <span><i class="fa-solid fa-location-dot"></i> ${m.venue}</span>
+      <div>
+        <span style="font-size:0.75rem; font-weight:700; color:var(--ya-green); text-transform:uppercase;">${product.tag}</span>
+        <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; margin:0.25rem 0 0.5rem;">${product.name}</h3>
+        <div style="font-size:1.35rem; font-weight:800; color:var(--ya-green); margin-bottom:0.75rem;">GHS ${product.price}.00</div>
+        <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">${product.description}</p>
+        
+        <div class="form-group" style="margin-bottom:0.75rem;">
+          <label>Select Size</label>
+          <select id="modalSize">
+            <option value="S">Small (S)</option>
+            <option value="M">Medium (M)</option>
+            <option value="L" selected>Large (L)</option>
+            <option value="XL">Extra Large (XL)</option>
+            <option value="XXL">Double XL (XXL)</option>
+          </select>
+        </div>
+
+        ${product.customizable ? `
+          <div style="background:var(--bg-subtle); padding:0.75rem; border-radius:var(--radius-sm); margin-bottom:1rem;">
+            <div style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--text-main);">
+              <i class="fa-solid fa-shirt text-gold"></i> Free Official Player Printing
+            </div>
+            <div class="form-grid" style="margin-bottom:0;">
+              <div class="form-group">
+                <input type="text" placeholder="Name (e.g. RAMZY)" id="modalCustomName">
+              </div>
+              <div class="form-group">
+                <input type="number" placeholder="No (e.g. 8)" id="modalCustomNum">
+              </div>
+            </div>
+          </div>
+        ` : ''}
+
+        <button class="btn-hero-primary" style="width:100%; justify-content:center;" onclick="handleModalAdd('${product.id}')">
+          <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+        </button>
       </div>
     </div>
-  `).join('');
+  `;
+
+  document.getElementById('productModal').classList.add('open');
 }
+
+function handleModalAdd(productId) {
+  const size = document.getElementById('modalSize')?.value || 'L';
+  const name = document.getElementById('modalCustomName')?.value || '';
+  const num = document.getElementById('modalCustomNum')?.value || '';
+  addToCart(productId, name, num, size);
+  closeProductModal();
+}
+
+function closeProductModal() {
+  document.getElementById('productModal')?.classList.remove('open');
+}
+
+// ==========================================
+// 8. PLAYER MODAL
+// ==========================================
+function openPlayerModal(playerId) {
+  const player = SQUAD_DATA.find(p => p.id === playerId);
+  if (!player) return;
+
+  const content = document.getElementById('playerModalContent');
+  if (!content) return;
+
+  content.innerHTML = `
+    <div style="text-align:center;">
+      <div style="width:70px; height:70px; border-radius:50%; background:var(--ya-green); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.75rem; font-weight:800; margin:0 auto 1rem; font-family:var(--font-heading);">
+        #${player.number}
+      </div>
+      <h3 style="font-family:var(--font-heading); font-size:1.5rem; font-weight:800;">${player.name}</h3>
+      <p style="color:var(--ya-green); font-weight:700; font-size:0.9rem;">${player.posName} (${player.role})</p>
+      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.25rem;">Hometown: ${player.origin} · GPL Registered 2026/27</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0; background:var(--bg-subtle); padding:1rem; border-radius:var(--radius-md);">
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-muted);">Season Appearances</span>
+          <div style="font-size:1.25rem; font-weight:800;">${player.apps}</div>
+        </div>
+        <div>
+          <span style="font-size:0.75rem; color:var(--text-muted);">${player.role === 'GK' ? 'Clean Sheets' : 'Goals'}</span>
+          <div style="font-size:1.25rem; font-weight:800; color:var(--ya-green);">${player.role === 'GK' ? player.cleanSheets : (player.goals || 0)}</div>
+        </div>
+      </div>
+
+      <button class="btn-hero-primary" style="width:100%; justify-content:center;" onclick="closePlayerModal(); openProductModal('kit-home');">
+        Order #${player.number} ${player.name.toUpperCase()} Jersey
+      </button>
+    </div>
+  `;
+
+  document.getElementById('playerModal').classList.add('open');
+}
+
+function closePlayerModal() {
+  document.getElementById('playerModal')?.classList.remove('open');
+}
+
+// ==========================================
+// 9. FIXTURES MODAL & SWITCHING
+// ==========================================
+let currentFixturesRound = 1;
 
 function openFixturesModal() {
-  const modal = document.getElementById('fixturesModal');
-  if (modal) {
-    switchFixturesRound(1);
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
+  renderFixturesModal(currentFixturesRound);
+  document.getElementById('fixturesModal')?.classList.add('open');
 }
 
 function closeFixturesModal() {
-  const modal = document.getElementById('fixturesModal');
-  if (modal) modal.classList.remove('active');
-  document.body.style.overflow = '';
+  document.getElementById('fixturesModal')?.classList.remove('open');
 }
 
-// ==========================================
-// 10. APOSTLES TV+ YOUTUBE LINKS
-// ==========================================
-function openYouTubeLink(url) {
-  window.open(url, '_blank', 'noopener,noreferrer');
-}
+function switchFixturesTab(roundNum) {
+  currentFixturesRound = roundNum;
+  document.getElementById('tabR1')?.classList.toggle('active', roundNum === 1);
+  document.getElementById('tabR2')?.classList.toggle('active', roundNum === 2);
+  document.getElementById('tabR3')?.classList.toggle('active', roundNum === 3);
 
-// ==========================================
-// 11. MEMBERSHIP MODAL
-// ==========================================
-function openMembershipModal() {
-  const modal = document.getElementById('membershipModal');
-  if (modal) {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+  const listModal = document.getElementById('fixturesListModal');
+  const posterModal = document.getElementById('fixturesPosterModal');
+
+  if (roundNum === 3) {
+    if (listModal) listModal.style.display = 'none';
+    if (posterModal) posterModal.style.display = 'block';
+  } else {
+    if (listModal) listModal.style.display = 'block';
+    if (posterModal) posterModal.style.display = 'none';
+    renderFixturesModal(roundNum);
   }
+}
+
+function renderFixturesModal(roundNum) {
+  const container = document.getElementById('fixturesListModal');
+  if (!container) return;
+
+  const list = roundNum === 1 ? FIXTURES_ROUND_1 : FIXTURES_ROUND_2;
+  container.innerHTML = list.map(fx => `
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem; border-bottom:1px solid var(--border-subtle); font-size:0.875rem;">
+      <div>
+        <span style="font-weight:700; color:var(--ya-green); font-size:0.8rem; margin-right:0.5rem;">WK ${fx.week}</span>
+        <strong>${fx.home}</strong> vs <strong>${fx.away}</strong>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">${fx.venue} · ${fx.date}</div>
+      </div>
+      <span style="padding:2px 8px; border-radius:var(--radius-pill); font-size:0.7rem; font-weight:700; ${fx.type === 'Home' ? 'background:#D1FAE5; color:#065F46;' : 'background:#F3F4F6; color:#374151;'}">
+        ${fx.type.toUpperCase()}
+      </span>
+    </div>
+  `).join('');
+}
+
+// ==========================================
+// 10. CHECKOUT & MEMBERSHIP MODALS
+// ==========================================
+function openCheckoutModal() {
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  if (subtotal === 0) {
+    showToast('Your cart is empty!');
+    return;
+  }
+  const grandTotal = subtotal + 25;
+  const totalEl = document.getElementById('coTotalAmount');
+  if (totalEl) totalEl.textContent = `GHS ${grandTotal.toFixed(2)}`;
+
+  closeCartDrawer();
+  document.getElementById('checkoutModal')?.classList.add('open');
+}
+
+function closeCheckoutModal() {
+  document.getElementById('checkoutModal')?.classList.remove('open');
+}
+
+function handleCheckout(e) {
+  e.preventDefault();
+  const name = document.getElementById('coName')?.value;
+  const phone = document.getElementById('coPhone')?.value;
+  const city = document.getElementById('coCity')?.value;
+
+  showToast(`Order confirmed for ${name}! MoMo prompt sent to ${phone}.`);
+  cart = [];
+  saveCart();
+  closeCheckoutModal();
+}
+
+function openMembershipModal() {
+  document.getElementById('membershipModal')?.classList.add('open');
 }
 
 function closeMembershipModal() {
-  const modal = document.getElementById('membershipModal');
-  if (modal) modal.classList.remove('active');
-  document.body.style.overflow = '';
+  document.getElementById('membershipModal')?.classList.remove('open');
 }
 
 function joinMembership(tierName) {
-  alert(`Thank you for choosing ${tierName}! Welcome to the Young Apostles FC family.`);
+  showToast(`Welcome to Young Apostles FC ${tierName}!`);
   closeMembershipModal();
 }
 
+function openNewsModal() {
+  showToast('Opening full Apostles Media Portal...');
+}
+
+function openAboutModal() {
+  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012–2026)');
+}
+
+function openYouTubeLink(url) {
+  window.open(url, '_blank');
+}
+
+function toggleMobileNav() {
+  const drawer = document.getElementById('mobileDrawer');
+  if (drawer) drawer.classList.toggle('open');
+}
+
 // ==========================================
-// 12. SEARCH DRAWER & LIVE FILTER
+// 11. TOURNAMENT SELECTOR & COUNTDOWN
 // ==========================================
-function initSearch() {
-  const btn = document.getElementById('searchToggle');
-  const drawer = document.getElementById('searchDrawer');
-  const close = document.getElementById('searchClose');
-  const input = document.getElementById('searchInput');
-  const resultsBox = document.getElementById('searchResultsBox');
+const TOURNAMENTS_DATA = {
+  gpl: {
+    index: '01 / 04',
+    title: 'Ghana Premier League',
+    season: '2026/2027 Season',
+    teams: '18 Clubs',
+    dates: '15 August 2026 – 25 May 2027',
+    targetDate: new Date(Date.now() + 48 * 24 * 60 * 60 * 1000)
+  },
+  facup: {
+    index: '02 / 04',
+    title: 'MTN FA Cup Ghana',
+    season: '2026/2027 Knockout Tournament',
+    teams: '64 Clubs Nationwide',
+    dates: 'October 2026 – June 2027',
+    targetDate: new Date(Date.now() + 65 * 24 * 60 * 60 * 1000)
+  },
+  supercup: {
+    index: '03 / 04',
+    title: "President's Super Cup",
+    season: '2026 Championship Edition',
+    teams: '4 Elite Finalists',
+    dates: 'September 2026',
+    targetDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000)
+  },
+  caf: {
+    index: '04 / 04',
+    title: 'CAF Champions League Preliminary',
+    season: '2027 Pan-African Stage',
+    teams: '54 African Champions',
+    dates: 'February 2027 – November 2027',
+    targetDate: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000)
+  }
+};
 
-  if (!btn || !drawer) return;
+let currentTournament = 'gpl';
 
-  btn.addEventListener('click', () => {
-    drawer.classList.toggle('show');
-    if (drawer.classList.contains('show') && input) input.focus();
-  });
+function selectTournament(key) {
+  currentTournament = key;
+  const data = TOURNAMENTS_DATA[key];
+  if (!data) return;
 
-  if (close) close.addEventListener('click', () => drawer.classList.remove('show'));
+  document.querySelectorAll('.tournament-badge-item').forEach(item => item.classList.remove('active'));
+  event?.currentTarget?.classList.add('active');
 
-  if (input && resultsBox) {
-    input.addEventListener('input', () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) {
-        resultsBox.innerHTML = '';
-        return;
-      }
+  const idxEl = document.getElementById('tournIndex');
+  const titleEl = document.getElementById('tournTitle');
+  const seasonEl = document.getElementById('tournSeason');
+  const teamsEl = document.getElementById('tournTeams');
+  const datesEl = document.getElementById('tournDates');
 
-      const matchedPlayers = SQUAD_DATA.filter(p => p.name.toLowerCase().includes(q) || p.posName.toLowerCase().includes(q));
-      const matchedProducts = PRODUCTS_DATA.filter(p => p.name.toLowerCase().includes(q));
-      const matchedFixtures = FIXTURES_ROUND_1.filter(f => f.home.toLowerCase().includes(q) || f.away.toLowerCase().includes(q));
+  if (idxEl) idxEl.textContent = data.index;
+  if (titleEl) titleEl.textContent = data.title;
+  if (seasonEl) seasonEl.textContent = data.season;
+  if (teamsEl) teamsEl.textContent = data.teams;
+  if (datesEl) datesEl.textContent = data.dates;
+}
 
-      let html = '<div class="search-results-list">';
-      if (matchedPlayers.length > 0) {
-        html += '<div class="sr-category">FIRST TEAM PLAYERS</div>';
-        matchedPlayers.slice(0, 5).forEach(p => {
-          html += `
-            <div class="sr-item" onclick="window.location.href='#firstteam'; document.getElementById('searchDrawer').classList.remove('show');">
-              <i class="fa-solid fa-user-shield text-blue"></i>
-              <span>#${p.number} ${p.name} (${p.posName})</span>
-            </div>
-          `;
-        });
-      }
+function updateCountdown() {
+  const data = TOURNAMENTS_DATA[currentTournament];
+  if (!data) return;
 
-      if (matchedProducts.length > 0) {
-        html += '<div class="sr-category">STORE ITEMS</div>';
-        matchedProducts.forEach(p => {
-          html += `
-            <div class="sr-item" onclick="openProductQuickView('${p.id}'); document.getElementById('searchDrawer').classList.remove('show');">
-              <i class="fa-solid fa-shirt text-gold"></i>
-              <span>${p.name} — <strong>GHS ${p.price}</strong></span>
-            </div>
-          `;
-        });
-      }
+  const now = new Date().getTime();
+  const diff = data.targetDate.getTime() - now;
 
-      if (matchedFixtures.length > 0) {
-        html += '<div class="sr-category">FIXTURES</div>';
-        matchedFixtures.slice(0, 4).forEach(f => {
-          html += `
-            <div class="sr-item" onclick="openFixturesModal(); document.getElementById('searchDrawer').classList.remove('show');">
-              <i class="fa-solid fa-calendar-days text-gold"></i>
-              <span>Week ${f.week}: ${f.home} vs ${f.away}</span>
-            </div>
-          `;
-        });
-      }
+  if (diff > 0) {
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-      if (matchedProducts.length === 0 && matchedPlayers.length === 0 && matchedFixtures.length === 0) {
-        html += '<div class="sr-item sr-empty">No matching results found for "' + q + '".</div>';
-      }
+    const dEl = document.getElementById('cdDays');
+    const hEl = document.getElementById('cdHours');
+    const mEl = document.getElementById('cdMins');
+    const sEl = document.getElementById('cdSecs');
 
-      html += '</div>';
-      resultsBox.innerHTML = html;
-    });
+    if (dEl) dEl.textContent = String(days).padStart(2, '0');
+    if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+    if (mEl) mEl.textContent = String(mins).padStart(2, '0');
+    if (sEl) sEl.textContent = String(secs).padStart(2, '0');
   }
 }
 
 // ==========================================
-// 13. COUNTDOWN TIMER (MATCHDAY 1)
+// 12. MATCH CAROUSEL SCROLLER
 // ==========================================
-function initCountdown() {
-  const target = new Date();
-  target.setDate(target.getDate() + 4);
-  target.setHours(15, 0, 0, 0);
-
-  const dEl = document.getElementById('cdDays');
-  const hEl = document.getElementById('cdHours');
-  const mEl = document.getElementById('cdMins');
-  const sEl = document.getElementById('cdSecs');
-
-  if (!dEl) return;
-
-  function tick() {
-    const diff = target.getTime() - Date.now();
-    if (diff <= 0) {
-      dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = '00';
-      return;
-    }
-    dEl.textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
-    hEl.textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
-    mEl.textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-    sEl.textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+function scrollMatches(direction) {
+  const grid = document.getElementById('upcomingMatchesGrid');
+  if (grid) {
+    grid.scrollBy({ left: direction * 280, behavior: 'smooth' });
   }
-
-  tick();
-  setInterval(tick, 1000);
-}
-
-// Mobile Navbar
-function initNavbar() {
-  const hamburger = document.getElementById('navHamburger');
-  const drawer = document.getElementById('navMobileDrawer');
-  const nav = document.getElementById('mainNav');
-
-  if (hamburger && drawer) {
-    hamburger.addEventListener('click', () => {
-      const isOpen = drawer.classList.toggle('open');
-      hamburger.setAttribute('aria-expanded', isOpen);
-    });
-  }
-
-  window.addEventListener('scroll', () => {
-    if (nav) {
-      nav.style.boxShadow = window.scrollY > 20
-        ? '0 6px 20px rgba(0,0,0,0.18)'
-        : '0 2px 8px rgba(0,0,0,0.12)';
-    }
-  });
-}
-
-function closeMobileNav() {
-  const drawer = document.getElementById('navMobileDrawer');
-  if (drawer) drawer.classList.remove('open');
 }
 
 // ==========================================
-// 14. INITIALIZE ALL COMPONENTS
+// 13. TOAST MESSAGING
+// ==========================================
+function showToast(msg) {
+  const toast = document.getElementById('toastMsg');
+  const text = document.getElementById('toastText');
+  if (toast && text) {
+    text.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3500);
+  }
+}
+
+// ==========================================
+// 14. EVENT LISTENERS INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-  initNavbar();
-  initSearch();
-  initCountdown();
+  loadCart();
   renderSquad('all');
-  initSquadFilter();
   renderProducts('all');
-  initStoreFilters();
-  initCheckout();
-  updateCartUI();
+  setInterval(updateCountdown, 1000);
 
-  // Cart button triggers
-  const navCartBtn = document.getElementById('navCartBtn');
-  const floatCartBtn = document.getElementById('floatingCartBtn');
-  const cartCloseBtn = document.getElementById('cartCloseBtn');
-  const cartOverlay = document.getElementById('cartOverlay');
+  // Mobile Toggle
+  document.getElementById('mobileToggle')?.addEventListener('click', toggleMobileNav);
 
-  if (navCartBtn) navCartBtn.addEventListener('click', openCartDrawer);
-  if (floatCartBtn) floatCartBtn.addEventListener('click', openCartDrawer);
-  if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCartDrawer);
-  if (cartOverlay) cartOverlay.addEventListener('click', closeCartDrawer);
+  // Cart Trigger
+  document.getElementById('navCartBtn')?.addEventListener('click', openCartDrawer);
 
-  // Fixtures modal buttons
-  const openFxBtn1 = document.getElementById('openFixturesModalBtn');
-  const openFxBtn2 = document.getElementById('openFullFixturesModal');
-  const openFxBtn3 = document.getElementById('openFixturesFromTableBtn');
+  // Squad Tabs
+  document.querySelectorAll('#squadPositionTabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#squadPositionTabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSquad(btn.getAttribute('data-squad-filter'));
+    });
+  });
 
-  if (openFxBtn1) openFxBtn1.addEventListener('click', (e) => { e.preventDefault(); openFixturesModal(); });
-  if (openFxBtn2) openFxBtn2.addEventListener('click', openFixturesModal);
-  if (openFxBtn3) openFxBtn3.addEventListener('click', openFixturesModal);
+  // Shop Tabs
+  document.querySelectorAll('#shopFilterTabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#shopFilterTabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts(btn.getAttribute('data-shop-filter'));
+    });
+  });
 
-  // Membership buttons
-  const memBtn = document.getElementById('openMembershipBtn');
-  if (memBtn) memBtn.addEventListener('click', openMembershipModal);
+  // Match Category Tabs
+  document.querySelectorAll('#matchCategoryTabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#matchCategoryTabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
 
-  // Close modals on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeCartDrawer();
-      closeProductModal();
-      closeCheckoutModal();
-      closeFixturesModal();
-      closeMembershipModal();
-    }
+  // Ranking Category Tabs
+  document.querySelectorAll('#rankingCategoryTabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#rankingCategoryTabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Highlight Category Tabs
+  document.querySelectorAll('#highlightTabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#highlightTabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
   });
 });
