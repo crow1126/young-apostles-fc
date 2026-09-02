@@ -739,27 +739,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Match Category Tabs
+  // Match Category Tabs Filter
   document.querySelectorAll('#matchCategoryTabs .tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('#matchCategoryTabs .tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-    });
-  });
-
-  // Ranking Category Tabs
-  document.querySelectorAll('#rankingCategoryTabs .tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#rankingCategoryTabs .tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  // Highlight Category Tabs
-  document.querySelectorAll('#highlightTabs .tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#highlightTabs .tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      const cat = btn.getAttribute('data-match-cat');
+      const cards = document.querySelectorAll('#upcomingMatchesGrid .match-card');
+      cards.forEach(card => {
+        if (cat === 'all') {
+          card.style.display = 'flex';
+        } else if (cat === 'home') {
+          card.style.display = card.textContent.includes('Home') ? 'flex' : 'none';
+        } else if (cat === 'away') {
+          card.style.display = card.textContent.includes('Away') ? 'flex' : 'none';
+        }
+      });
     });
   });
 });
