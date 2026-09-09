@@ -9,9 +9,9 @@
 // ==========================================
 const SQUAD_DATA = [
   // GOALKEEPERS (GK)
-  { id: 1, name: 'Frank Boateng', number: 31, role: 'GK', posName: 'Goalkeeper', isU17: false, apps: 28, cleanSheets: 12, origin: 'Sunyani' },
+  { id: 1, name: 'Frank Boateng', number: 31, role: 'GK', posName: 'Goalkeeper', isU17: false, apps: 28, cleanSheets: 12, origin: 'Sunyani', image: 'assets/players/frank-boateng.jpg', bio: 'Veteran shot-stopper and defensive commander whose reflex saves, experience, and 12 clean sheets backstop the Apostles rearguard in the Ghana Premier League.', height: "6'1\"", foot: 'Right', isFeatured: true },
   { id: 2, name: 'Osman Wahabu', number: 16, role: 'GK', posName: 'Goalkeeper', isU17: false, apps: 14, cleanSheets: 6, origin: 'Wenchi' },
-  { id: 3, name: 'Benjamin Twum', number: 13, role: 'GK', posName: 'Goalkeeper', isU17: false, apps: 8, cleanSheets: 3, origin: 'Berekum' },
+  { id: 3, name: 'Benjamin Twum', number: 13, role: 'GK', posName: 'Goalkeeper', isU17: false, apps: 8, cleanSheets: 3, origin: 'Berekum', image: 'assets/players/benjamin-twum.jpg', bio: 'Promotion penalty-shootout hero and commanding shot-stopper whose historic heroics against Techiman Heroes secured Young Apostles their maiden GPL berth.', height: "6'2\"", foot: 'Right', isFeatured: true },
   { id: 4, name: 'Stephen Narh', number: 22, role: 'GK', posName: 'Goalkeeper', isU17: true, apps: 4, cleanSheets: 2, origin: 'Academy' },
   { id: 5, name: 'Seidu Adams', number: 1, role: 'GK', posName: 'Goalkeeper', isU17: true, apps: 2, cleanSheets: 1, origin: 'Academy' },
 
@@ -21,8 +21,8 @@ const SQUAD_DATA = [
   { id: 8, name: 'Mathias Van Amegbe', number: 25, role: 'DF', posName: 'Left Back', isU17: false, apps: 28, goals: 3, origin: 'Accra' },
   { id: 9, name: 'Illiasu Mumuni', number: 24, role: 'DF', posName: 'Center Back', isU17: false, apps: 22, goals: 0, origin: 'Kumasi' },
   { id: 10, name: 'Abdul Musah Mohammed', number: 12, role: 'DF', posName: 'Full Back', isU17: false, apps: 19, goals: 1, origin: 'Sunyani' },
-  { id: 11, name: 'Abdul Mobarick', number: 34, role: 'DF', posName: 'Center Back', isU17: false, apps: 17, goals: 0, origin: 'Wenchi' },
-  { id: 12, name: 'Emmanuel Owusu Bempah', number: 44, role: 'DF', posName: 'Right Back', isU17: false, apps: 24, goals: 1, origin: 'Berekum' },
+  { id: 11, name: 'Abdul Mobarick', number: 34, role: 'DF', posName: 'Left Back / Center Back', isU17: false, apps: 17, goals: 0, origin: 'Wenchi', image: 'assets/players/abdul-mobarick.jpg', bio: 'Dynamic left-sided defender signed from Mighty Royals. Known for rapid acceleration, intelligent positioning, and resilient flank defending.', height: "5'10\"", foot: 'Left', isFeatured: true },
+  { id: 12, name: 'Emmanuel Owusu Bempah', number: 44, role: 'DF', posName: 'Right Back / Wing Back', isU17: false, apps: 24, goals: 1, origin: 'Berekum', image: 'assets/players/emmanuel-owusu-bempah.jpg', bio: 'Energetic and tough-tackling right back known for relentless overlapping runs, crossing precision, and commanding flank containment.', height: "5'9\"", foot: 'Right', isFeatured: true },
   { id: 13, name: 'Issah Salifu', number: 23, role: 'DF', posName: 'Left Back', isU17: false, apps: 16, goals: 0, origin: 'Tamale' },
   { id: 14, name: 'Samuel Amankwah', number: 3, role: 'DF', posName: 'Center Back', isU17: false, apps: 21, goals: 1, origin: 'Wenchi' },
   { id: 15, name: 'Foster Agyarko', number: 33, role: 'DF', posName: 'Defensive Stopper', isU17: false, apps: 18, goals: 0, origin: 'Techiman' },
@@ -31,27 +31,27 @@ const SQUAD_DATA = [
 
   // MIDFIELDERS (MD)
   { id: 18, name: 'Ramzy Abubakar', number: 8, role: 'MD', posName: 'Playmaker / CM', isU17: false, apps: 32, goals: 7, origin: 'Wenchi' },
-  { id: 19, name: 'Abdul Muftaw Ganiyu', number: 5, role: 'MD', posName: 'Defensive Midfielder', isU17: false, apps: 29, goals: 2, origin: 'Sunyani' },
-  { id: 20, name: 'Abdul Ganiwu Ali', number: 32, role: 'MD', posName: 'Central Midfielder', isU17: false, apps: 25, goals: 3, origin: 'Tamale' },
+  { id: 19, name: 'Abdul Muftaw Ganiyu', number: 5, role: 'MD', posName: 'Defensive Midfielder', isU17: false, apps: 29, goals: 2, origin: 'Sunyani', image: 'assets/players/abdul-muftaw-ganiyu.jpg', bio: 'Tough-tackling midfield anchor and tactical powerhouse who dictates tempo and breaks down opposing transition plays with relentless work rate.', height: "5'11\"", foot: 'Right', isFeatured: true },
+  { id: 20, name: 'Abdul Gamwu', altName: 'Abdul Ganiwu Ali', number: 32, role: 'MD', posName: 'Central Midfielder / Forward', isU17: false, apps: 25, goals: 3, origin: 'Tamale', image: 'assets/players/abdul-gamwu.jpg', bio: 'Creative midfield catalyst with exquisite ball control, sharp bursts through the center, and eye for splitting defensive passes.', height: "5'9\"", foot: 'Right', isFeatured: true },
   { id: 21, name: 'John Afram Attah Jnr', number: 20, role: 'MD', posName: 'Attacking Midfielder', isU17: false, apps: 27, goals: 5, origin: 'Wenchi' },
-  { id: 22, name: 'Emmanuel Agyei', number: 51, role: 'MD', posName: 'Central Midfielder', isU17: false, apps: 22, goals: 2, origin: 'Kumasi' },
+  { id: 22, name: 'Agyei Emmanuel', altName: 'Emmanuel Agyei', number: 51, role: 'MD', posName: 'Central Midfielder', isU17: false, apps: 22, goals: 2, origin: 'Kumasi', image: 'assets/players/agyei-emmanuel.jpg', bio: 'Agile and composed box-to-box midfielder with exceptional passing vision and defensive work rate, keeping Apostles in control.', height: "5'8\"", foot: 'Right', isFeatured: true },
   { id: 23, name: 'Samuel Amadu', number: 6, role: 'MD', posName: 'Box-to-Box Midfielder', isU17: false, apps: 20, goals: 1, origin: 'Sunyani' },
-  { id: 24, name: 'Awal Seidu', number: 28, role: 'MD', posName: 'Midfielder', isU17: true, apps: 9, goals: 1, origin: 'Academy' },
-  { id: 25, name: 'Felix Aboagye', number: 18, role: 'MD', posName: 'Midfielder', isU17: true, apps: 7, goals: 0, origin: 'Academy' },
+  { id: 24, name: 'Awal Seidu', number: 28, role: 'MD', posName: 'Central Midfielder', isU17: true, apps: 9, goals: 1, origin: 'Academy', image: 'assets/players/awal-seidu.jpg', bio: 'Gifted Apostles Academy product with silky distribution, game-reading intelligence, and calm composure under high opposition press.', height: "5'10\"", foot: 'Right', isFeatured: true },
+  { id: 25, name: 'Felix Aboagye', number: 18, role: 'MD', posName: 'Attacking Midfielder', isU17: true, apps: 7, goals: 0, origin: 'Academy', image: 'assets/players/felix-aboagye.jpg', bio: 'Dynamic youth prodigy operating between the lines, adept at threading through-balls, rapid turns on the half-turn, and offensive link-up play.', height: "5'8\"", foot: 'Right', isFeatured: true },
   { id: 26, name: 'Huzaif Iddrisu', number: 10, role: 'MD', posName: 'Attacking Midfielder', isU17: true, apps: 11, goals: 3, origin: 'Academy' },
 
   // FORWARDS (FW)
   { id: 27, name: 'Joseph Mensah', number: 7, role: 'FW', posName: 'Right Winger', isU17: false, apps: 31, goals: 11, origin: 'Wenchi' },
-  { id: 28, name: 'Foster Adu Gyamfi', number: 30, role: 'FW', posName: 'Center Forward', isU17: false, apps: 27, goals: 9, origin: 'Berekum' },
+  { id: 28, name: 'Foster Adu Gyamfi', number: 30, role: 'FW', posName: 'Center Forward / Striker', isU17: false, apps: 27, goals: 9, origin: 'Berekum', image: 'assets/players/foster-adu-gyamfi.jpg', bio: 'Prolific 19-year-old goal poacher renowned for sharp penalty box movement, instinctive aerial presence, and 9 goals this campaign.', height: "6'1\"", foot: 'Right', isFeatured: true },
   { id: 29, name: 'Samuel Prempeh', number: 21, role: 'FW', posName: 'Left Winger', isU17: false, apps: 29, goals: 8, origin: 'Kumasi' },
   { id: 30, name: 'Issah Huseine', number: 11, role: 'FW', posName: 'Forward / Winger', isU17: false, apps: 24, goals: 6, origin: 'Tamale' },
-  { id: 31, name: 'Abdul Fatao Salifu', number: 19, role: 'FW', posName: 'Striker', isU17: false, apps: 21, goals: 5, origin: 'Sunyani' },
-  { id: 32, name: 'Foster Amoah', number: 45, role: 'FW', posName: 'Center Forward', isU17: false, apps: 18, goals: 4, origin: 'Wenchi' },
+  { id: 31, name: 'Abdul Fatao Salifu', number: 19, role: 'FW', posName: 'Striker / Center Forward', isU17: false, apps: 21, goals: 5, origin: 'Sunyani', image: 'assets/players/abdul-fatao-salifu.jpg', bio: 'Lethal marksman and key summer acquisition after an electric 15-goal, 7-assist season earning 7 MVP honors in Division One with Mighty Royals.', height: "6'0\"", foot: 'Both', isFeatured: true },
+  { id: 32, name: 'Foster Amoah', number: 45, role: 'FW', posName: 'Center Forward', isU17: false, apps: 18, goals: 4, origin: 'Wenchi', image: 'assets/players/foster-amoah.jpg', bio: 'High-energy striker brought in to spearhead the attack, renowned for relentless pressing, hold-up capability, and sharp target-man instincts.', height: "5'11\"", foot: 'Right', isFeatured: true },
   { id: 33, name: 'Joel Gakpo', number: 9, role: 'FW', posName: 'Number 9 / Striker', isU17: false, apps: 26, goals: 10, origin: 'Accra' },
   { id: 34, name: 'Kingsford Agyemang', number: 55, role: 'FW', posName: 'Forward', isU17: false, apps: 23, goals: 7, origin: 'Techiman' },
   { id: 35, name: 'Richmond Opoku', number: 40, role: 'FW', posName: 'Winger', isU17: false, apps: 15, goals: 3, origin: 'Wenchi' },
   { id: 36, name: 'Prince Osei Amankwah', number: 35, role: 'FW', posName: 'Forward', isU17: false, apps: 14, goals: 2, origin: 'Sunyani' },
-  { id: 37, name: 'Andy Luis', number: 29, role: 'FW', posName: 'Forward', isU17: true, apps: 8, goals: 2, origin: 'Academy' },
+  { id: 37, name: 'Andy Luis', number: 29, role: 'FW', posName: 'Forward / Winger', isU17: true, apps: 8, goals: 2, origin: 'Academy', image: 'assets/players/andy-luis.jpg', bio: 'Explosive academy forward blessed with electric burst of pace, direct dribbling ability, and clinical instinct in front of goal.', height: "5'11\"", foot: 'Both', isFeatured: true },
   { id: 38, name: 'James Konadu', number: 50, role: 'FW', posName: 'Forward', isU17: true, apps: 6, goals: 1, origin: 'Academy' }
 ];
 
@@ -301,8 +301,41 @@ function closeCartDrawer() {
 }
 
 // ==========================================
-// 5. RENDERING SQUAD GRID
 // ==========================================
+// 5. RENDERING SQUAD SPOTLIGHT & SQUAD GRID
+// ==========================================
+function renderSquadSpotlight() {
+  const container = document.getElementById('squadSpotlightGrid');
+  if (!container) return;
+
+  // All official registered stars with verified portrait photos
+  const stars = SQUAD_DATA.filter(p => p.image);
+
+  container.innerHTML = stars.map(player => `
+    <div class="spotlight-player-card" onclick="openPlayerModal(${player.id})">
+      <div class="spotlight-player-card__media">
+        <img src="${player.image}" alt="${player.name}" class="spotlight-player-card__img" loading="lazy">
+        <div class="spotlight-player-card__gradient"></div>
+        <div class="spotlight-player-card__top-badges">
+          <span class="spotlight-num-badge">#${player.number}</span>
+          <span class="spotlight-pos-tag">${player.isU17 ? 'U-17 ' : ''}${player.role}</span>
+        </div>
+      </div>
+      <div class="spotlight-player-card__info">
+        <div class="spotlight-player-card__name">${player.name}</div>
+        <div class="spotlight-player-card__pos">${player.posName}</div>
+        <div class="spotlight-player-card__meta">
+          <span><i class="fa-solid fa-shirt"></i> Apps: ${player.apps}</span>
+          <span><i class="fa-solid ${player.role === 'GK' ? 'fa-shield' : 'fa-futbol'}"></i> ${player.role === 'GK' ? `CS: ${player.cleanSheets}` : `Goals: ${player.goals || 0}`}</span>
+        </div>
+        <button class="spotlight-player-card__btn" type="button">
+          <i class="fa-solid fa-circle-user"></i> View Profile
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
 function renderSquad(filter = 'all') {
   const grid = document.getElementById('squadGrid');
   if (!grid) return;
@@ -314,22 +347,66 @@ function renderSquad(filter = 'all') {
   else if (filter === 'FW') list = SQUAD_DATA.filter(p => p.role === 'FW');
   else if (filter === 'U17') list = SQUAD_DATA.filter(p => p.isU17);
 
-  grid.innerHTML = list.map(player => `
-    <div class="squad-card" onclick="openPlayerModal(${player.id})">
-      <div class="squad-card__top">
-        <span class="squad-number">#${player.number}</span>
-        <span class="squad-role-tag squad-role-tag--${player.role}">
-          ${player.isU17 ? 'U-17 ' : ''}${player.role}
-        </span>
+  grid.innerHTML = list.map(player => {
+    if (player.image) {
+      return `
+        <div class="squad-card squad-card--has-photo" onclick="openPlayerModal(${player.id})">
+          <div class="squad-card__media">
+            <img src="${player.image}" alt="${player.name}" class="squad-card__img" loading="lazy">
+            <div class="squad-card__gradient"></div>
+            <div class="squad-card__badges">
+              <span class="squad-number-pill">#${player.number}</span>
+              <span class="squad-role-pill squad-role-pill--${player.role}">
+                ${player.isU17 ? 'U-17 ' : ''}${player.role}
+              </span>
+            </div>
+            <div class="squad-card__verified-badge" title="Official 2026/27 Photo">
+              <i class="fa-solid fa-circle-check"></i> Official Photo
+            </div>
+          </div>
+          <div class="squad-card__body">
+            <div class="squad-name">${player.name}</div>
+            <div class="squad-pos-full">${player.posName}</div>
+            <div class="squad-origin-tag"><i class="fa-solid fa-location-dot"></i> ${player.origin}</div>
+            <div class="squad-stats-mini">
+              <span><i class="fa-solid fa-shirt"></i> Apps: <strong>${player.apps}</strong></span>
+              <span><i class="fa-solid ${player.role === 'GK' ? 'fa-shield' : 'fa-futbol'}"></i> ${player.role === 'GK' ? `CS: <strong>${player.cleanSheets}</strong>` : `Goals: <strong>${player.goals || 0}</strong>`}</span>
+            </div>
+            <button class="squad-card__action-btn" type="button">
+              <span>View Full Profile</span> <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="squad-card squad-card--graphic" onclick="openPlayerModal(${player.id})">
+        <div class="squad-card__graphic-top">
+          <div class="squad-card__watermark-num">#${player.number}</div>
+          <img src="assets/official-logo.png" alt="Young Apostles Crest" class="squad-card__crest-ghost">
+          <div class="squad-card__badges">
+            <span class="squad-number-pill">#${player.number}</span>
+            <span class="squad-role-pill squad-role-pill--${player.role}">
+              ${player.isU17 ? 'U-17 ' : ''}${player.role}
+            </span>
+          </div>
+        </div>
+        <div class="squad-card__body">
+          <div class="squad-name">${player.name}</div>
+          <div class="squad-pos-full">${player.posName}</div>
+          <div class="squad-origin-tag"><i class="fa-solid fa-location-dot"></i> ${player.origin}</div>
+          <div class="squad-stats-mini">
+            <span><i class="fa-solid fa-shirt"></i> Apps: <strong>${player.apps}</strong></span>
+            <span><i class="fa-solid ${player.role === 'GK' ? 'fa-shield' : 'fa-futbol'}"></i> ${player.role === 'GK' ? `CS: <strong>${player.cleanSheets}</strong>` : `Goals: <strong>${player.goals || 0}</strong>`}</span>
+          </div>
+          <button class="squad-card__action-btn" type="button">
+            <span>View Full Profile</span> <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
       </div>
-      <div class="squad-name">${player.name}</div>
-      <div class="squad-pos-full">${player.posName}</div>
-      <div class="squad-stats-mini">
-        <span><i class="fa-solid fa-shirt"></i> Apps: ${player.apps}</span>
-        <span><i class="fa-solid ${player.role === 'GK' ? 'fa-shield' : 'fa-futbol'}"></i> ${player.role === 'GK' ? `CS: ${player.cleanSheets}` : `Goals: ${player.goals || 0}`}</span>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 // ==========================================
@@ -401,16 +478,33 @@ function openProductModal(productId) {
 
         ${product.customizable ? `
           <div style="background:var(--bg-subtle); padding:0.75rem; border-radius:var(--radius-sm); margin-bottom:1rem;">
-            <div style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--text-main);">
-              <i class="fa-solid fa-shirt text-gold"></i> Free Official Player Printing
+            <div style="font-size:0.8rem; font-weight:700; margin-bottom:0.5rem; color:var(--text-main); display:flex; justify-content:space-between; align-items:center;">
+              <span><i class="fa-solid fa-shirt text-gold"></i> Free Official Player Printing</span>
+              <span style="font-size:0.7rem; color:var(--text-muted);">Click star preset:</span>
             </div>
-            <div class="form-grid" style="margin-bottom:0;">
+            <div class="form-grid" style="margin-bottom:0.4rem;">
               <div class="form-group">
-                <input type="text" placeholder="Name (e.g. RAMZY)" id="modalCustomName">
+                <input type="text" placeholder="Name (e.g. SALIFU)" id="modalCustomName">
               </div>
               <div class="form-group">
-                <input type="number" placeholder="No (e.g. 8)" id="modalCustomNum">
+                <input type="number" placeholder="No (e.g. 19)" id="modalCustomNum">
               </div>
+            </div>
+            <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('BOATENG', 31)">#31 BOATENG</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('GYAMFI', 30)">#30 GYAMFI</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('AMOAH', 45)">#45 AMOAH</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('SALIFU', 19)">#19 SALIFU</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('GAMWU', 32)">#32 GAMWU</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('MOBARICK', 34)">#34 MOBARICK</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('GANIYU', 5)">#5 GANIYU</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('EMMANUEL', 51)">#51 EMMANUEL</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('TWUM', 13)">#13 TWUM</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('BEMPAH', 44)">#44 BEMPAH</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('SEIDU', 28)">#28 SEIDU</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('ABOAGYE', 18)">#18 ABOAGYE</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('LUIS', 29)">#29 LUIS</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('RAMZY', 8)">#8 RAMZY</button>
             </div>
           </div>
         ` : ''}
@@ -423,6 +517,13 @@ function openProductModal(productId) {
   `;
 
   document.getElementById('productModal').classList.add('open');
+}
+
+function setCustomKit(name, num) {
+  const nameInput = document.getElementById('modalCustomName');
+  const numInput = document.getElementById('modalCustomNum');
+  if (nameInput) nameInput.value = name;
+  if (numInput) numInput.value = num;
 }
 
 function handleModalAdd(productId) {
@@ -438,7 +539,7 @@ function closeProductModal() {
 }
 
 // ==========================================
-// 8. PLAYER MODAL
+// 8. ENHANCED PLAYER PROFILE MODAL
 // ==========================================
 function openPlayerModal(playerId) {
   const player = SQUAD_DATA.find(p => p.id === playerId);
@@ -447,33 +548,84 @@ function openPlayerModal(playerId) {
   const content = document.getElementById('playerModalContent');
   if (!content) return;
 
+  const hasPhoto = !!player.image;
+
   content.innerHTML = `
-    <div style="text-align:center;">
-      <div style="width:70px; height:70px; border-radius:50%; background:var(--ya-green); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.75rem; font-weight:800; margin:0 auto 1rem; font-family:var(--font-heading);">
-        #${player.number}
-      </div>
-      <h3 style="font-family:var(--font-heading); font-size:1.5rem; font-weight:800;">${player.name}</h3>
-      <p style="color:var(--ya-green); font-weight:700; font-size:0.9rem;">${player.posName} (${player.role})</p>
-      <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.25rem;">Hometown: ${player.origin} · GPL Registered 2026/27</p>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0; background:var(--bg-subtle); padding:1rem; border-radius:var(--radius-md);">
-        <div>
-          <span style="font-size:0.75rem; color:var(--text-muted);">Season Appearances</span>
-          <div style="font-size:1.25rem; font-weight:800;">${player.apps}</div>
-        </div>
-        <div>
-          <span style="font-size:0.75rem; color:var(--text-muted);">${player.role === 'GK' ? 'Clean Sheets' : 'Goals'}</span>
-          <div style="font-size:1.25rem; font-weight:800; color:var(--ya-green);">${player.role === 'GK' ? player.cleanSheets : (player.goals || 0)}</div>
-        </div>
+    <div class="player-modal-layout">
+      <div class="player-modal-media">
+        ${hasPhoto ? `
+          <img src="${player.image}" alt="${player.name}" class="player-modal-media__img">
+          <div class="player-modal-media__badge">#${player.number}</div>
+          <div class="player-modal-media__caption">Official 2026/27 Matchwear</div>
+        ` : `
+          <div style="aspect-ratio:3/4; background:linear-gradient(135deg, var(--ya-blue-deep) 0%, var(--ya-blue) 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem; text-align:center;">
+            <img src="assets/official-logo.png" style="width:75px; margin-bottom:1rem; filter:drop-shadow(0 4px 10px rgba(0,0,0,0.3));">
+            <div style="font-family:var(--font-heading); font-size:3.5rem; font-weight:900; color:var(--ya-gold); line-height:1;">#${player.number}</div>
+            <div style="font-size:0.75rem; color:var(--text-white-sub); margin-top:0.5rem; text-transform:uppercase; letter-spacing:0.08em;">Registered First Team</div>
+          </div>
+        `}
       </div>
 
-      <button class="btn-hero-primary" style="width:100%; justify-content:center;" onclick="closePlayerModal(); openProductModal('kit-home');">
-        Order #${player.number} ${player.name.toUpperCase()} Jersey
-      </button>
+      <div class="player-modal-details">
+        <div class="player-modal-header">
+          <div class="player-modal-tags">
+            <span class="squad-role-pill squad-role-pill--${player.role}">${player.isU17 ? 'U-17 Academy · ' : ''}${player.role}</span>
+            <span style="background:rgba(255,184,0,0.15); color:var(--ya-gold); border:1px solid rgba(255,184,0,0.3); font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:var(--radius-pill);">
+              <i class="fa-solid fa-shield-halved"></i> GPL 2026/27
+            </span>
+          </div>
+          <h2 class="player-modal-name">${player.name}</h2>
+          <div class="player-modal-pos">${player.posName} · Squad #${player.number}</div>
+        </div>
+
+        <div class="player-modal-chips">
+          <div class="player-modal-chip"><i class="fa-solid fa-location-dot"></i> Hometown: <strong>${player.origin}</strong></div>
+          ${player.foot ? `<div class="player-modal-chip"><i class="fa-solid fa-shoe-prints"></i> Foot: <strong>${player.foot}</strong></div>` : ''}
+          ${player.height ? `<div class="player-modal-chip"><i class="fa-solid fa-ruler-vertical"></i> Height: <strong>${player.height}</strong></div>` : ''}
+          <div class="player-modal-chip"><i class="fa-solid fa-certificate"></i> Status: <strong>Senior Roster</strong></div>
+        </div>
+
+        <div class="player-modal-bio">
+          ${player.bio || `${player.name} is a key registered squad member for Young Apostles FC in the 2026/27 Ghana Premier League campaign under Head Coach Abu Abdul-Hanan.`}
+        </div>
+
+        <div class="player-modal-stats-grid">
+          <div class="player-stat-card">
+            <div class="player-stat-label">Appearances</div>
+            <div class="player-stat-val">${player.apps}</div>
+          </div>
+          <div class="player-stat-card">
+            <div class="player-stat-label">${player.role === 'GK' ? 'Clean Sheets' : 'Goals'}</div>
+            <div class="player-stat-val" style="color:var(--ya-gold);">${player.role === 'GK' ? player.cleanSheets : (player.goals || 0)}</div>
+          </div>
+          <div class="player-stat-card">
+            <div class="player-stat-label">Jersey Number</div>
+            <div class="player-stat-val">#${player.number}</div>
+          </div>
+        </div>
+
+        <div class="player-modal-actions">
+          <button class="btn-hero-primary" style="flex:1; justify-content:center;" onclick="closePlayerModal(); openCustomKitModal('${player.name.replace(/'/g, "\\'")}', ${player.number});">
+            <i class="fa-solid fa-shirt"></i> Order #${player.number} Official Jersey
+          </button>
+          <button class="btn-hero-secondary" style="background:var(--bg-subtle); color:var(--text-main); border-color:var(--border-color);" onclick="closePlayerModal();">
+            Close
+          </button>
+        </div>
+      </div>
     </div>
   `;
 
   document.getElementById('playerModal').classList.add('open');
+}
+
+function openCustomKitModal(playerName, playerNumber) {
+  // Extract simple surname/last word for jersey name printing
+  const cleanName = playerName.split(' ').pop();
+  openProductModal('kit-home');
+  setTimeout(() => {
+    setCustomKit(cleanName.toUpperCase(), playerNumber);
+  }, 120);
 }
 
 function closePlayerModal() {
@@ -711,6 +863,7 @@ function showToast(msg) {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
+  renderSquadSpotlight();
   renderSquad('all');
   renderProducts('all');
   setInterval(updateCountdown, 1000);
