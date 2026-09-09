@@ -16,14 +16,14 @@ const SQUAD_DATA = [
   { id: 5, name: 'Seidu Adams', number: 1, role: 'GK', posName: 'Goalkeeper', isU17: true, apps: 2, cleanSheets: 1, origin: 'Academy' },
 
   // DEFENDERS (DF)
-  { id: 6, name: 'Issah Nyaabila', number: 4, role: 'DF', posName: 'Center Back', isU17: false, apps: 30, goals: 2, origin: 'Wenchi' },
+  { id: 6, name: 'Issah Nyaabila', number: 4, role: 'DF', posName: 'Center Back / Vice Captain', isU17: false, apps: 30, goals: 2, origin: 'Wenchi', image: 'assets/players/issah-nyaabila.jpg', bio: 'Nicknamed "The Rock of Bolgatanga", an unyielding aerial powerhouse and defensive general whose leadership and rock-solid tackling anchor the Apostles backline.', height: "6'2\"", foot: 'Right', isFeatured: true },
   { id: 7, name: 'Abdul Rurf Rahman', number: 15, role: 'DF', posName: 'Right Back', isU17: false, apps: 26, goals: 1, origin: 'Tamale' },
   { id: 8, name: 'Mathias Van Amegbe', number: 25, role: 'DF', posName: 'Left Back', isU17: false, apps: 28, goals: 3, origin: 'Accra' },
-  { id: 9, name: 'Illiasu Mumuni', number: 24, role: 'DF', posName: 'Center Back', isU17: false, apps: 22, goals: 0, origin: 'Kumasi' },
+  { id: 9, name: 'Illiasu Mumuni', number: 24, role: 'DF', posName: 'Center Back', isU17: false, apps: 22, goals: 0, origin: 'Kumasi', image: 'assets/players/illiasu-mumuni.jpg', bio: 'Tall, composed 18-year-old central defender who made his commanding starting XI debut against Vision FC, showcasing mature reading of the game and tactical aerial supremacy.', height: "6'1\"", foot: 'Right', isFeatured: true },
   { id: 10, name: 'Abdul Musah Mohammed', number: 12, role: 'DF', posName: 'Full Back', isU17: false, apps: 19, goals: 1, origin: 'Sunyani' },
   { id: 11, name: 'Abdul Mobarick', number: 34, role: 'DF', posName: 'Left Back / Center Back', isU17: false, apps: 17, goals: 0, origin: 'Wenchi', image: 'assets/players/abdul-mobarick.jpg', bio: 'Dynamic left-sided defender signed from Mighty Royals. Known for rapid acceleration, intelligent positioning, and resilient flank defending.', height: "5'10\"", foot: 'Left', isFeatured: true },
   { id: 12, name: 'Emmanuel Owusu Bempah', number: 44, role: 'DF', posName: 'Right Back / Wing Back', isU17: false, apps: 24, goals: 1, origin: 'Berekum', image: 'assets/players/emmanuel-owusu-bempah.jpg', bio: 'Energetic and tough-tackling right back known for relentless overlapping runs, crossing precision, and commanding flank containment.', height: "5'9\"", foot: 'Right', isFeatured: true },
-  { id: 13, name: 'Issah Salifu', number: 23, role: 'DF', posName: 'Left Back', isU17: false, apps: 16, goals: 0, origin: 'Tamale' },
+  { id: 13, name: 'Issah Salifu', number: 23, role: 'DF', posName: 'Left Back', isU17: false, apps: 16, goals: 0, origin: 'Tamale', image: 'assets/players/issah-salifu.jpg', bio: 'Tenacious and rapid left back from Tamale, providing resolute flank containment, physical tackling, and smooth transition passing into midfield.', height: "5'10\"", foot: 'Left', isFeatured: true },
   { id: 14, name: 'Samuel Amankwah', number: 3, role: 'DF', posName: 'Center Back', isU17: false, apps: 21, goals: 1, origin: 'Wenchi' },
   { id: 15, name: 'Foster Agyarko', number: 33, role: 'DF', posName: 'Defensive Stopper', isU17: false, apps: 18, goals: 0, origin: 'Techiman' },
   { id: 16, name: 'Fumi Koulibaly Andrews', number: 48, role: 'DF', posName: 'Center Back', isU17: false, apps: 12, goals: 0, origin: 'Ivory Coast/Ghana' },
@@ -44,7 +44,7 @@ const SQUAD_DATA = [
   { id: 27, name: 'Joseph Mensah', number: 7, role: 'FW', posName: 'Right Winger', isU17: false, apps: 31, goals: 11, origin: 'Wenchi' },
   { id: 28, name: 'Foster Adu Gyamfi', number: 30, role: 'FW', posName: 'Center Forward / Striker', isU17: false, apps: 27, goals: 9, origin: 'Berekum', image: 'assets/players/foster-adu-gyamfi.jpg', bio: 'Prolific 19-year-old goal poacher renowned for sharp penalty box movement, instinctive aerial presence, and 9 goals this campaign.', height: "6'1\"", foot: 'Right', isFeatured: true },
   { id: 29, name: 'Samuel Prempeh', number: 21, role: 'FW', posName: 'Left Winger', isU17: false, apps: 29, goals: 8, origin: 'Kumasi' },
-  { id: 30, name: 'Issah Huseine', number: 11, role: 'FW', posName: 'Forward / Winger', isU17: false, apps: 24, goals: 6, origin: 'Tamale' },
+  { id: 30, name: 'Issah Huseine', altName: 'Hussein Issah', number: 11, role: 'FW', posName: 'Forward / Winger', isU17: false, apps: 24, goals: 6, origin: 'Tamale', image: 'assets/players/issah-huseine.jpg', bio: 'Affectionately known as "Suarez" by the Apostles faithful, an energetic, clinical match-winner with blistering acceleration and a sharp eye for decisive goals.', height: "5'10\"", foot: 'Right', isFeatured: true },
   { id: 31, name: 'Abdul Fatao Salifu', number: 19, role: 'FW', posName: 'Striker / Center Forward', isU17: false, apps: 21, goals: 5, origin: 'Sunyani', image: 'assets/players/abdul-fatao-salifu.jpg', bio: 'Lethal marksman and key summer acquisition after an electric 15-goal, 7-assist season earning 7 MVP honors in Division One with Mighty Royals.', height: "6'0\"", foot: 'Both', isFeatured: true },
   { id: 32, name: 'Foster Amoah', number: 45, role: 'FW', posName: 'Center Forward', isU17: false, apps: 18, goals: 4, origin: 'Wenchi', image: 'assets/players/foster-amoah.jpg', bio: 'High-energy striker brought in to spearhead the attack, renowned for relentless pressing, hold-up capability, and sharp target-man instincts.', height: "5'11\"", foot: 'Right', isFeatured: true },
   { id: 33, name: 'Joel Gakpo', number: 9, role: 'FW', posName: 'Number 9 / Striker', isU17: false, apps: 26, goals: 10, origin: 'Accra' },
@@ -52,7 +52,7 @@ const SQUAD_DATA = [
   { id: 35, name: 'Richmond Opoku', number: 40, role: 'FW', posName: 'Winger', isU17: false, apps: 15, goals: 3, origin: 'Wenchi' },
   { id: 36, name: 'Prince Osei Amankwah', number: 35, role: 'FW', posName: 'Forward', isU17: false, apps: 14, goals: 2, origin: 'Sunyani' },
   { id: 37, name: 'Andy Luis', number: 29, role: 'FW', posName: 'Forward / Winger', isU17: true, apps: 8, goals: 2, origin: 'Academy', image: 'assets/players/andy-luis.jpg', bio: 'Explosive academy forward blessed with electric burst of pace, direct dribbling ability, and clinical instinct in front of goal.', height: "5'11\"", foot: 'Both', isFeatured: true },
-  { id: 38, name: 'James Konadu', number: 50, role: 'FW', posName: 'Forward', isU17: true, apps: 6, goals: 1, origin: 'Academy' }
+  { id: 38, name: 'James Konadu', number: 50, role: 'FW', posName: 'Forward / Winger', isU17: true, apps: 6, goals: 1, origin: 'Academy', image: 'assets/players/james-konadu.jpg', bio: 'Prodigious Young Apostles Academy talent with "ice in his veins", possessing electrifying agility, fearless direct dribbling, and clinical finishing instincts.', height: "5'8\"", foot: 'Right', isFeatured: true }
 ];
 
 // ==========================================
@@ -491,6 +491,11 @@ function openProductModal(productId) {
               </div>
             </div>
             <div style="display:flex; gap:0.35rem; flex-wrap:wrap;">
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('NYAABILA', 4)">#4 NYAABILA</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('HUSEINE', 11)">#11 HUSEINE</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('SALIFU', 23)">#23 SALIFU</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('MUMUNI', 24)">#24 MUMUNI</button>
+              <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('KONADU', 50)">#50 KONADU</button>
               <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('BOATENG', 31)">#31 BOATENG</button>
               <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('GYAMFI', 30)">#30 GYAMFI</button>
               <button type="button" style="font-size:0.68rem; font-weight:700; background:#fff; border:1px solid var(--border-color); padding:3px 7px; border-radius:var(--radius-pill); cursor:pointer; color:var(--ya-blue);" onclick="setCustomKit('AMOAH', 45)">#45 AMOAH</button>
