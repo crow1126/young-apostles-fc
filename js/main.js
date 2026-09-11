@@ -142,7 +142,7 @@ const PRODUCTS_DATA = [
 // 3. DATA: 34-WEEK GPL FIXTURES
 // ==========================================
 const FIXTURES_ROUND_1 = [
-  { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 4, 2026', type: 'Away' },
+  { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 4, 2026', type: 'Away', score: '0 - 0' },
   { week: 2, home: 'Young Apostles', away: 'Basake Holy Stars', venue: 'Wenchi Sports Stadium', date: 'Sep 11, 2026', type: 'Home' },
   { week: 3, home: 'Debibi United', away: 'Young Apostles', venue: 'Debibi Park', date: 'Sep 20, 2026', type: 'Away' },
   { week: 4, home: 'Young Apostles', away: 'Heart of Lions', venue: 'Wenchi Sports Stadium', date: 'Sep 27, 2026', type: 'Home' },
@@ -303,46 +303,8 @@ function closeCartDrawer() {
 // ==========================================
 // 5. RENDERING SQUAD SPOTLIGHT, PHOTO WALL & GRID
 // ==========================================
-function renderTeamPhotoWall() {
-  const wall = document.getElementById('teamPhotoWall');
-  if (!wall) return;
-  const players = SQUAD_DATA.filter(p => p.image);
-  wall.innerHTML = `
-    <div class="photo-wall-label"><i class="fa-solid fa-users"></i> Official 2026/27 First Team</div>
-    <div class="photo-wall-strip">
-      ${players.map(p => `
-        <div class="photo-wall-tile" onclick="openPlayerModal(${p.id})" title="${p.name} #${p.number}">
-          <img src="${p.image}" alt="${p.name}" loading="lazy">
-          <div class="photo-wall-tile__num">#${p.number}</div>
-          <div class="photo-wall-tile__name">${p.name.split(' ')[0]}</div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-}
-
-function renderSquadSpotlight() {
-  const container = document.getElementById('squadSpotlightGrid');
-  if (!container) return;
-  const stars = SQUAD_DATA.filter(p => p.image);
-  container.innerHTML = stars.map(player => `
-    <div class="spotlight-player-card" onclick="openPlayerModal(${player.id})">
-      <div class="spotlight-player-card__media">
-        <img src="${player.image}" alt="${player.name}" class="spotlight-player-card__img" loading="lazy">
-        <div class="spotlight-player-card__gradient"></div>
-        <div class="spotlight-player-card__top-badges">
-          <span class="spotlight-num-badge">#${player.number}</span>
-          <span class="spotlight-pos-tag">${player.isU17 ? 'U-17 ' : ''}${player.role}</span>
-        </div>
-      </div>
-      <div class="spotlight-player-card__info">
-        <div class="spotlight-player-card__name">${player.name}</div>
-        <div class="spotlight-player-card__pos">${player.posName}</div>
-      </div>
-    </div>
-  `).join('');
-}
-
+// 5. RENDERING SQUAD GRID (Chelsea Style)
+// ==========================================
 function renderSquad(filter = 'all') {
   const grid = document.getElementById('squadGrid');
   if (!grid) return;
@@ -362,15 +324,13 @@ function renderSquad(filter = 'all') {
       <div class="squad-card__media">
         <img src="${player.image}" alt="${player.name}" class="squad-card__img" loading="lazy">
         <div class="squad-card__gradient"></div>
-        <div class="squad-card__badges">
-          <span class="squad-number-pill">#${player.number}</span>
-          <span class="squad-role-pill squad-role-pill--${player.role}">
-            ${player.isU17 ? 'U-17 ' : ''}${player.role}
-          </span>
-        </div>
+        <span class="squad-card__number-badge">#${player.number}</span>
       </div>
       <div class="squad-card__body squad-card__body--minimal">
-        <div class="squad-name">${player.name}</div>
+        <div>
+          <div class="squad-name">${player.name}</div>
+          <div class="squad-pos-label">${player.posName}</div>
+        </div>
         <div class="squad-jersey-num">#${player.number}</div>
       </div>
     </div>
@@ -539,64 +499,36 @@ function openPlayerModal(playerId) {
   const hasPhoto = !!player.image;
 
   content.innerHTML = `
-    <div class="player-modal-layout">
+    <div class="player-modal-layout" style="max-width:640px;">
       <div class="player-modal-media">
         ${hasPhoto ? `
-          <img src="${player.image}" alt="${player.name}" class="player-modal-media__img">
-          <div class="player-modal-media__badge">#${player.number}</div>
-          <div class="player-modal-media__caption">Official 2026/27 Matchwear</div>
+          <img src="${player.image}" alt="${player.name}" class="player-modal-media__img" style="height:380px; object-fit:cover; object-position:center 10%;">
+          <div class="player-modal-media__badge" style="background:#001489; color:#fff; font-size:1.5rem; padding:6px 14px; border-radius:6px;">#${player.number}</div>
         ` : `
-          <div style="aspect-ratio:3/4; background:linear-gradient(135deg, var(--ya-blue-deep) 0%, var(--ya-blue) 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem; text-align:center;">
-            <img src="assets/official-logo.png" style="width:75px; margin-bottom:1rem; filter:drop-shadow(0 4px 10px rgba(0,0,0,0.3));">
-            <div style="font-family:var(--font-heading); font-size:3.5rem; font-weight:900; color:var(--ya-gold); line-height:1;">#${player.number}</div>
-            <div style="font-size:0.75rem; color:var(--text-white-sub); margin-top:0.5rem; text-transform:uppercase; letter-spacing:0.08em;">Registered First Team</div>
+          <div style="aspect-ratio:3/4; background:linear-gradient(135deg, #001489 0%, #0057B8 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1.5rem; text-align:center;">
+            <img src="assets/official-logo.png" style="width:75px; margin-bottom:1rem;">
+            <div style="font-family:var(--font-heading); font-size:4rem; font-weight:900; color:#fff; line-height:1;">#${player.number}</div>
           </div>
         `}
       </div>
 
-      <div class="player-modal-details">
+      <div class="player-modal-details" style="padding:2rem 1.5rem; display:flex; flex-direction:column; justify-content:center;">
         <div class="player-modal-header">
-          <div class="player-modal-tags">
-            <span class="squad-role-pill squad-role-pill--${player.role}">${player.isU17 ? 'U-17 Academy · ' : ''}${player.role}</span>
-            <span style="background:rgba(255,184,0,0.15); color:var(--ya-gold); border:1px solid rgba(255,184,0,0.3); font-size:0.7rem; font-weight:700; padding:2px 8px; border-radius:var(--radius-pill);">
-              <i class="fa-solid fa-shield-halved"></i> GPL 2026/27
-            </span>
-          </div>
-          <h2 class="player-modal-name">${player.name}</h2>
-          <div class="player-modal-pos">${player.posName} · Squad #${player.number}</div>
+          <span style="display:inline-block; font-size:0.78rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:#0057B8; margin-bottom:0.35rem;">${player.posName}</span>
+          <h2 class="player-modal-name" style="font-size:2.2rem; font-weight:900; color:#001489; line-height:1.15; margin:0;">${player.name}</h2>
+          <div style="font-family:var(--font-heading); font-size:1.4rem; font-weight:900; color:#0057B8; margin-top:0.4rem;">Squad #${player.number}</div>
         </div>
 
-        <div class="player-modal-chips">
-          <div class="player-modal-chip"><i class="fa-solid fa-location-dot"></i> Hometown: <strong>${player.origin}</strong></div>
-          ${player.foot ? `<div class="player-modal-chip"><i class="fa-solid fa-shoe-prints"></i> Foot: <strong>${player.foot}</strong></div>` : ''}
-          ${player.height ? `<div class="player-modal-chip"><i class="fa-solid fa-ruler-vertical"></i> Height: <strong>${player.height}</strong></div>` : ''}
-          <div class="player-modal-chip"><i class="fa-solid fa-certificate"></i> Status: <strong>Senior Roster</strong></div>
+        <div style="margin:1.5rem 0; padding:1rem 1.25rem; background:var(--bg-subtle); border-radius:8px; border:1px solid var(--border-color);">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.06em;">First Team Roster</div>
+          <div style="font-weight:700; color:#001489; font-size:0.95rem; margin-top:0.25rem;">Young Apostles FC &middot; Ghana Premier League 2026/27</div>
         </div>
 
-        <div class="player-modal-bio">
-          ${player.bio || `${player.name} is a key registered squad member for Young Apostles FC in the 2026/27 Ghana Premier League campaign under Head Coach Abu Abdul-Hanan.`}
-        </div>
-
-        <div class="player-modal-stats-grid">
-          <div class="player-stat-card">
-            <div class="player-stat-label">Appearances</div>
-            <div class="player-stat-val">${player.apps}</div>
-          </div>
-          <div class="player-stat-card">
-            <div class="player-stat-label">${player.role === 'GK' ? 'Clean Sheets' : 'Goals'}</div>
-            <div class="player-stat-val" style="color:var(--ya-gold);">${player.role === 'GK' ? player.cleanSheets : (player.goals || 0)}</div>
-          </div>
-          <div class="player-stat-card">
-            <div class="player-stat-label">Jersey Number</div>
-            <div class="player-stat-val">#${player.number}</div>
-          </div>
-        </div>
-
-        <div class="player-modal-actions">
-          <button class="btn-hero-primary" style="flex:1; justify-content:center;" onclick="closePlayerModal(); openCustomKitModal('${player.name.replace(/'/g, "\\'")}', ${player.number});">
-            <i class="fa-solid fa-shirt"></i> Order #${player.number} Official Jersey
+        <div class="player-modal-actions" style="display:flex; flex-direction:column; gap:0.75rem;">
+          <button class="btn-hero-primary" style="justify-content:center; background:#001489; border-color:#001489; padding:0.9rem;" onclick="closePlayerModal(); openCustomKitModal('${player.name.replace(/'/g, "\\'")}', ${player.number});">
+            <i class="fa-solid fa-shirt"></i> Order #${player.number} Official Jersey &rarr;
           </button>
-          <button class="btn-hero-secondary" style="background:var(--bg-subtle); color:var(--text-main); border-color:var(--border-color);" onclick="closePlayerModal();">
+          <button class="btn-hero-secondary" style="justify-content:center; background:var(--bg-subtle); color:var(--text-main); border-color:var(--border-color); padding:0.75rem;" onclick="closePlayerModal();">
             Close
           </button>
         </div>
@@ -853,41 +785,45 @@ function renderMatches(typeFilter = 'all') {
   const pastSlice = applyFilter(past).slice(-3).reverse();
 
   const renderCard = f => {
-    const isYAHome = f.home === 'Young Apostles';
+    const isYAHome  = f.home === 'Young Apostles';
     const opponent  = isYAHome ? f.away : f.home;
-    const yaName    = 'Young Apostles';
     const oppSlug   = opponent.toLowerCase().replace(/[^a-z0-9]/g, '');
     const dateObj   = parseFixtureDate(f.date);
-    const dayStr    = dateObj.toLocaleString('en', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+    const dayStr    = dateObj.toLocaleString('en', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
     const cardClass = f.isToday ? 'match-card match-card--active' : f.isPast ? 'match-card match-card--past' : 'match-card';
+
+    const homeName = isYAHome ? 'Young Apostles' : opponent;
+    const homeLogo = isYAHome ? 'assets/official-logo.png' : `assets/opponents/${oppSlug}.png`;
+    const awayName = isYAHome ? opponent : 'Young Apostles';
+    const awayLogo = isYAHome ? `assets/opponents/${oppSlug}.png` : 'assets/official-logo.png';
 
     // Time/score center box
     const centerBox = f.isPast
-      ? `<div class="match-score-box">FT</div>`
-      : `<div class="match-time-box">${f.isToday ? '<span style="font-size:0.65rem;display:block;opacity:0.8">TODAY</span>' : ''}15:00</div>`;
+      ? `<div class="match-score-box">${f.score || 'FT'}</div>`
+      : `<div class="match-time-box">${f.isToday ? '<span style="font-size:0.6rem;display:block;color:#0057B8;line-height:1;">TODAY</span>' : ''}15:00</div>`;
 
     return `
       <div class="${cardClass}">
         ${f.isToday ? '<div class="match-live-badge"><i class="fa-solid fa-circle" style="font-size:0.5em"></i> MATCHDAY</div>' : ''}
-        <div>
-          <div class="match-comp-name">GPL Week ${f.week} &bull; ${f.type}</div>
-          <div class="match-datetime">${dayStr}</div>
-          <div class="match-venue">${f.venue}</div>
+        <div class="match-card-header">
+          <div class="match-card-date">${dayStr}</div>
+          <div class="match-card-comp">GHANA PREMIER LEAGUE &bull; MD ${f.week}</div>
         </div>
         <div class="match-crests-row">
           <div class="match-crest-col">
-            <img src="assets/official-logo.png" alt="Young Apostles FC" onerror="this.src='assets/official-logo.png'">
-            <div class="match-crest-name">${isYAHome ? 'Young Apostles' : opponent}</div>
+            <img src="${homeLogo}" alt="${homeName}" onerror="this.src='assets/official-logo.png'">
+            <div class="match-crest-name">${homeName}</div>
           </div>
           ${centerBox}
           <div class="match-crest-col">
-            <img src="assets/opponents/${oppSlug}.png" alt="${opponent}" onerror="this.src='assets/official-logo.png'">
-            <div class="match-crest-name">${isYAHome ? opponent : 'Young Apostles'}</div>
+            <img src="${awayLogo}" alt="${awayName}" onerror="this.src='assets/official-logo.png'">
+            <div class="match-crest-name">${awayName}</div>
           </div>
         </div>
+        <div class="match-venue">${f.venue}</div>
         <div class="match-card-actions">
-          <button class="btn-match-centre" onclick="openFixturesModal()">Match Centre <i class="fa-solid fa-arrow-right"></i></button>
-          ${!f.isPast ? `<button class="btn-match-tickets" onclick="openMembershipModal()">Tickets <i class="fa-solid fa-arrow-right"></i></button>` : ''}
+          <button class="btn-match-centre" onclick="openFixturesModal()">Match Centre &rarr;</button>
+          ${!f.isPast ? `<button class="btn-match-tickets" onclick="openMembershipModal()">Tickets &rarr;</button>` : ''}
         </div>
       </div>
     `;

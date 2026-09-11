@@ -142,20 +142,20 @@
   <!-- =========================================================
        4. UPCOMING MATCHES SECTION
        ========================================================= -->
-  <section class="section" id="matches">
+  <section class="section" id="matches" style="background: linear-gradient(135deg, #0056B3 0%, #001489 100%); padding: 4.5rem 0;">
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">Schedule / Fixtures <span style="font-size:0.7em;">→</span></h2>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">2026/27 Ghana Premier League Official Matchdays</p>
+          <h2 class="section-title section-title--white">Schedule / Fixtures <span style="font-size:0.7em;">&rarr;</span></h2>
+          <p style="color:rgba(255,255,255,0.8); font-size:0.9rem; margin-top:0.25rem;">2026/27 Ghana Premier League Official Matchdays</p>
         </div>
-        <button class="section-link-action" onclick="openFixturesModal()">
+        <button class="section-link-action section-link-action--white" onclick="openFixturesModal()">
           Full 34-Week Calendar <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
 
       <!-- Filter Tabs -->
-      <div class="category-tabs" id="matchCategoryTabs">
+      <div class="category-tabs category-tabs--dark" id="matchCategoryTabs">
         <button class="tab-btn active" data-match-cat="all">All GPL Fixtures</button>
         <button class="tab-btn" data-match-cat="home">Home Matches</button>
         <button class="tab-btn" data-match-cat="away">Away Matches</button>
@@ -163,13 +163,13 @@
 
       <!-- Real-time Match Cards — rendered by JS -->
       <div class="matches-carousel-wrap">
-        <button class="carousel-nav-btn" onclick="scrollMatches(-1)" aria-label="Previous Matches">
+        <button class="carousel-nav-btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="scrollMatches(-1)" aria-label="Previous Matches">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
         <div class="matches-grid" id="upcomingMatchesGrid">
           <!-- Populated dynamically by renderMatches() -->
         </div>
-        <button class="carousel-nav-btn" onclick="scrollMatches(1)" aria-label="Next Matches">
+        <button class="carousel-nav-btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="scrollMatches(1)" aria-label="Next Matches">
           <i class="fa-solid fa-chevron-right"></i>
         </button>
       </div>
@@ -379,74 +379,45 @@
         </a>
       </div>
 
-          <div class="match-card__header">
-            <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-            <span class="match-comp-name">GPL Promotion Shootout Final</span>
-            <span class="match-datetime">Accra Sports Stadium · Official Highlights</span>
-            <span class="match-venue">Watch on Apostles TV (YouTube)</span>
+      <div class="videos-grid">
+        <!-- Video 1 -->
+        <article class="video-card" onclick="openYouTubeLink('https://www.youtube.com/@YoungApostlesFC')">
+          <div class="video-card__thumb">
+            <img src="assets/promotion-celebration.jpg" alt="Historic GPL Promotion Highlights">
+            <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
           </div>
-          <div class="match-card__body">
-            <div class="match-score-display">1 - 1 (P)</div>
+          <div class="video-card__content">
+            <h3 class="video-card-title">Historic Promotion Shootout Final: Young Apostles Seal Maiden GPL Ticket</h3>
+            <div class="video-card-divider"></div>
+            <div class="video-card-tag">VIDEO</div>
           </div>
-          <div class="match-card__footer">
-            <img src="assets/opponents/vision.png" alt="Techiman Heroes" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
-            <span class="match-opponent-name">Techiman Heroes</span>
-          </div>
-        </div>
+        </article>
 
-        <!-- Highlight 2 (Featured Royal Blue): Pre-Season 2-0 Victory over FC Samartex 1996 -->
-        <div class="highlight-card highlight-card--active" onclick="openYouTubeLink('https://www.youtube.com/results?search_query=Young+Apostles+FC+vs+Samartex+highlights')">
-          <div class="highlight-play-icon"><i class="fa-brands fa-youtube"></i></div>
-          <div class="match-card__header">
-            <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-            <span class="match-comp-name">Pre-Season Showcase</span>
-            <span class="match-datetime">Nsenkyire Complex · Verified Result</span>
-            <span class="match-venue">Watch Full Highlights on YouTube</span>
+        <!-- Video 2 -->
+        <article class="video-card" onclick="openYouTubeLink('https://www.youtube.com/results?search_query=Young+Apostles+FC+vs+Samartex+highlights')">
+          <div class="video-card__thumb">
+            <img src="assets/news-1.jpg" alt="Pre-Season Showcase Samartex">
+            <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
           </div>
-          <div class="match-card__body">
-            <div class="match-score-display">2 - 0</div>
+          <div class="video-card__content">
+            <h3 class="video-card-title">Pre-Season Showcase: Apostles 2 - 0 Victory over FC Samartex Highlights</h3>
+            <div class="video-card-divider"></div>
+            <div class="video-card-tag">VIDEO</div>
           </div>
-          <div class="match-card__footer">
-            <img src="assets/official-logo.png" alt="Young Apostles FC" class="match-opponent-crest">
-            <span class="match-opponent-name">FC Samartex 1996</span>
-          </div>
-        </div>
+        </article>
 
-        <!-- Highlight 3: Vision FC GPL Opening Encounter -->
-        <div class="highlight-card" onclick="openYouTubeLink('https://www.youtube.com/results?search_query=Young+Apostles+FC+vs+Vision+FC+highlights')">
-          <div class="highlight-play-icon"><i class="fa-brands fa-youtube"></i></div>
-          <div class="match-card__header">
-            <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-            <span class="match-comp-name">Ghana Premier League Matchday 1</span>
-            <span class="match-datetime">Nii Adjei Kraku Stadium, Tema</span>
-            <span class="match-venue">Watch on YouTube</span>
+        <!-- Video 3 -->
+        <article class="video-card" onclick="openYouTubeLink('https://www.youtube.com/@YoungApostlesFC')">
+          <div class="video-card__thumb">
+            <img src="assets/news-3.jpg" alt="Coach Abu Abdul-Hanan Press Conference">
+            <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
           </div>
-          <div class="match-card__body">
-            <div class="match-score-display">GPL MD1</div>
+          <div class="video-card__content">
+            <h3 class="video-card-title">Head Coach Abu Abdul-Hanan: "Wenchi Is Ready for Ghana's Biggest Stage"</h3>
+            <div class="video-card-divider"></div>
+            <div class="video-card-tag">VIDEO</div>
           </div>
-          <div class="match-card__footer">
-            <img src="assets/opponents/vision.png" alt="Vision FC" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
-            <span class="match-opponent-name">Vision FC</span>
-          </div>
-        </div>
-
-        <!-- Highlight 4: Regional Derby vs Berekum Chelsea -->
-        <div class="highlight-card" onclick="openYouTubeLink('https://www.youtube.com/results?search_query=Young+Apostles+FC+vs+Berekum+Chelsea+highlights')">
-          <div class="highlight-play-icon"><i class="fa-brands fa-youtube"></i></div>
-          <div class="match-card__header">
-            <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-            <span class="match-comp-name">Bono Regional Derby</span>
-            <span class="match-datetime">Golden City Park · Match Highlights</span>
-            <span class="match-venue">Watch on YouTube (@YoungApostlesFC)</span>
-          </div>
-          <div class="match-card__body">
-            <div class="match-score-display">DERBY</div>
-          </div>
-          <div class="match-card__footer">
-            <img src="assets/opponents/chelsea.png" alt="Berekum Chelsea" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
-            <span class="match-opponent-name">Berekum Chelsea</span>
-          </div>
-        </div>
+        </article>
       </div>
     </div>
   </section>
@@ -580,29 +551,38 @@
   </section>
 
   <!-- =========================================================
-       12. PARTNERS & SPONSORS RIBBON
+       12. PARTNERS & SPONSORS (Chelsea Style)
        ========================================================= -->
-  <div class="partners-ribbon">
-    <div class="container">
-      <div class="partners-logos-wrap">
-        <div class="partner-logo-item">
-          <img src="assets/coreva.svg" alt="Coreva">
+  <section class="partners-ribbon" style="background:#FFFFFF; padding:3.5rem 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color);">
+    <div class="container" style="text-align:center;">
+      <div style="margin-bottom:2.5rem;">
+        <div style="font-style:italic; font-weight:700; color:var(--text-muted); font-size:0.95rem; margin-bottom:1.5rem; letter-spacing:0.04em;">Principal Partners</div>
+        <div class="partners-logos-wrap" style="display:flex; justify-content:center; align-items:center; gap:3.5rem; flex-wrap:wrap;">
+          <div class="partner-logo-item">
+            <img src="assets/coreva.svg" alt="Coreva" style="height:38px; object-fit:contain;">
+          </div>
+          <div class="partner-logo-item" style="font-weight:800; font-size:1.1rem; color:var(--ya-blue-deep); display:flex; align-items:center; gap:0.5rem;">
+            <i class="fa-solid fa-shirt" style="color:#0057B8;"></i> MAYNIAK SPORTSWEAR
+          </div>
         </div>
-        <div class="partner-logo-item">
-          <i class="fa-solid fa-shirt"></i> MAYNIAK SPORTSWEAR
-        </div>
-        <div class="partner-logo-item">
-          <i class="fa-solid fa-trophy"></i> GHANA PREMIER LEAGUE
-        </div>
-        <div class="partner-logo-item">
-          <i class="fa-solid fa-building-columns"></i> ACCESS BANK
-        </div>
-        <div class="partner-logo-item">
-          <i class="fa-solid fa-shield-halved"></i> GFA GHANA
+      </div>
+
+      <div>
+        <div style="font-style:italic; font-weight:700; color:var(--text-muted); font-size:0.95rem; margin-bottom:1.5rem; letter-spacing:0.04em;">Official Partners</div>
+        <div class="partners-logos-wrap" style="display:flex; justify-content:center; align-items:center; gap:3rem; flex-wrap:wrap;">
+          <div class="partner-logo-item" style="font-weight:700; font-size:0.95rem; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">
+            <i class="fa-solid fa-trophy" style="color:#0057B8;"></i> GHANA PREMIER LEAGUE
+          </div>
+          <div class="partner-logo-item" style="font-weight:700; font-size:0.95rem; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">
+            <i class="fa-solid fa-building-columns" style="color:#0057B8;"></i> ACCESS BANK
+          </div>
+          <div class="partner-logo-item" style="font-weight:700; font-size:0.95rem; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">
+            <i class="fa-solid fa-shield-halved" style="color:#0057B8;"></i> GHANA FA
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- =========================================================
        13. FOOTER
