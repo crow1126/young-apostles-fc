@@ -2679,3 +2679,180 @@ button {
   }
 }
 
+/* ==========================================================================
+   TEAM PHOTO WALL
+   ========================================================================== */
+.team-photo-wall {
+  margin-bottom: 2.5rem;
+  background: var(--ya-blue-deep);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem 1.25rem 1rem;
+  overflow: hidden;
+}
+.photo-wall-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ya-gold);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.photo-wall-strip {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;
+}
+.photo-wall-strip::-webkit-scrollbar { display: none; }
+.photo-wall-tile {
+  flex: 0 0 90px;
+  scroll-snap-align: start;
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  height: 120px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.photo-wall-tile:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 2;
+}
+.photo-wall-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.photo-wall-tile__num {
+  position: absolute;
+  top: 5px;
+  left: 6px;
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--ya-blue);
+  border-radius: var(--radius-pill);
+  padding: 1px 6px;
+  line-height: 1.5;
+}
+.photo-wall-tile__name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(7,14,41,0.92) 0%, transparent 100%);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 0.5rem 0.25rem 0.3rem;
+  font-family: var(--font-heading);
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   SQUAD CARD — MINIMAL BODY
+   ========================================================================== */
+.squad-card__body--minimal {
+  padding: 0.75rem 0.85rem;
+}
+.squad-card__body--minimal .squad-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.15rem;
+}
+.squad-jersey-num {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ya-blue);
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   REAL-TIME MATCH SECTION LABELS & BADGES
+   ========================================================================== */
+.match-section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.85rem;
+  flex: 0 0 auto;
+  align-self: center;
+  white-space: nowrap;
+}
+.match-section-label--upcoming {
+  color: var(--ya-blue);
+  background: var(--ya-gold-light);
+  border-color: var(--ya-gold);
+}
+.match-section-divider {
+  flex: 0 0 2px;
+  width: 2px;
+  min-height: 60px;
+  background: var(--border-color);
+  align-self: center;
+  border-radius: 2px;
+}
+.match-card--past {
+  opacity: 0.7;
+  filter: grayscale(25%);
+}
+.match-result-badge {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  background: #64748B;
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 2px 7px;
+  margin-top: 0.2rem;
+}
+.match-live-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-heading);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: #EF4444;
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  animation: pulse-live 1.4s ease-in-out infinite;
+}
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+

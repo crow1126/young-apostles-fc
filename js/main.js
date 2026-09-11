@@ -301,16 +301,30 @@ function closeCartDrawer() {
 }
 
 // ==========================================
+// 5. RENDERING SQUAD SPOTLIGHT, PHOTO WALL & GRID
 // ==========================================
-// 5. RENDERING SQUAD SPOTLIGHT & SQUAD GRID
-// ==========================================
+function renderTeamPhotoWall() {
+  const wall = document.getElementById('teamPhotoWall');
+  if (!wall) return;
+  const players = SQUAD_DATA.filter(p => p.image);
+  wall.innerHTML = `
+    <div class="photo-wall-label"><i class="fa-solid fa-users"></i> Official 2026/27 First Team</div>
+    <div class="photo-wall-strip">
+      ${players.map(p => `
+        <div class="photo-wall-tile" onclick="openPlayerModal(${p.id})" title="${p.name} #${p.number}">
+          <img src="${p.image}" alt="${p.name}" loading="lazy">
+          <div class="photo-wall-tile__num">#${p.number}</div>
+          <div class="photo-wall-tile__name">${p.name.split(' ')[0]}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
 function renderSquadSpotlight() {
   const container = document.getElementById('squadSpotlightGrid');
   if (!container) return;
-
-  // All official registered stars with verified portrait photos
   const stars = SQUAD_DATA.filter(p => p.image);
-
   container.innerHTML = stars.map(player => `
     <div class="spotlight-player-card" onclick="openPlayerModal(${player.id})">
       <div class="spotlight-player-card__media">
@@ -324,13 +338,6 @@ function renderSquadSpotlight() {
       <div class="spotlight-player-card__info">
         <div class="spotlight-player-card__name">${player.name}</div>
         <div class="spotlight-player-card__pos">${player.posName}</div>
-        <div class="spotlight-player-card__meta">
-          <span><i class="fa-solid fa-shirt"></i> Apps: ${player.apps}</span>
-          <span><i class="fa-solid ${player.role === 'GK' ? 'fa-shield' : 'fa-futbol'}"></i> ${player.role === 'GK' ? `CS: ${player.cleanSheets}` : `Goals: ${player.goals || 0}`}</span>
-        </div>
-        <button class="spotlight-player-card__btn" type="button">
-          <i class="fa-solid fa-circle-user"></i> View Profile
-        </button>
       </div>
     </div>
   `).join('');
@@ -347,66 +354,27 @@ function renderSquad(filter = 'all') {
   else if (filter === 'FW') list = SQUAD_DATA.filter(p => p.role === 'FW');
   else if (filter === 'U17') list = SQUAD_DATA.filter(p => p.isU17);
 
-  grid.innerHTML = list.map(player => {
-    if (player.image) {
-      return `
-        <div class="squad-card squad-card--has-photo" onclick="openPlayerModal(${player.id})">
-          <div class="squad-card__media">
-            <img src="${player.image}" alt="${player.name}" class="squad-card__img" loading="lazy">
-            <div class="squad-card__gradient"></div>
-            <div class="squad-card__badges">
-              <span class="squad-number-pill">#${player.number}</span>
-              <span class="squad-role-pill squad-role-pill--${player.role}">
-                ${player.isU17 ? 'U-17 ' : ''}${player.role}
-              </span>
-            </div>
-            <div class="squad-card__verified-badge" title="Official 2026/27 Photo">
-              <i class="fa-solid fa-circle-check"></i> Official Photo
-            </div>
-          </div>
-          <div class="squad-card__body">
-            <div class="squad-name">${player.name}</div>
-            <div class="squad-pos-full">${player.posName}</div>
-            <div class="squad-origin-tag"><i class="fa-solid fa-location-dot"></i> ${player.origin}</div>
-            <div class="squad-stats-mini">
-              <span><i class="fa-solid fa-shirt"></i> Apps: <strong>${player.apps}</strong></span>
-              <span><i class="fa-solid ${player.role === 'GK' ? 'fa-shield' : 'fa-futbol'}"></i> ${player.role === 'GK' ? `CS: <strong>${player.cleanSheets}</strong>` : `Goals: <strong>${player.goals || 0}</strong>`}</span>
-            </div>
-            <button class="squad-card__action-btn" type="button">
-              <span>View Full Profile</span> <i class="fa-solid fa-chevron-right"></i>
-            </button>
-          </div>
-        </div>
-      `;
-    }
+  // Only show players that have an official photo
+  list = list.filter(p => p.image);
 
-    return `
-      <div class="squad-card squad-card--graphic" onclick="openPlayerModal(${player.id})">
-        <div class="squad-card__graphic-top">
-          <div class="squad-card__watermark-num">#${player.number}</div>
-          <img src="assets/official-logo.png" alt="Young Apostles Crest" class="squad-card__crest-ghost">
-          <div class="squad-card__badges">
-            <span class="squad-number-pill">#${player.number}</span>
-            <span class="squad-role-pill squad-role-pill--${player.role}">
-              ${player.isU17 ? 'U-17 ' : ''}${player.role}
-            </span>
-          </div>
-        </div>
-        <div class="squad-card__body">
-          <div class="squad-name">${player.name}</div>
-          <div class="squad-pos-full">${player.posName}</div>
-          <div class="squad-origin-tag"><i class="fa-solid fa-location-dot"></i> ${player.origin}</div>
-          <div class="squad-stats-mini">
-            <span><i class="fa-solid fa-shirt"></i> Apps: <strong>${player.apps}</strong></span>
-            <span><i class="fa-solid ${player.role === 'GK' ? 'fa-shield' : 'fa-futbol'}"></i> ${player.role === 'GK' ? `CS: <strong>${player.cleanSheets}</strong>` : `Goals: <strong>${player.goals || 0}</strong>`}</span>
-          </div>
-          <button class="squad-card__action-btn" type="button">
-            <span>View Full Profile</span> <i class="fa-solid fa-chevron-right"></i>
-          </button>
+  grid.innerHTML = list.map(player => `
+    <div class="squad-card squad-card--has-photo" onclick="openPlayerModal(${player.id})">
+      <div class="squad-card__media">
+        <img src="${player.image}" alt="${player.name}" class="squad-card__img" loading="lazy">
+        <div class="squad-card__gradient"></div>
+        <div class="squad-card__badges">
+          <span class="squad-number-pill">#${player.number}</span>
+          <span class="squad-role-pill squad-role-pill--${player.role}">
+            ${player.isU17 ? 'U-17 ' : ''}${player.role}
+          </span>
         </div>
       </div>
-    `;
-  }).join('');
+      <div class="squad-card__body squad-card__body--minimal">
+        <div class="squad-name">${player.name}</div>
+        <div class="squad-jersey-num">#${player.number}</div>
+      </div>
+    </div>
+  `).join('');
 }
 
 // ==========================================
@@ -854,7 +822,101 @@ function updateCountdown() {
 }
 
 // ==========================================
-// 12. MATCH CAROUSEL SCROLLER
+// 12. REAL-TIME MATCH RENDERING
+// ==========================================
+function parseFixtureDate(dateStr) {
+  // e.g. "Sep 4, 2026" or "Jan 17, 2027"
+  return new Date(dateStr);
+}
+
+function renderMatches(typeFilter = 'all') {
+  const grid = document.getElementById('upcomingMatchesGrid');
+  if (!grid) return;
+
+  const allFixtures = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2];
+  const now = new Date();
+  // Normalize to start-of-day for comparison
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  let upcoming = [];
+  let past = [];
+
+  allFixtures.forEach(f => {
+    const fd = parseFixtureDate(f.date);
+    const fDay = new Date(fd.getFullYear(), fd.getMonth(), fd.getDate());
+    if (fDay >= today) {
+      upcoming.push({ ...f, isPast: false, isToday: fDay.getTime() === today.getTime() });
+    } else {
+      past.push({ ...f, isPast: true, isToday: false });
+    }
+  });
+
+  // Apply home/away filter
+  let display = [...upcoming, ...past];
+  if (typeFilter === 'home') display = display.filter(f => f.type === 'Home');
+  else if (typeFilter === 'away') display = display.filter(f => f.type === 'Away');
+
+  // Show upcoming first (next 6), then recent results (last 3)
+  const upcomingSlice = upcoming.filter(f => {
+    if (typeFilter === 'home') return f.type === 'Home';
+    if (typeFilter === 'away') return f.type === 'Away';
+    return true;
+  }).slice(0, 6);
+
+  const pastSlice = past.filter(f => {
+    if (typeFilter === 'home') return f.type === 'Home';
+    if (typeFilter === 'away') return f.type === 'Away';
+    return true;
+  }).slice(-3).reverse();
+
+  const renderCard = (f) => {
+    const isYAHome = f.home === 'Young Apostles';
+    const opponent = isYAHome ? f.away : f.home;
+    const opponentSlug = opponent.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const dateObj = parseFixtureDate(f.date);
+    const dayNum = dateObj.getDate();
+    const monthStr = dateObj.toLocaleString('en', { month: 'short' });
+    const cardClass = f.isToday ? 'match-card match-card--active' : f.isPast ? 'match-card match-card--past' : 'match-card';
+
+    return `
+      <div class="${cardClass}">
+        ${f.isToday ? '<div class="match-live-badge"><i class="fa-solid fa-circle" style="color:#EF4444;font-size:0.6em;"></i> TODAY</div>' : ''}
+        <div class="match-card__header">
+          <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
+          <span class="match-comp-name">GPL Week ${f.week} &bull; ${f.type}</span>
+          <span class="match-datetime">${f.date} &bull; 15:00 GMT</span>
+          <span class="match-venue">${f.venue}</span>
+        </div>
+        <div class="match-card__body">
+          <div class="match-date-display">${dayNum} ${monthStr}</div>
+          ${f.isPast ? '<div class="match-result-badge">FT</div>' : ''}
+        </div>
+        <div class="match-card__footer">
+          <img src="assets/opponents/${opponentSlug}.png" alt="${opponent}" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
+          <span class="match-opponent-name">${opponent}</span>
+        </div>
+      </div>
+    `;
+  };
+
+  let html = '';
+  if (pastSlice.length > 0) {
+    html += `<div class="match-section-label"><i class="fa-solid fa-flag-checkered"></i> Recent Results</div>`;
+    html += pastSlice.map(renderCard).join('');
+    html += `<div class="match-section-divider"></div>`;
+  }
+  if (upcomingSlice.length > 0) {
+    html += `<div class="match-section-label match-section-label--upcoming"><i class="fa-solid fa-calendar-days"></i> Upcoming Fixtures</div>`;
+    html += upcomingSlice.map(renderCard).join('');
+  } else {
+    html += `<div class="match-section-label">Season Complete</div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+// ==========================================
+// 13. MATCH CAROUSEL SCROLLER
 // ==========================================
 function scrollMatches(direction) {
   const grid = document.getElementById('upcomingMatchesGrid');
@@ -883,9 +945,11 @@ function showToast(msg) {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
+  renderTeamPhotoWall();
   renderSquadSpotlight();
   renderSquad('all');
   renderProducts('all');
+  renderMatches('all');
   setInterval(updateCountdown, 1000);
 
   // Mobile Toggle
@@ -912,22 +976,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Match Category Tabs Filter
+  // Match Category Tabs — real-time filter
   document.querySelectorAll('#matchCategoryTabs .tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('#matchCategoryTabs .tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const cat = btn.getAttribute('data-match-cat');
-      const cards = document.querySelectorAll('#upcomingMatchesGrid .match-card');
-      cards.forEach(card => {
-        if (cat === 'all') {
-          card.style.display = 'flex';
-        } else if (cat === 'home') {
-          card.style.display = card.textContent.includes('Home') ? 'flex' : 'none';
-        } else if (cat === 'away') {
-          card.style.display = card.textContent.includes('Away') ? 'flex' : 'none';
-        }
-      });
+      renderMatches(btn.getAttribute('data-match-cat'));
     });
   });
 });

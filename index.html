@@ -65,13 +65,11 @@
       </a>
 
       <nav class="nav-links" aria-label="Main Navigation">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#matches" class="nav-link">Matches</a>
-        <a href="#standings" class="nav-link">GPL Standings</a>
-        <a href="#highlights" class="nav-link">Match Highlights</a>
-        <a href="#squad" class="nav-link">Squad (38)</a>
+        <a href="#news" class="nav-link active">News</a>
+        <a href="#matches" class="nav-link">Schedule / Fixtures</a>
+        <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="nav-link">Apostle TV <i class="fa-brands fa-youtube" style="color:#EF4444;font-size:0.8em;"></i></a>
+        <a href="#squad" class="nav-link">Squad</a>
         <a href="#store" class="nav-link">Team Shop <span class="nav-badge-pill">NEW KITS</span></a>
-        <a href="#about" class="nav-link">Club</a>
       </nav>
 
       <div class="nav-actions">
@@ -97,13 +95,11 @@
     <!-- Mobile Navigation Drawer -->
     <div class="mobile-nav-drawer" id="mobileDrawer">
       <ul class="mobile-nav-list">
-        <li><a href="#home" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-house"></i> Home</a></li>
-        <li><a href="#matches" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-calendar-days"></i> Upcoming Matches</a></li>
-        <li><a href="#standings" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-ranking-star"></i> GPL Standings</a></li>
-        <li><a href="#highlights" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-brands fa-youtube"></i> Match Highlights</a></li>
-        <li><a href="#squad" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-users"></i> First Team Squad (38)</a></li>
+        <li><a href="#news" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-newspaper"></i> News</a></li>
+        <li><a href="#matches" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-calendar-days"></i> Schedule / Fixtures</a></li>
+        <li><a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Apostle TV</a></li>
+        <li><a href="#squad" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-users"></i> Squad</a></li>
         <li><a href="#store" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-shirt"></i> Team Shop</a></li>
-        <li><a href="#about" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-shield"></i> About Club</a></li>
       </ul>
     </div>
   </header>
@@ -165,85 +161,14 @@
         <button class="tab-btn" data-match-cat="away">Away Matches</button>
       </div>
 
-      <!-- Match Cards Carousel / Grid -->
+      <!-- Real-time Match Cards — rendered by JS -->
       <div class="matches-carousel-wrap">
         <button class="carousel-nav-btn" onclick="scrollMatches(-1)" aria-label="Previous Matches">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
-
         <div class="matches-grid" id="upcomingMatchesGrid">
-          <!-- Match Card 1 -->
-          <div class="match-card">
-            <div class="match-card__header">
-              <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-              <span class="match-comp-name">GPL Matchday 1 (Away)</span>
-              <span class="match-datetime">Saturday, Sep 5, 2026 · 15:00 GMT</span>
-              <span class="match-venue">Nii Adjei Kraku Complex, Tema</span>
-            </div>
-            <div class="match-card__body">
-              <div class="match-date-display">5 Sep</div>
-            </div>
-            <div class="match-card__footer">
-              <img src="assets/opponents/vision.png" alt="Vision FC" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
-              <span class="match-opponent-name">Vision FC</span>
-            </div>
-          </div>
-
-          <!-- Match Card 2 (FEATURED / ACTIVE HOME OPENER) -->
-          <div class="match-card match-card--active">
-            <div class="match-card-corner-arrow">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </div>
-            <div class="match-card__header">
-              <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-              <span class="match-comp-name">GPL Matchday 2 (Home Opener)</span>
-              <span class="match-datetime">Thursday, Sep 10, 2026 · 15:00 GMT</span>
-              <span class="match-venue">Wenchi Sports Stadium</span>
-            </div>
-            <div class="match-card__body">
-              <div class="match-date-display">10 Sep</div>
-            </div>
-            <div class="match-card__footer">
-              <img src="assets/opponents/chelsea.png" alt="Basake Holy Stars" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
-              <span class="match-opponent-name">Basake Holy Stars</span>
-            </div>
-          </div>
-
-          <!-- Match Card 3 -->
-          <div class="match-card">
-            <div class="match-card__header">
-              <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-              <span class="match-comp-name">GPL Matchday 3 (Away)</span>
-              <span class="match-datetime">Thursday, Sep 17, 2026 · 15:00 GMT</span>
-              <span class="match-venue">Debibi Park</span>
-            </div>
-            <div class="match-card__body">
-              <div class="match-date-display">17 Sep</div>
-            </div>
-            <div class="match-card__footer">
-              <img src="assets/opponents/bechem.png" alt="Debibi United" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
-              <span class="match-opponent-name">Debibi United</span>
-            </div>
-          </div>
-
-          <!-- Match Card 4 -->
-          <div class="match-card">
-            <div class="match-card__header">
-              <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-              <span class="match-comp-name">GPL Matchday 4 (Home)</span>
-              <span class="match-datetime">Sunday, Sep 27, 2026 · 15:00 GMT</span>
-              <span class="match-venue">Wenchi Sports Stadium</span>
-            </div>
-            <div class="match-card__body">
-              <div class="match-date-display">27 Sep</div>
-            </div>
-            <div class="match-card__footer">
-              <img src="assets/opponents/hearts.png" alt="Heart of Lions" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
-              <span class="match-opponent-name">Heart of Lions</span>
-            </div>
-          </div>
+          <!-- Populated dynamically by renderMatches() -->
         </div>
-
         <button class="carousel-nav-btn" onclick="scrollMatches(1)" aria-label="Next Matches">
           <i class="fa-solid fa-chevron-right"></i>
         </button>
@@ -251,10 +176,11 @@
     </div>
   </section>
 
+
   <!-- =========================================================
-       5. LATEST CLUB HEADLINES
+       5. LATEST CLUB NEWS
        ========================================================= -->
-  <section class="section section--dark">
+  <section class="section section--dark" id="news">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title section-title--white">Latest Headlines</h2>
@@ -438,24 +364,20 @@
   </section>
 
   <!-- =========================================================
-       7. MATCH HIGHLIGHTS (Apostles TV & YouTube Integration)
+       7. APOSTLE TV (YouTube Highlights)
        ========================================================= -->
-  <section class="section" id="highlights">
+  <section class="section" id="apostle-tv">
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">Match Highlights</h2>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Watch official match action & highlights directly on YouTube (@YoungApostlesFC)</p>
+          <h2 class="section-title">Apostle TV</h2>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Watch official match action &amp; highlights on YouTube (@YoungApostlesFC)</p>
         </div>
         <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="section-link-action">
-          <i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Apostles TV on YouTube <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Subscribe on YouTube <i class="fa-solid fa-arrow-up-right-from-square"></i>
         </a>
       </div>
 
-      <div class="highlights-grid">
-        <!-- Highlight 1: Promotion Shootout vs Techiman Heroes -->
-        <div class="highlight-card" onclick="openYouTubeLink('https://www.youtube.com/results?search_query=Young+Apostles+FC+vs+Techiman+Heroes+promotion+highlights')">
-          <div class="highlight-play-icon"><i class="fa-brands fa-youtube"></i></div>
           <div class="match-card__header">
             <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
             <span class="match-comp-name">GPL Promotion Shootout Final</span>
@@ -588,14 +510,18 @@
         </div>
       </div>
 
-      <!-- Official First Team Stars Spotlight -->
+      <!-- Team Photo Wall -->
+      <div class="team-photo-wall" id="teamPhotoWall">
+        <!-- Populated by JS -->
+      </div>
+
       <div class="squad-spotlight-card">
         <div class="squad-spotlight-top">
           <div class="squad-spotlight-badge">
             <i class="fa-solid fa-star"></i> OFFICIAL 2026/27 FIRST TEAM STARS
           </div>
           <h3 class="squad-spotlight-heading">Key Squad Spotlight</h3>
-          <p class="squad-spotlight-desc">Meet the official Apostles first team stars modeling the authentic 2026/27 Mayniak matchwear kit. Click any player card for verified match stats and custom jersey ordering.</p>
+          <p class="squad-spotlight-desc">Meet the official Apostles first team stars. Click any player for their full profile.</p>
         </div>
         <div class="squad-spotlight-grid" id="squadSpotlightGrid">
           <!-- Populated by JavaScript -->
