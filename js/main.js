@@ -8,17 +8,49 @@
 // 1. DATA: OFFICIAL FIRST TEAM SQUAD
 // ==========================================
 const SQUAD_DATA = [
-  { id: 1, name: 'Seidu Adams', number: 1, role: 'GK', posName: 'Goalkeeper', image: 'assets/players/seidu-adams.jpg' },
-  { id: 2, name: 'Samuel Amankwah', number: 3, role: 'DF', posName: 'Center Back', image: 'assets/players/samuel-amankwah.jpg' },
-  { id: 3, name: 'Samuel Amadu', number: 6, role: 'MD', posName: 'Midfielder', image: 'assets/players/samuel-amadu.jpg' },
-  { id: 4, name: 'Ramzy Abubakar', number: 8, role: 'MD', posName: 'Midfielder', image: 'assets/players/ramzy-abubakar.jpg' },
-  { id: 5, name: 'Musah Mohammed', number: 12, role: 'DF', posName: 'Full Back', image: 'assets/players/abdul-musah-mohammed.jpg' },
-  { id: 6, name: 'Osman Wahab', number: 16, role: 'GK', posName: 'Goalkeeper', image: 'assets/players/osman-wahabu.jpg' },
-  { id: 7, name: 'Moses Titi', number: 17, role: 'DF', posName: 'Wing Back', image: 'assets/players/moses-titi.jpg' },
-  { id: 8, name: 'Samuel Prempeh', number: 21, role: 'FW', posName: 'Forward', image: 'assets/players/samuel-prempeh.jpg' },
-  { id: 9, name: 'Stephen Narh', number: 22, role: 'GK', posName: 'Goalkeeper', image: 'assets/players/stephen-narh.jpg' },
-  { id: 10, name: 'Mathias Van', number: 25, role: 'DF', posName: 'Left Back', image: 'assets/players/mathias-van-amegbe.jpg' },
-  { id: 11, name: 'Richmond Opoku', number: 40, role: 'FW', posName: 'Forward', image: 'assets/players/richmond-opoku.jpg' }
+  // GOALKEEPERS
+  { id: 1,  name: 'Frank Boateng',          number: 31, role: 'GK', posName: 'Goalkeeper',     image: 'assets/players/frank-boateng.jpg' },
+  { id: 2,  name: 'Osman Wahabu',           number: 16, role: 'GK', posName: 'Goalkeeper',     image: 'assets/players/osman-wahabu.jpg' },
+  { id: 3,  name: 'Benjamin Twum',          number: 13, role: 'GK', posName: 'Goalkeeper',     image: 'assets/players/benjamin-twum.jpg' },
+  { id: 4,  name: 'Stephen Narh',           number: 22, role: 'GK', posName: 'Goalkeeper',     image: 'assets/players/stephen-narh.jpg' },
+  { id: 5,  name: 'Seidu Adams',            number: 1,  role: 'GK', posName: 'Goalkeeper',     image: 'assets/players/seidu-adams.jpg' },
+
+  // DEFENDERS
+  { id: 6,  name: 'Issah Nyaabila',         number: 4,  role: 'DF', posName: 'Center Back',    image: 'assets/players/issah-nyaabila.jpg' },
+  { id: 7,  name: 'Abdul Rurf Rahman',      number: 15, role: 'DF', posName: 'Right Back',     image: 'assets/players/issah-salifu.jpg' },
+  { id: 8,  name: 'Mathias Van Amegbe',     number: 25, role: 'DF', posName: 'Left Back',      image: 'assets/players/mathias-van-amegbe.jpg' },
+  { id: 9,  name: 'Illiasu Mumuni',         number: 24, role: 'DF', posName: 'Center Back',    image: 'assets/players/illiasu-mumuni.jpg' },
+  { id: 10, name: 'Abdul Musah Mohammed',   number: 12, role: 'DF', posName: 'Full Back',      image: 'assets/players/abdul-musah-mohammed.jpg' },
+  { id: 11, name: 'Abdul Mobarick',         number: 34, role: 'DF', posName: 'Left Back',      image: 'assets/players/abdul-mobarick.jpg' },
+  { id: 12, name: 'Emmanuel Owusu Bempah',  number: 44, role: 'DF', posName: 'Right Back',     image: 'assets/players/emmanuel-owusu-bempah.jpg' },
+  { id: 13, name: 'Issah Salifu',           number: 23, role: 'DF', posName: 'Left Back',      image: 'assets/players/issah-salifu.jpg' },
+  { id: 14, name: 'Samuel Amankwah',        number: 3,  role: 'DF', posName: 'Center Back',    image: 'assets/players/samuel-amankwah.jpg' },
+  { id: 15, name: 'Fumi Koulibaly Andrews', number: 48, role: 'DF', posName: 'Center Back',    image: 'assets/players/fumi-koulibaly-andrews.jpg' },
+  { id: 16, name: 'Moses Titi',             number: 17, role: 'DF', posName: 'Wing Back',      image: 'assets/players/moses-titi.jpg' },
+
+  // MIDFIELDERS
+  { id: 17, name: 'Ramzy Abubakar',         number: 8,  role: 'MD', posName: 'Playmaker',      image: 'assets/players/ramzy-abubakar.jpg' },
+  { id: 18, name: 'Abdul Muftaw Ganiyu',    number: 5,  role: 'MD', posName: 'Def. Midfielder', image: 'assets/players/abdul-muftaw-ganiyu.jpg' },
+  { id: 19, name: 'Abdul Gamwu',            number: 32, role: 'MD', posName: 'Central Mid',    image: 'assets/players/abdul-gamwu.jpg' },
+  { id: 20, name: 'John Afram Attah Jnr',   number: 20, role: 'MD', posName: 'Att. Midfielder', image: 'assets/players/john-afram-attah-jnr.jpg' },
+  { id: 21, name: 'Agyei Emmanuel',         number: 51, role: 'MD', posName: 'Central Mid',    image: 'assets/players/agyei-emmanuel.jpg' },
+  { id: 22, name: 'Samuel Amadu',           number: 6,  role: 'MD', posName: 'Box-to-Box Mid', image: 'assets/players/samuel-amadu.jpg' },
+  { id: 23, name: 'Awal Seidu',             number: 28, role: 'MD', posName: 'Central Mid',    image: 'assets/players/awal-seidu.jpg' },
+  { id: 24, name: 'Felix Aboagye',          number: 18, role: 'MD', posName: 'Att. Midfielder', image: 'assets/players/felix-aboagye.jpg' },
+  { id: 25, name: 'Huzaif Iddrisu',         number: 10, role: 'MD', posName: 'Att. Midfielder', image: 'assets/players/james-konadu.jpg' },
+
+  // FORWARDS
+  { id: 26, name: 'Joseph Mensah',          number: 7,  role: 'FW', posName: 'Right Winger',   image: 'assets/players/joseph-mensah.jpg' },
+  { id: 27, name: 'Foster Adu Gyamfi',      number: 30, role: 'FW', posName: 'Striker',        image: 'assets/players/foster-adu-gyamfi.jpg' },
+  { id: 28, name: 'Samuel Prempeh',         number: 21, role: 'FW', posName: 'Left Winger',    image: 'assets/players/samuel-prempeh.jpg' },
+  { id: 29, name: 'Issah Huseine',          number: 11, role: 'FW', posName: 'Forward',        image: 'assets/players/issah-huseine.jpg' },
+  { id: 30, name: 'Abdul Fatao Salifu',     number: 19, role: 'FW', posName: 'Striker',        image: 'assets/players/abdul-fatao-salifu.jpg' },
+  { id: 31, name: 'Foster Amoah',           number: 45, role: 'FW', posName: 'Striker',        image: 'assets/players/foster-amoah.jpg' },
+  { id: 32, name: 'Joel Gakpo',             number: 9,  role: 'FW', posName: 'Striker',        image: 'assets/players/joel-gakpo.jpg' },
+  { id: 33, name: 'Kingsford Agyemang',     number: 55, role: 'FW', posName: 'Forward',        image: 'assets/players/kingsford-agyemang.jpg' },
+  { id: 34, name: 'Richmond Opoku',         number: 40, role: 'FW', posName: 'Winger',         image: 'assets/players/richmond-opoku.jpg' },
+  { id: 35, name: 'Andy Luis',              number: 29, role: 'FW', posName: 'Winger',         image: 'assets/players/andy-luis.jpg' },
+  { id: 36, name: 'James Konadu',           number: 50, role: 'FW', posName: 'Forward',        image: 'assets/players/james-konadu.jpg' },
 ];
 
 // ==========================================
