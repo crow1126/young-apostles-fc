@@ -146,7 +146,7 @@
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">Upcoming Match</h2>
+          <h2 class="section-title">Schedule / Fixtures <span style="font-size:0.7em;">→</span></h2>
           <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">2026/27 Ghana Premier League Official Matchdays</p>
         </div>
         <button class="section-link-action" onclick="openFixturesModal()">
@@ -180,10 +180,11 @@
   <!-- =========================================================
        5. LATEST CLUB NEWS
        ========================================================= -->
-  <section class="section section--dark" id="news">
+  <section class="section" id="news" style="background:#fff;">
     <div class="container">
-      <div class="section-header">
-        <h2 class="section-title section-title--white">Latest Headlines</h2>
+      <div class="section-header section-header--split">
+        <h2 class="section-title">Latest News <span style="font-size:0.75em;">→</span></h2>
+        <a href="#" class="section-link-action">All News <i class="fa-solid fa-arrow-right"></i></a>
       </div>
 
       <div class="headlines-grid">
@@ -366,12 +367,12 @@
   <!-- =========================================================
        7. APOSTLE TV (YouTube Highlights)
        ========================================================= -->
-  <section class="section" id="apostle-tv">
+  <section class="section" id="apostle-tv" style="background:var(--bg-subtle);">
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">Apostle TV</h2>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Watch official match action &amp; highlights on YouTube (@YoungApostlesFC)</p>
+          <h2 class="section-title">Apostle TV <span style="font-size:0.75em;">→</span></h2>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Watch official match action &amp; highlights on YouTube</p>
         </div>
         <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="section-link-action">
           <i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Subscribe on YouTube <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -501,43 +502,18 @@
   <!-- =========================================================
        9. FIRST TEAM SQUAD (38 Registered Players)
        ========================================================= -->
-  <section class="section" id="squad">
+  <section class="section" id="squad" style="background:#fff;">
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">First Team Squad</h2>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Head Coach: <strong>Abu Abdul-Hanan</strong> · 38 Registered Players for 2026/27 GPL Season</p>
+          <h2 class="section-title">First Team Squad <span style="font-size:0.75em;">→</span></h2>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Head Coach: <strong>Abu Abdul-Hanan</strong> &middot; 2026/27 Ghana Premier League</p>
         </div>
-      </div>
-
-      <!-- Team Photo Wall -->
-      <div class="team-photo-wall" id="teamPhotoWall">
-        <!-- Populated by JS -->
-      </div>
-
-      <div class="squad-spotlight-card">
-        <div class="squad-spotlight-top">
-          <div class="squad-spotlight-badge">
-            <i class="fa-solid fa-star"></i> OFFICIAL 2026/27 FIRST TEAM STARS
-          </div>
-          <h3 class="squad-spotlight-heading">Key Squad Spotlight</h3>
-          <p class="squad-spotlight-desc">Meet the official Apostles first team stars. Click any player for their full profile.</p>
-        </div>
-        <div class="squad-spotlight-grid" id="squadSpotlightGrid">
-          <!-- Populated by JavaScript -->
-        </div>
-      </div>
-
-      <div style="margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
-        <h3 style="font-family:var(--font-heading); font-size:1.25rem; font-weight:800; color:var(--text-main);">
-          <i class="fa-solid fa-id-badge text-gold" style="color:var(--ya-gold); margin-right:0.35rem;"></i> Complete 38-Player GPL Roster
-        </h3>
-        <span style="font-size:0.8rem; color:var(--text-muted);">Filtered by Tactical Role</span>
       </div>
 
       <div class="category-tabs" id="squadPositionTabs">
-        <button class="tab-btn active" data-squad-filter="all">All (38)</button>
-        <button class="tab-btn" data-squad-filter="GK">Goalkeepers (5)</button>
+        <button class="tab-btn active" data-squad-filter="all">All Players</button>
+        <button class="tab-btn" data-squad-filter="GK">Goalkeepers</button>
         <button class="tab-btn" data-squad-filter="DF">Defenders (12)</button>
         <button class="tab-btn" data-squad-filter="MD">Midfielders (9)</button>
         <button class="tab-btn" data-squad-filter="FW">Forwards (12)</button>
@@ -557,7 +533,7 @@
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">Official Team Shop</h2>
+          <h2 class="section-title">Team Shop <span style="font-size:0.75em;">→</span></h2>
           <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Authentic 2026/27 Mayniak Matchwear, Training Apparel & Accessories</p>
         </div>
         <button class="section-link-action" onclick="openCartDrawer()">

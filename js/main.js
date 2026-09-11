@@ -835,65 +835,59 @@ function renderMatches(typeFilter = 'all') {
 
   const allFixtures = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2];
   const now = new Date();
-  // Normalize to start-of-day for comparison
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  let upcoming = [];
-  let past = [];
-
+  let upcoming = [], past = [];
   allFixtures.forEach(f => {
     const fd = parseFixtureDate(f.date);
     const fDay = new Date(fd.getFullYear(), fd.getMonth(), fd.getDate());
-    if (fDay >= today) {
-      upcoming.push({ ...f, isPast: false, isToday: fDay.getTime() === today.getTime() });
-    } else {
-      past.push({ ...f, isPast: true, isToday: false });
-    }
+    const isToday = fDay.getTime() === today.getTime();
+    if (fDay >= today) upcoming.push({ ...f, isPast: false, isToday });
+    else past.push({ ...f, isPast: true, isToday: false });
   });
 
-  // Apply home/away filter
-  let display = [...upcoming, ...past];
-  if (typeFilter === 'home') display = display.filter(f => f.type === 'Home');
-  else if (typeFilter === 'away') display = display.filter(f => f.type === 'Away');
+  const applyFilter = arr => typeFilter === 'home' ? arr.filter(f => f.type === 'Home')
+    : typeFilter === 'away' ? arr.filter(f => f.type === 'Away') : arr;
 
-  // Show upcoming first (next 6), then recent results (last 3)
-  const upcomingSlice = upcoming.filter(f => {
-    if (typeFilter === 'home') return f.type === 'Home';
-    if (typeFilter === 'away') return f.type === 'Away';
-    return true;
-  }).slice(0, 6);
+  const upcomingSlice = applyFilter(upcoming).slice(0, 6);
+  const pastSlice = applyFilter(past).slice(-3).reverse();
 
-  const pastSlice = past.filter(f => {
-    if (typeFilter === 'home') return f.type === 'Home';
-    if (typeFilter === 'away') return f.type === 'Away';
-    return true;
-  }).slice(-3).reverse();
-
-  const renderCard = (f) => {
+  const renderCard = f => {
     const isYAHome = f.home === 'Young Apostles';
-    const opponent = isYAHome ? f.away : f.home;
-    const opponentSlug = opponent.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const dateObj = parseFixtureDate(f.date);
-    const dayNum = dateObj.getDate();
-    const monthStr = dateObj.toLocaleString('en', { month: 'short' });
+    const opponent  = isYAHome ? f.away : f.home;
+    const yaName    = 'Young Apostles';
+    const oppSlug   = opponent.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const dateObj   = parseFixtureDate(f.date);
+    const dayStr    = dateObj.toLocaleString('en', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
     const cardClass = f.isToday ? 'match-card match-card--active' : f.isPast ? 'match-card match-card--past' : 'match-card';
+
+    // Time/score center box
+    const centerBox = f.isPast
+      ? `<div class="match-score-box">FT</div>`
+      : `<div class="match-time-box">${f.isToday ? '<span style="font-size:0.65rem;display:block;opacity:0.8">TODAY</span>' : ''}15:00</div>`;
 
     return `
       <div class="${cardClass}">
-        ${f.isToday ? '<div class="match-live-badge"><i class="fa-solid fa-circle" style="color:#EF4444;font-size:0.6em;"></i> TODAY</div>' : ''}
-        <div class="match-card__header">
-          <img src="assets/official-logo.png" alt="GPL" class="match-comp-icon">
-          <span class="match-comp-name">GPL Week ${f.week} &bull; ${f.type}</span>
-          <span class="match-datetime">${f.date} &bull; 15:00 GMT</span>
-          <span class="match-venue">${f.venue}</span>
+        ${f.isToday ? '<div class="match-live-badge"><i class="fa-solid fa-circle" style="font-size:0.5em"></i> MATCHDAY</div>' : ''}
+        <div>
+          <div class="match-comp-name">GPL Week ${f.week} &bull; ${f.type}</div>
+          <div class="match-datetime">${dayStr}</div>
+          <div class="match-venue">${f.venue}</div>
         </div>
-        <div class="match-card__body">
-          <div class="match-date-display">${dayNum} ${monthStr}</div>
-          ${f.isPast ? '<div class="match-result-badge">FT</div>' : ''}
+        <div class="match-crests-row">
+          <div class="match-crest-col">
+            <img src="assets/official-logo.png" alt="Young Apostles FC" onerror="this.src='assets/official-logo.png'">
+            <div class="match-crest-name">${isYAHome ? 'Young Apostles' : opponent}</div>
+          </div>
+          ${centerBox}
+          <div class="match-crest-col">
+            <img src="assets/opponents/${oppSlug}.png" alt="${opponent}" onerror="this.src='assets/official-logo.png'">
+            <div class="match-crest-name">${isYAHome ? opponent : 'Young Apostles'}</div>
+          </div>
         </div>
-        <div class="match-card__footer">
-          <img src="assets/opponents/${opponentSlug}.png" alt="${opponent}" class="match-opponent-crest" onerror="this.src='assets/official-logo.png'">
-          <span class="match-opponent-name">${opponent}</span>
+        <div class="match-card-actions">
+          <button class="btn-match-centre" onclick="openFixturesModal()">Match Centre <i class="fa-solid fa-arrow-right"></i></button>
+          ${!f.isPast ? `<button class="btn-match-tickets" onclick="openMembershipModal()">Tickets <i class="fa-solid fa-arrow-right"></i></button>` : ''}
         </div>
       </div>
     `;
@@ -901,17 +895,12 @@ function renderMatches(typeFilter = 'all') {
 
   let html = '';
   if (pastSlice.length > 0) {
-    html += `<div class="match-section-label"><i class="fa-solid fa-flag-checkered"></i> Recent Results</div>`;
+    html += `<div class="match-section-label"><i class="fa-solid fa-flag-checkered"></i> Results</div>`;
     html += pastSlice.map(renderCard).join('');
     html += `<div class="match-section-divider"></div>`;
   }
-  if (upcomingSlice.length > 0) {
-    html += `<div class="match-section-label match-section-label--upcoming"><i class="fa-solid fa-calendar-days"></i> Upcoming Fixtures</div>`;
-    html += upcomingSlice.map(renderCard).join('');
-  } else {
-    html += `<div class="match-section-label">Season Complete</div>`;
-  }
-
+  html += `<div class="match-section-label match-section-label--upcoming"><i class="fa-solid fa-calendar-days"></i> Upcoming</div>`;
+  html += upcomingSlice.length > 0 ? upcomingSlice.map(renderCard).join('') : `<div class="match-section-label">Season Complete</div>`;
   grid.innerHTML = html;
 }
 
@@ -945,8 +934,6 @@ function showToast(msg) {
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
-  renderTeamPhotoWall();
-  renderSquadSpotlight();
   renderSquad('all');
   renderProducts('all');
   renderMatches('all');

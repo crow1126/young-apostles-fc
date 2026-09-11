@@ -1,12 +1,56 @@
 /* ==========================================================================
    YOUNG APOSTLES FOOTBALL CLUB — OFFICIAL STYLESHEET
-   Authentic Club Identity · Royal Blue & Golden Yellow Palette
-   Modern Clean UI/UX · Plus Jakarta Sans Typography
+   Chelsea-Inspired UI · Royal Blue & White · Clean Premium Design
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 :root {
+  /* === CLUB BRAND PALETTE (Blue & White) === */
+  --ya-blue-deep:   #00105A;   /* darkest navy */
+  --ya-blue-dark:   #001489;   /* Chelsea-style rich blue */
+  --ya-blue:        #034694;   /* primary brand blue */
+  --ya-blue-mid:    #1557B0;   /* mid blue */
+  --ya-blue-light:  #E8EEF9;   /* light blue tint for backgrounds */
+  --ya-blue-accent: #0066CC;
+  --ya-blue-sky:    #4A90D9;
+
+  /* White/neutral palette */
+  --bg-white:    #FFFFFF;
+  --bg-page:     #F7F8FC;
+  --bg-card:     #FFFFFF;
+  --bg-subtle:   #F0F3FA;
+  --border-color:  #DDE3EE;
+  --border-subtle: #EAEEF5;
+
+  /* Text */
+  --text-main:      #00105A;
+  --text-sub:       #1E3A6A;
+  --text-muted:     #6B7A99;
+  --text-light:     #9AAABB;
+  --text-white:     #FFFFFF;
+  --text-white-sub: rgba(255,255,255,0.85);
+
+  /* Typography */
+  --font-main:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+
+  /* Layout */
+  --max-width:   1240px;
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-pill: 9999px;
+
+  /* Shadows */
+  --shadow-subtle: 0 1px 3px rgba(0,16,90,0.08);
+  --shadow-card:   0 2px 12px rgba(0,16,90,0.10);
+  --shadow-hover:  0 8px 28px rgba(0,16,90,0.16);
+  --shadow-float:  0 16px 48px rgba(0,16,90,0.20);
+}
+
   /* Official Club Brand Colors (Matching Shield Crest & Mayniak Kits) */
   --ya-blue-deep: #070E29;
   --ya-blue-dark: #0A1640;
@@ -208,12 +252,12 @@ button {
    MAIN NAVBAR
    ========================================================= */
 .main-nav {
-  background: var(--ya-blue-dark);
+  background: #FFFFFF;
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--ya-blue-dark);
+  box-shadow: 0 2px 8px rgba(0,16,90,0.08);
 }
 
 .main-nav__inner {
@@ -241,19 +285,20 @@ button {
 }
 
 .nav-brand-title {
-  color: var(--text-white);
+  color: var(--ya-blue-deep);
   font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 900;
   letter-spacing: 0.5px;
   line-height: 1.1;
 }
 
 .nav-brand-sub {
-  color: var(--ya-gold);
-  font-size: 0.6875rem;
+  color: var(--ya-blue-mid);
+  font-size: 0.625rem;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 }
 
 .nav-links {
@@ -263,37 +308,45 @@ button {
 }
 
 .nav-link {
-  color: var(--text-white-sub);
+  color: var(--ya-blue-deep);
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 700;
   padding: 0.5rem 0;
   position: relative;
+  letter-spacing: 0.01em;
 }
 
 .nav-link:hover, .nav-link.active {
-  color: var(--text-white);
+  color: var(--ya-blue-dark);
 }
 
-.nav-link.active::after {
+.nav-link::after {
   content: '';
   position: absolute;
   bottom: -2px;
   left: 0;
-  width: 100%;
-  height: 2.5px;
-  background: var(--ya-gold);
+  width: 0;
+  height: 3px;
+  background: var(--ya-blue-dark);
   border-radius: 2px;
+  transition: width 0.2s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
 }
 
 .nav-badge-pill {
-  background: var(--ya-gold);
-  color: var(--ya-blue-deep);
-  font-size: 0.65rem;
+  background: var(--ya-blue-dark);
+  color: #ffffff;
+  font-size: 0.6rem;
   font-weight: 800;
-  padding: 1px 6px;
+  padding: 2px 7px;
   border-radius: var(--radius-pill);
   margin-left: 4px;
   vertical-align: middle;
+  letter-spacing: 0.05em;
 }
 
 .nav-actions {
@@ -573,331 +626,382 @@ button {
   gap: 1rem;
 }
 
+/* === SECTION HEADINGS — Chelsea "Latest News →" style === */
 .section-title {
   font-family: var(--font-heading);
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--text-main);
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--ya-blue-deep);
   letter-spacing: -0.5px;
+  line-height: 1.1;
 }
 
 .section-title--white {
-  color: var(--text-white);
+  color: #FFFFFF;
 }
 
 .section-link-action {
-  color: var(--ya-blue);
+  color: var(--ya-blue-dark);
   font-size: 0.9375rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
 }
-
 .section-link-action:hover {
-  color: var(--ya-gold-hover);
+  color: var(--ya-blue-mid);
+  text-decoration: underline;
 }
-
 .section-link-action--white {
-  color: var(--text-white-sub);
+  color: rgba(255,255,255,0.85);
 }
-
 .section-link-action--white:hover {
-  color: var(--ya-gold);
+  color: #fff;
 }
 
-/* CATEGORY TABS */
+/* CATEGORY TABS — Chelsea underline style */
 .category-tabs {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 2.25rem;
+  gap: 2rem;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 2rem;
   overflow-x: auto;
-  padding-bottom: 0.5rem;
 }
-
 .category-tabs--dark {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid rgba(255,255,255,0.15);
 }
-
 .tab-btn {
   font-size: 0.9375rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-muted);
-  padding: 0.5rem 0.25rem;
+  padding: 0.6rem 0;
   position: relative;
   white-space: nowrap;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
-
-.tab-btn:hover {
-  color: var(--text-main);
-}
-
-.category-tabs--dark .tab-btn {
-  color: var(--text-white-sub);
-}
-
-.category-tabs--dark .tab-btn:hover {
-  color: var(--text-white);
-}
-
+.tab-btn:hover { color: var(--ya-blue-deep); }
+.category-tabs--dark .tab-btn { color: rgba(255,255,255,0.65); }
+.category-tabs--dark .tab-btn:hover { color: #fff; }
 .tab-btn.active {
-  color: var(--ya-blue);
-  font-weight: 700;
+  color: var(--ya-blue-deep);
+  font-weight: 800;
 }
-
-.category-tabs--dark .tab-btn.active {
-  color: var(--ya-gold);
-}
-
+.category-tabs--dark .tab-btn.active { color: #fff; }
 .tab-btn.active::after {
   content: '';
   position: absolute;
-  bottom: -0.55rem;
+  bottom: -2px;
   left: 0;
   width: 100%;
-  height: 2.5px;
-  background: var(--ya-blue);
+  height: 3px;
+  background: var(--ya-blue-dark);
   border-radius: 2px;
 }
-
 .category-tabs--dark .tab-btn.active::after {
-  background: var(--ya-gold);
+  background: #fff;
 }
 
-/* =========================================================
-   1. UPCOMING MATCHES SECTION
-   ========================================================= */
+/* === MATCHES SECTION — Chelsea white-card style === */
 .matches-carousel-wrap {
   position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
 }
-
 .carousel-nav-btn {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: var(--bg-white);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
+  background: var(--ya-blue-dark);
+  border: none;
+  color: #fff;
   font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--shadow-subtle);
   flex-shrink: 0;
   z-index: 10;
+  cursor: pointer;
+  transition: background 0.2s;
 }
-
-.carousel-nav-btn:hover {
-  background: var(--ya-blue);
-  color: #fff;
-  border-color: var(--ya-blue);
-}
+.carousel-nav-btn:hover { background: var(--ya-blue-deep); }
 
 .matches-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 1.25rem;
   width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+  align-items: stretch;
 }
+.matches-grid::-webkit-scrollbar { display: none; }
 
-/* Match Card Base */
+/* Chelsea-style fixture card */
 .match-card {
-  background: var(--bg-white);
+  background: #FFFFFF;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.5rem 1.25rem;
+  padding: 1.5rem 1.25rem 1.25rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 270px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  gap: 1rem;
+  flex: 0 0 240px;
+  scroll-snap-align: start;
   position: relative;
+  transition: box-shadow 0.2s ease;
 }
-
 .match-card:hover {
-  transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
 }
 
-.match-card__header {
+/* Competition label */
+.match-comp-name {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--ya-blue-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.match-datetime {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.match-venue {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Team crests row */
+.match-crests-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+.match-crest-col {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
-}
-
-.match-comp-icon {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  margin-bottom: 0.25rem;
-}
-
-.match-comp-name {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--ya-blue);
-}
-
-.match-datetime {
-  font-size: 0.725rem;
-  color: var(--text-muted);
-}
-
-.match-venue {
-  font-size: 0.725rem;
-  color: var(--text-muted);
-}
-
-.match-card__body {
-  margin: 1.25rem 0;
-}
-
-.match-score-display {
-  font-family: var(--font-heading);
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  color: var(--ya-blue);
-  line-height: 1;
-}
-
-.match-date-display {
-  font-family: var(--font-heading);
-  font-size: 2.25rem;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--ya-blue);
-}
-
-.match-card__footer {
-  display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.4rem;
+  flex: 1;
+}
+.match-crest-col img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.match-crest-name {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ya-blue-deep);
+  text-align: center;
+  line-height: 1.2;
+}
+.match-time-box {
+  background: var(--ya-blue-dark);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-align: center;
+  min-width: 56px;
+  line-height: 1.1;
+}
+.match-score-box {
+  background: var(--ya-blue-dark);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 900;
+  text-align: center;
+  min-width: 80px;
+  letter-spacing: 2px;
+}
+
+/* Match Centre / Tickets buttons */
+.match-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   margin-top: auto;
 }
-
-.match-opponent-crest {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-.match-opponent-name {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-/* ACTIVE / FEATURED ROYAL BLUE CARD WITH GOLD ACCENT */
-.match-card--active {
-  background: var(--ya-blue);
-  border-color: var(--ya-blue);
-  color: var(--text-white);
-  box-shadow: 0 8px 24px rgba(14, 30, 91, 0.25);
-}
-
-.match-card--active .match-comp-name {
-  color: var(--ya-gold);
-}
-
-.match-card--active .match-datetime,
-.match-card--active .match-venue {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.match-card--active .match-date-display,
-.match-card--active .match-score-display {
-  color: var(--ya-gold);
-}
-
-.match-card--active .match-opponent-name {
-  color: var(--text-white);
-}
-
-.match-card-corner-arrow {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 184, 0, 0.2);
-  color: var(--ya-gold);
+.btn-match-centre {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
+  justify-content: space-between;
+  background: var(--ya-blue-dark);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+  transition: background 0.2s;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+.btn-match-centre:hover { background: var(--ya-blue-deep); }
+.btn-match-tickets {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  color: var(--ya-blue-dark);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--ya-blue-dark);
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-match-tickets:hover { background: var(--ya-blue-dark); color: #fff; }
+
+/* Active (next match) card */
+.match-card--active {
+  background: var(--ya-blue-dark);
+  border-color: var(--ya-blue-dark);
+  color: #fff;
+}
+.match-card--active .match-comp-name { color: rgba(255,255,255,0.7); }
+.match-card--active .match-datetime,
+.match-card--active .match-venue { color: rgba(255,255,255,0.6); }
+.match-card--active .match-crest-name { color: #fff; }
+.match-card--active .match-time-box { background: rgba(255,255,255,0.15); }
+.match-card--active .btn-match-centre { background: #fff; color: var(--ya-blue-deep); }
+.match-card--active .btn-match-centre:hover { background: rgba(255,255,255,0.85); }
+.match-card--active .btn-match-tickets { border-color: rgba(255,255,255,0.4); color: #fff; }
+.match-card--active .btn-match-tickets:hover { background: rgba(255,255,255,0.1); }
+
+/* Past card */
+.match-card--past { opacity: 0.72; }
+.match-card--past .match-time-box { background: #64748B; }
+
+/* Section labels (Results / Upcoming) */
+.match-section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  padding: 0.35rem 0.85rem;
+  flex: 0 0 auto;
+  align-self: center;
+  white-space: nowrap;
+}
+.match-section-label--upcoming {
+  color: #fff;
+  background: var(--ya-blue-dark);
+  border-color: var(--ya-blue-dark);
+}
+.match-section-divider {
+  flex: 0 0 1px;
+  width: 1px;
+  min-height: 60px;
+  background: var(--border-color);
+  align-self: center;
+}
+.match-live-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: #EF4444;
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  animation: pulse-live 1.4s ease-in-out infinite;
+}
+@keyframes pulse-live { 0%,100%{opacity:1} 50%{opacity:.5} }
+.match-result-badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: #64748B;
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 1px 6px;
 }
 
-/* =========================================================
-   2. LATEST CLUB NEWS (Authentic Photos)
-   ========================================================= */
+/* ===== 2. LATEST NEWS (Chelsea style) ===== */
 .headlines-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
-
 .headline-card {
-  background: var(--ya-blue-deep);
-  border-radius: var(--radius-md);
+  background: #fff;
+  border-radius: 0;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  transition: transform 0.2s ease;
   display: flex;
   flex-direction: column;
+  border: none;
 }
-
-.headline-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--ya-gold);
-}
-
+.headline-card:hover { transform: translateY(-3px); }
 .headline-card__thumb {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16/10;
   overflow: hidden;
-  background: var(--ya-blue-dark);
+  background: var(--bg-subtle);
 }
-
 .headline-card__thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.35s ease;
+  display: block;
 }
-
-.headline-card:hover .headline-card__thumb img {
-  transform: scale(1.05);
-}
-
+.headline-card:hover .headline-card__thumb img { transform: scale(1.04); }
 .headline-card__content {
-  padding: 1.25rem;
+  padding: 0.9rem 0 0;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
-
 .headline-date {
-  font-size: 0.75rem;
-  color: var(--ya-gold);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
 }
-
 .headline-title {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: var(--text-white);
+  color: var(--ya-blue-deep);
   line-height: 1.35;
-  margin-bottom: 0.5rem;
 }
 
 /* =========================================================
