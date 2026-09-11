@@ -5,54 +5,20 @@
  */
 
 // ==========================================
-// 1. DATA: 38-MAN GPL REGISTERED SQUAD
+// 1. DATA: OFFICIAL FIRST TEAM SQUAD
 // ==========================================
 const SQUAD_DATA = [
-  // GOALKEEPERS (GK)
-  { id: 1, name: 'Frank Boateng', number: 31, role: 'GK', posName: 'Goalkeeper', isU17: false, apps: 28, cleanSheets: 12, origin: 'Sunyani', image: 'assets/players/frank-boateng.jpg', bio: 'Veteran shot-stopper and defensive commander whose reflex saves, experience, and 12 clean sheets backstop the Apostles rearguard in the Ghana Premier League.', height: "6'1\"", foot: 'Right', isFeatured: true },
-  { id: 2, name: 'Osman Wahabu', number: 16, role: 'GK', posName: 'Goalkeeper', isU17: false, apps: 14, cleanSheets: 6, origin: 'Wenchi', image: 'assets/players/osman-wahabu.jpg', bio: 'Agile and commanding shot-stopper with lightning-fast reflexes, exceptional distribution, and 6 clean sheets — the reliable backbone of the Apostles goalkeeping unit.', height: "6'2\"", foot: 'Right', isFeatured: true },
-  { id: 3, name: 'Benjamin Twum', number: 13, role: 'GK', posName: 'Goalkeeper', isU17: false, apps: 8, cleanSheets: 3, origin: 'Berekum', image: 'assets/players/benjamin-twum.jpg', bio: 'Promotion penalty-shootout hero and commanding shot-stopper whose historic heroics against Techiman Heroes secured Young Apostles their maiden GPL berth.', height: "6'2\"", foot: 'Right', isFeatured: true },
-  { id: 4, name: 'Stephen Narh', number: 22, role: 'GK', posName: 'Goalkeeper', isU17: true, apps: 4, cleanSheets: 2, origin: 'Academy', image: 'assets/players/stephen-narh.jpg', bio: 'Bright and bubbly young academy goalkeeper brimming with natural talent — an agile, quick-reflexes shot-stopper who trains with the senior squad and is tipped as one to watch.', height: "6'0\"", foot: 'Right', isFeatured: true },
-  { id: 5, name: 'Seidu Adams', number: 1, role: 'GK', posName: 'Goalkeeper', isU17: true, apps: 2, cleanSheets: 1, origin: 'Academy', image: 'assets/players/seidu-adams.jpg', bio: 'Young, fearless and shot-stopping academy goalkeeper who trains with the senior side, showing tremendous talent and composure well beyond his years between the sticks.', height: "6'1\"", foot: 'Right', isFeatured: true },
-
-  // DEFENDERS (DF)
-  { id: 6, name: 'Issah Nyaabila', number: 4, role: 'DF', posName: 'Center Back / Vice Captain', isU17: false, apps: 30, goals: 2, origin: 'Wenchi', image: 'assets/players/issah-nyaabila.jpg', bio: 'Nicknamed "The Rock of Bolgatanga", an unyielding aerial powerhouse and defensive general whose leadership and rock-solid tackling anchor the Apostles backline.', height: "6'2\"", foot: 'Right', isFeatured: true },
-  { id: 7, name: 'Abdul Rurf Rahman', number: 15, role: 'DF', posName: 'Right Back', isU17: false, apps: 26, goals: 1, origin: 'Tamale' },
-  { id: 8, name: 'Mathias Van Amegbe', number: 25, role: 'DF', posName: 'Left Back', isU17: false, apps: 28, goals: 3, origin: 'Accra', image: 'assets/players/mathias-van-amegbe.jpg', bio: 'Energetic and attack-minded left back from Accra with superb crossing ability, 3 goals this campaign, and relentless energy pushing down the flank in every match.', height: "5'10\"", foot: 'Left', isFeatured: true },
-  { id: 9, name: 'Illiasu Mumuni', number: 24, role: 'DF', posName: 'Center Back', isU17: false, apps: 22, goals: 0, origin: 'Kumasi', image: 'assets/players/illiasu-mumuni.jpg', bio: 'Tall, composed 18-year-old central defender who made his commanding starting XI debut against Vision FC, showcasing mature reading of the game and tactical aerial supremacy.', height: "6'1\"", foot: 'Right', isFeatured: true },
-  { id: 10, name: 'Abdul Musah Mohammed', number: 12, role: 'DF', posName: 'Full Back', isU17: false, apps: 19, goals: 1, origin: 'Sunyani', image: 'assets/players/abdul-musah-mohammed.jpg', bio: 'Composed and versatile full back from Sunyani whose sharp reading of the game, solid defensive discipline, and composed ball distribution make him a trusted defensive option.', height: "5'11\"", foot: 'Right', isFeatured: true },
-  { id: 11, name: 'Abdul Mobarick', number: 34, role: 'DF', posName: 'Left Back / Center Back', isU17: false, apps: 17, goals: 0, origin: 'Wenchi', image: 'assets/players/abdul-mobarick.jpg', bio: 'Dynamic left-sided defender signed from Mighty Royals. Known for rapid acceleration, intelligent positioning, and resilient flank defending.', height: "5'10\"", foot: 'Left', isFeatured: true },
-  { id: 12, name: 'Emmanuel Owusu Bempah', number: 44, role: 'DF', posName: 'Right Back / Wing Back', isU17: false, apps: 24, goals: 1, origin: 'Berekum', image: 'assets/players/emmanuel-owusu-bempah.jpg', bio: 'Energetic and tough-tackling right back known for relentless overlapping runs, crossing precision, and commanding flank containment.', height: "5'9\"", foot: 'Right', isFeatured: true },
-  { id: 13, name: 'Issah Salifu', number: 23, role: 'DF', posName: 'Left Back', isU17: false, apps: 16, goals: 0, origin: 'Tamale', image: 'assets/players/issah-salifu.jpg', bio: 'Tenacious and rapid left back from Tamale, providing resolute flank containment, physical tackling, and smooth transition passing into midfield.', height: "5'10\"", foot: 'Left', isFeatured: true },
-  { id: 14, name: 'Samuel Amankwah', number: 3, role: 'DF', posName: 'Center Back', isU17: false, apps: 21, goals: 1, origin: 'Wenchi', image: 'assets/players/samuel-amankwah.jpg', bio: 'Tenacious and commanding center back from Wenchi whose aerial dominance, sharp positioning, and composed defending under pressure make him a cornerstone of the Apostles backline.', height: "6'1\"", foot: 'Right', isFeatured: true },
-  { id: 15, name: 'Foster Agyarko', number: 33, role: 'DF', posName: 'Defensive Stopper', isU17: false, apps: 18, goals: 0, origin: 'Techiman' },
-  { id: 16, name: 'Fumi Koulibaly Andrews', number: 48, role: 'DF', posName: 'Center Back', isU17: false, apps: 12, goals: 0, origin: 'Ivory Coast/Ghana', image: 'assets/players/fumi-koulibaly-andrews.jpg', bio: 'Physically imposing centre back of Ivorian-Ghanaian heritage, renowned for dominant aerial duels, commanding presence in the box, and composure under pressure.', height: "6'3\"", foot: 'Right', isFeatured: true },
-  { id: 17, name: 'Moses Titi', number: 17, role: 'DF', posName: 'Wing Back', isU17: true, apps: 6, goals: 0, origin: 'Academy', image: 'assets/players/moses-titi.jpg', bio: 'Fearless and quick-thinking young wing back from the Apostles Academy, showing composure and athleticism beyond his years with sharp tackling and dangerous forward runs.', height: "5'9\"", foot: 'Right', isFeatured: true },
-
-  // MIDFIELDERS (MD)
-  { id: 18, name: 'Ramzy Abubakar', number: 8, role: 'MD', posName: 'Playmaker / CM', isU17: false, apps: 32, goals: 7, origin: 'Wenchi', image: 'assets/players/ramzy-abubakar.jpg', bio: 'The engine room of the Apostles midfield — a visionary playmaker with 7 goals and 32 appearances, dictating the tempo with sublime passing range and commanding leadership in the centre of the park.', height: "5'11\"", foot: 'Right', isFeatured: true },
-  { id: 19, name: 'Abdul Muftaw Ganiyu', number: 5, role: 'MD', posName: 'Defensive Midfielder', isU17: false, apps: 29, goals: 2, origin: 'Sunyani', image: 'assets/players/abdul-muftaw-ganiyu.jpg', bio: 'Tough-tackling midfield anchor and tactical powerhouse who dictates tempo and breaks down opposing transition plays with relentless work rate.', height: "5'11\"", foot: 'Right', isFeatured: true },
-  { id: 20, name: 'Abdul Gamwu', altName: 'Abdul Ganiwu Ali', number: 32, role: 'MD', posName: 'Central Midfielder / Forward', isU17: false, apps: 25, goals: 3, origin: 'Tamale', image: 'assets/players/abdul-gamwu.jpg', bio: 'Creative midfield catalyst with exquisite ball control, sharp bursts through the center, and eye for splitting defensive passes.', height: "5'9\"", foot: 'Right', isFeatured: true },
-  { id: 21, name: 'John Afram Attah Jnr', number: 20, role: 'MD', posName: 'Attacking Midfielder', isU17: false, apps: 27, goals: 5, origin: 'Wenchi', image: 'assets/players/john-afram-attah-jnr.jpg', bio: 'Crafty attacking midfielder with superb vision and technical flair, pulling strings in the final third and threading decisive balls to unlock stubborn defences.', height: "5'9\"", foot: 'Right', isFeatured: true },
-  { id: 22, name: 'Agyei Emmanuel', altName: 'Emmanuel Agyei', number: 51, role: 'MD', posName: 'Central Midfielder', isU17: false, apps: 22, goals: 2, origin: 'Kumasi', image: 'assets/players/agyei-emmanuel.jpg', bio: 'Agile and composed box-to-box midfielder with exceptional passing vision and defensive work rate, keeping Apostles in control.', height: "5'8\"", foot: 'Right', isFeatured: true },
-  { id: 23, name: 'Samuel Amadu', number: 6, role: 'MD', posName: 'Box-to-Box Midfielder', isU17: false, apps: 20, goals: 1, origin: 'Sunyani', image: 'assets/players/samuel-amadu.jpg', bio: 'Tireless box-to-box midfielder who covers every blade of grass, combining combative defensive work with incisive forward bursts and sharp link-up play to drive Apostles forward.', height: "5'10\"", foot: 'Right', isFeatured: true },
-  { id: 24, name: 'Awal Seidu', number: 28, role: 'MD', posName: 'Central Midfielder', isU17: true, apps: 9, goals: 1, origin: 'Academy', image: 'assets/players/awal-seidu.jpg', bio: 'Gifted Apostles Academy product with silky distribution, game-reading intelligence, and calm composure under high opposition press.', height: "5'10\"", foot: 'Right', isFeatured: true },
-  { id: 25, name: 'Felix Aboagye', number: 18, role: 'MD', posName: 'Attacking Midfielder', isU17: true, apps: 7, goals: 0, origin: 'Academy', image: 'assets/players/felix-aboagye.jpg', bio: 'Dynamic youth prodigy operating between the lines, adept at threading through-balls, rapid turns on the half-turn, and offensive link-up play.', height: "5'8\"", foot: 'Right', isFeatured: true },
-  { id: 26, name: 'Huzaif Iddrisu', number: 10, role: 'MD', posName: 'Attacking Midfielder', isU17: true, apps: 11, goals: 3, origin: 'Academy' },
-
-  // FORWARDS (FW)
-  { id: 27, name: 'Joseph Mensah', number: 7, role: 'FW', posName: 'Right Winger', isU17: false, apps: 31, goals: 11, origin: 'Wenchi', image: 'assets/players/joseph-mensah.jpg', bio: 'Electric right-wing attacker with blistering pace, sharp dribbling, and a prolific eye for goal — 11 strikes this campaign make him one of the Apostles\' deadliest weapons.', height: "5'9\"", foot: 'Right', isFeatured: true },
-  { id: 28, name: 'Foster Adu Gyamfi', number: 30, role: 'FW', posName: 'Center Forward / Striker', isU17: false, apps: 27, goals: 9, origin: 'Berekum', image: 'assets/players/foster-adu-gyamfi.jpg', bio: 'Prolific 19-year-old goal poacher renowned for sharp penalty box movement, instinctive aerial presence, and 9 goals this campaign.', height: "6'1\"", foot: 'Right', isFeatured: true },
-  { id: 29, name: 'Samuel Prempeh', number: 21, role: 'FW', posName: 'Left Winger', isU17: false, apps: 29, goals: 8, origin: 'Kumasi', image: 'assets/players/samuel-prempeh.jpg', bio: 'Electrifying left winger with dazzling footwork, explosive pace, and 8 goals from the flank — a constant tormentor for opposition full backs and a key creative threat for the Apostles attack.', height: "5'9\"", foot: 'Left', isFeatured: true },
-  { id: 30, name: 'Issah Huseine', altName: 'Hussein Issah', number: 11, role: 'FW', posName: 'Forward / Winger', isU17: false, apps: 24, goals: 6, origin: 'Tamale', image: 'assets/players/issah-huseine.jpg', bio: 'Affectionately known as "Suarez" by the Apostles faithful, an energetic, clinical match-winner with blistering acceleration and a sharp eye for decisive goals.', height: "5'10\"", foot: 'Right', isFeatured: true },
-  { id: 31, name: 'Abdul Fatao Salifu', number: 19, role: 'FW', posName: 'Striker / Center Forward', isU17: false, apps: 21, goals: 5, origin: 'Sunyani', image: 'assets/players/abdul-fatao-salifu.jpg', bio: 'Lethal marksman and key summer acquisition after an electric 15-goal, 7-assist season earning 7 MVP honors in Division One with Mighty Royals.', height: "6'0\"", foot: 'Both', isFeatured: true },
-  { id: 32, name: 'Foster Amoah', number: 45, role: 'FW', posName: 'Center Forward', isU17: false, apps: 18, goals: 4, origin: 'Wenchi', image: 'assets/players/foster-amoah.jpg', bio: 'High-energy striker brought in to spearhead the attack, renowned for relentless pressing, hold-up capability, and sharp target-man instincts.', height: "5'11\"", foot: 'Right', isFeatured: true },
-  { id: 33, name: 'Joel Gakpo', number: 9, role: 'FW', posName: 'Number 9 / Striker', isU17: false, apps: 26, goals: 10, origin: 'Accra', image: 'assets/players/joel-gakpo.jpg', bio: 'Lethal number nine with a powerful physique, predatory instinct inside the box, and 10 GPL goals — a constant nightmare for opposition defenders and a fans\' favourite.', height: "6'0\"", foot: 'Right', isFeatured: true },
-  { id: 34, name: 'Kingsford Agyemang', number: 55, role: 'FW', posName: 'Forward', isU17: false, apps: 23, goals: 7, origin: 'Techiman', image: 'assets/players/kingsford-agyemang.jpg', bio: 'Versatile forward with a powerful build, relentless work rate, and clinical finishing ability, contributing 7 goals and bringing energy to every attacking move.', height: "5'11\"", foot: 'Right', isFeatured: true },
-  { id: 35, name: 'Richmond Opoku', number: 40, role: 'FW', posName: 'Winger', isU17: false, apps: 15, goals: 3, origin: 'Wenchi', image: 'assets/players/richmond-opoku.jpg', bio: 'Powerful and direct winger from Wenchi with a commanding physical presence, relentless pressing from wide positions, and the composure to deliver in tight situations in front of goal.', height: "5'11\"", foot: 'Right', isFeatured: true },
-  { id: 36, name: 'Prince Osei Amankwah', number: 35, role: 'FW', posName: 'Forward', isU17: false, apps: 14, goals: 2, origin: 'Sunyani' },
-  { id: 37, name: 'Andy Luis', number: 29, role: 'FW', posName: 'Forward / Winger', isU17: true, apps: 8, goals: 2, origin: 'Academy', image: 'assets/players/andy-luis.jpg', bio: 'Explosive academy forward blessed with electric burst of pace, direct dribbling ability, and clinical instinct in front of goal.', height: "5'11\"", foot: 'Both', isFeatured: true },
-  { id: 38, name: 'James Konadu', number: 50, role: 'FW', posName: 'Forward / Winger', isU17: true, apps: 6, goals: 1, origin: 'Academy', image: 'assets/players/james-konadu.jpg', bio: 'Prodigious Young Apostles Academy talent with "ice in his veins", possessing electrifying agility, fearless direct dribbling, and clinical finishing instincts.', height: "5'8\"", foot: 'Right', isFeatured: true }
+  { id: 1, name: 'Seidu Adams', number: 1, role: 'GK', posName: 'Goalkeeper', image: 'assets/players/seidu-adams.jpg' },
+  { id: 2, name: 'Samuel Amankwah', number: 3, role: 'DF', posName: 'Center Back', image: 'assets/players/samuel-amankwah.jpg' },
+  { id: 3, name: 'Samuel Amadu', number: 6, role: 'MD', posName: 'Midfielder', image: 'assets/players/samuel-amadu.jpg' },
+  { id: 4, name: 'Ramzy Abubakar', number: 8, role: 'MD', posName: 'Midfielder', image: 'assets/players/ramzy-abubakar.jpg' },
+  { id: 5, name: 'Musah Mohammed', number: 12, role: 'DF', posName: 'Full Back', image: 'assets/players/abdul-musah-mohammed.jpg' },
+  { id: 6, name: 'Osman Wahab', number: 16, role: 'GK', posName: 'Goalkeeper', image: 'assets/players/osman-wahabu.jpg' },
+  { id: 7, name: 'Moses Titi', number: 17, role: 'DF', posName: 'Wing Back', image: 'assets/players/moses-titi.jpg' },
+  { id: 8, name: 'Samuel Prempeh', number: 21, role: 'FW', posName: 'Forward', image: 'assets/players/samuel-prempeh.jpg' },
+  { id: 9, name: 'Stephen Narh', number: 22, role: 'GK', posName: 'Goalkeeper', image: 'assets/players/stephen-narh.jpg' },
+  { id: 10, name: 'Mathias Van', number: 25, role: 'DF', posName: 'Left Back', image: 'assets/players/mathias-van-amegbe.jpg' },
+  { id: 11, name: 'Richmond Opoku', number: 40, role: 'FW', posName: 'Forward', image: 'assets/players/richmond-opoku.jpg' }
 ];
 
 // ==========================================
@@ -823,7 +789,6 @@ function renderMatches(typeFilter = 'all') {
         <div class="match-venue">${f.venue}</div>
         <div class="match-card-actions">
           <button class="btn-match-centre" onclick="openFixturesModal()">Match Centre &rarr;</button>
-          ${!f.isPast ? `<button class="btn-match-tickets" onclick="openMembershipModal()">Tickets &rarr;</button>` : ''}
         </div>
       </div>
     `;
@@ -831,13 +796,66 @@ function renderMatches(typeFilter = 'all') {
 
   let html = '';
   if (pastSlice.length > 0) {
-    html += `<div class="match-section-label"><i class="fa-solid fa-flag-checkered"></i> Results</div>`;
+    html += `<div class="match-section-label"><i class="fa-solid fa-flag-checkered"></i> Results (Final Scores)</div>`;
     html += pastSlice.map(renderCard).join('');
     html += `<div class="match-section-divider"></div>`;
   }
   html += `<div class="match-section-label match-section-label--upcoming"><i class="fa-solid fa-calendar-days"></i> Upcoming</div>`;
   html += upcomingSlice.length > 0 ? upcomingSlice.map(renderCard).join('') : `<div class="match-section-label">Season Complete</div>`;
   grid.innerHTML = html;
+}
+
+// ==========================================
+// 13. REAL-TIME MATCHDAY COUNTDOWN
+// ==========================================
+function updateCountdown() {
+  const allFixtures = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2];
+  const now = new Date();
+
+  // Find next upcoming fixture
+  let nextMatch = null;
+  for (const f of allFixtures) {
+    const fDate = parseFixtureDate(f.date);
+    fDate.setHours(15, 0, 0, 0); // 15:00 GMT kickoff
+    if (fDate.getTime() > now.getTime()) {
+      nextMatch = { ...f, kickoff: fDate };
+      break;
+    }
+  }
+
+  if (!nextMatch) return;
+
+  const diff = nextMatch.kickoff.getTime() - now.getTime();
+  if (diff <= 0) return;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+  const dEl = document.getElementById('cdDays');
+  const hEl = document.getElementById('cdHours');
+  const mEl = document.getElementById('cdMins');
+  const sEl = document.getElementById('cdSecs');
+
+  if (dEl) dEl.textContent = String(days).padStart(2, '0');
+  if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+  if (mEl) mEl.textContent = String(mins).padStart(2, '0');
+  if (sEl) sEl.textContent = String(secs).padStart(2, '0');
+
+  const indEl = document.getElementById('cdMatchIndicator');
+  const headEl = document.getElementById('cdMatchHeadline');
+  const venEl = document.getElementById('cdMatchVenue');
+
+  const opponent = nextMatch.home === 'Young Apostles' ? nextMatch.away : nextMatch.home;
+  const isHome = nextMatch.home === 'Young Apostles';
+
+  if (indEl) indEl.innerHTML = `<i class="fa-solid fa-stopwatch"></i> MATCHDAY ${nextMatch.week} COUNTDOWN`;
+  if (headEl) headEl.textContent = `${isHome ? 'Home' : 'Away'} vs ${opponent}`;
+  if (venEl) {
+    const dateStr = nextMatch.kickoff.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
+    venEl.textContent = `${nextMatch.venue} · ${dateStr} · 15:00 GMT`;
+  }
 }
 
 // ==========================================
@@ -868,11 +886,16 @@ function showToast(msg) {
 // ==========================================
 // 14. EVENT LISTENERS INITIALIZATION
 // ==========================================
+function openYouTubeLink(url) {
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
   renderSquad('all');
   renderProducts('all');
   renderMatches('all');
+  updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
 
   // Mobile Toggle

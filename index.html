@@ -26,13 +26,8 @@
   <div class="top-bar">
     <div class="container top-bar__inner">
       <div class="top-bar__left">
-        <div class="lang-switch">
-          <span class="lang-btn active">English</span>
-          <span class="lang-sep">|</span>
-          <span class="lang-btn">Akan (Twi)</span>
-        </div>
         <div class="top-bar__tag">
-          <i class="fa-solid fa-shield-halved"></i> GHANA PREMIER LEAGUE 2026/27
+          <i class="fa-solid fa-shield-halved"></i> GHANA PREMIER LEAGUE 2026/27 &middot; OFFICIAL CLUB PORTAL
         </div>
       </div>
 
@@ -67,7 +62,7 @@
       <nav class="nav-links" aria-label="Main Navigation">
         <a href="#news" class="nav-link active">News</a>
         <a href="#matches" class="nav-link">Schedule / Fixtures</a>
-        <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="nav-link">Apostle TV <i class="fa-brands fa-youtube" style="color:#EF4444;font-size:0.8em;"></i></a>
+        <a href="#apostle-tv" class="nav-link">Apostle TV</a>
         <a href="#squad" class="nav-link">Squad</a>
         <a href="#store" class="nav-link">Team Shop <span class="nav-badge-pill">NEW KITS</span></a>
       </nav>
@@ -97,7 +92,7 @@
       <ul class="mobile-nav-list">
         <li><a href="#news" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-newspaper"></i> News</a></li>
         <li><a href="#matches" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-calendar-days"></i> Schedule / Fixtures</a></li>
-        <li><a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Apostle TV</a></li>
+        <li><a href="#apostle-tv" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Apostle TV</a></li>
         <li><a href="#squad" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-users"></i> Squad</a></li>
         <li><a href="#store" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-shirt"></i> Team Shop</a></li>
       </ul>
@@ -123,7 +118,7 @@
             Young Apostles FC Makes History in Ghana's Top Flight
           </h1>
           <p class="hero-subtitle">
-            <strong>"AGYA NA ƆWƆ TUMI"</strong> · Wenchi's pride steps onto Ghana's biggest stage under Head Coach Abu Abdul-Hanan with our 38 registered first-team stars.
+            <strong>"AGYA NA Æ†WÆ† TUMI"</strong> Â· Wenchi's pride steps onto Ghana's biggest stage under Head Coach Abu Abdul-Hanan with our 38 registered first-team stars.
           </p>
           <div class="hero-cta-row">
             <a href="#matches" class="btn-hero-primary"><i class="fa-solid fa-calendar-check"></i> View GPL Fixtures</a>
@@ -140,50 +135,12 @@
   </section>
 
   <!-- =========================================================
-       4. UPCOMING MATCHES SECTION
-       ========================================================= -->
-  <section class="section" id="matches" style="background: linear-gradient(135deg, #0056B3 0%, #001489 100%); padding: 4.5rem 0;">
-    <div class="container">
-      <div class="section-header section-header--split">
-        <div>
-          <h2 class="section-title section-title--white">Schedule / Fixtures <span style="font-size:0.7em;">&rarr;</span></h2>
-          <p style="color:rgba(255,255,255,0.8); font-size:0.9rem; margin-top:0.25rem;">2026/27 Ghana Premier League Official Matchdays</p>
-        </div>
-        <button class="section-link-action section-link-action--white" onclick="openFixturesModal()">
-          Full 34-Week Calendar <i class="fa-solid fa-arrow-right"></i>
-        </button>
-      </div>
-
-      <!-- Filter Tabs -->
-      <div class="category-tabs category-tabs--dark" id="matchCategoryTabs">
-        <button class="tab-btn active" data-match-cat="all">All GPL Fixtures</button>
-        <button class="tab-btn" data-match-cat="home">Home Matches</button>
-        <button class="tab-btn" data-match-cat="away">Away Matches</button>
-      </div>
-
-      <!-- Real-time Match Cards — rendered by JS -->
-      <div class="matches-carousel-wrap">
-        <button class="carousel-nav-btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="scrollMatches(-1)" aria-label="Previous Matches">
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <div class="matches-grid" id="upcomingMatchesGrid">
-          <!-- Populated dynamically by renderMatches() -->
-        </div>
-        <button class="carousel-nav-btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="scrollMatches(1)" aria-label="Next Matches">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- =========================================================
-       5. LATEST CLUB NEWS
+       4. LATEST CLUB NEWS
        ========================================================= -->
   <section class="section" id="news" style="background:#fff;">
     <div class="container">
       <div class="section-header section-header--split">
-        <h2 class="section-title">Latest News <span style="font-size:0.75em;">→</span></h2>
+        <h2 class="section-title">Latest News <span style="font-size:0.75em;">&rarr;</span></h2>
         <a href="#" class="section-link-action">All News <i class="fa-solid fa-arrow-right"></i></a>
       </div>
 
@@ -217,12 +174,53 @@
           </div>
           <div class="headline-card__content">
             <span class="headline-date">Sep 2026</span>
-            <h3 class="headline-title">Head Coach Abu Abdul-Hanan Confirms 38-Player GPL Registered Roster</h3>
+            <h3 class="headline-title">Head Coach Abu Abdul-Hanan Confirms GPL Registered Roster</h3>
           </div>
         </article>
       </div>
     </div>
   </section>
+
+
+  <!-- =========================================================
+       5. SCHEDULE / FIXTURES
+       ========================================================= -->
+  <section class="section" id="matches" style="background: linear-gradient(135deg, #0056B3 0%, #001489 100%); padding: 4.5rem 0;">
+    <div class="container">
+      <div class="section-header section-header--split">
+        <div>
+          <h2 class="section-title section-title--white">Schedule / Fixtures <span style="font-size:0.7em;">&rarr;</span></h2>
+          <p style="color:rgba(255,255,255,0.8); font-size:0.9rem; margin-top:0.25rem;">2026/27 Ghana Premier League Official Matchdays</p>
+        </div>
+        <button class="section-link-action section-link-action--white" onclick="openFixturesModal()">
+          Full 34-Week Calendar <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="category-tabs category-tabs--dark" id="matchCategoryTabs">
+        <button class="tab-btn active" data-match-cat="all">All GPL Fixtures</button>
+        <button class="tab-btn" data-match-cat="home">Home Matches</button>
+        <button class="tab-btn" data-match-cat="away">Away Matches</button>
+      </div>
+
+      <!-- Real-time Match Cards - rendered by JS -->
+      <div class="matches-carousel-wrap">
+        <button class="carousel-nav-btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="scrollMatches(-1)" aria-label="Previous Matches">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div class="matches-grid" id="upcomingMatchesGrid">
+          <!-- Populated dynamically by renderMatches() -->
+        </div>
+        <button class="carousel-nav-btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="scrollMatches(1)" aria-label="Next Matches">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+
 
   <!-- =========================================================
        6. GHANA PREMIER LEAGUE STANDINGS
@@ -264,14 +262,14 @@
                   <strong>Young Apostles FC (Wenchi)</strong>
                 </div>
               </td>
+              <td class="text-center">1</td>
+              <td class="text-center">0</td>
+              <td class="text-center">1</td>
               <td class="text-center">0</td>
               <td class="text-center">0</td>
               <td class="text-center">0</td>
               <td class="text-center">0</td>
-              <td class="text-center">0</td>
-              <td class="text-center">0</td>
-              <td class="text-center">0</td>
-              <td class="text-right pts-badge">0</td>
+              <td class="text-right pts-badge">1</td>
             </tr>
             <tr>
               <td><span class="pos-pill">2</span></td>
@@ -371,7 +369,7 @@
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">Apostle TV <span style="font-size:0.75em;">→</span></h2>
+          <h2 class="section-title">Apostle TV <span style="font-size:0.75em;">â†’</span></h2>
           <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Watch official match action &amp; highlights on YouTube</p>
         </div>
         <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="section-link-action">
@@ -433,26 +431,26 @@
         </div>
 
         <div class="fixtures-countdown-content">
-          <span class="tourn-step-indicator"><i class="fa-solid fa-stopwatch"></i> MATCHDAY 2 COUNTDOWN</span>
-          <h3 class="tourn-headline">Home Opener vs Basake Holy Stars</h3>
-          <p class="tourn-season">Wenchi Sports Stadium · Thursday, Sep 10, 2026 · 15:00 GMT</p>
+          <span class="tourn-step-indicator" id="cdMatchIndicator"><i class="fa-solid fa-stopwatch"></i> MATCHDAY 2 COUNTDOWN</span>
+          <h3 class="tourn-headline" id="cdMatchHeadline">Next Match Loading...</h3>
+          <p class="tourn-season" id="cdMatchVenue">Wenchi Sports Stadium Â· Thursday, Sep 10, 2026 Â· 15:00 GMT</p>
 
           <!-- Dynamic Live Countdown -->
           <div class="tourn-countdown-wrap" id="tournamentCountdown">
             <div class="cd-unit-box">
-              <span class="cd-number" id="cdDays">08</span>
+              <span class="cd-number" id="cdDays">00</span>
               <span class="cd-label">Days</span>
             </div>
             <div class="cd-unit-box">
-              <span class="cd-number" id="cdHours">03</span>
+              <span class="cd-number" id="cdHours">00</span>
               <span class="cd-label">Hours</span>
             </div>
             <div class="cd-unit-box">
-              <span class="cd-number" id="cdMins">45</span>
+              <span class="cd-number" id="cdMins">00</span>
               <span class="cd-label">Minutes</span>
             </div>
             <div class="cd-unit-box">
-              <span class="cd-number" id="cdSecs">20</span>
+              <span class="cd-number" id="cdSecs">00</span>
               <span class="cd-label">Seconds</span>
             </div>
           </div>
@@ -477,18 +475,17 @@
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">First Team Squad <span style="font-size:0.75em;">→</span></h2>
+          <h2 class="section-title">First Team Squad <span style="font-size:0.75em;">â†’</span></h2>
           <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Head Coach: <strong>Abu Abdul-Hanan</strong> &middot; 2026/27 Ghana Premier League</p>
         </div>
       </div>
 
       <div class="category-tabs" id="squadPositionTabs">
-        <button class="tab-btn active" data-squad-filter="all">All Players</button>
-        <button class="tab-btn" data-squad-filter="GK">Goalkeepers</button>
-        <button class="tab-btn" data-squad-filter="DF">Defenders (12)</button>
-        <button class="tab-btn" data-squad-filter="MD">Midfielders (9)</button>
-        <button class="tab-btn" data-squad-filter="FW">Forwards (12)</button>
-        <button class="tab-btn" data-squad-filter="U17">U-17 Academy (10)</button>
+        <button class="tab-btn active" data-squad-filter="all">All Players (11)</button>
+        <button class="tab-btn" data-squad-filter="GK">Goalkeepers (3)</button>
+        <button class="tab-btn" data-squad-filter="DF">Defenders (4)</button>
+        <button class="tab-btn" data-squad-filter="MD">Midfielders (2)</button>
+        <button class="tab-btn" data-squad-filter="FW">Forwards (2)</button>
       </div>
 
       <div class="squad-grid" id="squadGrid">
@@ -504,7 +501,7 @@
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">Team Shop <span style="font-size:0.75em;">→</span></h2>
+          <h2 class="section-title">Team Shop <span style="font-size:0.75em;">â†’</span></h2>
           <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Authentic 2026/27 Mayniak Matchwear, Training Apparel & Accessories</p>
         </div>
         <button class="section-link-action" onclick="openCartDrawer()">
@@ -537,7 +534,7 @@
         <div class="about-content">
           <h2 class="about-heading">About Young Apostles FC</h2>
           <p class="about-paragraph">
-            Founded in 2012 in Wenchi, Bono Region, Ghana, Young Apostles Football Club stands as the proud heartbeat of regional football excellence. Guided by the revered motto <strong>"AGYA NA ƆWƆ TUMI"</strong> (God Has Power), the club has risen from grassroots football to the prestigious Ghana Premier League.
+            Founded in 2012 in Wenchi, Bono Region, Ghana, Young Apostles Football Club stands as the proud heartbeat of regional football excellence. Guided by the revered motto <strong>"AGYA NA Æ†WÆ† TUMI"</strong> (God Has Power), the club has risen from grassroots football to the prestigious Ghana Premier League.
           </p>
           <p class="about-paragraph">
             With our passionate home support at Wenchi Sports Stadium, robust youth development pipelines, and disciplined tactical philosophy under Coach Abu Abdul-Hanan, Young Apostles FC is dedicated to nurturing world-class talents and delivering thrilling top-tier football.
@@ -647,7 +644,7 @@
 
       <div class="footer-bottom-bar">
         <span>&copy; 2026 Young Apostles Football Club. All rights reserved.</span>
-        <span>Wenchi Sports Stadium · Bono Region, Ghana</span>
+        <span>Wenchi Sports Stadium Â· Bono Region, Ghana</span>
       </div>
     </div>
   </footer>
