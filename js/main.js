@@ -809,12 +809,12 @@ function renderMatches(typeFilter = 'all') {
         </div>
         <div class="match-crests-row">
           <div class="match-crest-col">
-            <img src="${homeLogo}" alt="${homeName}" onerror="this.src='assets/official-logo.png'">
+            <img src="${homeLogo}" alt="${homeName}" onerror="this.src='assets/opponents/gpl.png'">
             <div class="match-crest-name">${homeName}</div>
           </div>
           ${centerBox}
           <div class="match-crest-col">
-            <img src="${awayLogo}" alt="${awayName}" onerror="this.src='assets/official-logo.png'">
+            <img src="${awayLogo}" alt="${awayName}" onerror="this.src='assets/opponents/gpl.png'">
             <div class="match-crest-name">${awayName}</div>
           </div>
         </div>

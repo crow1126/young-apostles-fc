@@ -745,20 +745,22 @@ button {
 .match-card {
   background: #FFFFFF;
   border: 1px solid var(--border-color);
+  border-top: 4px solid #F5C800;
   border-radius: 12px;
   padding: 1.6rem 1.25rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
-  flex: 0 0 270px;
+  flex: 0 0 275px;
   scroll-snap-align: start;
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
 }
 .match-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 10px 28px rgba(0,87,184,0.15);
+  border-top-color: #001489;
 }
 
 /* Header centered */
@@ -810,19 +812,33 @@ button {
   text-align: center;
   line-height: 1.2;
 }
-.match-time-box,
-.match-score-box {
-  background: #FFFFFF;
-  color: var(--ya-blue-deep);
-  border: 1.5px solid var(--border-color);
+.match-time-box {
+  background: #F5C800;
+  color: #001489;
+  border: none;
   border-radius: 6px;
   padding: 0.5rem 0.8rem;
   font-family: var(--font-heading);
   font-size: 1.2rem;
-  font-weight: 800;
+  font-weight: 900;
   text-align: center;
   min-width: 68px;
   line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.match-score-box {
+  background: #001489;
+  color: #F5C800;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 900;
+  text-align: center;
+  min-width: 68px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 .match-venue {
@@ -852,13 +868,15 @@ button {
   font-weight: 700;
   padding: 0.75rem 1rem;
   border-radius: 6px;
-  border: none;
+  border: 2px solid #001489;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   width: 100%;
 }
 .btn-match-centre:hover {
-  background: #032b69;
+  background: #F5C800;
+  color: #001489;
+  border-color: #F5C800;
 }
 .btn-match-tickets {
   display: flex;
@@ -879,21 +897,23 @@ button {
 .btn-match-tickets:hover {
 }
 
-/* Active (next match) card */
+/* Active (next match) card — deep blue with gold top */
 .match-card--active {
-  background: var(--ya-blue-dark);
-  border-color: var(--ya-blue-dark);
+  background: linear-gradient(160deg, #001489 0%, #0035b0 100%);
+  border-color: #001489;
+  border-top: 4px solid #F5C800;
   color: #fff;
+  box-shadow: 0 8px 32px rgba(0,20,137,0.35);
 }
+.match-card--active .match-card-date { color: #F5C800; }
 .match-card--active .match-comp-name { color: rgba(255,255,255,0.7); }
 .match-card--active .match-datetime,
 .match-card--active .match-venue { color: rgba(255,255,255,0.6); }
 .match-card--active .match-crest-name { color: #fff; }
-.match-card--active .match-time-box { background: rgba(255,255,255,0.15); }
-.match-card--active .btn-match-centre { background: #fff; color: var(--ya-blue-deep); }
-.match-card--active .btn-match-centre:hover { background: rgba(255,255,255,0.85); }
-.match-card--active .btn-match-tickets { border-color: rgba(255,255,255,0.4); color: #fff; }
-.match-card--active .btn-match-tickets:hover { background: rgba(255,255,255,0.1); }
+.match-card--active .match-time-box { background: #F5C800; color: #001489; }
+.match-card--active .match-score-box { background: rgba(255,255,255,0.15); color: #F5C800; }
+.match-card--active .btn-match-centre { background: #F5C800; color: #001489; border-color: #F5C800; }
+.match-card--active .btn-match-centre:hover { background: #ffd700; border-color: #ffd700; }
 
 /* Past card */
 .match-card--past { opacity: 0.72; }
@@ -919,9 +939,10 @@ button {
   white-space: nowrap;
 }
 .match-section-label--upcoming {
-  color: #fff;
-  background: var(--ya-blue-dark);
-  border-color: var(--ya-blue-dark);
+  color: #001489;
+  background: #F5C800;
+  border-color: #F5C800;
+  font-weight: 900;
 }
 .match-section-divider {
   flex: 0 0 1px;
