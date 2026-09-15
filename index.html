@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <meta name="description" content="Official Young Apostles Football Club Website. First team squad, 2026/27 Ghana Premier League fixtures, match highlights, club heritage, and official Mayniak team shop.">
-  <title>Young Apostles FC | Official Club Website | Pride of Wenchi</title>
+  <title>Young Apostles FC | Official Club Website | Agya Na Ɔwɔ Tumi</title>
 
   <link rel="icon" type="image/png" href="assets/official-logo.png">
   <link rel="apple-touch-icon" href="assets/official-logo.png">
@@ -27,7 +27,7 @@
     <div class="container top-bar__inner">
       <div class="top-bar__left">
         <div class="top-bar__tag">
-          <i class="fa-solid fa-shield-halved"></i> GHANA PREMIER LEAGUE 2026/27 &middot; OFFICIAL CLUB PORTAL
+          <img src="assets/opponents/gpl-official.png" alt="GPL" style="height:18px; width:auto; vertical-align:middle; margin-right:6px; filter:brightness(0) invert(1);"> GHANA PREMIER LEAGUE 2026/27 &middot; OFFICIAL CLUB PORTAL
         </div>
       </div>
 
@@ -55,7 +55,7 @@
         <img src="assets/official-logo.png" alt="Young Apostles FC Crest" class="nav-logo-img">
         <div class="nav-brand-text">
           <span class="nav-brand-title">YOUNG APOSTLES</span>
-          <span class="nav-brand-sub">PRIDE OF WENCHI</span>
+          <span class="nav-brand-sub">AGYA NA ƆWƆ TUMI</span>
         </div>
       </a>
 
@@ -135,51 +135,86 @@
   </section>
 
   <!-- =========================================================
-       4. LATEST CLUB NEWS
+       4. LATEST CLUB NEWS + LIVE SOCIAL FEED
        ========================================================= -->
   <section class="section" id="news" style="background:#fff;">
     <div class="container">
       <div class="section-header section-header--split">
         <h2 class="section-title">Latest News <span style="font-size:0.75em;">&rarr;</span></h2>
-        <a href="#" class="section-link-action">All News <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="https://x.com/youngapostlesfc" target="_blank" rel="noopener" class="section-link-action">
+          <i class="fa-brands fa-x-twitter"></i> Follow @youngapostlesfc <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
       </div>
 
-      <div class="headlines-grid">
-        <!-- Headline 1 -->
-        <article class="headline-card">
-          <div class="headline-card__thumb">
-            <img src="assets/news-1.jpg" alt="Apostles Promotion Triumph">
-          </div>
-          <div class="headline-card__content">
-            <span class="headline-date">Sep 2026</span>
-            <h3 class="headline-title">Historic Premier League Campaign Begins: Wenchi Welcomes the Nation</h3>
-          </div>
-        </article>
+      <!-- Two-column: News Cards + Live X Feed -->
+      <div class="news-social-layout">
 
-        <!-- Headline 2 -->
-        <article class="headline-card">
-          <div class="headline-card__thumb">
-            <img src="assets/news-2.jpg" alt="Mayniak Kit Release">
-          </div>
-          <div class="headline-card__content">
-            <span class="headline-date">Sep 2026</span>
-            <h3 class="headline-title">Young Apostles Unveils 2026/27 Official Mayniak Matchwear Collection</h3>
-          </div>
-        </article>
+        <!-- LEFT: News Cards -->
+        <div class="news-cards-col">
+          <!-- Headline 1 -->
+          <article class="headline-card">
+            <div class="headline-card__thumb">
+              <img src="assets/news-1.jpg" alt="Apostles Promotion Triumph">
+            </div>
+            <div class="headline-card__content">
+              <span class="headline-date">Sep 2026</span>
+              <h3 class="headline-title">Historic Premier League Campaign Begins: Wenchi Welcomes the Nation</h3>
+            </div>
+          </article>
 
-        <!-- Headline 3 -->
-        <article class="headline-card">
-          <div class="headline-card__thumb">
-            <img src="assets/news-3.jpg" alt="Squad Registered for GPL">
+          <!-- Headline 2 -->
+          <article class="headline-card">
+            <div class="headline-card__thumb">
+              <img src="assets/news-2.jpg" alt="Mayniak Kit Release">
+            </div>
+            <div class="headline-card__content">
+              <span class="headline-date">Sep 2026</span>
+              <h3 class="headline-title">Young Apostles Unveils 2026/27 Official Mayniak Matchwear Collection</h3>
+            </div>
+          </article>
+
+          <!-- Headline 3 -->
+          <article class="headline-card">
+            <div class="headline-card__thumb">
+              <img src="assets/news-3.jpg" alt="Squad Registered for GPL">
+            </div>
+            <div class="headline-card__content">
+              <span class="headline-date">Sep 2026</span>
+              <h3 class="headline-title">Head Coach Abu Abdul-Hanan Confirms GPL Registered Roster</h3>
+            </div>
+          </article>
+        </div>
+
+        <!-- RIGHT: Live X (Twitter) Timeline -->
+        <div class="news-social-col">
+          <div class="social-feed-panel">
+            <div class="social-feed-header">
+              <i class="fa-brands fa-x-twitter" style="font-size:1.1rem;"></i>
+              <span>Live from <strong>@youngapostlesfc</strong></span>
+              <a href="https://x.com/youngapostlesfc" target="_blank" rel="noopener" class="social-feed-follow-btn">
+                Follow
+              </a>
+            </div>
+            <div class="social-feed-embed-wrap">
+              <a class="twitter-timeline"
+                 data-height="520"
+                 data-theme="light"
+                 data-chrome="noheader nofooter noborders"
+                 data-tweet-limit="5"
+                 href="https://twitter.com/youngapostlesfc">
+                Tweets by @youngapostlesfc
+              </a>
+            </div>
           </div>
-          <div class="headline-card__content">
-            <span class="headline-date">Sep 2026</span>
-            <h3 class="headline-title">Head Coach Abu Abdul-Hanan Confirms GPL Registered Roster</h3>
-          </div>
-        </article>
-      </div>
+        </div>
+
+      </div><!-- /.news-social-layout -->
     </div>
   </section>
+
+  <!-- Twitter/X Widget Script (loads asynchronously, no API key needed) -->
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 
   <!-- =========================================================
@@ -377,43 +412,60 @@
         </a>
       </div>
 
-      <div class="videos-grid">
+      <div class="videos-grid" id="apostleTvGrid">
         <!-- Video 1 -->
-        <article class="video-card" onclick="openYouTubeLink('https://www.youtube.com/@YoungApostlesFC')">
+        <article class="video-card" onclick="openYouTubeLink('https://youtu.be/fpleoX_sUIA')">
           <div class="video-card__thumb">
-            <img src="assets/promotion-celebration.jpg" alt="Historic GPL Promotion Highlights">
+            <img src="assets/apostle-tv-video1.jpg" alt="Young Apostles FC Official Video" onerror="this.src='https://img.youtube.com/vi/fpleoX_sUIA/hqdefault.jpg'">
             <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+            <div class="video-yt-badge"><i class="fa-brands fa-youtube"></i></div>
           </div>
           <div class="video-card__content">
-            <h3 class="video-card-title">Historic Promotion Shootout Final: Young Apostles Seal Maiden GPL Ticket</h3>
+            <h3 class="video-card-title" id="yt-title-1">Loading...</h3>
             <div class="video-card-divider"></div>
-            <div class="video-card-tag">VIDEO</div>
+            <div class="video-card-tag">OFFICIAL VIDEO</div>
           </div>
         </article>
 
         <!-- Video 2 -->
-        <article class="video-card" onclick="openYouTubeLink('https://www.youtube.com/results?search_query=Young+Apostles+FC+vs+Samartex+highlights')">
+        <article class="video-card" onclick="openYouTubeLink('https://youtu.be/ixgmCVIplsk')">
           <div class="video-card__thumb">
-            <img src="assets/news-1.jpg" alt="Pre-Season Showcase Samartex">
+            <img src="assets/apostle-tv-video2.jpg" alt="Young Apostles FC Official Video" onerror="this.src='https://img.youtube.com/vi/ixgmCVIplsk/hqdefault.jpg'">
             <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+            <div class="video-yt-badge"><i class="fa-brands fa-youtube"></i></div>
           </div>
           <div class="video-card__content">
-            <h3 class="video-card-title">Pre-Season Showcase: Apostles 2 - 0 Victory over FC Samartex Highlights</h3>
+            <h3 class="video-card-title" id="yt-title-2">Loading...</h3>
             <div class="video-card-divider"></div>
-            <div class="video-card-tag">VIDEO</div>
+            <div class="video-card-tag">OFFICIAL VIDEO</div>
           </div>
         </article>
 
         <!-- Video 3 -->
-        <article class="video-card" onclick="openYouTubeLink('https://www.youtube.com/@YoungApostlesFC')">
+        <article class="video-card" onclick="openYouTubeLink('https://youtu.be/9SFZE0KVGak')">
           <div class="video-card__thumb">
-            <img src="assets/news-3.jpg" alt="Coach Abu Abdul-Hanan Press Conference">
+            <img src="assets/apostle-tv-video3.jpg" alt="Young Apostles FC Official Video" onerror="this.src='https://img.youtube.com/vi/9SFZE0KVGak/hqdefault.jpg'">
             <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+            <div class="video-yt-badge"><i class="fa-brands fa-youtube"></i></div>
           </div>
           <div class="video-card__content">
-            <h3 class="video-card-title">Head Coach Abu Abdul-Hanan: "Wenchi Is Ready for Ghana's Biggest Stage"</h3>
+            <h3 class="video-card-title" id="yt-title-3">Loading...</h3>
             <div class="video-card-divider"></div>
-            <div class="video-card-tag">VIDEO</div>
+            <div class="video-card-tag">OFFICIAL VIDEO</div>
+          </div>
+        </article>
+
+        <!-- Video 4 -->
+        <article class="video-card" onclick="openYouTubeLink('https://youtu.be/9AX0fmXUMU4')">
+          <div class="video-card__thumb">
+            <img src="assets/apostle-tv-video4.jpg" alt="Young Apostles FC Official Video" onerror="this.src='https://img.youtube.com/vi/9AX0fmXUMU4/hqdefault.jpg'">
+            <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+            <div class="video-yt-badge"><i class="fa-brands fa-youtube"></i></div>
+          </div>
+          <div class="video-card__content">
+            <h3 class="video-card-title" id="yt-title-4">Loading...</h3>
+            <div class="video-card-divider"></div>
+            <div class="video-card-tag">OFFICIAL VIDEO</div>
           </div>
         </article>
       </div>

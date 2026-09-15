@@ -140,7 +140,7 @@ const PRODUCTS_DATA = [
 // 3. DATA: 34-WEEK GPL FIXTURES
 // ==========================================
 const FIXTURES_ROUND_1 = [
-  { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 4, 2026', type: 'Away', score: '0 - 0' },
+  { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 4, 2026', type: 'Away', score: '0 - 0', result: 'D' },
   { week: 2, home: 'Young Apostles', away: 'Basake Holy Stars', venue: 'Wenchi Sports Stadium', date: 'Sep 11, 2026', type: 'Home' },
   { week: 3, home: 'Debibi United', away: 'Young Apostles', venue: 'Debibi Park', date: 'Sep 20, 2026', type: 'Away' },
   { week: 4, home: 'Young Apostles', away: 'Heart of Lions', venue: 'Wenchi Sports Stadium', date: 'Sep 27, 2026', type: 'Home' },
@@ -785,19 +785,43 @@ function renderMatches(typeFilter = 'all') {
   const renderCard = f => {
     const isYAHome  = f.home === 'Young Apostles';
     const opponent  = isYAHome ? f.away : f.home;
-    const oppSlug   = opponent.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    // Map opponent names to their correct logo filenames
+    const LOGO_MAP = {
+      'Vision FC':        'assets/opponents/visionfc.png',
+      'Basake Holy Stars':'assets/opponents/basakeholystars.png',
+      'Debibi United':    'assets/opponents/debibiunited.png',
+      'Heart of Lions':   'assets/opponents/heartoflions.png',
+      'Samartex':         'assets/opponents/samartex.png',
+      'Aduana Stars':     'assets/opponents/aduanastars.png',
+      'Asante Kotoko':    'assets/opponents/asantekotoko.png',
+      'Hearts of Oak':    'assets/opponents/heartsofoak.png',
+      'Berekum Chelsea':  'assets/opponents/berekumchelsea.png',
+      'Medeama SC':       'assets/opponents/medeamasc.png',
+      'Accra Lions':      'assets/opponents/accralions.png',
+      'Legon Cities':     'assets/opponents/legoncities.png',
+      'Bechem United':    'assets/opponents/bechemunited.png',
+      'Karela United':    'assets/opponents/karelaunited.png',
+      'Nsoatreman FC':    'assets/opponents/nsoatremanfc.png',
+      'Gold Stars FC':    'assets/opponents/goldstarsfc.png',
+      'Dreams FC':        'assets/opponents/dreamsfc.png'
+    };
+    const oppLogo = LOGO_MAP[opponent] || 'assets/opponents/gpl-official.png';
+
     const dateObj   = parseFixtureDate(f.date);
     const dayStr    = dateObj.toLocaleString('en', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
     const cardClass = f.isToday ? 'match-card match-card--active' : f.isPast ? 'match-card match-card--past' : 'match-card';
 
     const homeName = isYAHome ? 'Young Apostles' : opponent;
-    const homeLogo = isYAHome ? 'assets/official-logo.png' : `assets/opponents/${oppSlug}.png`;
+    const homeLogo = isYAHome ? 'assets/official-logo.png' : oppLogo;
     const awayName = isYAHome ? opponent : 'Young Apostles';
-    const awayLogo = isYAHome ? `assets/opponents/${oppSlug}.png` : 'assets/official-logo.png';
+    const awayLogo = isYAHome ? oppLogo : 'assets/official-logo.png';
 
     // Time/score center box
+    const scoreLabel = f.score ? f.score : 'FT';
+    const resultColor = f.result === 'W' ? '#16a34a' : f.result === 'L' ? '#dc2626' : '#6b7280';
     const centerBox = f.isPast
-      ? `<div class="match-score-box">${f.score || 'FT'}</div>`
+      ? `<div class="match-score-box" style="font-size:${f.score ? '1.1rem' : '0.7rem'}; letter-spacing:${f.score ? '0.05em' : '0.15em'}; color:${f.score ? resultColor : 'inherit'}">${scoreLabel}</div>`
       : `<div class="match-time-box">${f.isToday ? '<span style="font-size:0.6rem;display:block;color:#0057B8;line-height:1;">TODAY</span>' : ''}15:00</div>`;
 
     return `
@@ -809,12 +833,12 @@ function renderMatches(typeFilter = 'all') {
         </div>
         <div class="match-crests-row">
           <div class="match-crest-col">
-            <img src="${homeLogo}" alt="${homeName}" onerror="this.src='assets/opponents/gpl.png'">
+            <img src="${homeLogo}" alt="${homeName}" onerror="this.src='assets/opponents/gpl-official.png'">
             <div class="match-crest-name">${homeName}</div>
           </div>
           ${centerBox}
           <div class="match-crest-col">
-            <img src="${awayLogo}" alt="${awayName}" onerror="this.src='assets/opponents/gpl.png'">
+            <img src="${awayLogo}" alt="${awayName}" onerror="this.src='assets/opponents/gpl-official.png'">
             <div class="match-crest-name">${awayName}</div>
           </div>
         </div>
@@ -916,7 +940,207 @@ function showToast(msg) {
 }
 
 // ==========================================
-// 14. EVENT LISTENERS INITIALIZATION
+// 14. AUTO-FETCH YOUTUBE VIDEO TITLES
+// Uses noembed.com (free, no API key needed)
+// ==========================================
+const APOSTLE_TV_VIDEOS = [
+  { id: 'fpleoX_sUIA', titleEl: 'yt-title-1' },
+  { id: 'ixgmCVIplsk', titleEl: 'yt-title-2' },
+  { id: '9SFZE0KVGak', titleEl: 'yt-title-3' },
+  { id: '9AX0fmXUMU4', titleEl: 'yt-title-4' }
+];
+
+async function fetchYouTubeTitles() {
+  for (const v of APOSTLE_TV_VIDEOS) {
+    const el = document.getElementById(v.titleEl);
+    if (!el) continue;
+    el.classList.add('loading');
+    try {
+      const url = `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${v.id}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('fetch failed');
+      const data = await res.json();
+      if (data && data.title) {
+        el.textContent = data.title;
+        el.classList.remove('loading');
+      }
+    } catch (e) {
+      // fallback — leave as-is or use a generic label
+      if (el.textContent === 'Loading...') el.textContent = 'Young Apostles FC Official Video';
+      el.classList.remove('loading');
+    }
+  }
+}
+
+// ==========================================
+// 15. AUTO-FETCH GPL SCORES FROM WIKIPEDIA
+// Uses the free MediaWiki API (CORS-enabled)
+// ==========================================
+
+// How it works:
+//  Wikipedia GPL season pages have an 18x18 results grid table.
+//  Rows = home teams, columns = away teams.
+//  Cell background: #BBF3FF = home win, #FFB = draw, #FBB = away win.
+//  We find Young Apostles' row (home results) + column (away results),
+//  cross-reference the opponent name, convert score, then patch fixtures.
+
+async function fetchGPLScoresFromWikipedia() {
+  // Try current and adjacent seasons
+  const now = new Date();
+  const y1 = now.getFullYear();
+  const y2 = y1 + 1;
+  const pages = [
+    `${y1}\u201325_Ghana_Premier_League`,  // e.g. 2026–27
+    `${y1 - 1}\u201326_Ghana_Premier_League`,
+    `2024\u201325_Ghana_Premier_League`     // confirmed fallback
+  ];
+  // Build the season string correctly: first tries e.g. "2026-27"
+  const seasonPages = [
+    `${y1}\u2013${String(y2).slice(-2)}_Ghana_Premier_League`,
+    `${y1 - 1}\u2013${String(y1).slice(-2)}_Ghana_Premier_League`,
+    `2024\u201325_Ghana_Premier_League`
+  ];
+
+  for (const page of seasonPages) {
+    try {
+      // section=5 is typically the Results section; fallback to full page
+      const apiUrl = `https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(page)}&prop=text&section=5&format=json&origin=*`;
+      const res = await fetch(apiUrl);
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (data.error || !data.parse) continue;
+
+      const html = data.parse.text['*'];
+      if (!html || !html.includes('wikitable')) continue;
+
+      const parsed = parseWikipediaGPLGrid(html);
+      if (parsed > 0) {
+        console.log(`[GPL Scores] Updated ${parsed} fixtures from Wikipedia (${page})`);
+        renderMatches(); // Re-render with live scores
+        showToast(`\u26bd ${parsed} GPL score${parsed > 1 ? 's' : ''} updated from Wikipedia`);
+        break;
+      }
+    } catch (e) {
+      console.warn('[GPL Scores] fetch error:', e);
+    }
+  }
+}
+
+function parseWikipediaGPLGrid(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const table = doc.querySelector('table.wikitable');
+  if (!table) return 0;
+
+  const tbody = table.querySelector('tbody');
+  if (!tbody) return 0;
+
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  if (rows.length < 2) return 0;
+
+  // Build column-index → away-team-name map from the header row
+  const headerRow = rows[0];
+  const headerCells = Array.from(headerRow.querySelectorAll('th'));
+  // headerCells[0] is the "Home \ Away" corner cell, then one per team
+  const colTeams = headerCells.slice(1).map(th => th.textContent.trim());
+
+  // Also build a full-name lookup by row
+  // Each data row: th[0] = home team name, td[n] = result vs column[n]
+  const TEAM_ALIASES = {
+    'ACC': 'Accra Lions',
+    'ADU': 'Aduana Stars',
+    'ASA': 'Asante Kotoko',
+    'BEC': 'Bechem United',
+    'BER': 'Berekum Chelsea',
+    'BIB': 'Gold Stars FC',
+    'DRE': 'Dreams FC',
+    'HOL': 'Heart of Lions',
+    'HEA': 'Hearts of Oak',
+    'HOS': 'Basake Holy Stars',
+    'KAR': 'Karela United',
+    'LEG': 'Legon Cities',
+    'MED': 'Medeama SC',
+    'NAT': 'Debibi United',
+    'NSO': 'Nsoatreman FC',
+    'SAM': 'Samartex',
+    'VIS': 'Vision FC',
+    'YOU': 'Young Apostles'
+  };
+
+  let updatedCount = 0;
+
+  rows.slice(1).forEach(row => {
+    const rowHeader = row.querySelector('th');
+    if (!rowHeader) return;
+    const homeNameRaw = rowHeader.textContent.trim();
+
+    // Check if this row is Young Apostles (home)
+    const isYAHomeRow = homeNameRaw.toLowerCase().includes('young apostles');
+
+    const cells = Array.from(row.querySelectorAll('td'));
+
+    cells.forEach((cell, colIdx) => {
+      const awayAbbr = colTeams[colIdx];
+      if (!awayAbbr) return;
+
+      const awayName = TEAM_ALIASES[awayAbbr] || awayAbbr;
+      const bg = cell.getAttribute('style') || '';
+
+      // Skip diagonal (same team) — grey background
+      if (bg.includes('#bbb') || bg.includes('background:#bbb')) return;
+
+      const scoreRaw = cell.textContent.replace(/<[^>]+>/g, '').trim();
+      // Wikipedia uses en-dash: e.g. "1\u20130"
+      const scoreClean = scoreRaw.replace(/\u2013/g, ' - ').replace(/\s+/g, ' ').trim();
+      if (!scoreClean || !/\d/.test(scoreClean)) return;
+
+      // Determine W/D/L from background colour
+      let result;
+      if (bg.includes('#BBF3FF') || bg.includes('BBF3FF')) result = 'W'; // home win
+      else if (bg.includes('#FFB') || bg.includes('FFB')) result = 'D';  // draw
+      else if (bg.includes('#FBB') || bg.includes('FBB')) result = 'L';  // away win
+      else return;
+
+      if (isYAHomeRow) {
+        // YA is home: awayName is the away opponent
+        const fixture = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2].find(
+          f => f.home === 'Young Apostles' && f.away === awayName
+        );
+        if (fixture && !fixture.score) {
+          fixture.score = scoreClean;
+          fixture.result = result; // W = YA won at home
+          updatedCount++;
+        }
+      } else {
+        // Check if awayAbbr is YOU (Young Apostles is the away team)
+        if (awayAbbr !== 'YOU') return;
+        // homeNameRaw is the home team, YA is away
+        const homeName = homeNameRaw;
+        const fixture = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2].find(
+          f => f.away === 'Young Apostles' && (
+            f.home === homeName ||
+            homeName.toLowerCase().includes(f.home.split(' ')[0].toLowerCase())
+          )
+        );
+        if (fixture && !fixture.score) {
+          // Flip the result from YA's perspective: cell was home team's win = YA lost
+          const yaResult = result === 'W' ? 'L' : result === 'L' ? 'W' : 'D';
+          // Flip the scoreline too: "2 - 1" from home-row means home=2, away(YA)=1
+          const parts = scoreClean.split(' - ');
+          const displayScore = parts.length === 2 ? `${parts[0]} - ${parts[1]}` : scoreClean;
+          fixture.score = displayScore;
+          fixture.result = yaResult;
+          updatedCount++;
+        }
+      }
+    });
+  });
+
+  return updatedCount;
+}
+
+// ==========================================
+// 16. EVENT LISTENERS INITIALIZATION
 // ==========================================
 function openYouTubeLink(url) {
   window.open(url, '_blank', 'noopener,noreferrer');
@@ -929,6 +1153,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderMatches('all');
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
+  fetchYouTubeTitles(); // Auto-fetch real YouTube video titles
+  fetchGPLScoresFromWikipedia(); // Auto-fetch live GPL scores from Wikipedia
 
   // Mobile Toggle
   document.getElementById('mobileToggle')?.addEventListener('click', toggleMobileNav);
