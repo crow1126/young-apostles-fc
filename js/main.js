@@ -583,11 +583,25 @@ function switchFixturesTab(roundNum) {
   }
 }
 
+function getAllFixtures() {
+  try {
+    const stored = localStorage.getItem('ya_club_fixtures');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {
+    console.warn('Could not read fixtures from localStorage', e);
+  }
+  return [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2];
+}
+
 function renderFixturesModal(roundNum) {
   const container = document.getElementById('fixturesListModal');
   if (!container) return;
 
-  const list = roundNum === 1 ? FIXTURES_ROUND_1 : FIXTURES_ROUND_2;
+  const allFixtures = getAllFixtures();
+  const list = roundNum === 1 ? allFixtures.slice(0, 17) : allFixtures.slice(17);
   container.innerHTML = list.map(fx => {
     const hasScore = Boolean(fx.score);
     const badgeColor = fx.result === 'W' ? 'background:#dcfce7; color:#15803d; border:1px solid #86efac;'
@@ -775,7 +789,7 @@ function renderMatches(typeFilter = 'all') {
   const grid = document.getElementById('upcomingMatchesGrid');
   if (!grid) return;
 
-  const allFixtures = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2];
+  const allFixtures = getAllFixtures();
 
   // ONLY fixtures with an explicit score are completed (Week 1 and Week 2)
   const completedFixtures = allFixtures.filter(f => Boolean(f.score));
@@ -1213,14 +1227,233 @@ function renderDispatches() {
   }).join('');
 }
 
+// ==========================================
+// 18. STANDINGS QUICK SYNC
+// ==========================================
+function updateStandingsUI() {
+  try {
+    const stored = localStorage.getItem('ya_standings_record');
+    if (!stored) return;
+    const data = JSON.parse(stored);
+
+    const rankEl = document.getElementById('yaRankPill');
+    const playedEl = document.getElementById('yaPlayed');
+    const diffEl = document.getElementById('yaGoalDiff');
+    const ptsEl = document.getElementById('yaPoints');
+
+    if (rankEl && data.rank !== undefined) rankEl.textContent = data.rank;
+    if (playedEl && data.played !== undefined) playedEl.textContent = data.played;
+    if (diffEl && data.diff !== undefined) {
+      diffEl.textContent = (Number(data.diff) > 0 ? '+' : '') + data.diff;
+      diffEl.style.color = Number(data.diff) >= 0 ? '#16a34a' : '#dc2626';
+    }
+    if (ptsEl && data.points !== undefined) ptsEl.textContent = data.points;
+  } catch (e) {
+    console.warn('Could not update standings UI', e);
+  }
+}
+
+// ==========================================
+// 19. LEGAL & POLICY MODALS
+// ==========================================
+const POLICY_DATA = {
+  privacy: {
+    title: 'Privacy Policy &middot; Young Apostles FC',
+    content: `
+      <div style="margin-bottom:1.25rem;">
+        <span style="font-size:0.75rem; font-weight:700; color:var(--ya-blue); text-transform:uppercase; letter-spacing:0.06em;">Official Club Policy &middot; Ghana Data Protection Act 2012 (Act 843)</span>
+        <h4 style="font-size:1.15rem; font-weight:800; color:#0F172A; margin:0.35rem 0 0.75rem;">Your Privacy Matters to the Apostles Family</h4>
+        <p>Young Apostles Football Club (&ldquo;the Club&rdquo;, &ldquo;we&rdquo;, &ldquo;our&rdquo;) is deeply committed to safeguarding the privacy and personal information of our supporters, academy families, store customers, and website visitors across Ghana and the diaspora.</p>
+      </div>
+
+      <div style="margin-bottom:1.2rem;">
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-database" style="color:var(--ya-blue); margin-right:6px;"></i>1. Information We Collect</h5>
+        <p>When you interact with our digital platforms, purchase jerseys in our Team Shop, or register for club membership, we collect only necessary details including:</p>
+        <ul style="padding-left:1.25rem; margin:0.4rem 0;">
+          <li>Full name and preferred contact telephone number (for order notifications and MoMo billing).</li>
+          <li>Delivery location (residential address, regional capital, or pickup bus terminal across Ghana).</li>
+          <li>Custom jersey printing specifications (player name, squad number, requested size).</li>
+          <li>Opt-in email address for matchday dispatches and ticket booking receipts.</li>
+        </ul>
+      </div>
+
+      <div style="margin-bottom:1.2rem;">
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-shield-check" style="color:#16a34a; margin-right:6px;"></i>2. How Your Data Is Protected &amp; Used</h5>
+        <p>We strictly utilize your data to fulfill your orders, deliver customer support, verify official ticket passes at Wenchi Sports Stadium, and transmit verified match alerts. We <strong>never sell, rent, or distribute</strong> fan personal information to third-party commercial advertisers.</p>
+      </div>
+
+      <div>
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-headset" style="color:var(--ya-gold); margin-right:6px;"></i>3. Data Inquiries &amp; Club Contact</h5>
+        <p>If you wish to update or delete your customer record from our digital directory, reach out directly to the Young Apostles Media &amp; Administrative Secretariat at <a href="mailto:youngapostlesfc@gmail.com" style="color:var(--ya-blue); font-weight:700;">youngapostlesfc@gmail.com</a>.</p>
+      </div>
+    `
+  },
+  terms: {
+    title: 'Terms of Use &middot; Young Apostles FC',
+    content: `
+      <div style="margin-bottom:1.25rem;">
+        <span style="font-size:0.75rem; font-weight:700; color:var(--ya-blue); text-transform:uppercase; letter-spacing:0.06em;">Digital Services &middot; Stadium Regulations &middot; Fair Play</span>
+        <h4 style="font-size:1.15rem; font-weight:800; color:#0F172A; margin:0.35rem 0 0.75rem;">Official Club Terms &amp; Conditions</h4>
+        <p>Welcome to the official digital portal of Young Apostles Football Club (Wenchi, Bono Region, Ghana). By accessing this portal, browsing squad records, and ordering team apparel, you agree to comply with our Terms of Use.</p>
+      </div>
+
+      <div style="margin-bottom:1.2rem;">
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-copyright" style="color:var(--ya-blue); margin-right:6px;"></i>1. Intellectual Property &amp; Trademarks</h5>
+        <p>The Young Apostles FC crest, our motto <em>&ldquo;Agya Na &#596;w&#596; Tumi&rdquo;</em>, official Mayniak match kit designs, player photographic assets, and Apostle TV broadcast content are the exclusive proprietary property of Young Apostles FC. Unauthorized commercial reproduction or counterfeit distribution is strictly prohibited under Ghanaian copyright statutes.</p>
+      </div>
+
+      <div style="margin-bottom:1.2rem;">
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-flag-checkered" style="color:#16a34a; margin-right:6px;"></i>2. GFA Matchday Conduct &amp; Stadium Safety</h5>
+        <p>Spectators attending our Ghana Premier League home fixtures at the Wenchi Sports Stadium must uphold the Ghana Football Association (GFA) Fair Play Charter. Violence, pitch invasion, discriminatory chanting, and unauthorized pyrotechnics will lead to immediate expulsion and police prosecution.</p>
+      </div>
+
+      <div>
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-scale-balanced" style="color:var(--ya-gold); margin-right:6px;"></i>3. Governing Law</h5>
+        <p>These terms are governed by and construed in accordance with the laws of the Republic of Ghana, with judicial jurisdiction seated in Sunyani and Wenchi, Bono Region.</p>
+      </div>
+    `
+  },
+  return: {
+    title: 'Shop Return & Exchange Policy',
+    content: `
+      <div style="margin-bottom:1.25rem;">
+        <span style="font-size:0.75rem; font-weight:700; color:var(--ya-blue); text-transform:uppercase; letter-spacing:0.06em;">Official Mayniak Matchwear &middot; Fan Merchandise</span>
+        <h4 style="font-size:1.15rem; font-weight:800; color:#0F172A; margin:0.35rem 0 0.75rem;">Jerseys &amp; Apparel Return Guidelines</h4>
+        <p>We want every Apostles supporter to wear their golden yellow and royal blue colors with absolute pride and comfort. If you receive an item with sizing or manufacturing issues, here is our easy return process.</p>
+      </div>
+
+      <div style="margin-bottom:1.2rem;">
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-calendar-days" style="color:var(--ya-blue); margin-right:6px;"></i>1. 14-Day Exchange Guarantee</h5>
+        <p>Merchandise may be exchanged within <strong>14 days of delivery</strong> provided the item is in pristine, unworn condition with all original Mayniak tags, holograms, and protective packaging intact.</p>
+      </div>
+
+      <div style="margin-bottom:1.2rem;">
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-shirt" style="color:#d97706; margin-right:6px;"></i>2. Custom Player &amp; Personal Name Printing</h5>
+        <p>Jerseys customized with custom player names and numbers (e.g. <em>#21 PREMPEH</em>, <em>#8 RAMZY</em>, or custom fan names) cannot be returned for change of mind. If there is a typographical fault or factory print defect attributable to our team, we will replace your jersey free of charge.</p>
+      </div>
+
+      <div>
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-truck-fast" style="color:#16a34a; margin-right:6px;"></i>3. How to Initiate a Return</h5>
+        <p>Send an email to <a href="mailto:youngapostlesfc@gmail.com" style="color:var(--ya-blue); font-weight:700;">youngapostlesfc@gmail.com</a> with your order name, phone number, and brief photos of the kit. Returns can be dropped off at the Wenchi Sports Stadium Club Office or forwarded via nationwide courier.</p>
+      </div>
+    `
+  },
+  momo: {
+    title: 'Mobile Money (MoMo) Security Guidelines',
+    content: `
+      <div style="margin-bottom:1.25rem;">
+        <span style="font-size:0.75rem; font-weight:700; color:#d97706; text-transform:uppercase; letter-spacing:0.06em;">MTN MoMo &middot; Telecel Cash &middot; AT Money Security</span>
+        <h4 style="font-size:1.15rem; font-weight:800; color:#0F172A; margin:0.35rem 0 0.75rem;">Official Payment Safety &amp; Anti-Fraud Guidelines</h4>
+        <p>Mobile Money is our primary payment gateway across Ghana. To protect supporters against impersonation scams and social engineering, please observe these vital rules.</p>
+      </div>
+
+      <div style="margin-bottom:1.2rem; background:#FEF3C7; padding:0.85rem 1rem; border-radius:8px; border-left:4px solid #D97706;">
+        <div style="font-weight:800; color:#92400E; font-size:0.9rem; margin-bottom:0.25rem;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i>Golden Rule: Never Share Your PIN</div>
+        <div style="font-size:0.85rem; color:#78350F; line-height:1.5;">Young Apostles FC staff, players, and technical officials will <strong>NEVER</strong> phone, SMS, or WhatsApp you requesting your Mobile Money PIN, OTP password, or security credentials.</div>
+      </div>
+
+      <div style="margin-bottom:1.2rem; margin-top:1rem;">
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-clipboard-check" style="color:#16a34a; margin-right:6px;"></i>1. Verify Official Merchant Name</h5>
+        <p>When the USSD authorization prompt appears on your mobile device (e.g. *170#), verify that the recipient merchant name confirms <strong>YOUNG APOSTLES FC</strong> or our authorized merchandise logistics coordinator before entering your approval PIN.</p>
+      </div>
+
+      <div style="margin-bottom:1.2rem;">
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-receipt" style="color:var(--ya-blue); margin-right:6px;"></i>2. Transaction Reference &amp; SMS</h5>
+        <p>Always retain your telco confirmation SMS containing the official Transaction ID. Our team uses this reference to instantly confirm your kit packaging and match ticket dispatch.</p>
+      </div>
+
+      <div>
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-phone-volume" style="color:#2563eb; margin-right:6px;"></i>3. Suspected Fraud Report</h5>
+        <p>If anyone attempts to solicit funds in the name of Young Apostles FC using an unverified personal mobile number, report immediately to <a href="mailto:youngapostlesfc@gmail.com" style="color:var(--ya-blue); font-weight:700;">youngapostlesfc@gmail.com</a>.</p>
+      </div>
+    `
+  }
+};
+
+function openPolicyModal(type) {
+  const policy = POLICY_DATA[type];
+  if (!policy) return;
+
+  const titleEl = document.getElementById('policyModalTitle');
+  const bodyEl = document.getElementById('policyModalBody');
+  const modal = document.getElementById('policyModal');
+
+  if (titleEl) titleEl.innerHTML = policy.title;
+  if (bodyEl) bodyEl.innerHTML = policy.content;
+  if (modal) {
+    modal.classList.add('open');
+    modal.style.display = 'flex';
+  }
+}
+
+function closePolicyModal() {
+  const modal = document.getElementById('policyModal');
+  if (modal) {
+    modal.classList.remove('open');
+    modal.style.display = 'none';
+  }
+}
+
+// ==========================================
+// 20. REAL-TIME STORAGE SYNC & AUTO-POLLING
+// ==========================================
+let lastDispatchesHash = '';
+let lastFixturesHash = '';
+let lastStandingsHash = '';
+
+function checkStorageUpdates() {
+  try {
+    const dispRaw = localStorage.getItem('ya_club_dispatches');
+    if (dispRaw && dispRaw !== lastDispatchesHash) {
+      lastDispatchesHash = dispRaw;
+      renderDispatches();
+    }
+
+    const fxRaw = localStorage.getItem('ya_club_fixtures');
+    if (fxRaw && fxRaw !== lastFixturesHash) {
+      lastFixturesHash = fxRaw;
+      renderMatches();
+      if (document.getElementById('fixturesModal')?.classList.contains('open')) {
+        renderFixturesModal(currentFixturesRound);
+      }
+    }
+
+    const standRaw = localStorage.getItem('ya_standings_record');
+    if (standRaw && standRaw !== lastStandingsHash) {
+      lastStandingsHash = standRaw;
+      updateStandingsUI();
+    }
+  } catch (err) {
+    // Ignore storage polling errors
+  }
+}
+
+// Storage event across tabs/windows
+window.addEventListener('storage', (e) => {
+  if (e.key === 'ya_club_dispatches') {
+    renderDispatches();
+  }
+  if (e.key === 'ya_club_fixtures') {
+    renderMatches();
+    if (document.getElementById('fixturesModal')?.classList.contains('open')) {
+      renderFixturesModal(currentFixturesRound);
+    }
+  }
+  if (e.key === 'ya_standings_record') {
+    updateStandingsUI();
+  }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
   renderSquad('all');
   renderProducts('all');
   renderMatches('all');
   renderDispatches();
+  updateStandingsUI();
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
+  setInterval(checkStorageUpdates, 2000); // Poll for Admin live updates
   fetchYouTubeTitles(); // Auto-fetch real YouTube video titles
 
   // Mobile Toggle
