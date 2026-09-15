@@ -137,11 +137,11 @@ const PRODUCTS_DATA = [
 ];
 
 // ==========================================
-// 3. DATA: 34-WEEK GPL FIXTURES
+// 3. DATA: 34-WEEK GPL FIXTURES (2026/27 OFFICIAL SEASON)
 // ==========================================
 const FIXTURES_ROUND_1 = [
-  { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 4, 2026', type: 'Away', score: '0 - 0', result: 'D' },
-  { week: 2, home: 'Young Apostles', away: 'Basake Holy Stars', venue: 'Wenchi Sports Stadium', date: 'Sep 11, 2026', type: 'Home' },
+  { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 5, 2026', type: 'Away', score: '3 - 0', result: 'L' },
+  { week: 2, home: 'Young Apostles', away: 'Basake Holy Stars', venue: 'Wenchi Sports Stadium', date: 'Sep 13, 2026', type: 'Home', score: '1 - 0', result: 'W', scorer: 'Samuel Prempeh 7\'' },
   { week: 3, home: 'Debibi United', away: 'Young Apostles', venue: 'Debibi Park', date: 'Sep 20, 2026', type: 'Away' },
   { week: 4, home: 'Young Apostles', away: 'Heart of Lions', venue: 'Wenchi Sports Stadium', date: 'Sep 27, 2026', type: 'Home' },
   { week: 5, home: 'Samartex', away: 'Young Apostles', venue: 'Nsenkyire Sports Complex', date: 'Oct 4, 2026', type: 'Away' },
@@ -150,11 +150,11 @@ const FIXTURES_ROUND_1 = [
   { week: 8, home: 'Young Apostles', away: 'Hearts of Oak', venue: 'Wenchi Sports Stadium', date: 'Oct 25, 2026', type: 'Home' },
   { week: 9, home: 'Berekum Chelsea', away: 'Young Apostles', venue: 'Golden City Park', date: 'Nov 1, 2026', type: 'Away' },
   { week: 10, home: 'Young Apostles', away: 'Medeama SC', venue: 'Wenchi Sports Stadium', date: 'Nov 8, 2026', type: 'Home' },
-  { week: 11, home: 'Accra Lions', away: 'Young Apostles', venue: 'Accra Sports Stadium', date: 'Nov 15, 2026', type: 'Away' },
-  { week: 12, home: 'Young Apostles', away: 'Legon Cities', venue: 'Wenchi Sports Stadium', date: 'Nov 22, 2026', type: 'Home' },
+  { week: 11, home: 'Ashgold', away: 'Young Apostles', venue: 'Len Clay Stadium', date: 'Nov 15, 2026', type: 'Away' },
+  { week: 12, home: 'Young Apostles', away: 'Swedru All Blacks', venue: 'Wenchi Sports Stadium', date: 'Nov 22, 2026', type: 'Home' },
   { week: 13, home: 'Bechem United', away: 'Young Apostles', venue: 'Nana Fosu Gyeabour Park', date: 'Nov 29, 2026', type: 'Away' },
   { week: 14, home: 'Young Apostles', away: 'Karela United', venue: 'Wenchi Sports Stadium', date: 'Dec 6, 2026', type: 'Home' },
-  { week: 15, home: 'Nsoatreman FC', away: 'Young Apostles', venue: 'Nana Kronmansah Park', date: 'Dec 13, 2026', type: 'Away' },
+  { week: 15, home: 'Port City', away: 'Young Apostles', venue: 'Port City Arena', date: 'Dec 13, 2026', type: 'Away' },
   { week: 16, home: 'Young Apostles', away: 'Gold Stars FC', venue: 'Wenchi Sports Stadium', date: 'Dec 20, 2026', type: 'Home' },
   { week: 17, home: 'Dreams FC', away: 'Young Apostles', venue: 'Theatre of Dreams, Dawu', date: 'Jan 3, 2027', type: 'Away' }
 ];
@@ -170,11 +170,11 @@ const FIXTURES_ROUND_2 = [
   { week: 25, home: 'Hearts of Oak', away: 'Young Apostles', venue: 'Accra Sports Stadium', date: 'Mar 7, 2027', type: 'Away' },
   { week: 26, home: 'Young Apostles', away: 'Berekum Chelsea', venue: 'Wenchi Sports Stadium', date: 'Mar 14, 2027', type: 'Home' },
   { week: 27, home: 'Medeama SC', away: 'Young Apostles', venue: 'T&A Stadium, Tarkwa', date: 'Mar 21, 2027', type: 'Away' },
-  { week: 28, home: 'Young Apostles', away: 'Accra Lions', venue: 'Wenchi Sports Stadium', date: 'Apr 4, 2027', type: 'Home' },
-  { week: 29, home: 'Legon Cities', away: 'Young Apostles', venue: 'El-Wak Stadium', date: 'Apr 11, 2027', type: 'Away' },
+  { week: 28, home: 'Young Apostles', away: 'Ashgold', venue: 'Wenchi Sports Stadium', date: 'Apr 4, 2027', type: 'Home' },
+  { week: 29, home: 'Swedru All Blacks', away: 'Young Apostles', venue: 'Swedru Park', date: 'Apr 11, 2027', type: 'Away' },
   { week: 30, home: 'Young Apostles', away: 'Bechem United', venue: 'Wenchi Sports Stadium', date: 'Apr 18, 2027', type: 'Home' },
   { week: 31, home: 'Karela United', away: 'Young Apostles', venue: 'Naa Sheriga Sports Complex', date: 'Apr 25, 2027', type: 'Away' },
-  { week: 32, home: 'Young Apostles', away: 'Nsoatreman FC', venue: 'Wenchi Sports Stadium', date: 'May 2, 2027', type: 'Home' },
+  { week: 32, home: 'Young Apostles', away: 'Port City', venue: 'Wenchi Sports Stadium', date: 'May 2, 2027', type: 'Home' },
   { week: 33, home: 'Gold Stars FC', away: 'Young Apostles', venue: 'DUN’s Park, Bibiani', date: 'May 9, 2027', type: 'Away' },
   { week: 34, home: 'Young Apostles', away: 'Dreams FC', venue: 'Wenchi Sports Stadium', date: 'May 16, 2027', type: 'Home' }
 ];
@@ -588,18 +588,30 @@ function renderFixturesModal(roundNum) {
   if (!container) return;
 
   const list = roundNum === 1 ? FIXTURES_ROUND_1 : FIXTURES_ROUND_2;
-  container.innerHTML = list.map(fx => `
-    <div style="display:flex; justify-content:space-between; align-items:center; padding:0.75rem 1rem; border-bottom:1px solid var(--border-subtle); font-size:0.875rem;">
+  container.innerHTML = list.map(fx => {
+    const hasScore = Boolean(fx.score);
+    const badgeColor = fx.result === 'W' ? 'background:#dcfce7; color:#15803d; border:1px solid #86efac;'
+      : fx.result === 'L' ? 'background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5;'
+      : fx.result === 'D' ? 'background:#fef9c3; color:#854d0e; border:1px solid #fde047;'
+      : fx.type === 'Home' ? 'background:#D1FAE5; color:#065F46;' : 'background:#F3F4F6; color:#374151;';
+    const badgeText = hasScore ? `FT ${fx.score} (${fx.result})` : fx.type.toUpperCase();
+
+    return `
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:0.85rem 1rem; border-bottom:1px solid var(--border-subtle); font-size:0.875rem;">
       <div>
         <span style="font-weight:700; color:var(--ya-green); font-size:0.8rem; margin-right:0.5rem;">WK ${fx.week}</span>
         <strong>${fx.home}</strong> vs <strong>${fx.away}</strong>
-        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">${fx.venue} · ${fx.date}</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
+          ${fx.venue} · ${fx.date}
+          ${fx.scorer ? `<span style="color:#15803d; font-weight:700; margin-left:6px;">⚽ ${fx.scorer}</span>` : ''}
+        </div>
       </div>
-      <span style="padding:2px 8px; border-radius:var(--radius-pill); font-size:0.7rem; font-weight:700; ${fx.type === 'Home' ? 'background:#D1FAE5; color:#065F46;' : 'background:#F3F4F6; color:#374151;'}">
-        ${fx.type.toUpperCase()}
+      <span style="padding:4px 10px; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800; ${badgeColor}">
+        ${badgeText}
       </span>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 // ==========================================
@@ -772,7 +784,9 @@ function renderMatches(typeFilter = 'all') {
     const fd = parseFixtureDate(f.date);
     const fDay = new Date(fd.getFullYear(), fd.getMonth(), fd.getDate());
     const isToday = fDay.getTime() === today.getTime();
-    if (fDay >= today) upcoming.push({ ...f, isPast: false, isToday });
+    // If it has a score or is before today, it is completed
+    const isCompleted = Boolean(f.score) || fDay < today;
+    if (!isCompleted) upcoming.push({ ...f, isPast: false, isToday });
     else past.push({ ...f, isPast: true, isToday: false });
   });
 
@@ -788,29 +802,30 @@ function renderMatches(typeFilter = 'all') {
 
     // Map opponent names to their correct logo filenames
     const LOGO_MAP = {
-      'Vision FC':        'assets/opponents/visionfc.png',
-      'Basake Holy Stars':'assets/opponents/basakeholystars.png',
-      'Debibi United':    'assets/opponents/debibiunited.png',
-      'Heart of Lions':   'assets/opponents/heartoflions.png',
-      'Samartex':         'assets/opponents/samartex.png',
-      'Aduana Stars':     'assets/opponents/aduanastars.png',
-      'Asante Kotoko':    'assets/opponents/asantekotoko.png',
-      'Hearts of Oak':    'assets/opponents/heartsofoak.png',
-      'Berekum Chelsea':  'assets/opponents/berekumchelsea.png',
-      'Medeama SC':       'assets/opponents/medeamasc.png',
-      'Accra Lions':      'assets/opponents/accralions.png',
-      'Legon Cities':     'assets/opponents/legoncities.png',
-      'Bechem United':    'assets/opponents/bechemunited.png',
-      'Karela United':    'assets/opponents/karelaunited.png',
-      'Nsoatreman FC':    'assets/opponents/nsoatremanfc.png',
-      'Gold Stars FC':    'assets/opponents/goldstarsfc.png',
-      'Dreams FC':        'assets/opponents/dreamsfc.png'
+      'Vision FC':          'assets/opponents/visionfc.png',
+      'Basake Holy Stars':  'assets/opponents/basakeholystars.png',
+      'Debibi United':      'assets/opponents/debibiunited.png',
+      'Heart of Lions':     'assets/opponents/heartoflions.png',
+      'Samartex':           'assets/opponents/samartex.png',
+      'Aduana Stars':       'assets/opponents/aduanastars.png',
+      'Asante Kotoko':      'assets/opponents/asantekotoko.png',
+      'Hearts of Oak':      'assets/opponents/heartsofoak.png',
+      'Berekum Chelsea':    'assets/opponents/berekumchelsea.png',
+      'Medeama SC':         'assets/opponents/medeamasc.png',
+      'Ashgold':            'assets/opponents/ashgold.png',
+      'Swedru All Blacks':  'assets/opponents/swedruallblacks.png',
+      'Bechem United':      'assets/opponents/bechemunited.png',
+      'Karela United':      'assets/opponents/karelaunited.png',
+      'Port City':          'assets/opponents/portcity.png',
+      'Gold Stars FC':      'assets/opponents/goldstarsfc.png',
+      'Dreams FC':          'assets/opponents/dreamsfc.png'
     };
     const oppLogo = LOGO_MAP[opponent] || 'assets/opponents/gpl-official.png';
 
     const dateObj   = parseFixtureDate(f.date);
     const dayStr    = dateObj.toLocaleString('en', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
-    const cardClass = f.isToday ? 'match-card match-card--active' : f.isPast ? 'match-card match-card--past' : 'match-card';
+    const isCompleted = f.isPast || Boolean(f.score);
+    const cardClass = f.isToday ? 'match-card match-card--active' : isCompleted ? 'match-card match-card--past' : 'match-card';
 
     const homeName = isYAHome ? 'Young Apostles' : opponent;
     const homeLogo = isYAHome ? 'assets/official-logo.png' : oppLogo;
@@ -818,10 +833,14 @@ function renderMatches(typeFilter = 'all') {
     const awayLogo = isYAHome ? oppLogo : 'assets/official-logo.png';
 
     // Time/score center box
-    const scoreLabel = f.score ? f.score : 'FT';
     const resultColor = f.result === 'W' ? '#16a34a' : f.result === 'L' ? '#dc2626' : '#6b7280';
-    const centerBox = f.isPast
-      ? `<div class="match-score-box" style="font-size:${f.score ? '1.1rem' : '0.7rem'}; letter-spacing:${f.score ? '0.05em' : '0.15em'}; color:${f.score ? resultColor : 'inherit'}">${scoreLabel}</div>`
+    const resultBg = f.result === 'W' ? '#dcfce7' : f.result === 'L' ? '#fee2e2' : '#f3f4f6';
+    const centerBox = isCompleted
+      ? `<div class="match-score-box" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:5px 10px; border-radius:8px; background:${resultBg}; border:1px solid ${resultColor}40;">
+           <span style="font-size:0.6rem; font-weight:800; color:${resultColor}; letter-spacing:0.08em; text-transform:uppercase;">${f.result === 'W' ? 'WIN' : f.result === 'L' ? 'LOSS' : 'DRAW'} · FT</span>
+           <span style="font-size:1.15rem; font-weight:900; color:${resultColor}; line-height:1.2; letter-spacing:0.04em;">${f.score || 'FT'}</span>
+           ${f.scorer ? `<span style="font-size:0.62rem; color:#374151; margin-top:2px; font-weight:700; white-space:nowrap;">⚽ ${f.scorer}</span>` : ''}
+         </div>`
       : `<div class="match-time-box">${f.isToday ? '<span style="font-size:0.6rem;display:block;color:#0057B8;line-height:1;">TODAY</span>' : ''}15:00</div>`;
 
     return `
@@ -1137,6 +1156,116 @@ function parseWikipediaGPLGrid(html) {
   });
 
   return updatedCount;
+}
+
+// ==========================================
+// 15B. CLUB NEWS ARTICLES & BLOG VIEWER
+// ==========================================
+const CLUB_NEWS_ARTICLES = {
+  'prempeh-winner-holy-stars': {
+    title: "Prempeh Stunner Seals Historic First GPL Victory for Young Apostles",
+    category: "MATCH REPORT",
+    badgeClass: "news-badge-pill--match",
+    date: "Sep 14, 2026",
+    source: "Young Apostles Media Dispatch (via @youngapostlesfc)",
+    image: "assets/news-1.jpg",
+    content: `
+      <p><strong>WENCHI</strong> &mdash; In front of a passionate, capacity home crowd at the Wenchi Sports Stadium, Young Apostles FC recorded their landmark first-ever Ghana Premier League victory on Sunday afternoon, edging Basake Holy Stars 1&ndash;0 on Matchday 2.</p>
+      <p>The decisive breakthrough came inside the opening seven minutes. Forward <strong>Samuel Prempeh</strong> chased down an incisive ball from midfield, beat two defenders with a slick first touch, and slotted coolly into the bottom right corner past the Holy Stars goalkeeper.</p>
+      <div style="margin:1.5rem 0; padding:1.25rem; background:rgba(0,87,184,0.06); border-left:4px solid var(--ya-blue); border-radius:0 8px 8px 0;">
+        <blockquote style="font-style:italic; font-size:1.05rem; color:var(--ya-blue-deep); margin:0 0 0.5rem 0;">
+          "This victory belongs to the good people of Wenchi who have supported us from Division Two, through Division One, and now onto the biggest stage in Ghana. The players showed relentless fighting spirit today."
+        </blockquote>
+        <cite style="font-weight:700; color:var(--ya-gold-deep); font-size:0.85rem;">&mdash; Abu Abdul-Hanan, Head Coach</cite>
+      </div>
+      <p>Basake Holy Stars mounted several attacking waves in search of an equalizer during the second half, but the Apostles defensive backline stood firm, marshaled by exceptional positioning and goalkeeping.</p>
+      <p>The victory lifts Young Apostles to 8th on the official GPL standings table with 3 points, while preserving Wenchi as an impenetrable fortress for visiting opponents.</p>
+    `
+  },
+  'gpl-opener-vision-fc': {
+    title: "Season Opener: Apostles Fall 3-0 to Clinical Vision FC in Tema",
+    category: "MATCH REPORT",
+    badgeClass: "news-badge-pill--match",
+    date: "Sep 6, 2026",
+    source: "Matchday Report Desk (via @youngapostlesfc)",
+    image: "assets/news-2.jpg",
+    content: `
+      <p><strong>TEMA</strong> &mdash; Young Apostles FC began their maiden campaign in the top flight with an away test against Vision FC at the Nii Adjei Kraku II Sports Complex on Saturday afternoon.</p>
+      <p>The home side opened the scoring early in the 4th minute through Naziru Alhassan Nyenye before Setsofia Aqetey doubled the lead just before half-time (40') and added a third in the 68th minute.</p>
+      <p>Despite the scoreline, the Apostles created several promising chances in the second half, with the technical bench using the fixture to hand top-flight debuts to several young academy prospects.</p>
+    `
+  },
+  'mayniak-kit-launch': {
+    title: "Young Apostles Unveil 2026/27 Official Mayniak Matchwear Collection",
+    category: "OFFICIAL KIT",
+    badgeClass: "news-badge-pill--club",
+    date: "Sep 2, 2026",
+    source: "Young Apostles Commercial Dept (via @youngapostlesfc)",
+    image: "assets/news-3.jpg",
+    content: `
+      <p><strong>WENCHI</strong> &mdash; Young Apostles Football Club, in proud partnership with Mayniak Sportswear, is thrilled to present the official matchday kits for the 2026/27 Ghana Premier League season.</p>
+      <p>The home strip showcases the club's celebrated Royal Blue and Sunburst Gold, featuring bespoke geometric embossing inspired by traditional Bono cultural motifs. The away jersey is crafted in clean, pristine white with bold blue side panels.</p>
+      <p>Supporters can purchase authentic shirts with customized player names and numbers directly on our online store with mobile money checkout and nationwide delivery.</p>
+    `
+  },
+  'debibi-preview': {
+    title: "Matchday 3 Preview: Apostles Gear Up for Regional Battle at Debibi Park",
+    category: "MATCH PREVIEW",
+    badgeClass: "news-badge-pill--preview",
+    date: "Sep 15, 2026",
+    source: "Apostles Media Team (via @youngapostlesfc)",
+    image: "assets/news-1.jpg",
+    content: `
+      <p><strong>WENCHI</strong> &mdash; Following the electric 1&ndash;0 triumph over Basake Holy Stars, the Apostles return to training this week ahead of an exciting Matchday 3 away fixture against Debibi United at Debibi Park on Sunday, September 20, 2026.</p>
+      <p>Debibi United currently sit in 15th position with 1 point from their first two games. The Apostles squad conducted tactical training focused on rapid counter-attacking transitions and set-piece organization.</p>
+      <p>Kickoff is scheduled for 15:00 GMT. Live score updates and match commentary will be broadcast across all official Young Apostles channels.</p>
+    `
+  }
+};
+
+function openNewsArticle(articleId) {
+  const article = CLUB_NEWS_ARTICLES[articleId];
+  if (!article) return;
+
+  const modal = document.getElementById('newsArticleModal');
+  const imgEl = document.getElementById('newsModalImg');
+  const catEl = document.getElementById('newsModalCategory');
+  const dateEl = document.getElementById('newsModalDate');
+  const srcEl = document.getElementById('newsModalSource');
+  const titleEl = document.getElementById('newsModalTitle');
+  const bodyEl = document.getElementById('newsModalContent');
+
+  if (imgEl) imgEl.src = article.image;
+  if (catEl) {
+    catEl.textContent = article.category;
+    catEl.className = 'news-badge-pill ' + (article.badgeClass || 'news-badge-pill--match');
+  }
+  if (dateEl) dateEl.innerHTML = `<i class="fa-regular fa-calendar"></i> ${article.date}`;
+  if (srcEl) srcEl.innerHTML = `<i class="fa-brands fa-x-twitter"></i> ${article.source}`;
+  if (titleEl) titleEl.textContent = article.title;
+  if (bodyEl) bodyEl.innerHTML = article.content;
+
+  if (modal) modal.classList.add('open');
+}
+
+function closeNewsArticle() {
+  document.getElementById('newsArticleModal')?.classList.remove('open');
+}
+
+function playApostleVideo(videoId, title) {
+  const modal = document.getElementById('videoPlayerModal');
+  const frame = document.getElementById('videoPlayerFrame');
+  const titleEl = document.getElementById('videoPlayerTitle');
+  if (frame) frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+  if (titleEl) titleEl.textContent = title || 'Apostle TV &middot; Young Apostles FC';
+  if (modal) modal.classList.add('open');
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('videoPlayerModal');
+  const frame = document.getElementById('videoPlayerFrame');
+  if (frame) frame.src = '';
+  if (modal) modal.classList.remove('open');
 }
 
 // ==========================================
