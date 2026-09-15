@@ -1110,11 +1110,115 @@ function openYouTubeLink(url) {
   window.open(url, '_blank', 'noopener,noreferrer');
 }
 
+// ==========================================
+// 17. CLUB DISPATCHES SYSTEM (DYNAMIC & ADMIN SYNCED)
+// ==========================================
+const DEFAULT_DISPATCHES = [
+  {
+    id: "disp-1",
+    author: "Young Apostles FC",
+    badge: true,
+    time: "Sep 13 &middot; Full-Time Alert",
+    text: "FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Owuo Tumi! 🔵🟡⚽",
+    image: "",
+    linkText: "Read full match analysis &rarr;",
+    articleId: "prempeh-winner-holy-stars"
+  },
+  {
+    id: "disp-2",
+    author: "Young Apostles FC",
+    badge: true,
+    time: "Sep 15 &middot; Upcoming Fixture",
+    text: "Preparations underway for Sunday’s Matchday 3 away encounter vs <strong>Debibi United</strong> at Debibi Park. Coach Abu puts the squad through morning tactical drills.",
+    image: "",
+    linkText: "View match preview &rarr;",
+    articleId: "debibi-preview"
+  },
+  {
+    id: "disp-3",
+    author: "Young Apostles FC",
+    badge: true,
+    time: "Sep 10 &middot; Kit Shop",
+    text: "Wear the Apostles pride! Authentic 2026/27 jerseys available with custom player name &amp; number printing. Nationwide delivery across Ghana.",
+    image: "assets/kit-home-hanging.jpg",
+    linkText: "Order jersey in Team Shop &rarr;",
+    linkUrl: "#shop"
+  },
+  {
+    id: "disp-4",
+    author: "Young Apostles FC",
+    badge: true,
+    time: "Sep 14 &middot; Player Spotlight",
+    text: "\"Scoring the club's first Premier League goal in front of our home fans is a feeling I will cherish forever.\" — <strong>Samuel Prempeh #21</strong>",
+    image: "assets/players/samuel-prempeh.jpg",
+    isPortrait: true,
+    linkText: "Read full player interview &rarr;",
+    articleId: "prempeh-winner-holy-stars"
+  }
+];
+
+function getDispatches() {
+  try {
+    const stored = localStorage.getItem('ya_club_dispatches');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {
+    console.warn('Could not read dispatches from localStorage', e);
+  }
+  return DEFAULT_DISPATCHES;
+}
+
+function renderDispatches() {
+  const container = document.getElementById('dispatchesContainer');
+  if (!container) return;
+
+  const dispatches = getDispatches();
+  container.innerHTML = dispatches.map(item => {
+    const imgHtml = item.image 
+      ? `<img src="${item.image}" alt="Dispatch Media" class="dispatch-media-thumb ${item.isPortrait ? 'dispatch-media-thumb--portrait' : ''}" onerror="this.style.display='none'">` 
+      : '';
+
+    let clickAttr = '';
+    let linkIcon = 'fa-regular fa-newspaper';
+    if (item.articleId) {
+      clickAttr = `onclick="openNewsArticle('${item.articleId}')"`;
+    } else if (item.linkUrl) {
+      clickAttr = `onclick="window.location.href='${item.linkUrl}'"`;
+      if (item.linkUrl.includes('shop')) linkIcon = 'fa-solid fa-shirt';
+      else if (item.linkUrl.startsWith('http')) linkIcon = 'fa-solid fa-arrow-up-right-from-square';
+    }
+
+    const linkHtml = item.linkText 
+      ? `<div class="dispatch-tag-link"><i class="${linkIcon}"></i> ${item.linkText}</div>`
+      : '';
+
+    return `
+      <div class="dispatch-item" ${clickAttr}>
+        <div class="dispatch-item__meta">
+          <img src="assets/official-logo.png" alt="YA" class="dispatch-avatar">
+          <div>
+            <div class="dispatch-author">${item.author || 'Young Apostles FC'} ${item.badge !== false ? '<i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i>' : ''}</div>
+            <div class="dispatch-time">${item.time || 'Live Alert'}</div>
+          </div>
+        </div>
+        <div class="dispatch-item__text">
+          ${item.text}
+        </div>
+        ${imgHtml}
+        ${linkHtml}
+      </div>
+    `;
+  }).join('');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
   renderSquad('all');
   renderProducts('all');
   renderMatches('all');
+  renderDispatches();
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
   fetchYouTubeTitles(); // Auto-fetch real YouTube video titles
@@ -1152,3 +1256,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+

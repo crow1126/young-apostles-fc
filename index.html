@@ -227,10 +227,15 @@
                 <span class="live-dot-pulse"></span>
                 <strong>Live Club Dispatches</strong>
               </div>
-              <span class="dispatches-handle">@youngapostlesfc</span>
+              <div style="display:flex; align-items:center; gap:0.6rem;">
+                <span class="dispatches-handle">@youngapostlesfc</span>
+                <a href="admin.html" title="Media Team Admin Login" style="color:var(--text-muted); font-size:0.75rem; text-decoration:none; padding:2px 6px; border-radius:4px; transition:all 0.2s; display:inline-flex; align-items:center; gap:3px;" onmouseover="this.style.color='#0057B8'" onmouseout="this.style.color='var(--text-muted)'">
+                  <i class="fa-solid fa-lock" style="font-size:0.7rem;"></i>
+                </a>
+              </div>
             </div>
 
-            <div class="dispatches-list">
+            <div class="dispatches-list" id="dispatchesContainer">
               <!-- Dispatch Item 1 -->
               <div class="dispatch-item" onclick="openNewsArticle('prempeh-winner-holy-stars')">
                 <div class="dispatch-item__meta">
@@ -259,7 +264,6 @@
                 <div class="dispatch-item__text">
                   Preparations underway for Sunday’s Matchday 3 away encounter vs <strong>Debibi United</strong> at Debibi Park. Coach Abu puts the squad through morning tactical drills.
                 </div>
-                <img src="assets/apostle-tv-video1.jpg" alt="Young Apostles FC Matchday Action" class="dispatch-media-thumb">
                 <div class="dispatch-tag-link"><i class="fa-regular fa-newspaper"></i> View match preview &rarr;</div>
               </div>
 
@@ -887,7 +891,12 @@
 
       <div class="footer-bottom-bar">
         <span>&copy; 2026 Young Apostles Football Club. All rights reserved.</span>
-        <span>Wenchi Sports Stadium Â· Bono Region, Ghana</span>
+        <div>
+          <span>Wenchi Sports Stadium &middot; Bono Region, Ghana</span>
+          <a href="admin.html" style="color:rgba(255,255,255,0.35); text-decoration:none; font-size:0.75rem; margin-left:1.25rem; transition:color 0.2s;" onmouseover="this.style.color='#F1B434'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">
+            <i class="fa-solid fa-lock" style="font-size:0.65rem; margin-right:4px;"></i>Club Admin Portal
+          </a>
+        </div>
       </div>
     </div>
   </footer>

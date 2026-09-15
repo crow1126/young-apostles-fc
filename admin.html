@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard &middot; Young Apostles FC Media Portal</title>
+  <link rel="icon" type="image/png" href="assets/official-crest-hq.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    :root {
+      --admin-bg: #090E1A;
+      --admin-surface: #10192B;
+      --admin-surface-2: #18243E;
+      --admin-border: rgba(255, 255, 255, 0.08);
+      --admin-text: #F3F4F6;
+      --admin-muted: #9CA3AF;
+      --admin-primary: #0057B8;
+      --admin-accent: #F1B434;
+      --admin-accent-glow: rgba(241, 180, 52, 0.25);
+    }
+
+    body.admin-body {
+      background: var(--admin-bg);
+      color: var(--admin-text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 87, 184, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(241, 180, 52, 0.08) 0%, transparent 45%);
+    }
+
+    /* Admin Top Bar */
+    .admin-navbar {
+      background: rgba(16, 25, 43, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--admin-border);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-decoration: none;
+      color: #fff;
+    }
+    .admin-brand img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+    .admin-brand-text h1 {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: 0.5px;
+      color: #fff;
+    }
+    .admin-brand-text span {
+      font-size: 0.72rem;
+      color: var(--admin-accent);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .admin-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-view-site {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--admin-border);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-view-site:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #F87171;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-logout:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fff;
+    }
+
+    /* Auth Screen */
+    .auth-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 75px);
+      padding: 1.5rem;
+    }
+    .auth-card {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .auth-card img {
+      width: 70px;
+      margin: 0 auto 1rem;
+    }
+    .auth-card h2 {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      color: #fff;
+      margin: 0 0 0.5rem;
+    }
+    .auth-card p {
+      color: var(--admin-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.75rem;
+    }
+    .auth-input-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .auth-input-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--admin-muted);
+      margin-bottom: 0.4rem;
+    }
+    .auth-input {
+      width: 100%;
+      background: var(--admin-surface-2);
+      border: 1px solid var(--admin-border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .auth-input:focus {
+      border-color: var(--admin-accent);
+    }
+    .btn-auth-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #0057B8, #002B7F);
+      border: 1px solid rgba(241, 180, 52, 0.4);
+      color: #fff;
+      font-weight: 700;
+      padding: 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-auth-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0, 87, 184, 0.4);
+    }
+    .auth-hint {
+      font-size: 0.78rem;
+      color: var(--admin-muted);
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+    }
+
+    /* Main Admin Workspace */
+    .admin-workspace {
+      display: none;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    .admin-workspace.active {
+      display: block;
+    }
+
+    /* Stats Overview Bar */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: rgba(0, 87, 184, 0.2);
+      color: var(--admin-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .stat-meta h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0;
+      color: #fff;
+    }
+    .stat-meta span {
+      font-size: 0.78rem;
+      color: var(--admin-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* Admin Panels Layout */
+    .admin-layout-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+    }
+    @media (max-width: 992px) {
+      .admin-layout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .admin-card {
+      background: var(--admin-surface);
+      border: 1px solid var(--admin-border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .admin-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--admin-border);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .admin-card-header h2 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      color: #fff;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .admin-card-header h2 i {
+      color: var(--admin-accent);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--admin-muted);
+      margin-bottom: 0.4rem;
+    }
+    .form-control {
+      width: 100%;
+      background: var(--admin-surface-2);
+      border: 1px solid var(--admin-border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      font-size: 0.9rem;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--admin-accent);
+    }
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+      font-family: inherit;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* Image Presets Selector */
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .preset-chip {
+      background: var(--admin-surface-2);
+      border: 1px solid var(--admin-border);
+      color: var(--admin-muted);
+      font-size: 0.75rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .preset-chip:hover, .preset-chip.active {
+      background: rgba(0, 87, 184, 0.4);
+      border-color: var(--admin-accent);
+      color: #fff;
+    }
+
+    /* Image Upload & Preview Box */
+    .image-preview-box {
+      border: 2px dashed var(--admin-border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      margin-top: 0.5rem;
+      background: rgba(0,0,0,0.15);
+      position: relative;
+    }
+    .image-preview-box img {
+      max-height: 180px;
+      max-width: 100%;
+      border-radius: 6px;
+      object-fit: contain;
+      display: none;
+      margin: 0 auto;
+    }
+    .image-preview-box.has-image img {
+      display: block;
+    }
+    .image-preview-box.has-image .upload-prompt {
+      display: none;
+    }
+    .btn-remove-preview {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(239, 68, 68, 0.85);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .image-preview-box.has-image .btn-remove-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Action Buttons */
+    .btn-admin-primary {
+      background: linear-gradient(135deg, #0057B8 0%, #002B7F 100%);
+      border: 1px solid rgba(241, 180, 52, 0.4);
+      color: #fff;
+      font-weight: 700;
+      padding: 0.85rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .btn-admin-primary:hover {
+      background: linear-gradient(135deg, #0066d6 0%, #00359e 100%);
+      box-shadow: 0 4px 15px rgba(0, 87, 184, 0.5);
+    }
+    .btn-admin-secondary {
+      background: transparent;
+      border: 1px solid var(--admin-border);
+      color: var(--admin-text);
+      font-weight: 600;
+      padding: 0.85rem 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+    .btn-admin-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Live Preview Card (Right Column) */
+    .live-preview-wrap {
+      position: sticky;
+      top: 85px;
+    }
+    .preview-card-outer {
+      background: #FFFFFF;
+      color: #111827;
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+      margin-top: 1rem;
+    }
+
+    /* Dispatches List in Manager */
+    .dispatches-manage-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: 0.35rem;
+    }
+    .dispatch-manage-card {
+      background: var(--admin-surface-2);
+      border: 1px solid var(--admin-border);
+      border-radius: 10px;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      transition: border-color 0.2s;
+    }
+    .dispatch-manage-card:hover {
+      border-color: rgba(241, 180, 52, 0.4);
+    }
+    .dispatch-manage-info {
+      flex: 1;
+    }
+    .dispatch-manage-time {
+      font-size: 0.75rem;
+      color: var(--admin-accent);
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+    }
+    .dispatch-manage-text {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: #E5E7EB;
+    }
+    .dispatch-manage-thumb {
+      width: 70px;
+      height: 50px;
+      border-radius: 6px;
+      object-fit: cover;
+      margin-top: 0.5rem;
+      border: 1px solid var(--admin-border);
+    }
+    .dispatch-manage-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .btn-action-icon {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--admin-border);
+      color: var(--admin-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-action-icon:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    .btn-action-icon.delete:hover {
+      background: rgba(239, 68, 68, 0.2);
+      color: #F87171;
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    /* Toast */
+    .admin-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10192B;
+      border: 1px solid var(--admin-accent);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      color: #fff;
+      padding: 0.85rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+    }
+    .admin-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="admin-body">
+
+  <!-- Admin Top Bar -->
+  <header class="admin-navbar">
+    <a href="index.html" class="admin-brand">
+      <img src="assets/official-crest-hq.png" alt="Young Apostles Crest">
+      <div class="admin-brand-text">
+        <h1>Young Apostles FC</h1>
+        <span>Media Admin Portal &middot; GPL 2026/27</span>
+      </div>
+    </a>
+    <div class="admin-nav-actions">
+      <a href="index.html" class="btn-view-site">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> View Live Site
+      </a>
+      <button class="btn-logout" id="btnLogout" onclick="logoutAdmin()" style="display:none;">
+        <i class="fa-solid fa-power-off"></i> Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- Login Gate Screen -->
+  <div class="auth-container" id="authScreen">
+    <div class="auth-card">
+      <img src="assets/official-crest-hq.png" alt="Young Apostles FC Crest">
+      <h2>Media Staff Access</h2>
+      <p>Enter the club management passkey to publish and edit live club dispatches.</p>
+
+      <form id="authForm" onsubmit="handleLogin(event)">
+        <div class="auth-input-group">
+          <label for="adminPasskey"><i class="fa-solid fa-key" style="color:var(--admin-accent);"></i> Security Passkey</label>
+          <input type="password" id="adminPasskey" class="auth-input" placeholder="Enter passkey" autofocus required>
+        </div>
+        <button type="submit" class="btn-auth-submit">
+          <i class="fa-solid fa-unlock"></i> Unlock Admin Panel
+        </button>
+      </form>
+
+      <div class="auth-hint">
+        <i class="fa-solid fa-shield-halved" style="color:var(--admin-accent); margin-right:4px;"></i>
+        Default Club Passkey: <strong>apostles2026</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Admin Workspace -->
+  <main class="admin-workspace" id="adminWorkspace">
+    
+    <!-- Top Stats Row -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-newspaper"></i></div>
+        <div class="stat-meta">
+          <h3 id="statDispatchCount">4</h3>
+          <span>Active Dispatches</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:rgba(22, 163, 74, 0.2); color:#4ADE80;"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="stat-meta">
+          <h3>Synced Live</h3>
+          <span>Sync Status &middot; Instant</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:rgba(241, 180, 52, 0.2); color:var(--admin-accent);"><i class="fa-solid fa-trophy"></i></div>
+        <div class="stat-meta">
+          <h3>2026/27 GPL</h3>
+          <span>Official Season Active</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layout Grid: Form (Left) & Preview + Controls (Right) -->
+    <div class="admin-layout-grid">
+      
+      <!-- LEFT COLUMN: Post Creator Form -->
+      <section class="admin-card">
+        <div class="admin-card-header">
+          <h2><i class="fa-solid fa-feather-pointed"></i> <span id="formTitle">Create New Dispatch</span></h2>
+          <span style="font-size:0.75rem; color:var(--admin-muted); font-weight:600;">Posts appear immediately on homepage</span>
+        </div>
+
+        <form id="dispatchForm" onsubmit="saveDispatch(event)">
+          <input type="hidden" id="editDispatchId" value="">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dispatchAuthor"><i class="fa-solid fa-user-check"></i> Author / Handle</label>
+              <input type="text" id="dispatchAuthor" class="form-control" value="Young Apostles FC" required>
+            </div>
+            <div class="form-group">
+              <label for="dispatchTime"><i class="fa-regular fa-clock"></i> Timestamp / Badge</label>
+              <input type="text" id="dispatchTime" class="form-control" value="Just Now &middot; Live Alert" required placeholder="e.g. Sep 16 &middot; Matchday Update">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="dispatchText"><i class="fa-solid fa-align-left"></i> Dispatch Message</label>
+            <textarea id="dispatchText" class="form-control" placeholder="Type official club message, match report, or team news here..." required oninput="updateLivePreview()"></textarea>
+          </div>
+
+          <!-- Media / Image Configuration -->
+          <div class="form-group">
+            <label><i class="fa-regular fa-image"></i> Media Photo (Optional)</label>
+            <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
+              <input type="file" id="dispatchFileInput" accept="image/*" style="display:none;" onchange="handleFileUpload(event)">
+              <button type="button" class="btn-admin-secondary" style="padding:0.5rem 0.85rem; font-size:0.8rem;" onclick="document.getElementById('dispatchFileInput').click()">
+                <i class="fa-solid fa-upload"></i> Upload from Device
+              </button>
+              <input type="text" id="dispatchImageUrl" class="form-control" placeholder="Or enter image URL / asset path" oninput="updateLivePreview()" style="flex:1;">
+            </div>
+
+            <!-- Quick Asset Preset Chips -->
+            <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.25rem;">Quick Club Assets:</div>
+            <div class="preset-chips">
+              <span class="preset-chip" onclick="setPresetImage('assets/official-logo.png')">Official Crest</span>
+              <span class="preset-chip" onclick="setPresetImage('assets/kit-home-hanging.jpg')">Home Jersey</span>
+              <span class="preset-chip" onclick="setPresetImage('assets/players/samuel-prempeh.jpg')">Samuel Prempeh #21</span>
+              <span class="preset-chip" onclick="setPresetImage('assets/team-banner.jpg')">Team Banner</span>
+              <span class="preset-chip" onclick="setPresetImage('')">No Image (Text Only)</span>
+            </div>
+
+            <div class="image-preview-box" id="previewBox">
+              <button type="button" class="btn-remove-preview" onclick="removeImage()">&times;</button>
+              <img id="previewImg" src="" alt="Image Preview">
+              <div class="upload-prompt" style="color:var(--admin-muted); font-size:0.8rem;">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.5rem; margin-bottom:0.3rem; display:block;"></i>
+                No photo selected (will publish as clean text dispatch)
+              </div>
+            </div>
+          </div>
+
+          <!-- Link & Action -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="dispatchLinkText"><i class="fa-solid fa-link"></i> Button / Link Text (Optional)</label>
+              <input type="text" id="dispatchLinkText" class="form-control" placeholder="e.g. Read full match analysis &rarr;" oninput="updateLivePreview()">
+            </div>
+            <div class="form-group">
+              <label for="dispatchArticleId"><i class="fa-solid fa-newspaper"></i> Connect Article or URL</label>
+              <select id="dispatchArticleId" class="form-control" onchange="updateLivePreview()">
+                <option value="">None (Standalone post)</option>
+                <option value="prempeh-winner-holy-stars">Article: Samuel Prempeh Holy Stars Winner</option>
+                <option value="gpl-opener-vision-fc">Article: GPL Historic Opener vs Vision FC</option>
+                <option value="mayniak-kit-launch">Article: 2026/27 Mayniak Kit Unveil</option>
+                <option value="debibi-preview">Article: Debibi United Away Preview</option>
+                <option value="#shop">Internal: Team Shop</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+            <button type="submit" class="btn-admin-primary" id="btnSubmitDispatch">
+              <i class="fa-solid fa-paper-plane"></i> Publish Live Dispatch
+            </button>
+            <button type="button" class="btn-admin-secondary" onclick="resetForm()">
+              Clear Form
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- RIGHT COLUMN: Real-Time Preview & Manage Existing -->
+      <div>
+        <!-- Live Instant Preview -->
+        <div class="live-preview-wrap">
+          <div class="admin-card" style="margin-bottom:1.5rem;">
+            <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
+              <h2 style="font-size:1rem;"><i class="fa-solid fa-eye"></i> Live Site Appearance</h2>
+              <span style="display:inline-flex; align-items:center; gap:5px; font-size:0.75rem; font-weight:700; color:#0057B8; background:#EFF6FF; padding:3px 8px; border-radius:20px;">
+                <i class="fa-solid fa-circle" style="color:#16A34A; font-size:0.5rem;"></i> Live Preview
+              </span>
+            </div>
+
+            <!-- Preview Container mirroring website UI -->
+            <div class="preview-card-outer">
+              <div class="dispatch-item" style="border:none; padding:0; cursor:default;">
+                <div class="dispatch-item__meta" style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
+                  <img src="assets/official-logo.png" alt="YA" style="width:32px; height:32px; object-fit:contain; border-radius:50%;">
+                  <div>
+                    <div style="font-size:0.85rem; font-weight:700; color:#001489;">
+                      <span id="prevAuthor">Young Apostles FC</span> 
+                      <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i>
+                    </div>
+                    <div style="font-size:0.72rem; color:#6B7280;" id="prevTime">Just Now &middot; Live Alert</div>
+                  </div>
+                </div>
+                <div style="font-size:0.88rem; line-height:1.55; color:#1F2937; margin-bottom:0.5rem;" id="prevText">
+                  FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Owuo Tumi! 🔵🟡⚽
+                </div>
+                <img id="prevMedia" src="" alt="Media preview" style="display:none; width:100%; max-height:220px; object-fit:cover; border-radius:8px; margin:0.4rem 0 0.6rem;">
+                <div style="font-size:0.78rem; font-weight:700; color:#0057B8; display:flex; align-items:center; gap:0.35rem;" id="prevLinkWrap">
+                  <i class="fa-regular fa-newspaper"></i> <span id="prevLinkText">Read full match analysis &rarr;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Manage Published Dispatches List -->
+          <div class="admin-card">
+            <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
+              <h2 style="font-size:1rem;"><i class="fa-solid fa-list-check"></i> Published Dispatches</h2>
+              <div style="display:flex; gap:0.4rem;">
+                <button type="button" class="btn-action-icon" title="Reset to Club Defaults" onclick="resetToDefaults()">
+                  <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button type="button" class="btn-action-icon" title="Export Dispatches JSON" onclick="exportDispatches()">
+                  <i class="fa-solid fa-download"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="dispatches-manage-list" id="manageList">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Toast Element -->
+  <div class="admin-toast" id="adminToast">
+    <i class="fa-solid fa-circle-check" style="color:var(--admin-accent); font-size:1.1rem;"></i>
+    <span id="adminToastMsg">Changes published successfully!</span>
+  </div>
+
+  <script>
+    const DEFAULT_PASSKEY = "apostles2026";
+    const STORAGE_KEY = "ya_club_dispatches";
+
+    // Initial default posts
+    const INITIAL_DISPATCHES = [
+      {
+        id: "disp-1",
+        author: "Young Apostles FC",
+        badge: true,
+        time: "Sep 13 &middot; Full-Time Alert",
+        text: "FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Owuo Tumi! 🔵🟡⚽",
+        image: "",
+        linkText: "Read full match analysis &rarr;",
+        articleId: "prempeh-winner-holy-stars"
+      },
+      {
+        id: "disp-2",
+        author: "Young Apostles FC",
+        badge: true,
+        time: "Sep 15 &middot; Upcoming Fixture",
+        text: "Preparations underway for Sunday’s Matchday 3 away encounter vs <strong>Debibi United</strong> at Debibi Park. Coach Abu puts the squad through morning tactical drills.",
+        image: "",
+        linkText: "View match preview &rarr;",
+        articleId: "debibi-preview"
+      },
+      {
+        id: "disp-3",
+        author: "Young Apostles FC",
+        badge: true,
+        time: "Sep 10 &middot; Kit Shop",
+        text: "Wear the Apostles pride! Authentic 2026/27 jerseys available with custom player name &amp; number printing. Nationwide delivery across Ghana.",
+        image: "assets/kit-home-hanging.jpg",
+        linkText: "Order jersey in Team Shop &rarr;",
+        articleId: "#shop"
+      },
+      {
+        id: "disp-4",
+        author: "Young Apostles FC",
+        badge: true,
+        time: "Sep 14 &middot; Player Spotlight",
+        text: "\"Scoring the club's first Premier League goal in front of our home fans is a feeling I will cherish forever.\" — <strong>Samuel Prempeh #21</strong>",
+        image: "assets/players/samuel-prempeh.jpg",
+        isPortrait: true,
+        linkText: "Read full player interview &rarr;",
+        articleId: "prempeh-winner-holy-stars"
+      }
+    ];
+
+    let currentDispatches = [];
+    let currentUploadedDataUrl = "";
+
+    // Auth logic
+    function handleLogin(e) {
+      e.preventDefault();
+      const input = document.getElementById('adminPasskey').value.trim();
+      const storedKey = localStorage.getItem('ya_admin_passkey') || DEFAULT_PASSKEY;
+
+      if (input === storedKey) {
+        sessionStorage.setItem('ya_admin_authed', 'true');
+        showWorkspace();
+        showToast("Access granted! Welcome to Media Admin.");
+      } else {
+        alert("Incorrect passkey. Default passkey is: apostles2026");
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('ya_admin_authed');
+      document.getElementById('authScreen').style.display = 'flex';
+      document.getElementById('adminWorkspace').classList.remove('active');
+      document.getElementById('btnLogout').style.display = 'none';
+      showToast("Logged out safely.");
+    }
+
+    function showWorkspace() {
+      document.getElementById('authScreen').style.display = 'none';
+      document.getElementById('adminWorkspace').classList.add('active');
+      document.getElementById('btnLogout').style.display = 'inline-block';
+      loadDispatches();
+      updateLivePreview();
+    }
+
+    // Dispatches Management
+    function loadDispatches() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          currentDispatches = JSON.parse(stored);
+        } else {
+          currentDispatches = [...INITIAL_DISPATCHES];
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(currentDispatches));
+        }
+      } catch (err) {
+        currentDispatches = [...INITIAL_DISPATCHES];
+      }
+      renderManageList();
+      updateStats();
+    }
+
+    function saveAllDispatches() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(currentDispatches));
+      renderManageList();
+      updateStats();
+    }
+
+    function updateStats() {
+      document.getElementById('statDispatchCount').textContent = currentDispatches.length;
+    }
+
+    function renderManageList() {
+      const container = document.getElementById('manageList');
+      if (!container) return;
+
+      if (currentDispatches.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--admin-muted); font-size:0.85rem;">No dispatches currently active. Create one above!</div>`;
+        return;
+      }
+
+      container.innerHTML = currentDispatches.map((item, idx) => {
+        const thumbHtml = item.image 
+          ? `<img src="${item.image}" alt="thumb" class="dispatch-manage-thumb" onerror="this.style.display='none'">` 
+          : '';
+
+        return `
+          <div class="dispatch-manage-card">
+            <div class="dispatch-manage-info">
+              <div class="dispatch-manage-time">${item.time || 'Live'}</div>
+              <div class="dispatch-manage-text">${item.text}</div>
+              ${thumbHtml}
+            </div>
+            <div class="dispatch-manage-actions">
+              <button class="btn-action-icon" title="Move Up" onclick="moveDispatch(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
+                <i class="fa-solid fa-arrow-up"></i>
+              </button>
+              <button class="btn-action-icon" title="Move Down" onclick="moveDispatch(${idx}, 1)" ${idx === currentDispatches.length - 1 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
+                <i class="fa-solid fa-arrow-down"></i>
+              </button>
+              <button class="btn-action-icon" title="Edit Dispatch" onclick="editDispatch('${item.id}')">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button class="btn-action-icon delete" title="Delete Dispatch" onclick="deleteDispatch('${item.id}')">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function moveDispatch(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= currentDispatches.length) return;
+      const temp = currentDispatches[index];
+      currentDispatches[index] = currentDispatches[targetIndex];
+      currentDispatches[targetIndex] = temp;
+      saveAllDispatches();
+      showToast("Order updated.");
+    }
+
+    function deleteDispatch(id) {
+      if (!confirm("Are you sure you want to remove this dispatch?")) return;
+      currentDispatches = currentDispatches.filter(d => d.id !== id);
+      saveAllDispatches();
+      showToast("Dispatch removed.");
+    }
+
+    function editDispatch(id) {
+      const item = currentDispatches.find(d => d.id === id);
+      if (!item) return;
+
+      document.getElementById('editDispatchId').value = item.id;
+      document.getElementById('dispatchAuthor').value = item.author || 'Young Apostles FC';
+      document.getElementById('dispatchTime').value = item.time || '';
+      document.getElementById('dispatchText').value = item.text || '';
+      document.getElementById('dispatchImageUrl').value = item.image || '';
+      document.getElementById('dispatchLinkText').value = item.linkText || '';
+      document.getElementById('dispatchArticleId').value = item.articleId || '';
+
+      if (item.image) {
+        document.getElementById('previewImg').src = item.image;
+        document.getElementById('previewBox').classList.add('has-image');
+      } else {
+        removeImage();
+      }
+
+      document.getElementById('formTitle').textContent = "Edit Dispatch";
+      document.getElementById('btnSubmitDispatch').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Dispatch`;
+      updateLivePreview();
+      window.scrollTo({ top: 150, behavior: 'smooth' });
+    }
+
+    function resetForm() {
+      document.getElementById('dispatchForm').reset();
+      document.getElementById('editDispatchId').value = '';
+      document.getElementById('formTitle').textContent = "Create New Dispatch";
+      document.getElementById('btnSubmitDispatch').innerHTML = `<i class="fa-solid fa-paper-plane"></i> Publish Live Dispatch`;
+      removeImage();
+      document.getElementById('dispatchAuthor').value = 'Young Apostles FC';
+      document.getElementById('dispatchTime').value = 'Just Now &middot; Live Alert';
+      updateLivePreview();
+    }
+
+    function saveDispatch(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editDispatchId').value;
+      const author = document.getElementById('dispatchAuthor').value.trim();
+      const time = document.getElementById('dispatchTime').value.trim();
+      const text = document.getElementById('dispatchText').value.trim();
+      const image = currentUploadedDataUrl || document.getElementById('dispatchImageUrl').value.trim();
+      const linkText = document.getElementById('dispatchLinkText').value.trim();
+      const articleId = document.getElementById('dispatchArticleId').value.trim();
+
+      if (!text) {
+        alert("Please enter dispatch text.");
+        return;
+      }
+
+      if (editId) {
+        // Update existing
+        const idx = currentDispatches.findIndex(d => d.id === editId);
+        if (idx !== -1) {
+          currentDispatches[idx] = {
+            ...currentDispatches[idx],
+            author,
+            time,
+            text,
+            image,
+            linkText,
+            articleId
+          };
+          showToast("Dispatch updated successfully!");
+        }
+      } else {
+        // Create new (added to TOP of list)
+        const newDispatch = {
+          id: 'disp-' + Date.now(),
+          author,
+          badge: true,
+          time,
+          text,
+          image,
+          linkText,
+          articleId
+        };
+        currentDispatches.unshift(newDispatch);
+        showToast("New dispatch published live!");
+      }
+
+      saveAllDispatches();
+      resetForm();
+    }
+
+    // Image handling
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        currentUploadedDataUrl = evt.target.result;
+        document.getElementById('previewImg').src = currentUploadedDataUrl;
+        document.getElementById('previewBox').classList.add('has-image');
+        document.getElementById('dispatchImageUrl').value = '';
+        updateLivePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setPresetImage(path) {
+      currentUploadedDataUrl = "";
+      document.getElementById('dispatchImageUrl').value = path;
+      if (path) {
+        document.getElementById('previewImg').src = path;
+        document.getElementById('previewBox').classList.add('has-image');
+      } else {
+        removeImage();
+      }
+      updateLivePreview();
+    }
+
+    function removeImage() {
+      currentUploadedDataUrl = "";
+      document.getElementById('dispatchImageUrl').value = '';
+      document.getElementById('previewImg').src = '';
+      document.getElementById('previewBox').classList.remove('has-image');
+      updateLivePreview();
+    }
+
+    // Real-Time Preview
+    function updateLivePreview() {
+      const author = document.getElementById('dispatchAuthor').value.trim() || 'Young Apostles FC';
+      const time = document.getElementById('dispatchTime').value.trim() || 'Just Now &middot; Live Alert';
+      const text = document.getElementById('dispatchText').value.trim() || 'Your dispatch message preview will appear here...';
+      const image = currentUploadedDataUrl || document.getElementById('dispatchImageUrl').value.trim();
+      const linkText = document.getElementById('dispatchLinkText').value.trim();
+
+      document.getElementById('prevAuthor').textContent = author;
+      document.getElementById('prevTime').innerHTML = time;
+      document.getElementById('prevText').innerHTML = text;
+
+      const prevMedia = document.getElementById('prevMedia');
+      if (image) {
+        prevMedia.src = image;
+        prevMedia.style.display = 'block';
+      } else {
+        prevMedia.style.display = 'none';
+      }
+
+      const prevLinkWrap = document.getElementById('prevLinkWrap');
+      if (linkText) {
+        document.getElementById('prevLinkText').textContent = linkText;
+        prevLinkWrap.style.display = 'flex';
+      } else {
+        prevLinkWrap.style.display = 'none';
+      }
+    }
+
+    // Reset to defaults
+    function resetToDefaults() {
+      if (!confirm("Reset all dispatches to official club defaults? Custom dispatches will be replaced.")) return;
+      currentDispatches = [...INITIAL_DISPATCHES];
+      saveAllDispatches();
+      resetForm();
+      showToast("Reset to official defaults.");
+    }
+
+    // Export JSON
+    function exportDispatches() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentDispatches, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "young_apostles_dispatches.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast("Dispatches JSON downloaded!");
+    }
+
+    // Toast helper
+    function showToast(msg) {
+      const toast = document.getElementById('adminToast');
+      const text = document.getElementById('adminToastMsg');
+      if (!toast || !text) return;
+      text.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // Init check on load
+    document.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem('ya_admin_authed') === 'true') {
+        showWorkspace();
+      }
+    });
+  </script>
+</body>
+</html>
