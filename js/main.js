@@ -1003,7 +1003,7 @@ const CLUB_NEWS_ARTICLES = {
     badgeClass: "news-badge-pill--match",
     date: "Sep 14, 2026",
     source: "Young Apostles Media Dispatch (via @youngapostlesfc)",
-    image: "assets/promotion-celebration.jpg",
+    image: "assets/apostle-tv-video1.jpg",
     content: `
       <p><strong>WENCHI</strong> &mdash; In front of a passionate, capacity home crowd at the Wenchi Sports Stadium, Young Apostles FC recorded their landmark first-ever Ghana Premier League victory on Sunday afternoon, edging Basake Holy Stars 1&ndash;0 on Matchday 2.</p>
       <p>The decisive breakthrough came inside the opening seven minutes. Forward <strong>Samuel Prempeh</strong> chased down an incisive ball from midfield, beat two defenders with a slick first touch, and slotted coolly into the bottom right corner past the Holy Stars goalkeeper.</p>
@@ -1023,7 +1023,7 @@ const CLUB_NEWS_ARTICLES = {
     badgeClass: "news-badge-pill--match",
     date: "Sep 6, 2026",
     source: "Matchday Report Desk (via @youngapostlesfc)",
-    image: "assets/apostle-tv-video2.jpg",
+    image: "assets/apostle-tv-video3.jpg",
     content: `
       <p><strong>TEMA</strong> &mdash; Young Apostles FC began their maiden campaign in the top flight with an away test against Vision FC at the Nii Adjei Kraku II Sports Complex on Saturday afternoon.</p>
       <p>The home side opened the scoring early in the 4th minute through Naziru Alhassan Nyenye before Setsofia Aqetey doubled the lead just before half-time (40') and added a third in the 68th minute.</p>
@@ -1049,7 +1049,7 @@ const CLUB_NEWS_ARTICLES = {
     badgeClass: "news-badge-pill--preview",
     date: "Sep 15, 2026",
     source: "Apostles Media Team (via @youngapostlesfc)",
-    image: "assets/apostle-tv-video3.jpg",
+    image: "assets/apostle-tv-video2.jpg",
     content: `
       <p><strong>WENCHI</strong> &mdash; Following the electric 1&ndash;0 triumph over Basake Holy Stars, the Apostles return to training this week ahead of an exciting Matchday 3 away fixture against Debibi United at Debibi Park on Sunday, September 20, 2026.</p>
       <p>Debibi United currently sit in 15th position with 1 point from their first two games. The Apostles squad conducted tactical training focused on rapid counter-attacking transitions and set-piece organization.</p>
