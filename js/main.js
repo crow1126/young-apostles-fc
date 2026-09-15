@@ -776,25 +776,19 @@ function renderMatches(typeFilter = 'all') {
   if (!grid) return;
 
   const allFixtures = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2];
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  let upcoming = [], past = [];
-  allFixtures.forEach(f => {
-    const fd = parseFixtureDate(f.date);
-    const fDay = new Date(fd.getFullYear(), fd.getMonth(), fd.getDate());
-    const isToday = fDay.getTime() === today.getTime();
-    // If it has a score or is before today, it is completed
-    const isCompleted = Boolean(f.score) || fDay < today;
-    if (!isCompleted) upcoming.push({ ...f, isPast: false, isToday });
-    else past.push({ ...f, isPast: true, isToday: false });
-  });
+  // ONLY fixtures with an explicit score are completed (Week 1 and Week 2)
+  const completedFixtures = allFixtures.filter(f => Boolean(f.score));
+  // All other fixtures are upcoming
+  const upcomingFixtures = allFixtures.filter(f => !f.score);
 
   const applyFilter = arr => typeFilter === 'home' ? arr.filter(f => f.type === 'Home')
     : typeFilter === 'away' ? arr.filter(f => f.type === 'Away') : arr;
 
-  const upcomingSlice = applyFilter(upcoming).slice(0, 6);
-  const pastSlice = applyFilter(past).slice(-3).reverse();
+  // Show most recent completed match first (Week 2 vs Holy Stars 1-0, then Week 1 vs Vision FC 0-3)
+  const pastSlice = applyFilter(completedFixtures).slice().reverse();
+  // Show next 6 upcoming matches in calendar order
+  const upcomingSlice = applyFilter(upcomingFixtures).slice(0, 6);
 
   const renderCard = f => {
     const isYAHome  = f.home === 'Young Apostles';
@@ -824,8 +818,8 @@ function renderMatches(typeFilter = 'all') {
 
     const dateObj   = parseFixtureDate(f.date);
     const dayStr    = dateObj.toLocaleString('en', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
-    const isCompleted = f.isPast || Boolean(f.score);
-    const cardClass = f.isToday ? 'match-card match-card--active' : isCompleted ? 'match-card match-card--past' : 'match-card';
+    const isCompleted = Boolean(f.score);
+    const cardClass = `match-card ${isCompleted ? 'match-card--past' : ''} ${f.type === 'Home' ? 'match-card--home' : 'match-card--away'}`;
 
     const homeName = isYAHome ? 'Young Apostles' : opponent;
     const homeLogo = isYAHome ? 'assets/official-logo.png' : oppLogo;
@@ -833,19 +827,27 @@ function renderMatches(typeFilter = 'all') {
     const awayLogo = isYAHome ? oppLogo : 'assets/official-logo.png';
 
     // Time/score center box
-    const resultColor = f.result === 'W' ? '#16a34a' : f.result === 'L' ? '#dc2626' : '#6b7280';
-    const resultBg = f.result === 'W' ? '#dcfce7' : f.result === 'L' ? '#fee2e2' : '#f3f4f6';
+    const isWin = f.result === 'W';
+    const isLoss = f.result === 'L';
+    const resultTag = isWin ? 'WIN · FT' : isLoss ? 'LOSS · FT' : 'DRAW · FT';
+    const resultColor = isWin ? '#15803D' : isLoss ? '#B91C1C' : '#475569';
+    const resultBg = isWin ? '#DCFCE7' : isLoss ? '#FEE2E2' : '#F1F5F9';
+    const resultBorder = isWin ? '#86EFAC' : isLoss ? '#FCA5A5' : '#CBD5E1';
+
     const centerBox = isCompleted
-      ? `<div class="match-score-box" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:5px 10px; border-radius:8px; background:${resultBg}; border:1px solid ${resultColor}40;">
-           <span style="font-size:0.6rem; font-weight:800; color:${resultColor}; letter-spacing:0.08em; text-transform:uppercase;">${f.result === 'W' ? 'WIN' : f.result === 'L' ? 'LOSS' : 'DRAW'} · FT</span>
-           <span style="font-size:1.15rem; font-weight:900; color:${resultColor}; line-height:1.2; letter-spacing:0.04em;">${f.score || 'FT'}</span>
-           ${f.scorer ? `<span style="font-size:0.62rem; color:#374151; margin-top:2px; font-weight:700; white-space:nowrap;">⚽ ${f.scorer}</span>` : ''}
+      ? `<div class="match-score-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:${resultBg}; border:1px solid ${resultBorder}; min-width:74px;">
+           <span style="font-size:0.62rem; font-weight:800; color:${resultColor}; letter-spacing:0.08em; text-transform:uppercase;">${resultTag}</span>
+           <span style="font-size:1.25rem; font-weight:900; color:${resultColor}; line-height:1.2; letter-spacing:0.02em;">${f.score}</span>
+           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;">⚽ ${f.scorer}</span>` : ''}
          </div>`
-      : `<div class="match-time-box">${f.isToday ? '<span style="font-size:0.6rem;display:block;color:#0057B8;line-height:1;">TODAY</span>' : ''}15:00</div>`;
+      : `<div class="match-time-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:#F8FAFC; border:1px solid #E2E8F0; min-width:74px;">
+           <span style="font-size:0.62rem; font-weight:800; color:#034694; letter-spacing:0.08em; text-transform:uppercase;">KICKOFF</span>
+           <span style="font-size:1.15rem; font-weight:900; color:#0F172A; line-height:1.2;">15:00</span>
+           <span style="font-size:0.6rem; color:#64748B; font-weight:700;">GMT</span>
+         </div>`;
 
     return `
       <div class="${cardClass}">
-        ${f.isToday ? '<div class="match-live-badge"><i class="fa-solid fa-circle" style="font-size:0.5em"></i> MATCHDAY</div>' : ''}
         <div class="match-card-header">
           <div class="match-card-date">${dayStr}</div>
           <div class="match-card-comp">GHANA PREMIER LEAGUE &bull; MD ${f.week}</div>
@@ -871,11 +873,11 @@ function renderMatches(typeFilter = 'all') {
 
   let html = '';
   if (pastSlice.length > 0) {
-    html += `<div class="match-section-label"><i class="fa-solid fa-flag-checkered"></i> Results (Final Scores)</div>`;
+    html += `<div class="match-section-label"><i class="fa-solid fa-flag-checkered"></i> Latest Results</div>`;
     html += pastSlice.map(renderCard).join('');
     html += `<div class="match-section-divider"></div>`;
   }
-  html += `<div class="match-section-label match-section-label--upcoming"><i class="fa-solid fa-calendar-days"></i> Upcoming</div>`;
+  html += `<div class="match-section-label match-section-label--upcoming"><i class="fa-solid fa-calendar-days"></i> Upcoming Fixtures</div>`;
   html += upcomingSlice.length > 0 ? upcomingSlice.map(renderCard).join('') : `<div class="match-section-label">Season Complete</div>`;
   grid.innerHTML = html;
 }
@@ -992,174 +994,7 @@ async function fetchYouTubeTitles() {
 }
 
 // ==========================================
-// 15. AUTO-FETCH GPL SCORES FROM WIKIPEDIA
-// Uses the free MediaWiki API (CORS-enabled)
-// ==========================================
-
-// How it works:
-//  Wikipedia GPL season pages have an 18x18 results grid table.
-//  Rows = home teams, columns = away teams.
-//  Cell background: #BBF3FF = home win, #FFB = draw, #FBB = away win.
-//  We find Young Apostles' row (home results) + column (away results),
-//  cross-reference the opponent name, convert score, then patch fixtures.
-
-async function fetchGPLScoresFromWikipedia() {
-  // Try current and adjacent seasons
-  const now = new Date();
-  const y1 = now.getFullYear();
-  const y2 = y1 + 1;
-  const pages = [
-    `${y1}\u201325_Ghana_Premier_League`,  // e.g. 2026–27
-    `${y1 - 1}\u201326_Ghana_Premier_League`,
-    `2024\u201325_Ghana_Premier_League`     // confirmed fallback
-  ];
-  // Build the season string correctly: first tries e.g. "2026-27"
-  const seasonPages = [
-    `${y1}\u2013${String(y2).slice(-2)}_Ghana_Premier_League`,
-    `${y1 - 1}\u2013${String(y1).slice(-2)}_Ghana_Premier_League`,
-    `2024\u201325_Ghana_Premier_League`
-  ];
-
-  for (const page of seasonPages) {
-    try {
-      // section=5 is typically the Results section; fallback to full page
-      const apiUrl = `https://en.wikipedia.org/w/api.php?action=parse&page=${encodeURIComponent(page)}&prop=text&section=5&format=json&origin=*`;
-      const res = await fetch(apiUrl);
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data.error || !data.parse) continue;
-
-      const html = data.parse.text['*'];
-      if (!html || !html.includes('wikitable')) continue;
-
-      const parsed = parseWikipediaGPLGrid(html);
-      if (parsed > 0) {
-        console.log(`[GPL Scores] Updated ${parsed} fixtures from Wikipedia (${page})`);
-        renderMatches(); // Re-render with live scores
-        showToast(`\u26bd ${parsed} GPL score${parsed > 1 ? 's' : ''} updated from Wikipedia`);
-        break;
-      }
-    } catch (e) {
-      console.warn('[GPL Scores] fetch error:', e);
-    }
-  }
-}
-
-function parseWikipediaGPLGrid(html) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  const table = doc.querySelector('table.wikitable');
-  if (!table) return 0;
-
-  const tbody = table.querySelector('tbody');
-  if (!tbody) return 0;
-
-  const rows = Array.from(tbody.querySelectorAll('tr'));
-  if (rows.length < 2) return 0;
-
-  // Build column-index → away-team-name map from the header row
-  const headerRow = rows[0];
-  const headerCells = Array.from(headerRow.querySelectorAll('th'));
-  // headerCells[0] is the "Home \ Away" corner cell, then one per team
-  const colTeams = headerCells.slice(1).map(th => th.textContent.trim());
-
-  // Also build a full-name lookup by row
-  // Each data row: th[0] = home team name, td[n] = result vs column[n]
-  const TEAM_ALIASES = {
-    'ACC': 'Accra Lions',
-    'ADU': 'Aduana Stars',
-    'ASA': 'Asante Kotoko',
-    'BEC': 'Bechem United',
-    'BER': 'Berekum Chelsea',
-    'BIB': 'Gold Stars FC',
-    'DRE': 'Dreams FC',
-    'HOL': 'Heart of Lions',
-    'HEA': 'Hearts of Oak',
-    'HOS': 'Basake Holy Stars',
-    'KAR': 'Karela United',
-    'LEG': 'Legon Cities',
-    'MED': 'Medeama SC',
-    'NAT': 'Debibi United',
-    'NSO': 'Nsoatreman FC',
-    'SAM': 'Samartex',
-    'VIS': 'Vision FC',
-    'YOU': 'Young Apostles'
-  };
-
-  let updatedCount = 0;
-
-  rows.slice(1).forEach(row => {
-    const rowHeader = row.querySelector('th');
-    if (!rowHeader) return;
-    const homeNameRaw = rowHeader.textContent.trim();
-
-    // Check if this row is Young Apostles (home)
-    const isYAHomeRow = homeNameRaw.toLowerCase().includes('young apostles');
-
-    const cells = Array.from(row.querySelectorAll('td'));
-
-    cells.forEach((cell, colIdx) => {
-      const awayAbbr = colTeams[colIdx];
-      if (!awayAbbr) return;
-
-      const awayName = TEAM_ALIASES[awayAbbr] || awayAbbr;
-      const bg = cell.getAttribute('style') || '';
-
-      // Skip diagonal (same team) — grey background
-      if (bg.includes('#bbb') || bg.includes('background:#bbb')) return;
-
-      const scoreRaw = cell.textContent.replace(/<[^>]+>/g, '').trim();
-      // Wikipedia uses en-dash: e.g. "1\u20130"
-      const scoreClean = scoreRaw.replace(/\u2013/g, ' - ').replace(/\s+/g, ' ').trim();
-      if (!scoreClean || !/\d/.test(scoreClean)) return;
-
-      // Determine W/D/L from background colour
-      let result;
-      if (bg.includes('#BBF3FF') || bg.includes('BBF3FF')) result = 'W'; // home win
-      else if (bg.includes('#FFB') || bg.includes('FFB')) result = 'D';  // draw
-      else if (bg.includes('#FBB') || bg.includes('FBB')) result = 'L';  // away win
-      else return;
-
-      if (isYAHomeRow) {
-        // YA is home: awayName is the away opponent
-        const fixture = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2].find(
-          f => f.home === 'Young Apostles' && f.away === awayName
-        );
-        if (fixture && !fixture.score) {
-          fixture.score = scoreClean;
-          fixture.result = result; // W = YA won at home
-          updatedCount++;
-        }
-      } else {
-        // Check if awayAbbr is YOU (Young Apostles is the away team)
-        if (awayAbbr !== 'YOU') return;
-        // homeNameRaw is the home team, YA is away
-        const homeName = homeNameRaw;
-        const fixture = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2].find(
-          f => f.away === 'Young Apostles' && (
-            f.home === homeName ||
-            homeName.toLowerCase().includes(f.home.split(' ')[0].toLowerCase())
-          )
-        );
-        if (fixture && !fixture.score) {
-          // Flip the result from YA's perspective: cell was home team's win = YA lost
-          const yaResult = result === 'W' ? 'L' : result === 'L' ? 'W' : 'D';
-          // Flip the scoreline too: "2 - 1" from home-row means home=2, away(YA)=1
-          const parts = scoreClean.split(' - ');
-          const displayScore = parts.length === 2 ? `${parts[0]} - ${parts[1]}` : scoreClean;
-          fixture.score = displayScore;
-          fixture.result = yaResult;
-          updatedCount++;
-        }
-      }
-    });
-  });
-
-  return updatedCount;
-}
-
-// ==========================================
-// 15B. CLUB NEWS ARTICLES & BLOG VIEWER
+// 15. CLUB NEWS ARTICLES & BLOG VIEWER
 // ==========================================
 const CLUB_NEWS_ARTICLES = {
   'prempeh-winner-holy-stars': {
@@ -1168,7 +1003,7 @@ const CLUB_NEWS_ARTICLES = {
     badgeClass: "news-badge-pill--match",
     date: "Sep 14, 2026",
     source: "Young Apostles Media Dispatch (via @youngapostlesfc)",
-    image: "assets/news-1.jpg",
+    image: "assets/promotion-celebration.jpg",
     content: `
       <p><strong>WENCHI</strong> &mdash; In front of a passionate, capacity home crowd at the Wenchi Sports Stadium, Young Apostles FC recorded their landmark first-ever Ghana Premier League victory on Sunday afternoon, edging Basake Holy Stars 1&ndash;0 on Matchday 2.</p>
       <p>The decisive breakthrough came inside the opening seven minutes. Forward <strong>Samuel Prempeh</strong> chased down an incisive ball from midfield, beat two defenders with a slick first touch, and slotted coolly into the bottom right corner past the Holy Stars goalkeeper.</p>
@@ -1176,7 +1011,7 @@ const CLUB_NEWS_ARTICLES = {
         <blockquote style="font-style:italic; font-size:1.05rem; color:var(--ya-blue-deep); margin:0 0 0.5rem 0;">
           "This victory belongs to the good people of Wenchi who have supported us from Division Two, through Division One, and now onto the biggest stage in Ghana. The players showed relentless fighting spirit today."
         </blockquote>
-        <cite style="font-weight:700; color:var(--ya-gold-deep); font-size:0.85rem;">&mdash; Abu Abdul-Hanan, Head Coach</cite>
+        <cite style="font-weight:700; color:var(--ya-gold-hover); font-size:0.85rem;">&mdash; Abu Abdul-Hanan, Head Coach</cite>
       </div>
       <p>Basake Holy Stars mounted several attacking waves in search of an equalizer during the second half, but the Apostles defensive backline stood firm, marshaled by exceptional positioning and goalkeeping.</p>
       <p>The victory lifts Young Apostles to 8th on the official GPL standings table with 3 points, while preserving Wenchi as an impenetrable fortress for visiting opponents.</p>
@@ -1188,7 +1023,7 @@ const CLUB_NEWS_ARTICLES = {
     badgeClass: "news-badge-pill--match",
     date: "Sep 6, 2026",
     source: "Matchday Report Desk (via @youngapostlesfc)",
-    image: "assets/news-2.jpg",
+    image: "assets/apostle-tv-video2.jpg",
     content: `
       <p><strong>TEMA</strong> &mdash; Young Apostles FC began their maiden campaign in the top flight with an away test against Vision FC at the Nii Adjei Kraku II Sports Complex on Saturday afternoon.</p>
       <p>The home side opened the scoring early in the 4th minute through Naziru Alhassan Nyenye before Setsofia Aqetey doubled the lead just before half-time (40') and added a third in the 68th minute.</p>
@@ -1201,7 +1036,7 @@ const CLUB_NEWS_ARTICLES = {
     badgeClass: "news-badge-pill--club",
     date: "Sep 2, 2026",
     source: "Young Apostles Commercial Dept (via @youngapostlesfc)",
-    image: "assets/news-3.jpg",
+    image: "assets/kit-home-2026.jpg",
     content: `
       <p><strong>WENCHI</strong> &mdash; Young Apostles Football Club, in proud partnership with Mayniak Sportswear, is thrilled to present the official matchday kits for the 2026/27 Ghana Premier League season.</p>
       <p>The home strip showcases the club's celebrated Royal Blue and Sunburst Gold, featuring bespoke geometric embossing inspired by traditional Bono cultural motifs. The away jersey is crafted in clean, pristine white with bold blue side panels.</p>
@@ -1214,7 +1049,7 @@ const CLUB_NEWS_ARTICLES = {
     badgeClass: "news-badge-pill--preview",
     date: "Sep 15, 2026",
     source: "Apostles Media Team (via @youngapostlesfc)",
-    image: "assets/news-1.jpg",
+    image: "assets/apostle-tv-video3.jpg",
     content: `
       <p><strong>WENCHI</strong> &mdash; Following the electric 1&ndash;0 triumph over Basake Holy Stars, the Apostles return to training this week ahead of an exciting Matchday 3 away fixture against Debibi United at Debibi Park on Sunday, September 20, 2026.</p>
       <p>Debibi United currently sit in 15th position with 1 point from their first two games. The Apostles squad conducted tactical training focused on rapid counter-attacking transitions and set-piece organization.</p>
@@ -1283,7 +1118,6 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
   fetchYouTubeTitles(); // Auto-fetch real YouTube video titles
-  fetchGPLScoresFromWikipedia(); // Auto-fetch live GPL scores from Wikipedia
 
   // Mobile Toggle
   document.getElementById('mobileToggle')?.addEventListener('click', toggleMobileNav);

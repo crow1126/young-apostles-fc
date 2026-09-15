@@ -159,7 +159,7 @@
           <!-- Big Featured Story -->
           <article class="news-featured-card" onclick="openNewsArticle('prempeh-winner-holy-stars')">
             <div class="news-featured-card__media">
-              <img src="assets/news-1.jpg" alt="Apostles 1-0 Holy Stars Victory">
+              <img src="assets/promotion-celebration.jpg" alt="Young Apostles FC Victory Celebration">
               <span class="news-badge-pill news-badge-pill--match">MATCH REPORT</span>
             </div>
             <div class="news-featured-card__body">
@@ -184,7 +184,7 @@
             <!-- Article 2 -->
             <article class="news-mini-card" onclick="openNewsArticle('gpl-opener-vision-fc')">
               <div class="news-mini-card__thumb">
-                <img src="assets/news-2.jpg" alt="Vision FC vs Apostles">
+                <img src="assets/apostle-tv-video2.jpg" alt="Vision FC vs Apostles Match Action">
                 <span class="news-badge-pill news-badge-pill--match">MATCH REPORT</span>
               </div>
               <div class="news-mini-card__content">
@@ -202,7 +202,7 @@
             <!-- Article 3 -->
             <article class="news-mini-card" onclick="openNewsArticle('mayniak-kit-launch')">
               <div class="news-mini-card__thumb">
-                <img src="assets/news-3.jpg" alt="Mayniak Kit Launch">
+                <img src="assets/kit-home-2026.jpg" alt="Official Mayniak Matchwear Unveiling">
                 <span class="news-badge-pill news-badge-pill--club">OFFICIAL KIT</span>
               </div>
               <div class="news-mini-card__content">
@@ -219,7 +219,7 @@
           </div>
         </div><!-- /.news-blog-main -->
 
-        <!-- RIGHT: Verified Club Dispatches (Blog-style info from X) -->
+        <!-- RIGHT: Verified Club Dispatches (Blog-style info from X & Instagram) -->
         <aside class="news-blog-sidebar">
           <div class="dispatches-panel">
             <div class="dispatches-header">
@@ -243,6 +243,7 @@
                 <div class="dispatch-item__text">
                   FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Owuo Tumi! 🔵🟡⚽
                 </div>
+                <img src="assets/promotion-celebration.jpg" alt="Matchday Victory Celebration" class="dispatch-media-thumb">
                 <div class="dispatch-tag-link"><i class="fa-regular fa-newspaper"></i> Read full match analysis &rarr;</div>
               </div>
 
@@ -258,6 +259,7 @@
                 <div class="dispatch-item__text">
                   Preparations underway for Sunday’s Matchday 3 away encounter vs <strong>Debibi United</strong> at Debibi Park. Coach Abu puts the squad through morning tactical drills.
                 </div>
+                <img src="assets/apostle-tv-video3.jpg" alt="Squad Training Drills" class="dispatch-media-thumb">
                 <div class="dispatch-tag-link"><i class="fa-regular fa-newspaper"></i> View match preview &rarr;</div>
               </div>
 
@@ -273,13 +275,30 @@
                 <div class="dispatch-item__text">
                   Wear the Apostles pride! Authentic 2026/27 jerseys available with custom player name &amp; number printing. Nationwide delivery across Ghana.
                 </div>
+                <img src="assets/kit-home-hanging.jpg" alt="Official Mayniak Jersey" class="dispatch-media-thumb">
                 <div class="dispatch-tag-link"><i class="fa-solid fa-shirt"></i> Order jersey in Team Shop &rarr;</div>
+              </div>
+
+              <!-- Dispatch Item 4 -->
+              <div class="dispatch-item" onclick="openNewsArticle('prempeh-winner-holy-stars')">
+                <div class="dispatch-item__meta">
+                  <img src="assets/official-logo.png" alt="YA" class="dispatch-avatar">
+                  <div>
+                    <div class="dispatch-author">Young Apostles FC <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i></div>
+                    <div class="dispatch-time">Sep 14 &middot; Player Spotlight</div>
+                  </div>
+                </div>
+                <div class="dispatch-item__text">
+                  "Scoring the club's first Premier League goal in front of our home fans is a feeling I will cherish forever." — <strong>Samuel Prempeh #21</strong>
+                </div>
+                <img src="assets/players/samuel-prempeh.jpg" alt="Samuel Prempeh" class="dispatch-media-thumb dispatch-media-thumb--portrait">
+                <div class="dispatch-tag-link"><i class="fa-solid fa-quote-left"></i> Read full player interview &rarr;</div>
               </div>
             </div><!-- /.dispatches-list -->
 
             <div class="dispatches-footer">
               <a href="https://x.com/youngapostlesfc" target="_blank" rel="noopener" class="dispatches-follow-link">
-                <i class="fa-brands fa-x-twitter"></i> Follow @youngapostlesfc for Instant Updates
+                <i class="fa-brands fa-x-twitter"></i> Follow @youngapostlesfc for Live Updates
               </a>
             </div>
           </div>
@@ -294,20 +313,21 @@
   <!-- =========================================================
        5. SCHEDULE / FIXTURES
        ========================================================= -->
-  <section class="section" id="matches" style="background: linear-gradient(135deg, #0056B3 0%, #001489 100%); padding: 4.5rem 0;">
+  <section class="section section-matches" id="matches">
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title section-title--white">Schedule / Fixtures <span style="font-size:0.7em;">&rarr;</span></h2>
-          <p style="color:rgba(255,255,255,0.8); font-size:0.9rem; margin-top:0.25rem;">2026/27 Ghana Premier League Official Matchdays</p>
+          <div class="section-badge"><i class="fa-solid fa-calendar-check"></i> GPL 2026/27 SEASON</div>
+          <h2 class="section-title">Schedule / Fixtures</h2>
+          <p class="section-subtitle">Official Results &amp; Upcoming Ghana Premier League Matchdays</p>
         </div>
-        <button class="section-link-action section-link-action--white" onclick="openFixturesModal()">
+        <button class="section-link-action" onclick="openFixturesModal()">
           Full 34-Week Calendar <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
 
       <!-- Filter Tabs -->
-      <div class="category-tabs category-tabs--dark" id="matchCategoryTabs">
+      <div class="category-tabs" id="matchCategoryTabs">
         <button class="tab-btn active" data-match-cat="all">All GPL Fixtures</button>
         <button class="tab-btn" data-match-cat="home">Home Matches</button>
         <button class="tab-btn" data-match-cat="away">Away Matches</button>
@@ -315,13 +335,13 @@
 
       <!-- Real-time Match Cards - rendered by JS -->
       <div class="matches-carousel-wrap">
-        <button class="carousel-nav-btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="scrollMatches(-1)" aria-label="Previous Matches">
+        <button class="carousel-nav-btn carousel-nav-btn--prev" onclick="scrollMatches(-1)" aria-label="Previous Matches">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
         <div class="matches-grid" id="upcomingMatchesGrid">
           <!-- Populated dynamically by renderMatches() -->
         </div>
-        <button class="carousel-nav-btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="scrollMatches(1)" aria-label="Next Matches">
+        <button class="carousel-nav-btn carousel-nav-btn--next" onclick="scrollMatches(1)" aria-label="Next Matches">
           <i class="fa-solid fa-chevron-right"></i>
         </button>
       </div>
@@ -690,53 +710,6 @@
     </div>
   </section>
 
-  <!-- =========================================================
-       8. OFFICIAL SEPTEMBER FIXTURES & MATCHDAY COUNTDOWN
-       ========================================================= -->
-  <section class="section" style="background:var(--bg-white);">
-    <div class="container">
-      <div class="fixtures-banner-wrap">
-        <div>
-          <img src="assets/september-fixtures.png" alt="Official September Fixtures Schedule" class="fixtures-poster-img">
-        </div>
-
-        <div class="fixtures-countdown-content">
-          <span class="tourn-step-indicator" id="cdMatchIndicator"><i class="fa-solid fa-stopwatch"></i> MATCHDAY 2 COUNTDOWN</span>
-          <h3 class="tourn-headline" id="cdMatchHeadline">Next Match Loading...</h3>
-          <p class="tourn-season" id="cdMatchVenue">Wenchi Sports Stadium Â· Thursday, Sep 10, 2026 Â· 15:00 GMT</p>
-
-          <!-- Dynamic Live Countdown -->
-          <div class="tourn-countdown-wrap" id="tournamentCountdown">
-            <div class="cd-unit-box">
-              <span class="cd-number" id="cdDays">00</span>
-              <span class="cd-label">Days</span>
-            </div>
-            <div class="cd-unit-box">
-              <span class="cd-number" id="cdHours">00</span>
-              <span class="cd-label">Hours</span>
-            </div>
-            <div class="cd-unit-box">
-              <span class="cd-number" id="cdMins">00</span>
-              <span class="cd-label">Minutes</span>
-            </div>
-            <div class="cd-unit-box">
-              <span class="cd-number" id="cdSecs">00</span>
-              <span class="cd-label">Seconds</span>
-            </div>
-          </div>
-
-          <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-            <button class="btn-hero-primary" onclick="openFixturesModal()">
-              <i class="fa-solid fa-calendar-days"></i> Full 34-Week Fixtures
-            </button>
-            <a href="#store" class="btn-hero-secondary" style="background:var(--bg-subtle); color:var(--text-main); border-color:var(--border-color);">
-              <i class="fa-solid fa-shirt"></i> Get Home Match Jersey
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- =========================================================
        9. FIRST TEAM SQUAD (38 Registered Players)
