@@ -6,96 +6,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  /* === CLUB BRAND PALETTE (Blue & White) === */
-  --ya-blue-deep:   #00105A;   /* darkest navy */
-  --ya-blue-dark:   #001489;   /* Chelsea-style rich blue */
-  --ya-blue:        #034694;   /* primary brand blue */
-  --ya-blue-mid:    #1557B0;   /* mid blue */
-  --ya-blue-light:  #E8EEF9;   /* light blue tint for backgrounds */
-  --ya-blue-accent: #0066CC;
-  --ya-blue-sky:    #4A90D9;
-
-  /* White/neutral palette */
-  --bg-white:    #FFFFFF;
-  --bg-page:     #F7F8FC;
-  --bg-card:     #FFFFFF;
-  --bg-subtle:   #F0F3FA;
-  --border-color:  #DDE3EE;
-  --border-subtle: #EAEEF5;
-
-  /* Text */
-  --text-main:      #00105A;
-  --text-sub:       #1E3A6A;
-  --text-muted:     #6B7A99;
-  --text-light:     #9AAABB;
-  --text-white:     #FFFFFF;
-  --text-white-sub: rgba(255,255,255,0.85);
-
-  /* Typography */
-  --font-main:    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-
-  /* Layout */
-  --max-width:   1240px;
-  --radius-xs:   4px;
-  --radius-sm:   6px;
-  --radius-md:   10px;
-  --radius-lg:   14px;
-  --radius-xl:   20px;
-  --radius-pill: 9999px;
-
-  /* Shadows */
-  --shadow-subtle: 0 1px 3px rgba(0,16,90,0.08);
-  --shadow-card:   0 2px 12px rgba(0,16,90,0.10);
-  --shadow-hover:  0 8px 28px rgba(0,16,90,0.16);
-  --shadow-float:  0 16px 48px rgba(0,16,90,0.20);
-}
-
-  /* Official Club Brand Colors (Matching Shield Crest & Mayniak Kits) */
-  --ya-blue-deep: #070E29;
-  --ya-blue-dark: #0A1640;
-  --ya-blue: #0E1E5B;
-  --ya-blue-mid: #142B7A;
-  --ya-blue-light: #1E40AF;
+  /* === CLUB BRAND PALETTE (Blue & Gold / White) === */
+  --ya-blue-deep:   #070E29;
+  --ya-blue-dark:   #0A1640;
+  --ya-blue:        #0E1E5B;
+  --ya-blue-mid:    #142B7A;
+  --ya-blue-light:  #1E40AF;
   --ya-blue-accent: #0077D8;
-  --ya-blue-sky: #00B4D8;
+  --ya-blue-sky:    #00B4D8;
 
-  --ya-gold: #FFB800;
+  --ya-gold:        #FFB800;
   --ya-gold-bright: #FFC700;
-  --ya-gold-hover: #E5A800;
-  --ya-gold-light: rgba(255, 184, 0, 0.12);
+  --ya-gold-hover:  #E5A800;
+  --ya-gold-light:  rgba(255, 184, 0, 0.12);
 
   /* Neutrals */
-  --bg-white: #FFFFFF;
-  --bg-page: #F8FAFC;
-  --bg-card: #FFFFFF;
-  --bg-subtle: #F1F5F9;
-  --border-color: #E2E8F0;
-  --border-subtle: #ECEEF2;
+  --bg-white:       #FFFFFF;
+  --bg-page:        #F8FAFC;
+  --bg-card:        #FFFFFF;
+  --bg-subtle:      #F1F5F9;
+  --border-color:   #E2E8F0;
+  --border-subtle:  #ECEEF2;
 
-  --text-main: #0F172A;
-  --text-muted: #64748B;
-  --text-light: #94A3B8;
-  --text-white: #FFFFFF;
-  --text-white-sub: rgba(255, 255, 255, 0.8);
+  --text-main:      #0F172A;
+  --text-sub:       #1E3A6A;
+  --text-muted:     #64748B;
+  --text-light:     #94A3B8;
+  --text-white:     #FFFFFF;
+  --text-white-sub: rgba(255, 255, 255, 0.85);
 
   /* Typography */
-  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-heading: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  --font-main:      'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading:   'Outfit', 'Plus Jakarta Sans', sans-serif;
 
   /* Layout */
-  --max-width: 1240px;
-  --radius-xs: 6px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-pill: 9999px;
+  --max-width:      1240px;
+  --radius-xs:      6px;
+  --radius-sm:      8px;
+  --radius-md:      12px;
+  --radius-lg:      16px;
+  --radius-xl:      24px;
+  --radius-pill:    9999px;
 
   /* Shadows */
-  --shadow-subtle: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
-  --shadow-card: 0 4px 20px -2px rgba(10, 22, 64, 0.08);
-  --shadow-hover: 0 12px 30px -4px rgba(10, 22, 64, 0.15);
+  --shadow-subtle:    0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+  --shadow-card:      0 4px 20px -2px rgba(10, 22, 64, 0.08);
+  --shadow-hover:     0 12px 30px -4px rgba(10, 22, 64, 0.15);
+  --shadow-float:     0 16px 48px rgba(0, 16, 90, 0.20);
   --shadow-gold-glow: 0 0 25px rgba(255, 184, 0, 0.35);
 }
 
