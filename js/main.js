@@ -1477,17 +1477,14 @@ function getDispatches() {
 
 function renderDispatches() {
   const container = document.getElementById('dispatchesContainer');
-  const foldWrap = document.getElementById('dispatchesFoldWrap');
-  const drawer = document.getElementById('olderDispatchesDrawer');
-  const countEl = document.getElementById('olderDispatchesCount');
   if (!container) return;
 
   const blogs = getUnifiedBlogs();
   if (!blogs || blogs.length === 0) return;
 
   function createDispatchHtml(item) {
-    const imgHtml = item.image 
-      ? `<img src="${item.image}" alt="Dispatch Media" class="dispatch-media-thumb" onerror="this.style.display='none'">` 
+    const imgHtml = item.image
+      ? `<img src="${item.image}" alt="Dispatch Media" class="dispatch-media-thumb" onerror="this.style.display='none'">`
       : '';
 
     const textContent = item.excerpt || (item.content ? item.content.replace(/<[^>]+>/g, '').slice(0, 150) + '...' : '');
@@ -1510,12 +1507,14 @@ function renderDispatches() {
     `;
   }
 
-  // Show 2 older posts/news in sidebar (avoiding duplicating position 0 when possible)
-  const sidebarItems = blogs.length > 2 ? blogs.slice(1, 3) : blogs.slice(0, 2);
-  container.innerHTML = sidebarItems.map(createDispatchHtml).join('');
+  // Sidebar shows blogs 3 & 4 (index 2 and 3) — main area covers 1, 2, 3 (index 0-2 featured + subgrid)
+  const sidebarItems = blogs.slice(2, 4);
+  container.innerHTML = sidebarItems.length > 0
+    ? sidebarItems.map(createDispatchHtml).join('')
+    : blogs.slice(0, 2).map(createDispatchHtml).join(''); // fallback if fewer blogs
 
-  // Cool Dropdown & Archive Drawer: populated with older stories
-  const olderItems = blogs.length > 3 ? blogs.slice(3) : blogs.slice(2);
+  // Archive dropdown & drawer: everything beyond the sidebar's 2 items (index 4+)
+  const olderItems = blogs.slice(4);
   const selectEl = document.getElementById('olderStoriesSelect');
 
   if (selectEl) {
@@ -1525,7 +1524,7 @@ function renderDispatches() {
         ${olderItems.map(item => `<option value="${item.id}">📜 [${item.date ? item.date.split('·')[0].trim() : 'Archive'}] ${item.title}</option>`).join('')}
       `;
     } else {
-      selectEl.innerHTML = `<option value="" disabled selected>No older archives available</option>`;
+      selectEl.innerHTML = `<option value="" disabled selected>No older archives yet</option>`;
     }
   }
 
@@ -1533,11 +1532,9 @@ function renderDispatches() {
   const countEl = document.getElementById('olderDispatchesCount');
   if (drawer && countEl) {
     countEl.textContent = olderItems.length;
-    if (olderItems.length > 0) {
-      drawer.innerHTML = olderItems.map(createDispatchHtml).join('');
-    } else {
-      drawer.innerHTML = `<div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.8rem;">No more older stories in archive.</div>`;
-    }
+    drawer.innerHTML = olderItems.length > 0
+      ? olderItems.map(createDispatchHtml).join('')
+      : `<div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.8rem;">No more older stories in archive.</div>`;
   }
 }
 
