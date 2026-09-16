@@ -602,6 +602,41 @@
       margin-top: 0.4rem;
       border: 1px solid var(--admin-border);
     }
+
+    /* Blog Arrangement Position Badges */
+    .pos-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .pos-badge--hero {
+      background: rgba(245, 200, 0, 0.16);
+      color: #F5C800;
+      border: 1px solid rgba(245, 200, 0, 0.4);
+    }
+    .pos-badge--sub {
+      background: rgba(59, 130, 246, 0.16);
+      color: #93C5FD;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+    .pos-badge--feed {
+      background: rgba(34, 197, 94, 0.16);
+      color: #86EFAC;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+    .pos-badge--archive {
+      background: rgba(148, 163, 184, 0.14);
+      color: #CBD5E1;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
     .yt-manage-thumb {
       width: 88px;
       height: 52px;
@@ -787,7 +822,7 @@
     <!-- Navigation Tabs -->
     <div class="admin-nav-tabs">
       <button class="admin-tab-btn active" onclick="switchAdminTab('dispatches', this)">
-        <i class="fa-solid fa-bullhorn"></i> Club Dispatches &amp; News
+        <i class="fa-solid fa-newspaper"></i> Blog &amp; Dispatches (CMS)
       </button>
       <button class="admin-tab-btn" onclick="switchAdminTab('apostlestv', this)">
         <i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Apostles TV
@@ -808,8 +843,8 @@
       <div class="stat-card">
         <div class="stat-icon"><i class="fa-solid fa-newspaper"></i></div>
         <div class="stat-meta">
-          <h3 id="statDispatchCount">4</h3>
-          <span>Active Dispatches</span>
+          <h3 id="statDispatchCount">6</h3>
+          <span>Live Blog Posts</span>
         </div>
       </div>
       <div class="stat-card">
@@ -836,178 +871,181 @@
     </div>
 
     <!-- =========================================================
-         TAB 1: CLUB DISPATCHES
+         TAB 1: BLOG & DISPATCHES (SIMPLIFIED CMS)
          ========================================================= -->
     <div class="tab-pane active" id="pane-dispatches">
       <div class="admin-layout-grid">
         
-        <!-- LEFT COLUMN: Post Creator Form -->
+        <!-- LEFT COLUMN: Simplified Post Creator Form -->
         <section class="admin-card">
           <div class="admin-card-header">
-            <h2><i class="fa-solid fa-feather-pointed"></i> <span id="formTitle">Publish Story / Dispatch</span></h2>
-            <span style="font-size:0.75rem; color:var(--admin-muted); font-weight:600;">Immediate Live Website Sync</span>
+            <h2><i class="fa-solid fa-feather-pointed"></i> <span id="blogFormTitle">Publish New Blog Post</span></h2>
+            <span style="font-size:0.75rem; color:var(--admin-accent); font-weight:700;"><i class="fa-solid fa-arrows-rotate"></i> Auto-Arrangement Active</span>
           </div>
 
-          <form id="dispatchForm" onsubmit="saveDispatch(event)">
-            <input type="hidden" id="editDispatchId" value="">
-
-            <!-- Target Selection -->
-            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; background:rgba(0,87,184,0.1); border:1px solid rgba(0,87,184,0.3); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1.1rem;">
-              <label style="display:flex; align-items:center; gap:0.45rem; font-size:0.83rem; font-weight:700; color:#fff; cursor:pointer;">
-                <input type="checkbox" id="dispatchFeatureBigScreen" checked style="accent-color:#0057B8; width:16px; height:16px;">
-                <span><i class="fa-solid fa-star" style="color:var(--admin-accent);"></i> Feature on Big Screen (Top Lead Story &amp; Top on Mobile)</span>
-              </label>
-              <label style="display:flex; align-items:center; gap:0.45rem; font-size:0.83rem; font-weight:700; color:#93C5FD; cursor:pointer;">
-                <input type="checkbox" id="dispatchAddToSideFeed" checked style="accent-color:#0057B8; width:16px; height:16px;">
-                <span><i class="fa-solid fa-list-ul"></i> Also Include in Live Dispatches Feed</span>
-              </label>
+          <!-- Visual Workflow Helper Banner -->
+          <div style="background:rgba(0, 87, 184, 0.12); border:1px solid rgba(0, 87, 184, 0.35); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1.25rem; font-size:0.8rem; line-height:1.45; color:#E2E8F0;">
+            <div style="font-weight:800; color:var(--admin-accent); margin-bottom:3px; display:flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-sitemap"></i> Automatic Post Flow on Website:
             </div>
+            <span>New posts automatically publish to <strong>Position 1 (Big Hero)</strong>. Existing posts move to <strong>Position 2 &amp; 3 (Sub-Cards)</strong> and <strong>Positions 4, 5, 6 (Sidebar Dispatches)</strong>.</span>
+          </div>
 
-            <!-- Blog / Story Headline -->
+          <form id="blogForm" onsubmit="saveBlogPost(event)">
+            <input type="hidden" id="editBlogId" value="">
+
+            <!-- 1. Blog Title -->
             <div class="form-group">
-              <label for="dispatchTitle"><i class="fa-solid fa-heading"></i> Story Headline / Big Screen Title</label>
-              <input type="text" id="dispatchTitle" class="form-control" placeholder="e.g. Prempeh Stunner Seals Historic First GPL Victory for Young Apostles" required oninput="updateLivePreview()">
+              <label for="blogTitle"><i class="fa-solid fa-heading"></i> Blog Title <span style="color:#EF4444;">*</span></label>
+              <input type="text" id="blogTitle" class="form-control" placeholder="Enter headline / blog title (e.g. Prempeh Stunner Seals Historic First GPL Victory)" required oninput="updateBlogLivePreview()">
             </div>
 
+            <!-- 2. Blog Message / Story Content -->
+            <div class="form-group">
+              <label for="blogMessage"><i class="fa-solid fa-align-left"></i> Blog Message / Story <span style="color:#EF4444;">*</span></label>
+              <textarea id="blogMessage" class="form-control" rows="5" placeholder="Type the blog story, match details or club message here. This displays on the website cards and inside the full reading modal..." required oninput="updateBlogLivePreview()"></textarea>
+            </div>
+
+            <!-- 3. Category & Date Row -->
             <div class="form-row">
               <div class="form-group">
-                <label for="dispatchAuthor"><i class="fa-solid fa-user-check"></i> Author / Source</label>
-                <input type="text" id="dispatchAuthor" class="form-control" value="Young Apostles FC" required>
+                <label for="blogCategory"><i class="fa-solid fa-tag"></i> Category / Badge</label>
+                <select id="blogCategory" class="form-control" onchange="updateBlogLivePreview()">
+                  <option value="MATCH REPORT" selected>MATCH REPORT</option>
+                  <option value="CLUB NEWS">CLUB NEWS</option>
+                  <option value="OFFICIAL KIT">OFFICIAL KIT</option>
+                  <option value="MATCH PREVIEW">MATCH PREVIEW</option>
+                  <option value="LIVE ALERT">LIVE ALERT</option>
+                  <option value="OFFICIAL STATEMENT">OFFICIAL STATEMENT</option>
+                </select>
               </div>
               <div class="form-group">
-                <label for="dispatchTime"><i class="fa-regular fa-clock"></i> Accurate Timestamp</label>
-                <div style="display:flex; gap:0.5rem;">
-                  <input type="text" id="dispatchTime" class="form-control" value="Sep 16, 2026" required placeholder="e.g. Sep 16, 2026" oninput="updateLivePreview()">
-                  <button type="button" class="btn-admin-secondary" onclick="setCurrentTimestamp()" style="white-space:nowrap; padding:0 0.75rem; font-size:0.75rem;" title="Set to current real date">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Set to Now
+                <label for="blogDate"><i class="fa-regular fa-calendar"></i> Date / Timestamp</label>
+                <div style="display:flex; gap:0.4rem;">
+                  <input type="text" id="blogDate" class="form-control" value="Sep 16, 2026" oninput="updateBlogLivePreview()">
+                  <button type="button" class="btn-admin-secondary" onclick="setBlogTodayDate()" style="white-space:nowrap; padding:0 0.65rem; font-size:0.75rem;" title="Set to today's date">
+                    Today
                   </button>
                 </div>
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="dispatchCategory"><i class="fa-solid fa-tag"></i> Category / Badge</label>
-                <select id="dispatchCategory" class="form-control" onchange="updateLivePreview()">
-                  <option value="MATCH REPORT" selected>MATCH REPORT</option>
-                  <option value="CLUB NEWS">CLUB NEWS</option>
-                  <option value="OFFICIAL STATEMENT">OFFICIAL STATEMENT</option>
-                  <option value="MATCH PREVIEW">MATCH PREVIEW</option>
-                  <option value="TRANSFER NEWS">TRANSFER NEWS</option>
-                  <option value="COMMERCIAL">COMMERCIAL</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="dispatchLinkText"><i class="fa-solid fa-link"></i> Button Text (Optional)</label>
-                <input type="text" id="dispatchLinkText" class="form-control" placeholder="e.g. Read Full Match Report &rarr;" oninput="updateLivePreview()">
-              </div>
-            </div>
-
+            <!-- 4. Media Photo (Optional) -->
             <div class="form-group">
-              <label for="dispatchText"><i class="fa-solid fa-align-left"></i> Summary / Excerpt Message</label>
-              <textarea id="dispatchText" class="form-control" placeholder="Type excerpt / official message for the big card preview and dispatch feed..." required oninput="updateLivePreview()"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="dispatchFullContent"><i class="fa-solid fa-newspaper"></i> Full Article Story (Optional for reading modal)</label>
-              <textarea id="dispatchFullContent" class="form-control" rows="3" placeholder="Detailed paragraphs for the full article popup modal (leave blank to use summary)..." oninput="updateLivePreview()"></textarea>
-            </div>
-
-            <!-- Media / Image Configuration -->
-            <div class="form-group">
-              <label><i class="fa-regular fa-image"></i> Media Photo (Optional &middot; Auto-Optimized)</label>
-              <div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
-                <input type="file" id="dispatchFileInput" accept="image/*" style="display:none;" onchange="handleFileUpload(event)">
-                <button type="button" class="btn-admin-secondary" style="padding:0.5rem 0.85rem; font-size:0.8rem;" onclick="document.getElementById('dispatchFileInput').click()">
+              <label><i class="fa-regular fa-image"></i> Photo (Optional &middot; Auto-Optimized)</label>
+              <div style="display:flex; gap:0.5rem; margin-bottom:0.4rem;">
+                <input type="file" id="blogFileInput" accept="image/*" style="display:none;" onchange="handleBlogFileUpload(event)">
+                <button type="button" class="btn-admin-secondary" style="padding:0.5rem 0.85rem; font-size:0.8rem;" onclick="document.getElementById('blogFileInput').click()">
                   <i class="fa-solid fa-upload"></i> Upload from Device
                 </button>
-                <input type="text" id="dispatchImageUrl" class="form-control" placeholder="Or enter image URL / asset path" oninput="updateLivePreview()" style="flex:1;">
+                <input type="text" id="blogImageUrl" class="form-control" placeholder="Or enter image URL / asset path" oninput="updateBlogLivePreview()" style="flex:1;">
               </div>
 
               <!-- Quick Asset Preset Chips -->
-              <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.25rem;">Quick Club Presets:</div>
+              <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.25rem;">Quick Presets:</div>
               <div class="preset-chips">
-                <span class="preset-chip" onclick="setPresetImage('assets/apostle-tv-video1.jpg')">Match Action Photo</span>
-                <span class="preset-chip" onclick="setPresetImage('assets/official-logo.png')">Official Crest</span>
-                <span class="preset-chip" onclick="setPresetImage('assets/kit-home-hanging.jpg')">Home Jersey</span>
-                <span class="preset-chip" onclick="setPresetImage('assets/players/samuel-prempeh.jpg')">Samuel Prempeh #21</span>
-                <span class="preset-chip" onclick="setPresetImage('assets/team-banner.jpg')">Team Banner</span>
-                <span class="preset-chip" onclick="setPresetImage('')">No Image (Text Only)</span>
+                <span class="preset-chip" onclick="setBlogPresetImage('assets/apostle-tv-video1.jpg')">Match Action 1</span>
+                <span class="preset-chip" onclick="setBlogPresetImage('assets/apostle-tv-video2.jpg')">Training / Coach</span>
+                <span class="preset-chip" onclick="setBlogPresetImage('assets/apostle-tv-video3.jpg')">Vision FC Match</span>
+                <span class="preset-chip" onclick="setBlogPresetImage('assets/kit-home-hanging.jpg')">Home Kit</span>
+                <span class="preset-chip" onclick="setBlogPresetImage('assets/players/samuel-prempeh.jpg')">Samuel Prempeh #21</span>
+                <span class="preset-chip" onclick="setBlogPresetImage('assets/official-logo.png')">Club Crest</span>
+                <span class="preset-chip" onclick="setBlogPresetImage('')">No Photo</span>
               </div>
 
-              <div class="image-preview-box" id="previewBox">
-                <button type="button" class="btn-remove-preview" onclick="removeImage()">&times;</button>
-                <img id="previewImg" src="" alt="Image Preview">
+              <div class="image-preview-box" id="blogPreviewBox">
+                <button type="button" class="btn-remove-preview" onclick="removeBlogImage()">&times;</button>
+                <img id="blogPreviewImg" src="" alt="Image Preview">
                 <div class="upload-prompt" style="color:var(--admin-muted); font-size:0.8rem;">
-                  <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.5rem; margin-bottom:0.3rem; display:block;"></i>
-                  No photo selected (will publish as clean text dispatch)
+                  <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.4rem; margin-bottom:0.25rem; display:block;"></i>
+                  No photo selected (will publish as clean text post)
                 </div>
               </div>
             </div>
 
-            <!-- Submit Buttons -->
-            <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
-              <button type="submit" class="btn-admin-primary" id="btnSubmitDispatch">
-                <i class="fa-solid fa-paper-plane"></i> Publish Live Post
+            <!-- Submit & Clear Buttons -->
+            <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
+              <button type="submit" class="btn-admin-primary" id="btnSubmitBlog">
+                <i class="fa-solid fa-paper-plane"></i> Publish Blog Post
               </button>
-              <button type="button" class="btn-admin-secondary" onclick="resetForm()">
+              <button type="button" class="btn-admin-secondary" onclick="resetBlogForm()">
                 Clear Form
               </button>
             </div>
           </form>
         </section>
 
-        <!-- RIGHT COLUMN: Real-Time Preview & Manage Existing -->
+        <!-- RIGHT COLUMN: Real-Time Preview & Manage Live Arrangement -->
         <div>
-          <!-- Live Instant Preview -->
           <div class="live-preview-wrap">
             <div class="admin-card" style="margin-bottom:1.5rem;">
               <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
                 <h2 style="font-size:1rem;"><i class="fa-solid fa-eye"></i> Live Site Appearance</h2>
-                <span style="display:inline-flex; align-items:center; gap:5px; font-size:0.75rem; font-weight:700; color:#0057B8; background:#EFF6FF; padding:3px 8px; border-radius:20px;">
-                  <i class="fa-solid fa-circle" style="color:#16A34A; font-size:0.5rem;"></i> Live Preview
-                </span>
+                <div style="display:flex; gap:0.4rem;">
+                  <button type="button" class="btn-admin-secondary" id="previewModeHeroBtn" onclick="setPreviewMode('hero')" style="padding:3px 8px; font-size:0.72rem; font-weight:700; background:var(--admin-surface); color:var(--admin-accent); border-color:var(--admin-accent);">
+                    Position 1 (Hero)
+                  </button>
+                  <button type="button" class="btn-admin-secondary" id="previewModeFeedBtn" onclick="setPreviewMode('feed')" style="padding:3px 8px; font-size:0.72rem; font-weight:700;">
+                    Position 4 (Sidebar)
+                  </button>
+                </div>
               </div>
 
-              <!-- Preview Container mirroring website UI -->
-              <div class="preview-card-outer">
-                <div class="dispatch-item" style="border:none; padding:0; cursor:default;">
-                  <div class="dispatch-item__meta" style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
-                    <img src="assets/official-logo.png" alt="YA" style="width:32px; height:32px; object-fit:contain; border-radius:50%;">
-                    <div>
-                      <div style="font-size:0.85rem; font-weight:700; color:#001489;">
-                        <span id="prevAuthor">Young Apostles FC</span> 
-                        <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i>
-                      </div>
-                      <div style="font-size:0.72rem; color:#6B7280;" id="prevTime">Just Now &middot; Live Alert</div>
-                    </div>
+              <!-- Hero Preview (Position 1) -->
+              <div id="previewHeroBox" style="background:#fff; border-radius:12px; overflow:hidden; border:1px solid #E2E8F0; color:#1E293B;">
+                <div style="position:relative; height:180px; background:#0B1220;">
+                  <img id="prevHeroImg" src="assets/apostle-tv-video1.jpg" alt="Hero Preview" style="width:100%; height:100%; object-fit:cover;">
+                  <span id="prevHeroBadge" style="position:absolute; top:12px; left:12px; background:#0057B8; color:#fff; font-size:0.7rem; font-weight:800; padding:4px 10px; border-radius:4px;">MATCH REPORT</span>
+                </div>
+                <div style="padding:1rem;">
+                  <div style="font-size:0.75rem; color:#64748B; margin-bottom:0.35rem;">
+                    <span id="prevHeroDate"><i class="fa-regular fa-calendar"></i> Sep 16, 2026</span> &bull; <span>Apostles Media Dispatch</span>
                   </div>
-                  <div style="font-size:0.88rem; line-height:1.55; color:#1F2937; margin-bottom:0.5rem;" id="prevText">
-                    FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽
+                  <h3 id="prevHeroTitle" style="font-size:1.05rem; font-weight:800; color:#0B1220; margin:0 0 0.5rem 0; line-height:1.35;">Prempeh Stunner Seals Historic First GPL Victory</h3>
+                  <p id="prevHeroMsg" style="font-size:0.83rem; color:#475569; margin:0 0 0.75rem 0; line-height:1.5;">Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations at Wenchi Sports Stadium...</p>
+                  <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; font-weight:700; color:#0057B8;">
+                    <span>Read Full Story &rarr;</span>
+                    <span style="color:#94A3B8;">3 min read</span>
                   </div>
-                  <img id="prevMedia" src="" alt="Media preview" style="display:none; width:100%; max-height:220px; object-fit:cover; border-radius:8px; margin:0.4rem 0 0.6rem;">
-                  <div style="font-size:0.78rem; font-weight:700; color:#0057B8; display:flex; align-items:center; gap:0.35rem;" id="prevLinkWrap">
-                    <i class="fa-regular fa-newspaper"></i> <span id="prevLinkText">Read full match analysis &rarr;</span>
+                </div>
+              </div>
+
+              <!-- Feed Preview (Position 4) -->
+              <div id="previewFeedBox" style="display:none; background:#fff; border-radius:12px; padding:1rem; border:1px solid #E2E8F0; color:#1E293B;">
+                <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
+                  <img src="assets/official-logo.png" alt="YA" style="width:30px; height:30px; border-radius:50%; object-fit:contain;">
+                  <div>
+                    <div style="font-size:0.82rem; font-weight:800; color:#001489;">Young Apostles FC <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i></div>
+                    <div style="font-size:0.7rem; color:#64748B;" id="prevFeedDate">Sep 16, 2026 &middot; Live Alert</div>
                   </div>
+                </div>
+                <div style="font-size:0.85rem; color:#1E293B; line-height:1.5; margin-bottom:0.4rem;" id="prevFeedText">
+                  <strong>Prempeh Stunner Seals Historic First GPL Victory</strong> &mdash; Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations...
+                </div>
+                <img id="prevFeedImg" src="" alt="Feed Media" style="display:none; width:100%; max-height:160px; object-fit:cover; border-radius:8px; margin-bottom:0.4rem;">
+                <div style="font-size:0.75rem; font-weight:800; color:#0057B8;">
+                  <i class="fa-regular fa-newspaper"></i> Read full story &rarr;
                 </div>
               </div>
             </div>
 
-            <!-- Manage Published Dispatches List -->
+            <!-- Manage Published Blogs with Clear Position Badges -->
             <div class="admin-card">
               <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
-                <h2 style="font-size:1rem;"><i class="fa-solid fa-list-check"></i> Published Dispatches</h2>
+                <div>
+                  <h2 style="font-size:1rem;"><i class="fa-solid fa-list-ol"></i> Live Blogs &amp; Arrangement</h2>
+                  <div style="font-size:0.72rem; color:var(--admin-muted); margin-top:2px;">
+                    Positions 1, 2, 3 show in big news grid &bull; Positions 4, 5, 6+ show in sidebar dispatches
+                  </div>
+                </div>
                 <div style="display:flex; gap:0.4rem;">
-                  <button type="button" class="btn-action-icon" title="Reset to Club Defaults" onclick="resetToDefaults()">
-                    <i class="fa-solid fa-rotate-left"></i>
-                  </button>
-                  <button type="button" class="btn-action-icon" title="Export Dispatches JSON" onclick="exportDispatches()">
-                    <i class="fa-solid fa-download"></i>
+                  <button type="button" class="btn-admin-secondary" style="font-size:0.72rem; padding:3px 8px;" title="Reset to official 6 posts" onclick="resetBlogsToDefault()">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Defaults
                   </button>
                 </div>
               </div>
 
-              <div class="dispatches-manage-list" id="manageList">
+              <div class="dispatches-manage-list" id="blogsManageList">
                 <!-- Rendered via JS -->
               </div>
             </div>
@@ -1418,50 +1456,91 @@
       }
     ];
 
-    let currentApostlesTv = [];
+    const UNIFIED_BLOGS_KEY = "ya_club_unified_blogs";
+    let currentBlogs = [];
+    let currentBlogImage = "";
+    let currentPreviewMode = "hero";
 
-    // Initial default dispatches
-    const INITIAL_DISPATCHES = [
+    // Initial default 6 posts matching the live website arrangement:
+    // Pos 1 = Big Hero, Pos 2 = Subcard Left, Pos 3 = Subcard Right, Pos 4, 5, 6 = Sidebar Dispatches
+    const DEFAULT_UNIFIED_BLOGS = [
       {
-        id: "disp-1",
+        id: 'prempeh-winner-holy-stars',
+        title: "Prempeh Stunner Seals Historic First GPL Victory for Young Apostles",
+        category: "MATCH REPORT",
+        badgeClass: "news-badge-pill--match",
+        date: "Sep 16, 2026",
+        source: "Apostles Media Dispatch",
         author: "Young Apostles FC",
-        badge: true,
-        time: "Sep 13 &middot; Full-Time Alert",
-        text: "FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽",
-        image: "",
-        linkText: "Read full match analysis &rarr;",
-        articleId: "prempeh-winner-holy-stars"
+        image: "assets/apostle-tv-video1.jpg",
+        excerpt: "Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations at Wenchi Sports Stadium on Sunday as Young Apostles FC defeated Basake Holy Stars 1–0 to secure their landmark maiden Ghana Premier League triumph.",
+        content: `Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations at Wenchi Sports Stadium on Sunday as Young Apostles FC defeated Basake Holy Stars 1–0 to secure their landmark maiden Ghana Premier League triumph. In front of a passionate capacity home crowd, the Apostles showed relentless fighting spirit and tactical discipline to record their landmark first-ever 3 points in top-flight football.`,
+        readTime: "3 min read"
       },
       {
-        id: "disp-2",
+        id: 'gpl-opener-vision-fc',
+        title: "Season Opener: Apostles Fall 3-0 to Clinical Vision FC in Tema",
+        category: "MATCH REPORT",
+        badgeClass: "news-badge-pill--match",
+        date: "Sep 6, 2026",
+        source: "GPL MD 1",
         author: "Young Apostles FC",
-        badge: true,
-        time: "Sep 15 &middot; Upcoming Fixture",
-        text: "Preparations underway for Sunday’s Matchday 3 away encounter vs <strong>Debibi United</strong> at Debibi Park. Coach Abu puts the squad through morning tactical drills.",
-        image: "",
-        linkText: "View match preview &rarr;",
-        articleId: "debibi-preview"
+        image: "assets/apostle-tv-video3.jpg",
+        excerpt: "Young Apostles kicked off their historic campaign at Nii Adjei Kraku Stadium, gaining vital top-flight experience despite opening day defeat.",
+        content: `Young Apostles FC began their maiden campaign in the top flight with an away test against Vision FC at the Nii Adjei Kraku II Sports Complex on Saturday afternoon. Despite the scoreline, the Apostles created several promising chances in the second half, with several young academy prospects gaining vital top-flight experience.`,
+        readTime: "2 min read"
       },
       {
-        id: "disp-3",
+        id: 'mayniak-kit-launch',
+        title: "Young Apostles Unveil 2026/27 Official Mayniak Matchwear Collection",
+        category: "OFFICIAL KIT",
+        badgeClass: "news-badge-pill--club",
+        date: "Sep 2, 2026",
+        source: "Club Release",
         author: "Young Apostles FC",
-        badge: true,
-        time: "Sep 10 &middot; Kit Shop",
-        text: "Wear the Apostles pride! Authentic 2026/27 jerseys available with custom player name &amp; number printing. Nationwide delivery across Ghana.",
+        image: "assets/kit-home-2026.jpg",
+        excerpt: "The official Royal Blue &amp; Gold home kit and white away strips are now available to fans worldwide via the online club shop.",
+        content: `Young Apostles Football Club, in proud partnership with Mayniak Sportswear, is thrilled to present the official matchday kits for the 2026/27 Ghana Premier League season. The home strip showcases the club's celebrated Royal Blue and Sunburst Gold, featuring bespoke geometric embossing inspired by traditional Bono cultural motifs.`,
+        readTime: "2 min read"
+      },
+      {
+        id: 'ft-wenchi-holy-stars',
+        title: "FT in Wenchi: Young Apostles 1 - 0 Basake Holy Stars",
+        category: "MATCH REPORT",
+        badgeClass: "news-badge-pill--match",
+        date: "Sep 13 &middot; Full-Time Alert",
+        source: "Apostles Media Dispatch",
+        author: "Young Apostles FC",
+        image: "",
+        excerpt: "Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽",
+        content: `FT in Wenchi: Young Apostles 1 - 0 Basake Holy Stars. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽ A historic afternoon at Wenchi Sports Stadium as our boys fought tirelessly for the badge and our incredible supporters.`,
+        readTime: "1 min read"
+      },
+      {
+        id: 'debibi-preview',
+        title: "Preparations underway for Sunday's Matchday 3 away encounter vs Debibi United",
+        category: "MATCH PREVIEW",
+        badgeClass: "news-badge-pill--preview",
+        date: "Sep 15 &middot; Upcoming Fixture",
+        source: "Apostles Media Team",
+        author: "Young Apostles FC",
+        image: "",
+        excerpt: "Coach Abu puts the squad through morning tactical drills at Wenchi ahead of the regional clash at Debibi Park.",
+        content: `Preparations are in full swing for Sunday’s Matchday 3 away encounter vs Debibi United at Debibi Park. Coach Abu Abdul-Hanan put the squad through high-intensity tactical drills focusing on build-up transitions and defensive set-pieces.`,
+        readTime: "2 min read"
+      },
+      {
+        id: 'kit-shop-alert',
+        title: "Wear the Apostles Pride! Authentic 2026/27 Jerseys Available Now",
+        category: "OFFICIAL KIT",
+        badgeClass: "news-badge-pill--club",
+        date: "Sep 10 &middot; Kit Shop",
+        source: "Club Shop",
+        author: "Young Apostles FC",
         image: "assets/kit-home-hanging.jpg",
-        linkText: "Order jersey in Team Shop &rarr;",
-        articleId: "#store"
-      },
-      {
-        id: "disp-4",
-        author: "Young Apostles FC",
-        badge: true,
-        time: "Sep 14 &middot; Player Spotlight",
-        text: "\"Scoring the club's first Premier League goal in front of our home fans is a feeling I will cherish forever.\" — <strong>Samuel Prempeh #21</strong>",
-        image: "assets/players/samuel-prempeh.jpg",
-        isPortrait: true,
-        linkText: "Read full player interview &rarr;",
-        articleId: "prempeh-winner-holy-stars"
+        excerpt: "Authentic 2026/27 Mayniak jerseys available with custom player name &amp; number printing. Nationwide delivery across Ghana.",
+        content: `Wear the Apostles pride! Authentic 2026/27 official Mayniak match jerseys are now available with custom player name and number printing. Available in Home Royal Blue & Gold and Away Pristine White with nationwide mobile money delivery across Ghana.`,
+        readTime: "1 min read"
       }
     ];
 
@@ -1503,7 +1582,6 @@
       { week: 34, home: 'Young Apostles', away: 'Dreams FC', venue: 'Wenchi Sports Stadium', date: 'May 16, 2027', type: 'Home' }
     ];
 
-    let currentDispatches = [];
     let currentFixtures = [];
     let currentUploadedDataUrl = "";
 
@@ -1544,16 +1622,17 @@
       document.getElementById('authScreen').style.display = 'none';
       document.getElementById('adminWorkspace').classList.add('active');
       document.getElementById('btnLogout').style.display = 'inline-block';
-      loadDispatches();
+      loadBlogs();
       loadFixtures();
       loadStandings();
       loadApostlesTv();
-      updateLivePreview();
+      updateBlogLivePreview();
       updateYtLivePreview();
     }
 
     // ==========================================
-    // 1. DISPATCHES & BIG SCREEN BLOG MANAGEMENT
+    // 1. SIMPLIFIED BLOG & DISPATCHES MANAGEMENT
+    // Arrangement: 1 = Big Hero, 2 = Subcard Left, 3 = Subcard Right, 4, 5, 6+ = Sidebar
     // ==========================================
     function getCurrentFormattedDate() {
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -1561,46 +1640,54 @@
       return `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
     }
 
-    function setCurrentTimestamp() {
-      const timeInput = document.getElementById('dispatchTime');
-      if (timeInput) {
-        timeInput.value = getCurrentFormattedDate();
-        updateLivePreview();
-        showToast("Timestamp updated to current date!");
-      }
+    function setBlogTodayDate() {
+      document.getElementById('blogDate').value = getCurrentFormattedDate();
+      updateBlogLivePreview();
     }
 
-    function loadDispatches() {
+    function loadBlogs() {
       try {
-        const stored = localStorage.getItem(DISPATCH_KEY);
+        const stored = localStorage.getItem(UNIFIED_BLOGS_KEY);
         if (stored) {
-          currentDispatches = JSON.parse(stored);
+          currentBlogs = JSON.parse(stored);
         } else {
-          currentDispatches = [...INITIAL_DISPATCHES];
-          localStorage.setItem(DISPATCH_KEY, JSON.stringify(currentDispatches));
+          currentBlogs = [...DEFAULT_UNIFIED_BLOGS];
+          saveAllBlogs();
         }
       } catch (err) {
-        currentDispatches = [...INITIAL_DISPATCHES];
+        currentBlogs = [...DEFAULT_UNIFIED_BLOGS];
       }
-      renderManageList();
+      renderBlogsManageList();
       updateStats();
     }
 
-    function saveAllDispatches() {
+    function saveAllBlogs() {
       try {
-        localStorage.setItem(DISPATCH_KEY, JSON.stringify(currentDispatches));
-        renderManageList();
+        localStorage.setItem(UNIFIED_BLOGS_KEY, JSON.stringify(currentBlogs));
+        // Keep legacy keys updated for maximum compatibility
+        localStorage.setItem(ARTICLES_KEY, JSON.stringify(currentBlogs));
+        localStorage.setItem(DISPATCH_KEY, JSON.stringify(currentBlogs.map(b => ({
+          id: b.id,
+          author: b.author || 'Young Apostles FC',
+          badge: true,
+          time: b.date || 'Live Alert',
+          text: `<strong>${b.title}</strong> &mdash; ${b.excerpt || b.content || ''}`,
+          image: b.image || '',
+          linkText: 'Read full story &rarr;',
+          articleId: b.id
+        }))));
+
+        renderBlogsManageList();
         updateStats();
         window.dispatchEvent(new Event('storage'));
       } catch (err) {
-        console.error("Storage error:", err);
-        alert("Warning: Browser storage quota exceeded. The image may be too large. Please remove the image or use a preset.");
+        console.error("Storage error saving blogs:", err);
       }
     }
 
     function updateStats() {
       const dispCountEl = document.getElementById('statDispatchCount');
-      if (dispCountEl) dispCountEl.textContent = currentDispatches.length;
+      if (dispCountEl) dispCountEl.textContent = currentBlogs.length;
 
       const ytCountEl = document.getElementById('statYtCount');
       if (ytCountEl) ytCountEl.textContent = currentApostlesTv.length;
@@ -1619,38 +1706,62 @@
       } catch(e) {}
     }
 
-    function renderManageList() {
-      const container = document.getElementById('manageList');
+    function renderBlogsManageList() {
+      const container = document.getElementById('blogsManageList');
       if (!container) return;
 
-      if (currentDispatches.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--admin-muted); font-size:0.85rem;">No dispatches currently active. Create one above!</div>`;
+      if (currentBlogs.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--admin-muted); font-size:0.85rem;">No blog posts currently active. Create one above!</div>`;
         return;
       }
 
-      container.innerHTML = currentDispatches.map((item, idx) => {
-        const thumbHtml = item.image 
-          ? `<img src="${item.image}" alt="thumb" class="dispatch-manage-thumb" onerror="this.style.display='none'">` 
+      container.innerHTML = currentBlogs.map((b, idx) => {
+        let posBadge = '';
+        if (idx === 0) {
+          posBadge = `<span class="pos-badge pos-badge--hero"><i class="fa-solid fa-trophy"></i> Position 1 &bull; Big Hero Story</span>`;
+        } else if (idx === 1) {
+          posBadge = `<span class="pos-badge pos-badge--sub"><i class="fa-solid fa-table-cells-large"></i> Position 2 &bull; Sub-Card Left</span>`;
+        } else if (idx === 2) {
+          posBadge = `<span class="pos-badge pos-badge--sub"><i class="fa-solid fa-table-cells-large"></i> Position 3 &bull; Sub-Card Right</span>`;
+        } else if (idx === 3) {
+          posBadge = `<span class="pos-badge pos-badge--feed"><i class="fa-solid fa-bolt"></i> Position 4 &bull; Sidebar Dispatch 1</span>`;
+        } else if (idx === 4) {
+          posBadge = `<span class="pos-badge pos-badge--feed"><i class="fa-solid fa-bolt"></i> Position 5 &bull; Sidebar Dispatch 2</span>`;
+        } else if (idx === 5) {
+          posBadge = `<span class="pos-badge pos-badge--feed"><i class="fa-solid fa-bolt"></i> Position 6 &bull; Sidebar Dispatch 3</span>`;
+        } else {
+          posBadge = `<span class="pos-badge pos-badge--archive"><i class="fa-solid fa-newspaper"></i> Position ${idx + 1} &bull; Sidebar Feed</span>`;
+        }
+
+        const thumbHtml = b.image 
+          ? `<img src="${b.image}" alt="thumb" class="dispatch-manage-thumb" onerror="this.style.display='none'">` 
           : '';
+
+        const textSnippet = (b.excerpt || b.content || '').replace(/<[^>]+>/g, '');
 
         return `
           <div class="dispatch-manage-card">
             <div class="dispatch-manage-info">
-              <div class="dispatch-manage-time">${item.time || 'Live'}</div>
-              <div class="dispatch-manage-text">${item.text}</div>
+              ${posBadge}
+              <div class="dispatch-manage-text" style="margin-top:0.25rem;">
+                <strong style="color:#fff; font-size:0.92rem;">${b.title}</strong>
+              </div>
+              <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.2rem; line-height:1.4;">
+                ${textSnippet.slice(0, 110)}${textSnippet.length > 110 ? '...' : ''}
+              </div>
               ${thumbHtml}
             </div>
             <div class="dispatch-manage-actions">
-              <button class="btn-action-icon" title="Move Up" onclick="moveDispatch(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
+              <button class="btn-action-icon" title="Move Up (Swap position with post above)" onclick="moveBlogPost(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
                 <i class="fa-solid fa-arrow-up"></i>
               </button>
-              <button class="btn-action-icon" title="Move Down" onclick="moveDispatch(${idx}, 1)" ${idx === currentDispatches.length - 1 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
+              <button class="btn-action-icon" title="Move Down (Swap position with post below)" onclick="moveBlogPost(${idx}, 1)" ${idx === currentBlogs.length - 1 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
                 <i class="fa-solid fa-arrow-down"></i>
               </button>
-              <button class="btn-action-icon" title="Edit Dispatch" onclick="editDispatch('${item.id}')">
+              <button class="btn-action-icon" title="Edit Post" onclick="editBlogPost('${b.id}')">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-              <button class="btn-action-icon delete" title="Delete Dispatch" onclick="deleteDispatch('${item.id}')">
+              <button class="btn-action-icon delete" title="Delete Post (lower posts move up)" onclick="deleteBlogPost('${b.id}')">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
             </div>
@@ -1659,178 +1770,254 @@
       }).join('');
     }
 
-    function moveDispatch(index, direction) {
+    function moveBlogPost(index, direction) {
       const targetIndex = index + direction;
-      if (targetIndex < 0 || targetIndex >= currentDispatches.length) return;
-      const temp = currentDispatches[index];
-      currentDispatches[index] = currentDispatches[targetIndex];
-      currentDispatches[targetIndex] = temp;
-      saveAllDispatches();
-      showToast("Order updated.");
+      if (targetIndex < 0 || targetIndex >= currentBlogs.length) return;
+      const temp = currentBlogs[index];
+      currentBlogs[index] = currentBlogs[targetIndex];
+      currentBlogs[targetIndex] = temp;
+      saveAllBlogs();
+      showToast("Arrangement updated! Posts swapped positions.");
     }
 
-    function deleteDispatch(id) {
-      if (!confirm("Are you sure you want to remove this dispatch?")) return;
-      currentDispatches = currentDispatches.filter(d => d.id !== id);
-      saveAllDispatches();
-      showToast("Dispatch removed.");
+    function deleteBlogPost(id) {
+      if (!confirm("Are you sure you want to remove this blog post? Subsequent posts will automatically move up.")) return;
+      currentBlogs = currentBlogs.filter(b => b.id !== id);
+      saveAllBlogs();
+      showToast("Blog removed. Remaining posts moved up.");
     }
 
-    function editDispatch(id) {
-      const item = currentDispatches.find(d => d.id === id);
-      if (!item) return;
+    function editBlogPost(id) {
+      const b = currentBlogs.find(item => item.id === id);
+      if (!b) return;
 
-      document.getElementById('editDispatchId').value = item.id;
-      document.getElementById('dispatchAuthor').value = item.author || 'Young Apostles FC';
-      document.getElementById('dispatchTime').value = item.time || getCurrentFormattedDate();
-      
-      // If text has HTML tags or bold title, strip for editing
-      let plainText = item.text || '';
-      let extractedTitle = "";
-      const boldMatch = plainText.match(/<strong>(.*?)<\/strong>/);
-      if (boldMatch) {
-        extractedTitle = boldMatch[1];
-        plainText = plainText.replace(/<strong>.*?<\/strong>\s*(&mdash;|-)?\s*/, '');
-      }
+      document.getElementById('editBlogId').value = b.id;
+      document.getElementById('blogTitle').value = b.title || '';
+      document.getElementById('blogMessage').value = (b.content || b.excerpt || '').replace(/<[^>]+>/g, '').trim();
+      document.getElementById('blogCategory').value = b.category || 'MATCH REPORT';
+      document.getElementById('blogDate').value = b.date || getCurrentFormattedDate();
+      document.getElementById('blogImageUrl').value = b.image || '';
 
-      document.getElementById('dispatchTitle').value = extractedTitle || item.title || "Young Apostles FC News";
-      document.getElementById('dispatchText').value = plainText;
-      document.getElementById('dispatchImageUrl').value = item.image || '';
-      document.getElementById('dispatchLinkText').value = item.linkText || '';
-
-      if (item.image) {
-        document.getElementById('previewImg').src = item.image;
-        document.getElementById('previewBox').classList.add('has-image');
+      if (b.image) {
+        currentBlogImage = b.image;
+        document.getElementById('blogPreviewImg').src = b.image;
+        document.getElementById('blogPreviewBox').classList.add('has-image');
       } else {
-        removeImage();
+        removeBlogImage();
       }
 
-      document.getElementById('formTitle').textContent = "Edit Story / Dispatch";
-      document.getElementById('btnSubmitDispatch').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Post`;
-      updateLivePreview();
+      document.getElementById('blogFormTitle').textContent = "Edit Blog Post";
+      document.getElementById('btnSubmitBlog').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Blog Post`;
+      updateBlogLivePreview();
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
 
-    function resetForm() {
-      document.getElementById('dispatchForm').reset();
-      document.getElementById('editDispatchId').value = '';
-      document.getElementById('formTitle').textContent = "Publish Story / Dispatch";
-      document.getElementById('btnSubmitDispatch').innerHTML = `<i class="fa-solid fa-paper-plane"></i> Publish Live Post`;
-      removeImage();
-      document.getElementById('dispatchAuthor').value = 'Young Apostles FC';
-      document.getElementById('dispatchTime').value = getCurrentFormattedDate();
-      document.getElementById('dispatchCategory').value = 'MATCH REPORT';
-      document.getElementById('dispatchFeatureBigScreen').checked = true;
-      document.getElementById('dispatchAddToSideFeed').checked = true;
-      updateLivePreview();
+    function resetBlogForm() {
+      document.getElementById('blogForm').reset();
+      document.getElementById('editBlogId').value = '';
+      document.getElementById('blogFormTitle').textContent = "Publish New Blog Post";
+      document.getElementById('btnSubmitBlog').innerHTML = `<i class="fa-solid fa-paper-plane"></i> Publish Blog Post`;
+      removeBlogImage();
+      document.getElementById('blogDate').value = getCurrentFormattedDate();
+      document.getElementById('blogCategory').value = 'MATCH REPORT';
+      updateBlogLivePreview();
     }
 
-    function saveDispatch(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editDispatchId').value;
-      const title = document.getElementById('dispatchTitle').value.trim();
-      const author = document.getElementById('dispatchAuthor').value.trim() || 'Young Apostles FC';
-      const time = document.getElementById('dispatchTime').value.trim() || getCurrentFormattedDate();
-      const category = document.getElementById('dispatchCategory').value;
-      const linkText = document.getElementById('dispatchLinkText').value.trim();
-      const text = document.getElementById('dispatchText').value.trim();
-      const fullContent = document.getElementById('dispatchFullContent').value.trim() || text;
-      const image = currentUploadedDataUrl || document.getElementById('dispatchImageUrl').value.trim() || 'assets/apostle-tv-video1.jpg';
-      const featureBigScreen = document.getElementById('dispatchFeatureBigScreen').checked;
-      const addToSideFeed = document.getElementById('dispatchAddToSideFeed').checked;
+    function resetBlogsToDefault() {
+      if (!confirm("Reset all blog posts to the official 6 defaults? Custom posts will be replaced.")) return;
+      currentBlogs = [...DEFAULT_UNIFIED_BLOGS];
+      saveAllBlogs();
+      resetBlogForm();
+      showToast("Arrangement reset to official 6 club defaults.");
+    }
 
-      if (!title || !text) {
-        alert("Please enter both a title and message content.");
+    function setPreviewMode(mode) {
+      currentPreviewMode = mode;
+      const heroBtn = document.getElementById('previewModeHeroBtn');
+      const feedBtn = document.getElementById('previewModeFeedBtn');
+      const heroBox = document.getElementById('previewHeroBox');
+      const feedBox = document.getElementById('previewFeedBox');
+
+      if (!heroBtn || !feedBtn || !heroBox || !feedBox) return;
+
+      if (mode === 'hero') {
+        heroBtn.style.background = 'var(--admin-surface)';
+        heroBtn.style.color = 'var(--admin-accent)';
+        heroBtn.style.borderColor = 'var(--admin-accent)';
+        feedBtn.style.background = '';
+        feedBtn.style.color = '';
+        feedBtn.style.borderColor = '';
+        heroBox.style.display = 'block';
+        feedBox.style.display = 'none';
+      } else {
+        feedBtn.style.background = 'var(--admin-surface)';
+        feedBtn.style.color = 'var(--admin-accent)';
+        feedBtn.style.borderColor = 'var(--admin-accent)';
+        heroBtn.style.background = '';
+        heroBtn.style.color = '';
+        heroBtn.style.borderColor = '';
+        heroBox.style.display = 'none';
+        feedBox.style.display = 'block';
+      }
+    }
+
+    function updateBlogLivePreview() {
+      const title = document.getElementById('blogTitle')?.value.trim() || 'Young Apostles FC Blog Post';
+      const msg = document.getElementById('blogMessage')?.value.trim() || 'Type your blog story or message above to preview how it appears live on the website...';
+      const cat = document.getElementById('blogCategory')?.value || 'MATCH REPORT';
+      const date = document.getElementById('blogDate')?.value.trim() || getCurrentFormattedDate();
+      const img = currentBlogImage || document.getElementById('blogImageUrl')?.value.trim() || 'assets/apostle-tv-video1.jpg';
+
+      // Hero elements
+      const prevHeroImg = document.getElementById('prevHeroImg');
+      if (prevHeroImg) prevHeroImg.src = img;
+      const prevHeroBadge = document.getElementById('prevHeroBadge');
+      if (prevHeroBadge) prevHeroBadge.textContent = cat;
+      const prevHeroDate = document.getElementById('prevHeroDate');
+      if (prevHeroDate) prevHeroDate.innerHTML = `<i class="fa-regular fa-calendar"></i> ${date}`;
+      const prevHeroTitle = document.getElementById('prevHeroTitle');
+      if (prevHeroTitle) prevHeroTitle.textContent = title;
+      const prevHeroMsg = document.getElementById('prevHeroMsg');
+      if (prevHeroMsg) prevHeroMsg.textContent = msg.slice(0, 180) + (msg.length > 180 ? '...' : '');
+
+      // Feed elements
+      const prevFeedDate = document.getElementById('prevFeedDate');
+      if (prevFeedDate) prevFeedDate.textContent = date;
+      const prevFeedText = document.getElementById('prevFeedText');
+      if (prevFeedText) prevFeedText.innerHTML = `<strong>${title}</strong> &mdash; ${msg.slice(0, 140)}${msg.length > 140 ? '...' : ''}`;
+      const prevFeedImg = document.getElementById('prevFeedImg');
+      if (prevFeedImg) {
+        if (currentBlogImage || document.getElementById('blogImageUrl')?.value.trim()) {
+          prevFeedImg.src = img;
+          prevFeedImg.style.display = 'block';
+        } else {
+          prevFeedImg.style.display = 'none';
+        }
+      }
+    }
+
+    function setBlogPresetImage(path) {
+      currentBlogImage = path;
+      const urlInput = document.getElementById('blogImageUrl');
+      if (urlInput) urlInput.value = path;
+      const previewBox = document.getElementById('blogPreviewBox');
+      const previewImg = document.getElementById('blogPreviewImg');
+      if (path && previewBox && previewImg) {
+        previewImg.src = path;
+        previewBox.classList.add('has-image');
+      } else {
+        removeBlogImage();
+      }
+      updateBlogLivePreview();
+    }
+
+    function removeBlogImage() {
+      currentBlogImage = "";
+      const urlInput = document.getElementById('blogImageUrl');
+      if (urlInput) urlInput.value = "";
+      const fileInput = document.getElementById('blogFileInput');
+      if (fileInput) fileInput.value = "";
+      const previewBox = document.getElementById('blogPreviewBox');
+      const previewImg = document.getElementById('blogPreviewImg');
+      if (previewImg) previewImg.src = "";
+      if (previewBox) previewBox.classList.remove('has-image');
+      updateBlogLivePreview();
+    }
+
+    function handleBlogFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        alert("Please choose an image file (JPG, PNG, WebP).");
         return;
       }
 
-      // 1. If feature on big screen, update ya_club_articles so it hits the Big Screen lead card (and top of mobile)
-      if (featureBigScreen) {
-        try {
-          let articles = [];
-          const stored = localStorage.getItem(ARTICLES_KEY);
-          if (stored) {
-            articles = JSON.parse(stored);
-          }
-          if (!Array.isArray(articles) || articles.length === 0) {
-            articles = [
-              {
-                id: 'prempeh-winner-holy-stars',
-                title: "Prempeh Stunner Seals Historic First GPL Victory for Young Apostles",
-                category: "MATCH REPORT",
-                badgeClass: "news-badge-pill--match",
-                date: "Sep 16, 2026",
-                source: "Apostles Media Dispatch",
-                image: "assets/apostle-tv-video1.jpg",
-                excerpt: "Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations at Wenchi Sports Stadium on Sunday as Young Apostles FC defeated Basake Holy Stars 1–0.",
-                readTime: "3 min read",
-                content: `<p>Samuel Prempeh's 7th-minute strike secured our maiden GPL triumph...</p>`
-              }
-            ];
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 1000;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
           }
 
-          const articleId = editId ? ('art-' + editId.replace('disp-', '')) : ('art-' + Date.now());
-          const badgeClass = category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club';
-          const newArticle = {
-            id: articleId,
-            title: title,
-            category: category,
-            badgeClass: badgeClass,
-            date: time,
-            source: author,
-            image: image,
-            excerpt: text,
-            readTime: '3 min read',
-            content: fullContent.includes('<p>') ? fullContent : `<p>${fullContent.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`
-          };
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
 
-          const artIdx = articles.findIndex(a => a.id === articleId);
-          if (artIdx !== -1) {
-            articles[artIdx] = newArticle;
-          } else {
-            articles.unshift(newArticle); // Puts this post directly as #1 LEAD STORY on big screen!
-          }
-          localStorage.setItem(ARTICLES_KEY, JSON.stringify(articles));
-        } catch(err) {
-          console.warn('Could not save to ya_club_articles', err);
-        }
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          currentBlogImage = compressedDataUrl;
+          const urlInput = document.getElementById('blogImageUrl');
+          if (urlInput) urlInput.value = "";
+          const previewImg = document.getElementById('blogPreviewImg');
+          if (previewImg) previewImg.src = compressedDataUrl;
+          const previewBox = document.getElementById('blogPreviewBox');
+          if (previewBox) previewBox.classList.add('has-image');
+          updateBlogLivePreview();
+          showToast("Image optimized and attached!");
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function saveBlogPost(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editBlogId').value;
+      const title = document.getElementById('blogTitle').value.trim();
+      const message = document.getElementById('blogMessage').value.trim();
+      const category = document.getElementById('blogCategory').value;
+      const date = document.getElementById('blogDate').value.trim() || getCurrentFormattedDate();
+      const image = currentBlogImage || document.getElementById('blogImageUrl').value.trim();
+
+      if (!title || !message) {
+        alert("Please enter both a blog title and message.");
+        return;
       }
 
-      // 2. If add to side feed, update ya_club_dispatches
-      if (addToSideFeed || !featureBigScreen) {
-        if (editId) {
-          const idx = currentDispatches.findIndex(d => d.id === editId);
-          if (idx !== -1) {
-            currentDispatches[idx] = {
-              ...currentDispatches[idx],
-              author,
-              time,
-              text: `<strong>${title}</strong> &mdash; ${text}`,
-              image,
-              linkText: linkText || 'Read article &rarr;'
-            };
-            showToast("Updated successfully!");
-          }
-        } else {
-          const newDispatch = {
-            id: 'disp-' + Date.now(),
-            author,
-            badge: true,
-            time,
-            text: `<strong>${title}</strong> &mdash; ${text}`,
-            image,
-            linkText: linkText || 'Read article &rarr;'
-          };
-          currentDispatches.unshift(newDispatch);
-          showToast("Published to Big Screen & Dispatches!");
+      const badgeClass = category.includes('MATCH') ? 'news-badge-pill--match' : (category.includes('PREVIEW') ? 'news-badge-pill--preview' : 'news-badge-pill--club');
+
+      const blogData = {
+        id: editId || ('blog-' + Date.now()),
+        title: title,
+        category: category,
+        badgeClass: badgeClass,
+        date: date,
+        source: 'Apostles Media Dispatch',
+        author: 'Young Apostles FC',
+        image: image,
+        excerpt: message.length > 220 ? (message.slice(0, 215) + '...') : message,
+        content: message.includes('<p>') ? message : `<p>${message.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`,
+        readTime: '3 min read'
+      };
+
+      if (editId) {
+        const idx = currentBlogs.findIndex(b => b.id === editId);
+        if (idx !== -1) {
+          currentBlogs[idx] = blogData;
+          showToast("Blog post updated successfully!");
         }
-        saveAllDispatches();
       } else {
-        showToast("Published as Big Screen Lead Story!");
-        window.dispatchEvent(new Event('storage'));
+        // NEW POST: Added at index 0 -> becomes Position 1!
+        // What was Position 1 moves to 2, 2 moves to 3, 3 moves to 4, 4 moves to 5, 5 moves to 6!
+        currentBlogs.unshift(blogData);
+        showToast("New blog published! It is now Position 1 (Big Hero).");
       }
 
-      resetForm();
+      saveAllBlogs();
+      resetBlogForm();
     }
 
     // ==========================================
