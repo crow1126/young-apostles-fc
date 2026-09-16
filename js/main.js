@@ -975,49 +975,90 @@ function showToast(msg) {
 }
 
 // ==========================================
-// 14. AUTO-FETCH YOUTUBE VIDEO TITLES
-// Uses noembed.com (free, no API key needed)
 // ==========================================
-const APOSTLE_TV_VIDEOS = [
-  { id: 'fpleoX_sUIA', titleEl: 'yt-title-1' },
-  { id: 'ixgmCVIplsk', titleEl: 'yt-title-2' },
-  { id: '9SFZE0KVGak', titleEl: 'yt-title-3' },
-  { id: '9AX0fmXUMU4', titleEl: 'yt-title-4' }
+// 14. APOSTLES TV — YOUTUBE VIDEOS SYSTEM (DYNAMIC & ADMIN CONTROLLED)
+// ==========================================
+const DEFAULT_APOSTLES_TV_VIDEOS = [
+  {
+    id: 'fpleoX_sUIA',
+    title: 'Match Highlights: Young Apostles 1 - 0 Basake Holy Stars',
+    tag: 'MATCH HIGHLIGHTS',
+    thumb: 'assets/apostle-tv-video1.jpg'
+  },
+  {
+    id: 'ixgmCVIplsk',
+    title: 'Pre-Match Interview | Young Apostles vs Basake Holy Stars | Assistant Coach Abubakar Fuseini',
+    tag: 'PRE-MATCH INTERVIEW',
+    thumb: 'assets/apostle-tv-video2.jpg'
+  },
+  {
+    id: '9SFZE0KVGak',
+    title: 'Match Highlights: Vision FC 3 - 0 Young Apostles FC',
+    tag: 'MATCH HIGHLIGHTS',
+    thumb: 'assets/apostle-tv-video3.jpg'
+  },
+  {
+    id: '9AX0fmXUMU4',
+    title: 'Official Club Anthem & Matchday Experience at Wenchi',
+    tag: 'CLUB ANTHEM',
+    thumb: 'assets/apostle-tv-video4.jpg'
+  }
 ];
 
-async function fetchYouTubeTitles() {
-  for (const v of APOSTLE_TV_VIDEOS) {
-    const el = document.getElementById(v.titleEl);
-    if (!el) continue;
-    el.classList.add('loading');
-    try {
-      const url = `https://noembed.com/embed?url=https://www.youtube.com/watch?v=${v.id}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('fetch failed');
-      const data = await res.json();
-      if (data && data.title) {
-        el.textContent = data.title;
-        el.classList.remove('loading');
-      }
-    } catch (e) {
-      // fallback — leave as-is or use a generic label
-      if (el.textContent === 'Loading...') el.textContent = 'Young Apostles FC Official Video';
-      el.classList.remove('loading');
+function getApostlesTvVideos() {
+  try {
+    const stored = localStorage.getItem('ya_apostles_tv_videos');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     }
+  } catch (e) {
+    console.warn('Could not read ya_apostles_tv_videos from localStorage', e);
   }
+  return DEFAULT_APOSTLES_TV_VIDEOS;
+}
+
+function renderApostlesTv() {
+  const container = document.getElementById('apostleTvGrid');
+  if (!container) return;
+
+  const videos = getApostlesTvVideos();
+  container.innerHTML = videos.map(v => {
+    const thumbSrc = v.thumb ? v.thumb : `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+    const tag = v.tag || 'WATCH IN PLAYER';
+    const escapedTitle = (v.title || 'Young Apostles FC Video').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+    return `
+      <article class="video-card" onclick="playApostleVideo('${v.id}', '${escapedTitle}')">
+        <div class="video-card__thumb">
+          <img src="${thumbSrc}" alt="${escapedTitle}" onerror="this.src='https://img.youtube.com/vi/${v.id}/hqdefault.jpg'">
+          <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+          <div class="video-yt-badge"><i class="fa-brands fa-youtube"></i></div>
+        </div>
+        <div class="video-card__content">
+          <h3 class="video-card-title">${v.title || 'Young Apostles Video'}</h3>
+          <div class="video-card-divider"></div>
+          <div class="video-card-tag"><i class="fa-solid fa-circle-play"></i> ${tag}</div>
+        </div>
+      </article>
+    `;
+  }).join('');
 }
 
 // ==========================================
-// 15. CLUB NEWS ARTICLES & BLOG VIEWER
+// 15. CLUB NEWS & BLOG PORTAL (DYNAMIC & ADMIN SYNCED)
 // ==========================================
-const CLUB_NEWS_ARTICLES = {
-  'prempeh-winner-holy-stars': {
+const DEFAULT_NEWS_ARTICLES = [
+  {
+    id: 'prempeh-winner-holy-stars',
     title: "Prempeh Stunner Seals Historic First GPL Victory for Young Apostles",
     category: "MATCH REPORT",
     badgeClass: "news-badge-pill--match",
-    date: "Sep 14, 2026",
-    source: "Young Apostles Media Dispatch (via @youngapostlesfc)",
+    date: "Sep 16, 2026",
+    source: "Apostles Media Dispatch",
     image: "assets/apostle-tv-video1.jpg",
+    excerpt: "Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations at Wenchi Sports Stadium on Sunday as Young Apostles FC defeated Basake Holy Stars 1–0 to secure their landmark maiden Ghana Premier League triumph.",
+    readTime: "3 min read",
     content: `
       <p><strong>WENCHI</strong> &mdash; In front of a passionate, capacity home crowd at the Wenchi Sports Stadium, Young Apostles FC recorded their landmark first-ever Ghana Premier League victory on Sunday afternoon, edging Basake Holy Stars 1&ndash;0 on Matchday 2.</p>
       <p>The decisive breakthrough came inside the opening seven minutes. Forward <strong>Samuel Prempeh</strong> chased down an incisive ball from midfield, beat two defenders with a slick first touch, and slotted coolly into the bottom right corner past the Holy Stars goalkeeper.</p>
@@ -1031,49 +1072,155 @@ const CLUB_NEWS_ARTICLES = {
       <p>The victory lifts Young Apostles to 8th on the official GPL standings table with 3 points, while preserving Wenchi as an impenetrable fortress for visiting opponents.</p>
     `
   },
-  'gpl-opener-vision-fc': {
+  {
+    id: 'gpl-opener-vision-fc',
     title: "Season Opener: Apostles Fall 3-0 to Clinical Vision FC in Tema",
     category: "MATCH REPORT",
     badgeClass: "news-badge-pill--match",
     date: "Sep 6, 2026",
-    source: "Matchday Report Desk (via @youngapostlesfc)",
+    source: "GPL MD 1",
     image: "assets/apostle-tv-video3.jpg",
+    excerpt: "Young Apostles kicked off their historic campaign at Nii Adjei Kraku Stadium, gaining vital top-flight experience despite opening day defeat.",
+    readTime: "2 min read",
     content: `
       <p><strong>TEMA</strong> &mdash; Young Apostles FC began their maiden campaign in the top flight with an away test against Vision FC at the Nii Adjei Kraku II Sports Complex on Saturday afternoon.</p>
       <p>The home side opened the scoring early in the 4th minute through Naziru Alhassan Nyenye before Setsofia Aqetey doubled the lead just before half-time (40') and added a third in the 68th minute.</p>
       <p>Despite the scoreline, the Apostles created several promising chances in the second half, with the technical bench using the fixture to hand top-flight debuts to several young academy prospects.</p>
     `
   },
-  'mayniak-kit-launch': {
+  {
+    id: 'mayniak-kit-launch',
     title: "Young Apostles Unveil 2026/27 Official Mayniak Matchwear Collection",
     category: "OFFICIAL KIT",
     badgeClass: "news-badge-pill--club",
     date: "Sep 2, 2026",
-    source: "Young Apostles Commercial Dept (via @youngapostlesfc)",
+    source: "Club Release",
     image: "assets/kit-home-2026.jpg",
+    excerpt: "The official Royal Blue &amp; Gold home kit and white away strips are now available to fans worldwide via the online club shop.",
+    readTime: "2 min read",
     content: `
       <p><strong>WENCHI</strong> &mdash; Young Apostles Football Club, in proud partnership with Mayniak Sportswear, is thrilled to present the official matchday kits for the 2026/27 Ghana Premier League season.</p>
       <p>The home strip showcases the club's celebrated Royal Blue and Sunburst Gold, featuring bespoke geometric embossing inspired by traditional Bono cultural motifs. The away jersey is crafted in clean, pristine white with bold blue side panels.</p>
       <p>Supporters can purchase authentic shirts with customized player names and numbers directly on our online store with mobile money checkout and nationwide delivery.</p>
     `
   },
-  'debibi-preview': {
+  {
+    id: 'debibi-preview',
     title: "Matchday 3 Preview: Apostles Gear Up for Regional Battle at Debibi Park",
     category: "MATCH PREVIEW",
     badgeClass: "news-badge-pill--preview",
     date: "Sep 15, 2026",
-    source: "Apostles Media Team (via @youngapostlesfc)",
+    source: "Apostles Media Team",
     image: "assets/apostle-tv-video2.jpg",
+    excerpt: "Following the electric 1–0 triumph over Basake Holy Stars, the Apostles return to training this week ahead of an exciting Matchday 3 away fixture.",
+    readTime: "2 min read",
     content: `
       <p><strong>WENCHI</strong> &mdash; Following the electric 1&ndash;0 triumph over Basake Holy Stars, the Apostles return to training this week ahead of an exciting Matchday 3 away fixture against Debibi United at Debibi Park on Sunday, September 20, 2026.</p>
       <p>Debibi United currently sit in 15th position with 1 point from their first two games. The Apostles squad conducted tactical training focused on rapid counter-attacking transitions and set-piece organization.</p>
       <p>Kickoff is scheduled for 15:00 GMT. Live score updates and match commentary will be broadcast across all official Young Apostles channels.</p>
     `
   }
-};
+];
+
+function getNewsArticles() {
+  try {
+    const stored = localStorage.getItem('ya_club_articles');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {
+    console.warn('Could not read ya_club_articles from localStorage', e);
+  }
+  return DEFAULT_NEWS_ARTICLES;
+}
+
+function renderNews() {
+  const featContainer = document.getElementById('newsFeaturedContainer');
+  const subContainer = document.getElementById('newsSubgridContainer');
+  if (!featContainer && !subContainer) return;
+
+  const articles = getNewsArticles();
+  if (articles.length === 0) return;
+
+  // The very first article is the LEAD STORY on the BIG SCREEN (and on mobile, right at the top!)
+  const lead = articles[0];
+  if (featContainer && lead) {
+    const leadImg = lead.image || 'assets/apostle-tv-video1.jpg';
+    const badgeClass = lead.badgeClass || (lead.category && lead.category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club');
+    const badgeText = lead.category || 'CLUB NEWS';
+    const dateText = lead.date || 'Sep 16, 2026';
+    const sourceText = lead.source || 'Apostles Media Dispatch';
+    const excerpt = lead.excerpt || (lead.content ? lead.content.replace(/<[^>]+>/g, '').slice(0, 190) + '...' : '');
+
+    featContainer.innerHTML = `
+      <article class="news-featured-card" onclick="openNewsArticle('${lead.id}')">
+        <div class="news-featured-card__media">
+          <img src="${leadImg}" alt="${lead.title}">
+          <span class="news-badge-pill ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="news-featured-card__body">
+          <div class="news-meta-row">
+            <span class="news-meta-date"><i class="fa-regular fa-calendar"></i> ${dateText}</span>
+            <span class="news-meta-dot">&bull;</span>
+            <span class="news-meta-source"><i class="fa-brands fa-x-twitter"></i> ${sourceText}</span>
+          </div>
+          <h3 class="news-featured-title">${lead.title}</h3>
+          <p class="news-featured-excerpt">
+            ${excerpt}
+          </p>
+          <div class="news-card-footer">
+            <span class="news-read-btn">Read Full Match Report &rarr;</span>
+            <span class="news-read-time">${lead.readTime || '3 min read'}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  // The secondary subgrid contains the remaining articles
+  if (subContainer) {
+    const subArticles = articles.slice(1, 3);
+    if (subArticles.length > 0) {
+      subContainer.innerHTML = subArticles.map(art => {
+        const artImg = art.image || 'assets/kit-home-2026.jpg';
+        const badgeClass = art.badgeClass || (art.category && art.category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club');
+        const badgeText = art.category || 'CLUB NEWS';
+        const excerpt = art.excerpt || (art.content ? art.content.replace(/<[^>]+>/g, '').slice(0, 120) + '...' : '');
+
+        return `
+          <article class="news-mini-card" onclick="openNewsArticle('${art.id}')">
+            <div class="news-mini-card__thumb">
+              <img src="${artImg}" alt="${art.title}">
+              <span class="news-badge-pill ${badgeClass}">${badgeText}</span>
+            </div>
+            <div class="news-mini-card__content">
+              <div class="news-meta-row">
+                <span class="news-meta-date">${art.date || 'Recent'}</span>
+                <span class="news-meta-dot">&bull;</span>
+                <span class="news-meta-source">${art.source || 'Club Release'}</span>
+              </div>
+              <h4 class="news-mini-title">${art.title}</h4>
+              <p class="news-mini-excerpt">${excerpt}</p>
+              <span class="news-link-read">Read Article &rarr;</span>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+  }
+}
 
 function openNewsArticle(articleId) {
-  const article = CLUB_NEWS_ARTICLES[articleId];
+  // First check dynamic articles
+  const allArticles = getNewsArticles();
+  let article = allArticles.find(a => a.id === articleId);
+
+  // Fallback to legacy dictionary
+  if (!article && typeof CLUB_NEWS_ARTICLES !== 'undefined') {
+    article = CLUB_NEWS_ARTICLES[articleId];
+  }
+
   if (!article) return;
 
   const modal = document.getElementById('newsArticleModal');
@@ -1084,15 +1231,15 @@ function openNewsArticle(articleId) {
   const titleEl = document.getElementById('newsModalTitle');
   const bodyEl = document.getElementById('newsModalContent');
 
-  if (imgEl) imgEl.src = article.image;
+  if (imgEl) imgEl.src = article.image || 'assets/apostle-tv-video1.jpg';
   if (catEl) {
-    catEl.textContent = article.category;
+    catEl.textContent = article.category || 'CLUB NEWS';
     catEl.className = 'news-badge-pill ' + (article.badgeClass || 'news-badge-pill--match');
   }
-  if (dateEl) dateEl.innerHTML = `<i class="fa-regular fa-calendar"></i> ${article.date}`;
-  if (srcEl) srcEl.innerHTML = `<i class="fa-brands fa-x-twitter"></i> ${article.source}`;
+  if (dateEl) dateEl.innerHTML = `<i class="fa-regular fa-calendar"></i> ${article.date || 'Sep 16, 2026'}`;
+  if (srcEl) srcEl.innerHTML = `<i class="fa-brands fa-x-twitter"></i> ${article.source || 'Apostles Media Dispatch'}`;
   if (titleEl) titleEl.textContent = article.title;
-  if (bodyEl) bodyEl.innerHTML = article.content;
+  if (bodyEl) bodyEl.innerHTML = article.content || `<p>${article.excerpt || ''}</p>`;
 
   if (modal) modal.classList.add('open');
 }
@@ -1101,12 +1248,82 @@ function closeNewsArticle() {
   document.getElementById('newsArticleModal')?.classList.remove('open');
 }
 
+// ==========================================
+// 15B. APOSTLES TV SYSTEM (DYNAMIC & ADMIN SYNCED)
+// ==========================================
+const INITIAL_APOSTLES_TV = [
+  {
+    id: 'fpleoX_sUIA',
+    title: 'Match Highlights: Young Apostles 1 - 0 Basake Holy Stars',
+    tag: 'MATCH HIGHLIGHTS',
+    thumb: 'assets/apostle-tv-video1.jpg'
+  },
+  {
+    id: 'ixgmCVIplsk',
+    title: 'Pre-Match Interview | Young Apostles vs Basake Holy Stars | Assistant Coach Abubakar Fuseini',
+    tag: 'PRE-MATCH INTERVIEW',
+    thumb: 'assets/apostle-tv-video2.jpg'
+  },
+  {
+    id: '9SFZE0KVGak',
+    title: 'Match Highlights: Vision FC 3 - 0 Young Apostles FC',
+    tag: 'MATCH HIGHLIGHTS',
+    thumb: 'assets/apostle-tv-video3.jpg'
+  },
+  {
+    id: '9AX0fmXUMU4',
+    title: 'Official Club Anthem & Matchday Experience at Wenchi',
+    tag: 'CLUB ANTHEM',
+    thumb: 'assets/apostle-tv-video4.jpg'
+  }
+];
+
+function getApostlesTvVideos() {
+  try {
+    const raw = localStorage.getItem('ya_apostles_tv_videos');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch(e) {}
+  return INITIAL_APOSTLES_TV;
+}
+
+function renderApostlesTv() {
+  const container = document.getElementById('apostleTvGrid');
+  if (!container) return;
+  const videos = getApostlesTvVideos();
+  if (!videos || videos.length === 0) return;
+
+  container.innerHTML = videos.map((v) => {
+    const thumbUrl = v.thumb ? v.thumb : `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+    const fallbackThumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+    const safeTitle = (v.title || 'Young Apostles FC Video').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const tag = v.tag || 'WATCH IN PLAYER';
+
+    return `
+      <article class="video-card" onclick="playApostleVideo('${v.id}', '${safeTitle}')">
+        <div class="video-card__thumb">
+          <img src="${thumbUrl}" alt="${safeTitle}" onerror="this.src='${fallbackThumb}'">
+          <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
+          <div class="video-yt-badge"><i class="fa-brands fa-youtube"></i></div>
+        </div>
+        <div class="video-card__content">
+          <h3 class="video-card-title">${v.title}</h3>
+          <div class="video-card-divider"></div>
+          <div class="video-card-tag"><i class="fa-solid fa-circle-play"></i> ${tag}</div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
 function playApostleVideo(videoId, title) {
   const modal = document.getElementById('videoPlayerModal');
   const frame = document.getElementById('videoPlayerFrame');
   const titleEl = document.getElementById('videoPlayerTitle');
   if (frame) frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-  if (titleEl) titleEl.textContent = title || 'Apostle TV &middot; Young Apostles FC';
+  if (titleEl) titleEl.textContent = title || 'Apostles TV &middot; Young Apostles FC';
   if (modal) modal.classList.add('open');
 }
 
@@ -1133,7 +1350,7 @@ const DEFAULT_DISPATCHES = [
     author: "Young Apostles FC",
     badge: true,
     time: "Sep 13 &middot; Full-Time Alert",
-    text: "FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Owuo Tumi! 🔵🟡⚽",
+    text: "FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽",
     image: "",
     linkText: "Read full match analysis &rarr;",
     articleId: "prempeh-winner-holy-stars"
@@ -1299,7 +1516,7 @@ const POLICY_DATA = {
 
       <div style="margin-bottom:1.2rem;">
         <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-copyright" style="color:var(--ya-blue); margin-right:6px;"></i>1. Intellectual Property &amp; Trademarks</h5>
-        <p>The Young Apostles FC crest, our motto <em>&ldquo;Agya Na &#596;w&#596; Tumi&rdquo;</em>, official Mayniak match kit designs, player photographic assets, and Apostle TV broadcast content are the exclusive proprietary property of Young Apostles FC. Unauthorized commercial reproduction or counterfeit distribution is strictly prohibited under Ghanaian copyright statutes.</p>
+        <p>The Young Apostles FC crest, our motto <em>&ldquo;Agya Na &#596;w&#596; Tumi&rdquo;</em>, official Mayniak match kit designs, player photographic assets, and Apostles TV broadcast content are the exclusive proprietary property of Young Apostles FC. Unauthorized commercial reproduction or counterfeit distribution is strictly prohibited under Ghanaian copyright statutes.</p>
       </div>
 
       <div style="margin-bottom:1.2rem;">
@@ -1400,6 +1617,8 @@ function closePolicyModal() {
 let lastDispatchesHash = '';
 let lastFixturesHash = '';
 let lastStandingsHash = '';
+let lastArticlesHash = '';
+let lastApostlesTvHash = '';
 
 function checkStorageUpdates() {
   try {
@@ -1423,6 +1642,18 @@ function checkStorageUpdates() {
       lastStandingsHash = standRaw;
       updateStandingsUI();
     }
+
+    const artRaw = localStorage.getItem('ya_club_articles');
+    if (artRaw && artRaw !== lastArticlesHash) {
+      lastArticlesHash = artRaw;
+      renderNews();
+    }
+
+    const tvRaw = localStorage.getItem('ya_apostles_tv_videos');
+    if (tvRaw && tvRaw !== lastApostlesTvHash) {
+      lastApostlesTvHash = tvRaw;
+      renderApostlesTv();
+    }
   } catch (err) {
     // Ignore storage polling errors
   }
@@ -1442,6 +1673,12 @@ window.addEventListener('storage', (e) => {
   if (e.key === 'ya_standings_record') {
     updateStandingsUI();
   }
+  if (e.key === 'ya_club_articles') {
+    renderNews();
+  }
+  if (e.key === 'ya_apostles_tv_videos') {
+    renderApostlesTv();
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1449,12 +1686,13 @@ document.addEventListener('DOMContentLoaded', () => {
   renderSquad('all');
   renderProducts('all');
   renderMatches('all');
+  renderNews();
+  renderApostlesTv();
   renderDispatches();
   updateStandingsUI();
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
   setInterval(checkStorageUpdates, 2000); // Poll for Admin live updates
-  fetchYouTubeTitles(); // Auto-fetch real YouTube video titles
 
   // Mobile Toggle
   document.getElementById('mobileToggle')?.addEventListener('click', toggleMobileNav);

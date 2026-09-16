@@ -602,6 +602,15 @@
       margin-top: 0.4rem;
       border: 1px solid var(--admin-border);
     }
+    .yt-manage-thumb {
+      width: 88px;
+      height: 52px;
+      border-radius: 6px;
+      object-fit: cover;
+      margin-top: 0.4rem;
+      border: 1px solid var(--admin-border);
+      display: block;
+    }
     .dispatch-manage-actions {
       display: flex;
       flex-direction: column;
@@ -780,6 +789,9 @@
       <button class="admin-tab-btn active" onclick="switchAdminTab('dispatches', this)">
         <i class="fa-solid fa-bullhorn"></i> Club Dispatches &amp; News
       </button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('apostlestv', this)">
+        <i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Apostles TV
+      </button>
       <button class="admin-tab-btn" onclick="switchAdminTab('matches', this)">
         <i class="fa-solid fa-futbol"></i> Match Scorelines &amp; Fixtures
       </button>
@@ -798,6 +810,13 @@
         <div class="stat-meta">
           <h3 id="statDispatchCount">4</h3>
           <span>Active Dispatches</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:rgba(239, 68, 68, 0.2); color:#EF4444;"><i class="fa-brands fa-youtube"></i></div>
+        <div class="stat-meta">
+          <h3 id="statYtCount">4</h3>
+          <span>Apostles TV Videos</span>
         </div>
       </div>
       <div class="stat-card">
@@ -825,27 +844,73 @@
         <!-- LEFT COLUMN: Post Creator Form -->
         <section class="admin-card">
           <div class="admin-card-header">
-            <h2><i class="fa-solid fa-feather-pointed"></i> <span id="formTitle">Create New Dispatch</span></h2>
-            <span style="font-size:0.75rem; color:var(--admin-muted); font-weight:600;">Posts appear immediately on homepage</span>
+            <h2><i class="fa-solid fa-feather-pointed"></i> <span id="formTitle">Publish Story / Dispatch</span></h2>
+            <span style="font-size:0.75rem; color:var(--admin-muted); font-weight:600;">Immediate Live Website Sync</span>
           </div>
 
           <form id="dispatchForm" onsubmit="saveDispatch(event)">
             <input type="hidden" id="editDispatchId" value="">
 
+            <!-- Target Selection -->
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; background:rgba(0,87,184,0.1); border:1px solid rgba(0,87,184,0.3); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1.1rem;">
+              <label style="display:flex; align-items:center; gap:0.45rem; font-size:0.83rem; font-weight:700; color:#fff; cursor:pointer;">
+                <input type="checkbox" id="dispatchFeatureBigScreen" checked style="accent-color:#0057B8; width:16px; height:16px;">
+                <span><i class="fa-solid fa-star" style="color:var(--admin-accent);"></i> Feature on Big Screen (Top Lead Story &amp; Top on Mobile)</span>
+              </label>
+              <label style="display:flex; align-items:center; gap:0.45rem; font-size:0.83rem; font-weight:700; color:#93C5FD; cursor:pointer;">
+                <input type="checkbox" id="dispatchAddToSideFeed" checked style="accent-color:#0057B8; width:16px; height:16px;">
+                <span><i class="fa-solid fa-list-ul"></i> Also Include in Live Dispatches Feed</span>
+              </label>
+            </div>
+
+            <!-- Blog / Story Headline -->
+            <div class="form-group">
+              <label for="dispatchTitle"><i class="fa-solid fa-heading"></i> Story Headline / Big Screen Title</label>
+              <input type="text" id="dispatchTitle" class="form-control" placeholder="e.g. Prempeh Stunner Seals Historic First GPL Victory for Young Apostles" required oninput="updateLivePreview()">
+            </div>
+
             <div class="form-row">
               <div class="form-group">
-                <label for="dispatchAuthor"><i class="fa-solid fa-user-check"></i> Author / Handle</label>
+                <label for="dispatchAuthor"><i class="fa-solid fa-user-check"></i> Author / Source</label>
                 <input type="text" id="dispatchAuthor" class="form-control" value="Young Apostles FC" required>
               </div>
               <div class="form-group">
-                <label for="dispatchTime"><i class="fa-regular fa-clock"></i> Timestamp / Badge</label>
-                <input type="text" id="dispatchTime" class="form-control" value="Just Now &middot; Live Alert" required placeholder="e.g. Sep 16 &middot; Matchday Update">
+                <label for="dispatchTime"><i class="fa-regular fa-clock"></i> Accurate Timestamp</label>
+                <div style="display:flex; gap:0.5rem;">
+                  <input type="text" id="dispatchTime" class="form-control" value="Sep 16, 2026" required placeholder="e.g. Sep 16, 2026" oninput="updateLivePreview()">
+                  <button type="button" class="btn-admin-secondary" onclick="setCurrentTimestamp()" style="white-space:nowrap; padding:0 0.75rem; font-size:0.75rem;" title="Set to current real date">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Set to Now
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="dispatchCategory"><i class="fa-solid fa-tag"></i> Category / Badge</label>
+                <select id="dispatchCategory" class="form-control" onchange="updateLivePreview()">
+                  <option value="MATCH REPORT" selected>MATCH REPORT</option>
+                  <option value="CLUB NEWS">CLUB NEWS</option>
+                  <option value="OFFICIAL STATEMENT">OFFICIAL STATEMENT</option>
+                  <option value="MATCH PREVIEW">MATCH PREVIEW</option>
+                  <option value="TRANSFER NEWS">TRANSFER NEWS</option>
+                  <option value="COMMERCIAL">COMMERCIAL</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="dispatchLinkText"><i class="fa-solid fa-link"></i> Button Text (Optional)</label>
+                <input type="text" id="dispatchLinkText" class="form-control" placeholder="e.g. Read Full Match Report &rarr;" oninput="updateLivePreview()">
               </div>
             </div>
 
             <div class="form-group">
-              <label for="dispatchText"><i class="fa-solid fa-align-left"></i> Dispatch Message</label>
-              <textarea id="dispatchText" class="form-control" placeholder="Type official club message, match report, or team news here..." required oninput="updateLivePreview()"></textarea>
+              <label for="dispatchText"><i class="fa-solid fa-align-left"></i> Summary / Excerpt Message</label>
+              <textarea id="dispatchText" class="form-control" placeholder="Type excerpt / official message for the big card preview and dispatch feed..." required oninput="updateLivePreview()"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="dispatchFullContent"><i class="fa-solid fa-newspaper"></i> Full Article Story (Optional for reading modal)</label>
+              <textarea id="dispatchFullContent" class="form-control" rows="3" placeholder="Detailed paragraphs for the full article popup modal (leave blank to use summary)..." oninput="updateLivePreview()"></textarea>
             </div>
 
             <!-- Media / Image Configuration -->
@@ -862,6 +927,7 @@
               <!-- Quick Asset Preset Chips -->
               <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.25rem;">Quick Club Presets:</div>
               <div class="preset-chips">
+                <span class="preset-chip" onclick="setPresetImage('assets/apostle-tv-video1.jpg')">Match Action Photo</span>
                 <span class="preset-chip" onclick="setPresetImage('assets/official-logo.png')">Official Crest</span>
                 <span class="preset-chip" onclick="setPresetImage('assets/kit-home-hanging.jpg')">Home Jersey</span>
                 <span class="preset-chip" onclick="setPresetImage('assets/players/samuel-prempeh.jpg')">Samuel Prempeh #21</span>
@@ -879,30 +945,10 @@
               </div>
             </div>
 
-            <!-- Link & Action -->
-            <div class="form-row">
-              <div class="form-group">
-                <label for="dispatchLinkText"><i class="fa-solid fa-link"></i> Button / Link Text (Optional)</label>
-                <input type="text" id="dispatchLinkText" class="form-control" placeholder="e.g. Read full match analysis &rarr;" oninput="updateLivePreview()">
-              </div>
-              <div class="form-group">
-                <label for="dispatchArticleId"><i class="fa-solid fa-newspaper"></i> Connect Article or Link</label>
-                <select id="dispatchArticleId" class="form-control" onchange="updateLivePreview()">
-                  <option value="">None (Standalone post)</option>
-                  <option value="prempeh-winner-holy-stars">Article: Samuel Prempeh Holy Stars Winner</option>
-                  <option value="gpl-opener-vision-fc">Article: GPL Historic Opener vs Vision FC</option>
-                  <option value="mayniak-kit-launch">Article: 2026/27 Mayniak Kit Unveil</option>
-                  <option value="debibi-preview">Article: Debibi United Away Preview</option>
-                  <option value="#store">Internal: Team Shop</option>
-                  <option value="#matches">Internal: Schedule &amp; Results</option>
-                </select>
-              </div>
-            </div>
-
             <!-- Submit Buttons -->
             <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
               <button type="submit" class="btn-admin-primary" id="btnSubmitDispatch">
-                <i class="fa-solid fa-paper-plane"></i> Publish Live Dispatch
+                <i class="fa-solid fa-paper-plane"></i> Publish Live Post
               </button>
               <button type="button" class="btn-admin-secondary" onclick="resetForm()">
                 Clear Form
@@ -937,7 +983,7 @@
                     </div>
                   </div>
                   <div style="font-size:0.88rem; line-height:1.55; color:#1F2937; margin-bottom:0.5rem;" id="prevText">
-                    FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Owuo Tumi! 🔵🟡⚽
+                    FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽
                   </div>
                   <img id="prevMedia" src="" alt="Media preview" style="display:none; width:100%; max-height:220px; object-fit:cover; border-radius:8px; margin:0.4rem 0 0.6rem;">
                   <div style="font-size:0.78rem; font-weight:700; color:#0057B8; display:flex; align-items:center; gap:0.35rem;" id="prevLinkWrap">
@@ -1208,6 +1254,127 @@
       </div>
     </div>
 
+    <!-- =========================================================
+         TAB 4: APOSTLES TV (YOUTUBE MANAGER)
+         ========================================================= -->
+    <div class="tab-pane" id="pane-apostlestv">
+      <div class="admin-layout-grid">
+        <!-- LEFT: Add / Edit Apostles TV Video -->
+        <section class="admin-card">
+          <div class="admin-card-header">
+            <h2><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> <span id="ytFormTitle">Add Video to Apostles TV</span></h2>
+            <span style="font-size:0.75rem; color:var(--admin-muted);">Direct YouTube URL Input</span>
+          </div>
+
+          <form id="apostlesTvForm" onsubmit="saveApostlesTvVideo(event)">
+            <input type="hidden" id="editApostlesTvId" value="">
+
+            <div class="form-group">
+              <label for="ytVideoUrl"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> YouTube Video URL or Video ID</label>
+              <div style="display:flex; gap:0.5rem;">
+                <input type="text" id="ytVideoUrl" class="form-control" placeholder="Paste YouTube link (e.g. https://www.youtube.com/watch?v=... or youtu.be/...)" required oninput="handleYouTubeUrlInput()">
+                <button type="button" class="btn-admin-secondary" onclick="fetchVideoMetaFromUrl()" style="white-space:nowrap; padding:0 0.85rem;" title="Auto-detect ID and fetch title from YouTube">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fetch
+                </button>
+              </div>
+              <div id="ytDetectedBadge" style="margin-top:0.45rem; font-size:0.75rem; color:#4ADE80; display:none;">
+                <i class="fa-solid fa-circle-check"></i> Detected YouTube ID: <strong id="ytDetectedId"></strong>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="ytVideoTitle"><i class="fa-solid fa-heading"></i> Video Title</label>
+              <input type="text" id="ytVideoTitle" class="form-control" placeholder="e.g. Young Apostles 1 - 0 Basake Holy Stars Highlights" required oninput="updateYtLivePreview()">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ytVideoTag"><i class="fa-solid fa-tag"></i> Category / Badge</label>
+                <select id="ytVideoTag" class="form-control" onchange="updateYtLivePreview()">
+                  <option value="MATCH HIGHLIGHTS" selected>MATCH HIGHLIGHTS</option>
+                  <option value="PRE-MATCH INTERVIEW">PRE-MATCH INTERVIEW</option>
+                  <option value="POST-MATCH PRESS">POST-MATCH PRESS</option>
+                  <option value="TRAINING &amp; BTS">TRAINING &amp; BTS</option>
+                  <option value="CLUB ANTHEM">CLUB ANTHEM</option>
+                  <option value="SPECIAL FEATURE">SPECIAL FEATURE</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="ytCustomThumb"><i class="fa-regular fa-image"></i> Custom Thumbnail URL (Optional)</label>
+                <input type="text" id="ytCustomThumb" class="form-control" placeholder="Leave blank to use YouTube HQ thumbnail" oninput="updateYtLivePreview()">
+              </div>
+            </div>
+
+            <!-- Preset Action Thumbnails -->
+            <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.25rem;">Quick Club Asset Thumbnails:</div>
+            <div class="preset-chips">
+              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video1.jpg')">Matchday Action 1</span>
+              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video2.jpg')">Coach Fuseini Interview</span>
+              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video3.jpg')">Vision FC Matchday 1</span>
+              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video4.jpg')">Club Anthem</span>
+              <span class="preset-chip" onclick="setYtPresetThumb('')">Use YouTube HQ Cover</span>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+              <button type="submit" class="btn-admin-primary" id="btnSubmitYt">
+                <i class="fa-solid fa-plus"></i> Add Video to Apostles TV
+              </button>
+              <button type="button" class="btn-admin-secondary" onclick="resetYtForm()">
+                Clear Form
+              </button>
+              <button type="button" class="btn-admin-secondary" onclick="resetApostlesTvToDefault()" style="margin-left:auto; color:#F87171; border-color:rgba(239,68,68,0.3);">
+                <i class="fa-solid fa-rotate-left"></i> Reset Defaults
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- RIGHT: Live Apostles TV Card Preview & Manage List -->
+        <div>
+          <div class="admin-card" style="margin-bottom:1.5rem;">
+            <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
+              <h2 style="font-size:1rem;"><i class="fa-solid fa-eye"></i> Apostles TV Card Appearance</h2>
+              <span style="font-size:0.75rem; color:var(--admin-accent); font-weight:700;">Live Card Preview</span>
+            </div>
+
+            <div style="background:#0F172A; border:1px solid var(--admin-border); border-radius:12px; overflow:hidden; max-width:380px; margin:0 auto; box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+              <div style="position:relative; aspect-ratio:16/9; background:#1E293B; overflow:hidden;">
+                <img id="prevYtThumb" src="assets/apostle-tv-video1.jpg" alt="Video preview" style="width:100%; height:100%; object-fit:cover;">
+                <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;">
+                  <div style="width:48px; height:48px; border-radius:50%; background:rgba(0,0,0,0.65); border:2px solid #fff; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1rem; box-shadow:0 4px 12px rgba(0,0,0,0.4);">
+                    <i class="fa-solid fa-play" style="margin-left:3px;"></i>
+                  </div>
+                </div>
+                <div style="position:absolute; top:10px; right:10px; background:rgba(239,68,68,0.9); color:#fff; padding:3px 7px; border-radius:4px; font-size:0.8rem;">
+                  <i class="fa-brands fa-youtube"></i>
+                </div>
+              </div>
+              <div style="padding:1rem;">
+                <h4 id="prevYtTitle" style="font-size:0.95rem; font-weight:800; color:#fff; line-height:1.4; margin:0 0 0.6rem 0;">Young Apostles FC Video</h4>
+                <div style="height:1px; background:rgba(255,255,255,0.08); margin-bottom:0.6rem;"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem;">
+                  <span id="prevYtTag" style="font-weight:800; color:var(--admin-accent); letter-spacing:0.04em;"><i class="fa-solid fa-circle-play"></i> WATCH IN PLAYER</span>
+                  <span id="prevYtIdText" style="color:var(--admin-muted); font-family:monospace;">ID: fpleoX_sUIA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <section class="admin-card">
+            <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
+              <h2 style="font-size:1rem;"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Active Apostles TV Videos (<span id="ytListCount">4</span>)</h2>
+              <span style="font-size:0.75rem; color:var(--admin-muted);">Immediate sync to homepage</span>
+            </div>
+
+            <div id="ytManageList" class="dispatches-manage-list">
+              <!-- Rendered via JS -->
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <!-- Toast Element -->
@@ -1221,6 +1388,37 @@
     const DISPATCH_KEY = "ya_club_dispatches";
     const FIXTURES_KEY = "ya_club_fixtures";
     const STANDINGS_KEY = "ya_standings_record";
+    const ARTICLES_KEY = "ya_club_articles";
+    const APOSTLES_TV_KEY = "ya_apostles_tv_videos";
+
+    const INITIAL_APOSTLES_TV = [
+      {
+        id: 'fpleoX_sUIA',
+        title: 'Match Highlights: Young Apostles 1 - 0 Basake Holy Stars',
+        tag: 'MATCH HIGHLIGHTS',
+        thumb: 'assets/apostle-tv-video1.jpg'
+      },
+      {
+        id: 'ixgmCVIplsk',
+        title: 'Pre-Match Interview | Young Apostles vs Basake Holy Stars | Assistant Coach Abubakar Fuseini',
+        tag: 'PRE-MATCH INTERVIEW',
+        thumb: 'assets/apostle-tv-video2.jpg'
+      },
+      {
+        id: '9SFZE0KVGak',
+        title: 'Match Highlights: Vision FC 3 - 0 Young Apostles FC',
+        tag: 'MATCH HIGHLIGHTS',
+        thumb: 'assets/apostle-tv-video3.jpg'
+      },
+      {
+        id: '9AX0fmXUMU4',
+        title: 'Official Club Anthem & Matchday Experience at Wenchi',
+        tag: 'CLUB ANTHEM',
+        thumb: 'assets/apostle-tv-video4.jpg'
+      }
+    ];
+
+    let currentApostlesTv = [];
 
     // Initial default dispatches
     const INITIAL_DISPATCHES = [
@@ -1229,7 +1427,7 @@
         author: "Young Apostles FC",
         badge: true,
         time: "Sep 13 &middot; Full-Time Alert",
-        text: "FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Owuo Tumi! 🔵🟡⚽",
+        text: "FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽",
         image: "",
         linkText: "Read full match analysis &rarr;",
         articleId: "prempeh-winner-holy-stars"
@@ -1349,12 +1547,29 @@
       loadDispatches();
       loadFixtures();
       loadStandings();
+      loadApostlesTv();
       updateLivePreview();
+      updateYtLivePreview();
     }
 
     // ==========================================
-    // 1. DISPATCHES MANAGEMENT
+    // 1. DISPATCHES & BIG SCREEN BLOG MANAGEMENT
     // ==========================================
+    function getCurrentFormattedDate() {
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const now = new Date();
+      return `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+    }
+
+    function setCurrentTimestamp() {
+      const timeInput = document.getElementById('dispatchTime');
+      if (timeInput) {
+        timeInput.value = getCurrentFormattedDate();
+        updateLivePreview();
+        showToast("Timestamp updated to current date!");
+      }
+    }
+
     function loadDispatches() {
       try {
         const stored = localStorage.getItem(DISPATCH_KEY);
@@ -1376,7 +1591,6 @@
         localStorage.setItem(DISPATCH_KEY, JSON.stringify(currentDispatches));
         renderManageList();
         updateStats();
-        // Trigger storage event for other tabs
         window.dispatchEvent(new Event('storage'));
       } catch (err) {
         console.error("Storage error:", err);
@@ -1387,6 +1601,9 @@
     function updateStats() {
       const dispCountEl = document.getElementById('statDispatchCount');
       if (dispCountEl) dispCountEl.textContent = currentDispatches.length;
+
+      const ytCountEl = document.getElementById('statYtCount');
+      if (ytCountEl) ytCountEl.textContent = currentApostlesTv.length;
 
       const completedCount = currentFixtures.filter(f => Boolean(f.score)).length;
       const compCountEl = document.getElementById('statCompletedMatches');
@@ -1465,11 +1682,21 @@
 
       document.getElementById('editDispatchId').value = item.id;
       document.getElementById('dispatchAuthor').value = item.author || 'Young Apostles FC';
-      document.getElementById('dispatchTime').value = item.time || '';
-      document.getElementById('dispatchText').value = item.text || '';
+      document.getElementById('dispatchTime').value = item.time || getCurrentFormattedDate();
+      
+      // If text has HTML tags or bold title, strip for editing
+      let plainText = item.text || '';
+      let extractedTitle = "";
+      const boldMatch = plainText.match(/<strong>(.*?)<\/strong>/);
+      if (boldMatch) {
+        extractedTitle = boldMatch[1];
+        plainText = plainText.replace(/<strong>.*?<\/strong>\s*(&mdash;|-)?\s*/, '');
+      }
+
+      document.getElementById('dispatchTitle').value = extractedTitle || item.title || "Young Apostles FC News";
+      document.getElementById('dispatchText').value = plainText;
       document.getElementById('dispatchImageUrl').value = item.image || '';
       document.getElementById('dispatchLinkText').value = item.linkText || '';
-      document.getElementById('dispatchArticleId').value = item.articleId || '';
 
       if (item.image) {
         document.getElementById('previewImg').src = item.image;
@@ -1478,8 +1705,8 @@
         removeImage();
       }
 
-      document.getElementById('formTitle').textContent = "Edit Dispatch";
-      document.getElementById('btnSubmitDispatch').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Dispatch`;
+      document.getElementById('formTitle').textContent = "Edit Story / Dispatch";
+      document.getElementById('btnSubmitDispatch').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Post`;
       updateLivePreview();
       window.scrollTo({ top: 120, behavior: 'smooth' });
     }
@@ -1487,60 +1714,369 @@
     function resetForm() {
       document.getElementById('dispatchForm').reset();
       document.getElementById('editDispatchId').value = '';
-      document.getElementById('formTitle').textContent = "Create New Dispatch";
-      document.getElementById('btnSubmitDispatch').innerHTML = `<i class="fa-solid fa-paper-plane"></i> Publish Live Dispatch`;
+      document.getElementById('formTitle').textContent = "Publish Story / Dispatch";
+      document.getElementById('btnSubmitDispatch').innerHTML = `<i class="fa-solid fa-paper-plane"></i> Publish Live Post`;
       removeImage();
       document.getElementById('dispatchAuthor').value = 'Young Apostles FC';
-      document.getElementById('dispatchTime').value = 'Just Now &middot; Live Alert';
+      document.getElementById('dispatchTime').value = getCurrentFormattedDate();
+      document.getElementById('dispatchCategory').value = 'MATCH REPORT';
+      document.getElementById('dispatchFeatureBigScreen').checked = true;
+      document.getElementById('dispatchAddToSideFeed').checked = true;
       updateLivePreview();
     }
 
     function saveDispatch(e) {
       e.preventDefault();
       const editId = document.getElementById('editDispatchId').value;
-      const author = document.getElementById('dispatchAuthor').value.trim();
-      const time = document.getElementById('dispatchTime').value.trim();
-      const text = document.getElementById('dispatchText').value.trim();
-      const image = currentUploadedDataUrl || document.getElementById('dispatchImageUrl').value.trim();
+      const title = document.getElementById('dispatchTitle').value.trim();
+      const author = document.getElementById('dispatchAuthor').value.trim() || 'Young Apostles FC';
+      const time = document.getElementById('dispatchTime').value.trim() || getCurrentFormattedDate();
+      const category = document.getElementById('dispatchCategory').value;
       const linkText = document.getElementById('dispatchLinkText').value.trim();
-      const articleId = document.getElementById('dispatchArticleId').value.trim();
+      const text = document.getElementById('dispatchText').value.trim();
+      const fullContent = document.getElementById('dispatchFullContent').value.trim() || text;
+      const image = currentUploadedDataUrl || document.getElementById('dispatchImageUrl').value.trim() || 'assets/apostle-tv-video1.jpg';
+      const featureBigScreen = document.getElementById('dispatchFeatureBigScreen').checked;
+      const addToSideFeed = document.getElementById('dispatchAddToSideFeed').checked;
 
-      if (!text) {
-        alert("Please enter dispatch text.");
+      if (!title || !text) {
+        alert("Please enter both a title and message content.");
         return;
       }
 
-      if (editId) {
-        const idx = currentDispatches.findIndex(d => d.id === editId);
-        if (idx !== -1) {
-          currentDispatches[idx] = {
-            ...currentDispatches[idx],
-            author,
-            time,
-            text,
-            image,
-            linkText,
-            articleId
+      // 1. If feature on big screen, update ya_club_articles so it hits the Big Screen lead card (and top of mobile)
+      if (featureBigScreen) {
+        try {
+          let articles = [];
+          const stored = localStorage.getItem(ARTICLES_KEY);
+          if (stored) {
+            articles = JSON.parse(stored);
+          }
+          if (!Array.isArray(articles) || articles.length === 0) {
+            articles = [
+              {
+                id: 'prempeh-winner-holy-stars',
+                title: "Prempeh Stunner Seals Historic First GPL Victory for Young Apostles",
+                category: "MATCH REPORT",
+                badgeClass: "news-badge-pill--match",
+                date: "Sep 16, 2026",
+                source: "Apostles Media Dispatch",
+                image: "assets/apostle-tv-video1.jpg",
+                excerpt: "Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations at Wenchi Sports Stadium on Sunday as Young Apostles FC defeated Basake Holy Stars 1–0.",
+                readTime: "3 min read",
+                content: `<p>Samuel Prempeh's 7th-minute strike secured our maiden GPL triumph...</p>`
+              }
+            ];
+          }
+
+          const articleId = editId ? ('art-' + editId.replace('disp-', '')) : ('art-' + Date.now());
+          const badgeClass = category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club';
+          const newArticle = {
+            id: articleId,
+            title: title,
+            category: category,
+            badgeClass: badgeClass,
+            date: time,
+            source: author,
+            image: image,
+            excerpt: text,
+            readTime: '3 min read',
+            content: fullContent.includes('<p>') ? fullContent : `<p>${fullContent.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`
           };
-          showToast("Dispatch updated successfully!");
+
+          const artIdx = articles.findIndex(a => a.id === articleId);
+          if (artIdx !== -1) {
+            articles[artIdx] = newArticle;
+          } else {
+            articles.unshift(newArticle); // Puts this post directly as #1 LEAD STORY on big screen!
+          }
+          localStorage.setItem(ARTICLES_KEY, JSON.stringify(articles));
+        } catch(err) {
+          console.warn('Could not save to ya_club_articles', err);
         }
-      } else {
-        const newDispatch = {
-          id: 'disp-' + Date.now(),
-          author,
-          badge: true,
-          time,
-          text,
-          image,
-          linkText,
-          articleId
-        };
-        currentDispatches.unshift(newDispatch);
-        showToast("New dispatch published live!");
       }
 
-      saveAllDispatches();
+      // 2. If add to side feed, update ya_club_dispatches
+      if (addToSideFeed || !featureBigScreen) {
+        if (editId) {
+          const idx = currentDispatches.findIndex(d => d.id === editId);
+          if (idx !== -1) {
+            currentDispatches[idx] = {
+              ...currentDispatches[idx],
+              author,
+              time,
+              text: `<strong>${title}</strong> &mdash; ${text}`,
+              image,
+              linkText: linkText || 'Read article &rarr;'
+            };
+            showToast("Updated successfully!");
+          }
+        } else {
+          const newDispatch = {
+            id: 'disp-' + Date.now(),
+            author,
+            badge: true,
+            time,
+            text: `<strong>${title}</strong> &mdash; ${text}`,
+            image,
+            linkText: linkText || 'Read article &rarr;'
+          };
+          currentDispatches.unshift(newDispatch);
+          showToast("Published to Big Screen & Dispatches!");
+        }
+        saveAllDispatches();
+      } else {
+        showToast("Published as Big Screen Lead Story!");
+        window.dispatchEvent(new Event('storage'));
+      }
+
       resetForm();
+    }
+
+    // ==========================================
+    // APOSTLES TV (YOUTUBE LINK MANAGER)
+    // ==========================================
+    function loadApostlesTv() {
+      try {
+        const stored = localStorage.getItem(APOSTLES_TV_KEY);
+        if (stored) {
+          currentApostlesTv = JSON.parse(stored);
+        } else {
+          currentApostlesTv = [...INITIAL_APOSTLES_TV];
+          localStorage.setItem(APOSTLES_TV_KEY, JSON.stringify(currentApostlesTv));
+        }
+      } catch(e) {
+        currentApostlesTv = [...INITIAL_APOSTLES_TV];
+      }
+      renderApostlesTvManageList();
+      updateStats();
+    }
+
+    function saveAllApostlesTv() {
+      try {
+        localStorage.setItem(APOSTLES_TV_KEY, JSON.stringify(currentApostlesTv));
+        renderApostlesTvManageList();
+        updateStats();
+        window.dispatchEvent(new Event('storage'));
+      } catch(err) {
+        console.error("Storage error:", err);
+      }
+    }
+
+    function extractYouTubeId(url) {
+      if (!url) return '';
+      url = url.trim();
+      if (/^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/i,
+        /youtube\.com\/watch\?.*&v=([a-zA-Z0-9_-]{11})/i
+      ];
+      for (const p of patterns) {
+        const m = url.match(p);
+        if (m && m[1]) return m[1];
+      }
+      return '';
+    }
+
+    function handleYouTubeUrlInput() {
+      const url = document.getElementById('ytVideoUrl').value.trim();
+      const detectedId = extractYouTubeId(url);
+      const badge = document.getElementById('ytDetectedBadge');
+      const detectedIdEl = document.getElementById('ytDetectedId');
+
+      if (detectedId) {
+        badge.style.display = 'block';
+        detectedIdEl.textContent = detectedId;
+      } else {
+        badge.style.display = 'none';
+      }
+      updateYtLivePreview();
+    }
+
+    async function fetchVideoMetaFromUrl() {
+      const urlInput = document.getElementById('ytVideoUrl').value.trim();
+      const id = extractYouTubeId(urlInput);
+      if (!id) {
+        alert("Please paste a valid YouTube video link or ID first.");
+        return;
+      }
+
+      const btn = event?.currentTarget;
+      if (btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Fetching...';
+
+      try {
+        const res = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${id}`);
+        if (!res.ok) throw new Error('Fetch failed');
+        const data = await res.json();
+        if (data && data.title) {
+          document.getElementById('ytVideoTitle').value = data.title;
+          showToast("Video title fetched from YouTube!");
+        }
+      } catch(err) {
+        showToast("Could not auto-fetch title. Please enter title manually.");
+      } finally {
+        if (btn) btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fetch';
+        updateYtLivePreview();
+      }
+    }
+
+    function setYtPresetThumb(path) {
+      document.getElementById('ytCustomThumb').value = path;
+      updateYtLivePreview();
+    }
+
+    function updateYtLivePreview() {
+      const url = document.getElementById('ytVideoUrl').value.trim();
+      const id = extractYouTubeId(url) || 'fpleoX_sUIA';
+      const title = document.getElementById('ytVideoTitle').value.trim() || 'Young Apostles FC Video';
+      const tag = document.getElementById('ytVideoTag').value || 'WATCH IN PLAYER';
+      const customThumb = document.getElementById('ytCustomThumb').value.trim();
+
+      const thumbUrl = customThumb ? customThumb : `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
+      const prevThumb = document.getElementById('prevYtThumb');
+      if (prevThumb) prevThumb.src = thumbUrl;
+
+      const prevTitle = document.getElementById('prevYtTitle');
+      if (prevTitle) prevTitle.textContent = title;
+
+      const prevTag = document.getElementById('prevYtTag');
+      if (prevTag) prevTag.innerHTML = `<i class="fa-solid fa-circle-play"></i> ${tag}`;
+
+      const prevIdText = document.getElementById('prevYtIdText');
+      if (prevIdText) prevIdText.textContent = `ID: ${id}`;
+    }
+
+    function renderApostlesTvManageList() {
+      const container = document.getElementById('ytManageList');
+      const countEl = document.getElementById('ytListCount');
+      if (countEl) countEl.textContent = currentApostlesTv.length;
+      if (!container) return;
+
+      if (currentApostlesTv.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--admin-muted); font-size:0.85rem;">No videos currently active. Add one using the form!</div>`;
+        return;
+      }
+
+      container.innerHTML = currentApostlesTv.map((v, idx) => {
+        const thumbUrl = v.thumb ? v.thumb : `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+
+        return `
+          <div class="dispatch-manage-card">
+            <div class="dispatch-manage-info">
+              <div class="dispatch-manage-time"><i class="fa-brands fa-youtube" style="color:#ef4444;"></i> ${v.tag || 'VIDEO'} &middot; ID: ${v.id}</div>
+              <div class="dispatch-manage-text"><strong>${v.title}</strong></div>
+              <img src="${thumbUrl}" alt="Thumb" class="yt-manage-thumb" onerror="this.src='https://img.youtube.com/vi/${v.id}/hqdefault.jpg'">
+            </div>
+            <div class="dispatch-manage-actions">
+              <button class="btn-action-icon" title="Move Up" onclick="moveApostlesTvVideo(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
+                <i class="fa-solid fa-arrow-up"></i>
+              </button>
+              <button class="btn-action-icon" title="Move Down" onclick="moveApostlesTvVideo(${idx}, 1)" ${idx === currentApostlesTv.length - 1 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
+                <i class="fa-solid fa-arrow-down"></i>
+              </button>
+              <button class="btn-action-icon" title="Edit Video" onclick="editApostlesTvVideo('${v.id}')">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button class="btn-action-icon delete" title="Delete Video" onclick="deleteApostlesTvVideo('${v.id}')">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function moveApostlesTvVideo(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= currentApostlesTv.length) return;
+      const temp = currentApostlesTv[index];
+      currentApostlesTv[index] = currentApostlesTv[targetIndex];
+      currentApostlesTv[targetIndex] = temp;
+      saveAllApostlesTv();
+      showToast("Video order updated.");
+    }
+
+    function deleteApostlesTvVideo(id) {
+      if (!confirm("Are you sure you want to remove this video from Apostles TV?")) return;
+      currentApostlesTv = currentApostlesTv.filter(v => v.id !== id);
+      saveAllApostlesTv();
+      showToast("Video removed from Apostles TV.");
+    }
+
+    function editApostlesTvVideo(id) {
+      const v = currentApostlesTv.find(item => item.id === id);
+      if (!v) return;
+
+      document.getElementById('editApostlesTvId').value = v.id;
+      document.getElementById('ytVideoUrl').value = `https://www.youtube.com/watch?v=${v.id}`;
+      document.getElementById('ytVideoTitle').value = v.title || '';
+      document.getElementById('ytVideoTag').value = v.tag || 'MATCH HIGHLIGHTS';
+      document.getElementById('ytCustomThumb').value = v.thumb || '';
+
+      document.getElementById('ytFormTitle').textContent = "Edit Apostles TV Video";
+      document.getElementById('btnSubmitYt').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Video`;
+
+      handleYouTubeUrlInput();
+      updateYtLivePreview();
+      window.scrollTo({ top: 120, behavior: 'smooth' });
+    }
+
+    function resetYtForm() {
+      document.getElementById('apostlesTvForm').reset();
+      document.getElementById('editApostlesTvId').value = '';
+      document.getElementById('ytFormTitle').textContent = "Add Video to Apostles TV";
+      document.getElementById('btnSubmitYt').innerHTML = `<i class="fa-solid fa-plus"></i> Add Video to Apostles TV`;
+      document.getElementById('ytDetectedBadge').style.display = 'none';
+      updateYtLivePreview();
+    }
+
+    function resetApostlesTvToDefault() {
+      if (!confirm("Reset Apostles TV videos to club defaults? Custom videos will be replaced.")) return;
+      currentApostlesTv = [...INITIAL_APOSTLES_TV];
+      saveAllApostlesTv();
+      resetYtForm();
+      showToast("Apostles TV reset to official defaults.");
+    }
+
+    function saveApostlesTvVideo(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editApostlesTvId').value;
+      const url = document.getElementById('ytVideoUrl').value.trim();
+      const id = extractYouTubeId(url);
+      const title = document.getElementById('ytVideoTitle').value.trim();
+      const tag = document.getElementById('ytVideoTag').value;
+      const customThumb = document.getElementById('ytCustomThumb').value.trim();
+
+      if (!id) {
+        alert("Please enter a valid YouTube link or 11-character video ID.");
+        return;
+      }
+      if (!title) {
+        alert("Please enter a title for this video.");
+        return;
+      }
+
+      const videoData = {
+        id: id,
+        title: title,
+        tag: tag,
+        thumb: customThumb
+      };
+
+      if (editId) {
+        const idx = currentApostlesTv.findIndex(v => v.id === editId);
+        if (idx !== -1) {
+          currentApostlesTv[idx] = videoData;
+          showToast("Apostles TV video updated!");
+        }
+      } else {
+        currentApostlesTv.unshift(videoData);
+        showToast("New video published to Apostles TV!");
+      }
+
+      saveAllApostlesTv();
+      resetYtForm();
     }
 
     // Image handling with HTML5 Canvas auto-compression to avoid localStorage limits
@@ -1866,6 +2402,8 @@
     function exportFullBackup() {
       const backup = {
         dispatches: currentDispatches,
+        articles: localStorage.getItem(ARTICLES_KEY) ? JSON.parse(localStorage.getItem(ARTICLES_KEY)) : null,
+        apostlesTv: currentApostlesTv,
         fixtures: currentFixtures,
         standings: localStorage.getItem(STANDINGS_KEY) ? JSON.parse(localStorage.getItem(STANDINGS_KEY)) : null,
         timestamp: new Date().toISOString()
