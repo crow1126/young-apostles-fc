@@ -1257,6 +1257,60 @@ function renderNews() {
       }).join('');
     }
   }
+
+  // POSITIONS 4+: Folded into Older Stories UI so they don't stretch the page
+  const olderNewsSection = document.getElementById('olderNewsSection');
+  const olderNewsGrid = document.getElementById('olderNewsGrid');
+  const olderNewsCountEl = document.getElementById('olderNewsCount');
+
+  if (olderNewsSection && olderNewsGrid) {
+    const olderArticles = blogs.slice(3);
+    if (olderArticles.length > 0) {
+      olderNewsSection.style.display = 'block';
+      if (olderNewsCountEl) olderNewsCountEl.textContent = olderArticles.length;
+      olderNewsGrid.innerHTML = olderArticles.map(art => {
+        const artImg = art.image || 'assets/kit-home-2026.jpg';
+        const badgeClass = art.badgeClass || (art.category && art.category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club');
+        const badgeText = art.category || 'CLUB NEWS';
+        const excerpt = art.excerpt || (art.content ? art.content.replace(/<[^>]+>/g, '').slice(0, 110) + '...' : '');
+
+        return `
+          <article class="news-mini-card" onclick="openNewsArticle('${art.id}')">
+            <div class="news-mini-card__thumb">
+              <img src="${artImg}" alt="${art.title}" onerror="this.src='assets/apostle-tv-video3.jpg'">
+              <span class="news-badge-pill ${badgeClass}">${badgeText}</span>
+            </div>
+            <div class="news-mini-card__content">
+              <div class="news-meta-row">
+                <span class="news-meta-date">${art.date || 'Past'}</span>
+                <span class="news-meta-dot">&bull;</span>
+                <span class="news-meta-source">${art.source || 'Club Archive'}</span>
+              </div>
+              <h4 class="news-mini-title">${art.title}</h4>
+              <p class="news-mini-excerpt">${excerpt}</p>
+              <span class="news-link-read">Read Article &rarr;</span>
+            </div>
+          </article>
+        `;
+      }).join('');
+    } else {
+      olderNewsSection.style.display = 'none';
+    }
+  }
+}
+
+function toggleOlderNews() {
+  const fold = document.getElementById('olderNewsFold');
+  const btn = document.getElementById('btnToggleOlderNews');
+  const text = document.getElementById('olderNewsToggleText');
+  const icon = document.getElementById('olderNewsIcon');
+  if (!fold || !btn) return;
+  const isOpen = fold.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  if (text) text.textContent = isOpen ? 'Click to fold' : 'Click to view';
+  if (icon) {
+    icon.className = isOpen ? 'fa-solid fa-folder-open' : 'fa-solid fa-folder-closed';
+  }
 }
 
 function openNewsArticle(articleId) {
@@ -1400,18 +1454,20 @@ function getDispatches() {
 
 function renderDispatches() {
   const container = document.getElementById('dispatchesContainer');
+  const foldWrap = document.getElementById('dispatchesFoldWrap');
+  const drawer = document.getElementById('olderDispatchesDrawer');
+  const countEl = document.getElementById('olderDispatchesCount');
   if (!container) return;
 
   const blogs = getUnifiedBlogs();
-  // Positions 4, 5, 6 onwards appear in the sidebar dispatches
-  const sidebarItems = blogs.length > 3 ? blogs.slice(3) : blogs;
+  if (!blogs || blogs.length === 0) return;
 
-  container.innerHTML = sidebarItems.map(item => {
+  function createDispatchHtml(item) {
     const imgHtml = item.image 
       ? `<img src="${item.image}" alt="Dispatch Media" class="dispatch-media-thumb" onerror="this.style.display='none'">` 
       : '';
 
-    const textContent = item.excerpt || (item.content ? item.content.replace(/<[^>]+>/g, '').slice(0, 160) + '...' : '');
+    const textContent = item.excerpt || (item.content ? item.content.replace(/<[^>]+>/g, '').slice(0, 150) + '...' : '');
 
     return `
       <div class="dispatch-item" onclick="openNewsArticle('${item.id}')">
@@ -1429,7 +1485,31 @@ function renderDispatches() {
         <div class="dispatch-tag-link"><i class="fa-regular fa-newspaper"></i> Read full story &rarr;</div>
       </div>
     `;
-  }).join('');
+  }
+
+  // Show top 2 active dispatches
+  const topDispatches = blogs.slice(0, 2);
+  container.innerHTML = topDispatches.map(createDispatchHtml).join('');
+
+  // Fold the rest into expandable drawer so they don't stretch the sidebar
+  const olderDispatches = blogs.slice(2);
+  if (foldWrap && drawer) {
+    if (olderDispatches.length > 0) {
+      foldWrap.style.display = 'block';
+      if (countEl) countEl.textContent = olderDispatches.length;
+      drawer.innerHTML = olderDispatches.map(createDispatchHtml).join('');
+    } else {
+      foldWrap.style.display = 'none';
+    }
+  }
+}
+
+function toggleOlderDispatches() {
+  const drawer = document.getElementById('olderDispatchesDrawer');
+  const btn = document.getElementById('btnDispatchesFold');
+  if (!drawer || !btn) return;
+  const isOpen = drawer.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
 }
 
 // ==========================================

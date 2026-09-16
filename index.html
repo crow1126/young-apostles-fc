@@ -55,11 +55,11 @@
     <div class="mobile-partner-strip">
       <div class="mobile-partner-strip__inner">
         <a href="https://coreva.io" target="_blank" rel="noopener" class="partner-logo-link" aria-label="Coreva">
-          <img src="assets/coreva.svg" alt="Coreva" class="partner-logo-img">
+          <img src="assets/coreva-partner.png" alt="Coreva" class="partner-logo-img">
         </a>
         <span class="partner-strip-divider"></span>
         <a href="#store" class="partner-logo-link" aria-label="Mayniak">
-          <img src="assets/mayniak-logo.jpg" alt="Mayniak" class="partner-logo-img partner-logo-img--mayniak">
+          <img src="assets/mayniak-partner.png" alt="Mayniak" class="partner-logo-img partner-logo-img--mayniak">
         </a>
       </div>
     </div>
@@ -219,6 +219,25 @@
                 <span class="news-link-read">Read Article &rarr;</span>
               </div>
             </article>
+          </div><!-- /.news-subgrid -->
+
+          <!-- Folded Archive: Older News & Match Reports -->
+          <div class="older-news-section" id="olderNewsSection" style="display:none;">
+            <button type="button" class="btn-older-news-toggle" id="btnToggleOlderNews" onclick="toggleOlderNews()">
+              <span class="btn-older-news-toggle__left">
+                <i class="fa-solid fa-folder-closed" id="olderNewsIcon"></i>
+                <span>Older Stories &amp; Past Articles (<span id="olderNewsCount">0</span>)</span>
+              </span>
+              <span class="btn-older-news-toggle__right">
+                <span id="olderNewsToggleText">Click to view</span>
+                <i class="fa-solid fa-chevron-down" id="olderNewsChevron"></i>
+              </span>
+            </button>
+            <div class="older-news-fold" id="olderNewsFold">
+              <div class="older-news-grid" id="olderNewsGrid">
+                <!-- Injected dynamically via renderNews() -->
+              </div>
+            </div>
           </div>
         </div><!-- /.news-blog-main -->
 
@@ -239,69 +258,19 @@
             </div>
 
             <div class="dispatches-list" id="dispatchesContainer">
-              <!-- Dispatch Item 1 -->
-              <div class="dispatch-item" onclick="openNewsArticle('prempeh-winner-holy-stars')">
-                <div class="dispatch-item__meta">
-                  <img src="assets/official-logo.png" alt="YA" class="dispatch-avatar">
-                  <div>
-                    <div class="dispatch-author">Young Apostles FC <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i></div>
-                    <div class="dispatch-time">Sep 13 &middot; Full-Time Alert</div>
-                  </div>
-                </div>
-                <div class="dispatch-item__text">
-                  FT in Wenchi: <strong>Young Apostles 1 - 0 Basake Holy Stars</strong>. Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽
-                </div>
-
-                <div class="dispatch-tag-link"><i class="fa-regular fa-newspaper"></i> Read full match analysis &rarr;</div>
-              </div>
-
-              <!-- Dispatch Item 2 -->
-              <div class="dispatch-item" onclick="openNewsArticle('debibi-preview')">
-                <div class="dispatch-item__meta">
-                  <img src="assets/official-logo.png" alt="YA" class="dispatch-avatar">
-                  <div>
-                    <div class="dispatch-author">Young Apostles FC <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i></div>
-                    <div class="dispatch-time">Sep 15 &middot; Upcoming Fixture</div>
-                  </div>
-                </div>
-                <div class="dispatch-item__text">
-                  Preparations underway for Sunday’s Matchday 3 away encounter vs <strong>Debibi United</strong> at Debibi Park. Coach Abu puts the squad through morning tactical drills.
-                </div>
-                <div class="dispatch-tag-link"><i class="fa-regular fa-newspaper"></i> View match preview &rarr;</div>
-              </div>
-
-              <!-- Dispatch Item 3 -->
-              <div class="dispatch-item" onclick="openNewsArticle('mayniak-kit-launch')">
-                <div class="dispatch-item__meta">
-                  <img src="assets/official-logo.png" alt="YA" class="dispatch-avatar">
-                  <div>
-                    <div class="dispatch-author">Young Apostles FC <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i></div>
-                    <div class="dispatch-time">Sep 10 &middot; Kit Shop</div>
-                  </div>
-                </div>
-                <div class="dispatch-item__text">
-                  Wear the Apostles pride! Authentic 2026/27 jerseys available with custom player name &amp; number printing. Nationwide delivery across Ghana.
-                </div>
-                <img src="assets/kit-home-hanging.jpg" alt="Official Mayniak Jersey" class="dispatch-media-thumb">
-                <div class="dispatch-tag-link"><i class="fa-solid fa-shirt"></i> Order jersey in Team Shop &rarr;</div>
-              </div>
-
-              <!-- Dispatch Item 4 -->
-              <div class="dispatch-item" onclick="openNewsArticle('prempeh-winner-holy-stars')">
-                <div class="dispatch-item__meta">
-                  <img src="assets/official-logo.png" alt="YA" class="dispatch-avatar">
-                  <div>
-                    <div class="dispatch-author">Young Apostles FC <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i></div>
-                    <div class="dispatch-time">Sep 14 &middot; Player Spotlight</div>
-                  </div>
-                </div>
-                <div class="dispatch-item__text">
-                  "Scoring the club's first Premier League goal in front of our home fans is a feeling I will cherish forever." — <strong>Samuel Prempeh #21</strong>
-                </div>
-                <img src="assets/players/samuel-prempeh.jpg" alt="Samuel Prempeh" class="dispatch-media-thumb dispatch-media-thumb--portrait">
-                <div class="dispatch-tag-link"><i class="fa-solid fa-quote-left"></i> Read full player interview &rarr;</div>
-              </div>
+              <!-- Latest 2 active dispatches rendered dynamically -->
             </div><!-- /.dispatches-list -->
+
+            <!-- Folded Drawer for Older Dispatches -->
+            <div class="dispatches-fold-wrap" id="dispatchesFoldWrap" style="display:none;">
+              <button type="button" class="btn-dispatches-fold" id="btnDispatchesFold" onclick="toggleOlderDispatches()">
+                <span><i class="fa-solid fa-clock-rotate-left"></i> Previous Dispatches (<span id="olderDispatchesCount">0</span>)</span>
+                <i class="fa-solid fa-chevron-down" id="dispatchesChevron"></i>
+              </button>
+              <div class="older-dispatches-drawer" id="olderDispatchesDrawer">
+                <!-- Dynamically populated older dispatches -->
+              </div>
+            </div>
 
             <div class="dispatches-footer">
               <a href="https://x.com/youngapostlesfc" target="_blank" rel="noopener" class="dispatches-follow-link">
@@ -385,13 +354,13 @@
             </tr>
           </thead>
           <tbody>
-            <!-- 1. Hearts of Oak (UCL Qualification) -->
-            <tr style="border-left: 4px solid #16a34a;">
-              <td><span class="pos-pill" style="background:#dcfce7; color:#15803d; font-weight:800;">1</span></td>
+            <!-- 1. Hearts of Oak -->
+            <tr style="border-left: 4px solid var(--ya-blue-deep);">
+              <td><span class="pos-pill" style="background:#EFF6FF; color:var(--ya-blue-deep); font-weight:800;">1</span></td>
               <td>
                 <div class="tbl-club-cell">
                   <img src="assets/opponents/heartsofoak.png" alt="Hearts of Oak" class="tbl-crest">
-                  <span><strong>Hearts of Oak</strong> <span style="font-size:0.75rem; color:#16a34a; font-weight:700; margin-left:6px;">&bull; UCL Qual.</span></span>
+                  <span><strong>Hearts of Oak</strong></span>
                 </div>
               </td>
               <td class="text-center">2</td>
@@ -800,35 +769,21 @@
   </section>
 
   <!-- =========================================================
-       12. PARTNERS & SPONSORS (Chelsea Style)
+       12. PARTNERS & SPONSORS
        ========================================================= -->
-  <section class="partners-ribbon" style="background:#FFFFFF; padding:3.5rem 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color);">
+  <section class="partners-ribbon" id="partners" style="background:#FFFFFF; padding:3.5rem 0; border-top:1px solid var(--border-color); border-bottom:1px solid var(--border-color);">
     <div class="container" style="text-align:center;">
-      <div style="margin-bottom:2.5rem;">
-        <div style="font-style:italic; font-weight:700; color:var(--text-muted); font-size:0.95rem; margin-bottom:1.5rem; letter-spacing:0.04em;">Principal Partners</div>
-        <div class="partners-logos-wrap" style="display:flex; justify-content:center; align-items:center; gap:3.5rem; flex-wrap:wrap;">
-          <div class="partner-logo-item">
-            <img src="assets/coreva.svg" alt="Coreva" style="height:38px; object-fit:contain;">
-          </div>
-          <div class="partner-logo-item" style="font-weight:800; font-size:1.1rem; color:var(--ya-blue-deep); display:flex; align-items:center; gap:0.5rem;">
-            <i class="fa-solid fa-shirt" style="color:#0057B8;"></i> MAYNIAK SPORTSWEAR
-          </div>
-        </div>
+      <div style="font-weight:700; color:var(--text-muted); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:2rem;">
+        Official Club Partners
       </div>
-
-      <div>
-        <div style="font-style:italic; font-weight:700; color:var(--text-muted); font-size:0.95rem; margin-bottom:1.5rem; letter-spacing:0.04em;">Official Partners</div>
-        <div class="partners-logos-wrap" style="display:flex; justify-content:center; align-items:center; gap:3rem; flex-wrap:wrap;">
-          <div class="partner-logo-item" style="font-weight:700; font-size:0.95rem; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">
-            <i class="fa-solid fa-trophy" style="color:#0057B8;"></i> GHANA PREMIER LEAGUE
-          </div>
-          <div class="partner-logo-item" style="font-weight:700; font-size:0.95rem; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">
-            <i class="fa-solid fa-building-columns" style="color:#0057B8;"></i> ACCESS BANK
-          </div>
-          <div class="partner-logo-item" style="font-weight:700; font-size:0.95rem; color:var(--text-main); display:flex; align-items:center; gap:0.5rem;">
-            <i class="fa-solid fa-shield-halved" style="color:#0057B8;"></i> GHANA FA
-          </div>
-        </div>
+      <div class="partners-logos-wrap" style="display:flex; justify-content:center; align-items:center; gap:4.5rem; flex-wrap:wrap;">
+        <a href="https://coreva.io" target="_blank" rel="noopener" class="partner-logo-item-link" title="Coreva" style="display:inline-flex; align-items:center;">
+          <img src="assets/coreva-partner.png" alt="Coreva" style="max-height:50px; width:auto; max-width:210px; object-fit:contain; display:block;">
+        </a>
+        <div class="partner-logo-divider" style="width:1px; height:48px; background:var(--border-color);"></div>
+        <a href="#store" class="partner-logo-item-link" title="Mayniak Sportswear" style="display:inline-flex; align-items:center;">
+          <img src="assets/mayniak-partner.png" alt="Mayniak Sportswear" style="max-height:68px; width:auto; max-width:160px; object-fit:contain; display:block;">
+        </a>
       </div>
     </div>
   </section>
