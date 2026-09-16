@@ -1778,6 +1778,46 @@ window.addEventListener('storage', (e) => {
   }
 });
 
+// Cloud sync from central repository data/cms.json
+async function initCloudSync() {
+  try {
+    const res = await fetch('data/cms.json?v=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (!data) return;
+
+      // Sync blogs & dispatches
+      if (Array.isArray(data.blogs) && data.blogs.length > 0) {
+        localStorage.setItem('ya_unified_blogs', JSON.stringify(data.blogs));
+        localStorage.setItem('ya_club_unified_blogs', JSON.stringify(data.blogs));
+        localStorage.setItem('ya_club_dispatches', JSON.stringify(data.blogs));
+        renderNews();
+        renderDispatches();
+      }
+
+      // Sync Hero
+      if (data.hero) {
+        localStorage.setItem('ya_hero_custom', JSON.stringify(data.hero));
+        applyHeroWriteup();
+      }
+
+      // Sync Apostles TV
+      if (Array.isArray(data.apostlesTv) && data.apostlesTv.length > 0) {
+        localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(data.apostlesTv));
+        renderApostlesTv();
+      }
+
+      // Sync Standings
+      if (data.standings) {
+        localStorage.setItem('ya_standings_record', JSON.stringify(data.standings));
+        updateStandingsUI();
+      }
+    }
+  } catch (e) {
+    console.warn('Cloud sync fallback to local cache', e);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
   renderSquad('all');
@@ -1788,6 +1828,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderDispatches();
   updateStandingsUI();
   applyHeroWriteup();
+  initCloudSync(); // Fetch latest centralized cloud data for all devices
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
   setInterval(checkStorageUpdates, 2000); // Poll for Admin live updates

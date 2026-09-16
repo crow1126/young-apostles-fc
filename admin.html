@@ -809,12 +809,15 @@
       <div class="sync-alert-left">
         <div class="sync-pulse-dot"></div>
         <div>
-          <strong>Live Storage Sync Active:</strong> Updates published here reflect on the live website automatically within 2 seconds.
+          <strong>Global Multi-Device Cloud Sync:</strong> Centralized via <code>data/cms.json</code>. Updates can be pushed live so they reflect across all mobile phones and desktop computers worldwide.
         </div>
       </div>
-      <div>
+      <div style="display:flex; align-items:center; gap:0.85rem;">
+        <button onclick="deployCmsToCloud()" style="background:#F5C800; color:#00105a; border:none; padding:5px 14px; border-radius:20px; font-weight:800; font-size:0.75rem; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(245,200,0,0.4);">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Deploy Worldwide
+        </button>
         <a href="index.html" target="_blank" style="color:var(--admin-accent); font-weight:700; text-decoration:none; font-size:0.85rem;">
-          Verify on Live Website &rarr;
+          Verify Live Site &rarr;
         </a>
       </div>
     </div>
@@ -2743,6 +2746,131 @@
       showToast("Hero write-up reset to default!");
     }
 
+    // ==========================================
+    // GLOBAL MULTI-DEVICE CLOUD SYNC & DEPLOY
+    // ==========================================
+    function compileFullCmsData() {
+      let heroData = {
+        headline: "Young Apostles FC: Fighting for Glory in Ghana's Premier League",
+        subtitle: `"AGYA NA ƆWƆ TUMI" &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.`
+      };
+      try {
+        const rawH = localStorage.getItem('ya_hero_custom');
+        if (rawH) heroData = JSON.parse(rawH);
+      } catch(e) {}
+
+      let standingsData = { rank: "8", played: "2", diff: "-2", points: "3" };
+      try {
+        const rawS = localStorage.getItem(STANDINGS_KEY);
+        if (rawS) standingsData = JSON.parse(rawS);
+      } catch(e) {}
+
+      return {
+        lastUpdated: new Date().toISOString(),
+        hero: heroData,
+        blogs: currentBlogs,
+        apostlesTv: currentApostlesTv,
+        standings: standingsData,
+        fixtures: currentFixtures
+      };
+    }
+
+    async function deployCmsToCloud() {
+      const data = compileFullCmsData();
+      let token = localStorage.getItem('ya_gh_pat');
+
+      if (!token) {
+        const userToken = prompt("Enter your GitHub Personal Access Token to deploy live across all devices worldwide:\n\n(Click Cancel if you just want to download the updated data/cms.json file)");
+        if (userToken && userToken.trim()) {
+          token = userToken.trim();
+          localStorage.setItem('ya_gh_pat', token);
+        } else {
+          downloadCmsJson();
+          return;
+        }
+      }
+
+      showToast("Deploying changes to cloud...");
+      try {
+        // 1. Fetch current SHA of data/cms.json from GitHub
+        const getRes = await fetch('https://api.github.com/repos/crow1126/young-apostles-fc/contents/data/cms.json', {
+          headers: {
+            'Authorization': 'token ' + token,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        let sha = '';
+        if (getRes.ok) {
+          const fileMeta = await getRes.json();
+          sha = fileMeta.sha;
+        }
+
+        // 2. Commit updated JSON directly
+        const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+        const putRes = await fetch('https://api.github.com/repos/crow1126/young-apostles-fc/contents/data/cms.json', {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'token ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Club Admin Live Deployment via CMS Panel',
+            content: contentEncoded,
+            sha: sha || undefined
+          })
+        });
+
+        if (putRes.ok) {
+          showToast("🚀 Successfully deployed worldwide! All mobile phones and computers will update within 40 seconds.");
+        } else {
+          const errData = await putRes.json();
+          alert("Deploy Notice: " + (errData.message || "Token verification issue. Downloaded backup instead."));
+          downloadCmsJson();
+        }
+      } catch (err) {
+        downloadCmsJson();
+      }
+    }
+
+    function downloadCmsJson() {
+      const data = compileFullCmsData();
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "cms.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast("Downloaded updated cms.json!");
+    }
+
+    function copyCmsJson() {
+      const data = compileFullCmsData();
+      navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(() => {
+        showToast("📋 All CMS data copied to clipboard!");
+      }).catch(() => {
+        showToast("Clipboard access denied.");
+      });
+    }
+
+    // Auto-sync initial state from central cloud data/cms.json
+    async function initAdminCloudSync() {
+      try {
+        const res = await fetch('data/cms.json?v=' + Date.now());
+        if (res.ok) {
+          const cloudData = await res.json();
+          if (cloudData && Array.isArray(cloudData.blogs) && cloudData.blogs.length > 0) {
+            const localRaw = localStorage.getItem(UNIFIED_BLOGS_KEY);
+            if (!localRaw) {
+              currentBlogs = cloudData.blogs;
+              saveAllBlogs();
+            }
+          }
+        }
+      } catch(e) {}
+    }
+
     // Toast helper
     function showToast(msg) {
       const toast = document.getElementById('adminToast');
@@ -2755,6 +2883,7 @@
 
     // Init check on load
     document.addEventListener('DOMContentLoaded', () => {
+      initAdminCloudSync();
       if (sessionStorage.getItem('ya_admin_authed') === 'true') {
         showWorkspace();
       }
