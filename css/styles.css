@@ -315,7 +315,7 @@ button {
 }
 
 .nav-btn-icon {
-  color: var(--text-white-sub);
+  color: var(--ya-blue-deep);
   font-size: 1.05rem;
   width: 38px;
   height: 38px;
@@ -324,12 +324,12 @@ button {
   align-items: center;
   justify-content: center;
   position: relative;
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
 }
 
 .nav-btn-icon:hover {
-  color: var(--ya-gold);
-  background: rgba(255, 255, 255, 0.12);
+  color: var(--ya-blue-dark);
+  background: rgba(0, 16, 90, 0.07);
 }
 
 .cart-badge {
@@ -368,8 +368,57 @@ button {
 
 .nav-mobile-toggle {
   display: none;
-  color: var(--text-white);
+  color: var(--ya-blue-deep);
   font-size: 1.3rem;
+}
+
+/* =========================================================
+   MOBILE PARTNER / SPONSOR STRIP
+   ========================================================= */
+.mobile-partner-strip {
+  display: none; /* Hidden on desktop */
+  background: #ffffff;
+  border-bottom: 1px solid #e8ecf0;
+  width: 100%;
+}
+
+.mobile-partner-strip__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  height: 36px;
+  padding: 0 1rem;
+}
+
+.partner-logo-link {
+  display: flex;
+  align-items: center;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.partner-logo-link:hover {
+  opacity: 1;
+}
+
+.partner-logo-img {
+  height: 20px;
+  width: auto;
+  object-fit: contain;
+}
+
+.partner-logo-img--mayniak {
+  height: 22px;
+  /* Crop out white padding from JPG */
+  filter: contrast(1.05);
+}
+
+.partner-strip-divider {
+  width: 1px;
+  height: 18px;
+  background: #d0d5dd;
+  flex-shrink: 0;
 }
 
 /* Mobile Drawer */
@@ -2602,9 +2651,19 @@ button {
     gap: 0.75rem;
   }
 
+  /* Mobile Partner Strip */
+  .mobile-partner-strip {
+    display: block;
+  }
+
+  /* Top Bar: hide on mobile (replaced by partner strip) */
+  .top-bar {
+    display: none;
+  }
+
   /* Navbar */
   .main-nav__inner {
-    height: 64px;
+    height: 58px;
   }
   .nav-links {
     display: none;
@@ -2616,7 +2675,8 @@ button {
     width: 40px;
     height: 40px;
     border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 16, 90, 0.07);
+    color: var(--ya-blue-deep);
   }
   .btn-nav-primary {
     display: none;
@@ -2632,9 +2692,9 @@ button {
     height: 38px;
   }
 
-  /* Mobile Drawer */
+  /* Mobile Drawer — offset below partner strip + nav bar */
   .mobile-nav-drawer {
-    top: 98px;
+    top: 94px;
     padding: 1.25rem 1rem;
     box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   }
