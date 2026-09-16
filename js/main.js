@@ -1608,6 +1608,20 @@ let lastFixturesHash = '';
 let lastStandingsHash = '';
 let lastArticlesHash = '';
 let lastApostlesTvHash = '';
+let lastHeroHash = '';
+
+// Apply hero write-up from admin localStorage
+function applyHeroWriteup() {
+  try {
+    const stored = localStorage.getItem('ya_hero_custom');
+    if (!stored) return;
+    const data = JSON.parse(stored);
+    const headlineEl = document.querySelector('.hero-headline');
+    const subtitleEl = document.querySelector('.hero-subtitle');
+    if (headlineEl && data.headline) headlineEl.textContent = data.headline;
+    if (subtitleEl && data.subtitle) subtitleEl.innerHTML = data.subtitle;
+  } catch (e) {}
+}
 
 function checkStorageUpdates() {
   try {
@@ -1650,6 +1664,12 @@ function checkStorageUpdates() {
       lastApostlesTvHash = tvRaw;
       renderApostlesTv();
     }
+
+    const heroRaw = localStorage.getItem('ya_hero_custom');
+    if (heroRaw && heroRaw !== lastHeroHash) {
+      lastHeroHash = heroRaw;
+      applyHeroWriteup();
+    }
   } catch (err) {
     // Ignore storage polling errors
   }
@@ -1673,6 +1693,9 @@ window.addEventListener('storage', (e) => {
   if (e.key === 'ya_apostles_tv_videos') {
     renderApostlesTv();
   }
+  if (e.key === 'ya_hero_custom') {
+    applyHeroWriteup();
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1684,15 +1707,13 @@ document.addEventListener('DOMContentLoaded', () => {
   renderApostlesTv();
   renderDispatches();
   updateStandingsUI();
+  applyHeroWriteup();
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
   setInterval(checkStorageUpdates, 2000); // Poll for Admin live updates
 
   // Mobile Toggle
   document.getElementById('mobileToggle')?.addEventListener('click', toggleMobileNav);
-
-  // Cart Trigger
-  document.getElementById('navCartBtn')?.addEventListener('click', openCartDrawer);
 
   // Squad Tabs
   document.querySelectorAll('#squadPositionTabs .tab-btn').forEach(btn => {

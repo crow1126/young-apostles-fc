@@ -154,15 +154,17 @@ button {
 }
 
 .top-bar__tag {
-  background: var(--ya-gold-light);
-  color: var(--ya-gold);
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 0.725rem;
-  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  color: #94A3B8;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .top-bar__right {

@@ -1056,7 +1056,143 @@
     </div>
 
     <!-- =========================================================
-         TAB 2: MATCH SCORELINES & FIXTURES MANAGER
+         TAB 2: APOSTLES TV & YOUTUBE VIDEO CMS
+         ========================================================= -->
+    <div class="tab-pane" id="pane-apostlestv">
+      <div class="admin-layout-grid">
+
+        <!-- LEFT COLUMN: Video Creator / Upload Form -->
+        <section class="admin-card">
+          <div class="admin-card-header">
+            <h2><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> <span id="ytFormTitle">Add Video to Apostles TV</span></h2>
+            <span style="font-size:0.75rem; color:var(--admin-accent); font-weight:700;"><i class="fa-solid fa-arrows-rotate"></i> Real-Time TV Sync</span>
+          </div>
+
+          <!-- YouTube helper banner -->
+          <div style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.3); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1.25rem; font-size:0.8rem; line-height:1.45; color:#E2E8F0;">
+            <div style="font-weight:800; color:#F87171; margin-bottom:3px; display:flex; align-items:center; gap:6px;">
+              <i class="fa-brands fa-youtube"></i> YouTube Video Upload / Link CMS:
+            </div>
+            <span>Paste any YouTube link (e.g. <code>https://www.youtube.com/watch?v=...</code>, <code>https://youtu.be/...</code>, YouTube Shorts, or 11-character video ID). Click <strong>Auto-Fetch</strong> to pull the official title automatically, or type custom info!</span>
+          </div>
+
+          <form id="apostlesTvForm" onsubmit="saveApostlesTvVideo(event)">
+            <input type="hidden" id="editApostlesTvId" value="">
+
+            <!-- 1. YouTube URL or ID -->
+            <div class="form-group">
+              <label for="ytVideoUrl"><i class="fa-solid fa-link"></i> YouTube Video Link / URL or ID <span style="color:#EF4444;">*</span></label>
+              <div style="display:flex; gap:0.5rem;">
+                <input type="text" id="ytVideoUrl" class="form-control" placeholder="Paste YouTube link (e.g. https://youtu.be/fpleoX_sUIA)" required oninput="handleYouTubeUrlInput()">
+                <button type="button" class="btn-admin-secondary" style="white-space:nowrap; padding:0 0.85rem; font-size:0.8rem;" onclick="fetchVideoMetaFromUrl()" title="Auto-fetch video title from YouTube">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fetch
+                </button>
+              </div>
+              <div id="ytDetectedBadge" style="display:none; font-size:0.75rem; color:#4ADE80; font-weight:700; margin-top:0.35rem;">
+                <i class="fa-solid fa-check-circle"></i> Detected YouTube ID: <span id="ytDetectedId" style="font-family:monospace; background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px;"></span>
+              </div>
+            </div>
+
+            <!-- 2. Video Title -->
+            <div class="form-group">
+              <label for="ytVideoTitle"><i class="fa-solid fa-heading"></i> Video Title <span style="color:#EF4444;">*</span></label>
+              <input type="text" id="ytVideoTitle" class="form-control" placeholder="e.g. Match Highlights: Young Apostles 1 - 0 Basake Holy Stars" required oninput="updateYtLivePreview()">
+            </div>
+
+            <!-- 3. Category / Tag -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ytVideoTag"><i class="fa-solid fa-tag"></i> Category / Badge</label>
+                <select id="ytVideoTag" class="form-control" onchange="updateYtLivePreview()">
+                  <option value="MATCH HIGHLIGHTS" selected>MATCH HIGHLIGHTS</option>
+                  <option value="PRE-MATCH INTERVIEW">PRE-MATCH INTERVIEW</option>
+                  <option value="POST-MATCH INTERVIEW">POST-MATCH INTERVIEW</option>
+                  <option value="TRAINING &amp; BEHIND THE SCENES">TRAINING &amp; BEHIND THE SCENES</option>
+                  <option value="PRESS CONFERENCE">PRESS CONFERENCE</option>
+                  <option value="CLUB ANTHEM">CLUB ANTHEM</option>
+                  <option value="EXCLUSIVE FEATURE">EXCLUSIVE FEATURE</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="ytCustomThumb"><i class="fa-regular fa-image"></i> Custom Thumbnail (Optional)</label>
+                <div style="display:flex; gap:0.5rem;">
+                  <input type="file" id="ytFileInput" accept="image/*" style="display:none;" onchange="handleYtFileUpload(event)">
+                  <button type="button" class="btn-admin-secondary" style="padding:0.5rem 0.85rem; font-size:0.8rem; white-space:nowrap;" onclick="document.getElementById('ytFileInput').click()">
+                    <i class="fa-solid fa-upload"></i> Upload
+                  </button>
+                  <input type="text" id="ytCustomThumb" class="form-control" placeholder="Auto uses YouTube HQ cover, or paste image URL" oninput="updateYtLivePreview()">
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Asset Preset Chips for Thumbnail -->
+            <div style="font-size:0.75rem; color:var(--admin-muted); margin-bottom:0.35rem;">Quick Thumbnail Presets:</div>
+            <div class="preset-chips" style="margin-bottom:1.25rem;">
+              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video1.jpg')">Match Action 1</span>
+              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video2.jpg')">Coach / Training</span>
+              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video3.jpg')">Match Action 2</span>
+              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video4.jpg')">Matchday / Fans</span>
+              <span class="preset-chip" onclick="setYtPresetThumb('')">YouTube HQ Auto</span>
+            </div>
+
+            <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
+              <button type="submit" class="btn-admin-accent" id="btnSubmitYt">
+                <i class="fa-solid fa-plus"></i> Add Video to Apostles TV
+              </button>
+              <button type="button" class="btn-admin-secondary" onclick="resetYtForm()">
+                Clear Form
+              </button>
+              <button type="button" class="btn-admin-secondary" onclick="resetApostlesTvToDefault()" style="margin-left:auto; font-size:0.78rem; opacity:0.8;">
+                Reset Defaults
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- RIGHT COLUMN: Live Preview & Reorder List -->
+        <section class="admin-card">
+          <div class="admin-card-header">
+            <h2><i class="fa-solid fa-tv"></i> Apostles TV Live Preview</h2>
+            <span style="font-size:0.75rem; color:var(--admin-muted); font-weight:600;">Website Card Appearance</span>
+          </div>
+
+          <!-- Video Live Preview Card -->
+          <div style="background:#0F172A; border-radius:12px; overflow:hidden; border:1px solid var(--admin-border); margin-bottom:1.5rem; max-width:420px;">
+            <div style="position:relative; aspect-ratio:16/9; background:#000;">
+              <img id="prevYtThumb" src="https://img.youtube.com/vi/fpleoX_sUIA/hqdefault.jpg" alt="Video preview" style="width:100%; height:100%; object-fit:cover;">
+              <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.35);">
+                <div style="width:48px; height:48px; border-radius:50%; background:rgba(239, 68, 68, 0.9); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </div>
+              <span id="prevYtIdText" style="position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.75); color:#fff; font-size:0.68rem; font-family:monospace; padding:2px 6px; border-radius:4px;">ID: fpleoX_sUIA</span>
+            </div>
+            <div style="padding:1rem;">
+              <h3 id="prevYtTitle" style="font-size:0.95rem; font-weight:800; color:#fff; margin:0 0 0.5rem 0; line-height:1.4;">Match Highlights: Young Apostles 1 - 0 Basake Holy Stars</h3>
+              <div style="height:1px; background:rgba(255,255,255,0.08); margin:0.5rem 0;"></div>
+              <div id="prevYtTag" style="font-size:0.72rem; font-weight:800; color:var(--admin-accent); text-transform:uppercase; letter-spacing:0.5px;">
+                <i class="fa-solid fa-circle-play"></i> MATCH HIGHLIGHTS
+              </div>
+            </div>
+          </div>
+
+          <!-- Manage Current Apostles TV Videos List -->
+          <div class="admin-card-header" style="margin-top:1.5rem;">
+            <h2><i class="fa-solid fa-list-check"></i> Published Videos (<span id="ytListCount">4</span>)</h2>
+            <span style="font-size:0.75rem; color:var(--admin-muted);">Reorder or Delete</span>
+          </div>
+
+          <div id="ytManageList" style="display:flex; flex-direction:column; gap:0.75rem; max-height:420px; overflow-y:auto; padding-right:4px;">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- =========================================================
+         TAB 3: MATCH SCORELINES & FIXTURES MANAGER
          ========================================================= -->
     <div class="tab-pane" id="pane-matches">
       <div class="admin-layout-grid">
@@ -1287,129 +1423,32 @@
           <button type="button" class="btn-admin-secondary" onclick="updatePasskey()">
             Update Passkey
           </button>
-        </section>
-
-      </div>
-    </div>
-
-    <!-- =========================================================
-         TAB 4: APOSTLES TV (YOUTUBE MANAGER)
-         ========================================================= -->
-    <div class="tab-pane" id="pane-apostlestv">
-      <div class="admin-layout-grid">
-        <!-- LEFT: Add / Edit Apostles TV Video -->
         <section class="admin-card">
           <div class="admin-card-header">
-            <h2><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> <span id="ytFormTitle">Add Video to Apostles TV</span></h2>
-            <span style="font-size:0.75rem; color:var(--admin-muted);">Direct YouTube URL Input</span>
+            <h2><i class="fa-solid fa-feather"></i> Homepage Hero Banner Write-Up</h2>
+            <span style="font-size:0.75rem; color:var(--admin-accent); font-weight:700;">Live Sync</span>
           </div>
-
-          <form id="apostlesTvForm" onsubmit="saveApostlesTvVideo(event)">
-            <input type="hidden" id="editApostlesTvId" value="">
-
-            <div class="form-group">
-              <label for="ytVideoUrl"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> YouTube Video URL or Video ID</label>
-              <div style="display:flex; gap:0.5rem;">
-                <input type="text" id="ytVideoUrl" class="form-control" placeholder="Paste YouTube link (e.g. https://www.youtube.com/watch?v=... or youtu.be/...)" required oninput="handleYouTubeUrlInput()">
-                <button type="button" class="btn-admin-secondary" onclick="fetchVideoMetaFromUrl()" style="white-space:nowrap; padding:0 0.85rem;" title="Auto-detect ID and fetch title from YouTube">
-                  <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fetch
-                </button>
-              </div>
-              <div id="ytDetectedBadge" style="margin-top:0.45rem; font-size:0.75rem; color:#4ADE80; display:none;">
-                <i class="fa-solid fa-circle-check"></i> Detected YouTube ID: <strong id="ytDetectedId"></strong>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="ytVideoTitle"><i class="fa-solid fa-heading"></i> Video Title</label>
-              <input type="text" id="ytVideoTitle" class="form-control" placeholder="e.g. Young Apostles 1 - 0 Basake Holy Stars Highlights" required oninput="updateYtLivePreview()">
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="ytVideoTag"><i class="fa-solid fa-tag"></i> Category / Badge</label>
-                <select id="ytVideoTag" class="form-control" onchange="updateYtLivePreview()">
-                  <option value="MATCH HIGHLIGHTS" selected>MATCH HIGHLIGHTS</option>
-                  <option value="PRE-MATCH INTERVIEW">PRE-MATCH INTERVIEW</option>
-                  <option value="POST-MATCH PRESS">POST-MATCH PRESS</option>
-                  <option value="TRAINING &amp; BTS">TRAINING &amp; BTS</option>
-                  <option value="CLUB ANTHEM">CLUB ANTHEM</option>
-                  <option value="SPECIAL FEATURE">SPECIAL FEATURE</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="ytCustomThumb"><i class="fa-regular fa-image"></i> Custom Thumbnail URL (Optional)</label>
-                <input type="text" id="ytCustomThumb" class="form-control" placeholder="Leave blank to use YouTube HQ thumbnail" oninput="updateYtLivePreview()">
-              </div>
-            </div>
-
-            <!-- Preset Action Thumbnails -->
-            <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.25rem;">Quick Club Asset Thumbnails:</div>
-            <div class="preset-chips">
-              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video1.jpg')">Matchday Action 1</span>
-              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video2.jpg')">Coach Fuseini Interview</span>
-              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video3.jpg')">Vision FC Matchday 1</span>
-              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video4.jpg')">Club Anthem</span>
-              <span class="preset-chip" onclick="setYtPresetThumb('')">Use YouTube HQ Cover</span>
-            </div>
-
-            <!-- Submit Buttons -->
-            <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
-              <button type="submit" class="btn-admin-primary" id="btnSubmitYt">
-                <i class="fa-solid fa-plus"></i> Add Video to Apostles TV
-              </button>
-              <button type="button" class="btn-admin-secondary" onclick="resetYtForm()">
-                Clear Form
-              </button>
-              <button type="button" class="btn-admin-secondary" onclick="resetApostlesTvToDefault()" style="margin-left:auto; color:#F87171; border-color:rgba(239,68,68,0.3);">
-                <i class="fa-solid fa-rotate-left"></i> Reset Defaults
-              </button>
-            </div>
-          </form>
+          <p style="font-size:0.85rem; color:var(--admin-muted); line-height:1.5; margin-bottom:1rem;">
+            Update the main headline and message displayed in the hero banner on the club homepage:
+          </p>
+          <div class="form-group">
+            <label for="heroHeadlineInput">Hero Headline</label>
+            <input type="text" id="heroHeadlineInput" class="form-control" value="Young Apostles FC: Fighting for Glory in Ghana's Premier League">
+          </div>
+          <div class="form-group">
+            <label for="heroSubtitleInput">Hero Subtitle / Description</label>
+            <textarea id="heroSubtitleInput" class="form-control" rows="3">"AGYA NA ƆWƆ TUMI" &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.</textarea>
+          </div>
+          <div style="display:flex; gap:0.75rem;">
+            <button type="button" class="btn-admin-accent" onclick="saveHeroWriteup()">
+              <i class="fa-solid fa-floppy-disk"></i> Update Hero Write-Up
+            </button>
+            <button type="button" class="btn-admin-secondary" onclick="resetHeroWriteup()">
+              Reset Default
+            </button>
+          </div>
         </section>
 
-        <!-- RIGHT: Live Apostles TV Card Preview & Manage List -->
-        <div>
-          <div class="admin-card" style="margin-bottom:1.5rem;">
-            <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
-              <h2 style="font-size:1rem;"><i class="fa-solid fa-eye"></i> Apostles TV Card Appearance</h2>
-              <span style="font-size:0.75rem; color:var(--admin-accent); font-weight:700;">Live Card Preview</span>
-            </div>
-
-            <div style="background:#0F172A; border:1px solid var(--admin-border); border-radius:12px; overflow:hidden; max-width:380px; margin:0 auto; box-shadow:0 8px 24px rgba(0,0,0,0.4);">
-              <div style="position:relative; aspect-ratio:16/9; background:#1E293B; overflow:hidden;">
-                <img id="prevYtThumb" src="assets/apostle-tv-video1.jpg" alt="Video preview" style="width:100%; height:100%; object-fit:cover;">
-                <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:none;">
-                  <div style="width:48px; height:48px; border-radius:50%; background:rgba(0,0,0,0.65); border:2px solid #fff; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1rem; box-shadow:0 4px 12px rgba(0,0,0,0.4);">
-                    <i class="fa-solid fa-play" style="margin-left:3px;"></i>
-                  </div>
-                </div>
-                <div style="position:absolute; top:10px; right:10px; background:rgba(239,68,68,0.9); color:#fff; padding:3px 7px; border-radius:4px; font-size:0.8rem;">
-                  <i class="fa-brands fa-youtube"></i>
-                </div>
-              </div>
-              <div style="padding:1rem;">
-                <h4 id="prevYtTitle" style="font-size:0.95rem; font-weight:800; color:#fff; line-height:1.4; margin:0 0 0.6rem 0;">Young Apostles FC Video</h4>
-                <div style="height:1px; background:rgba(255,255,255,0.08); margin-bottom:0.6rem;"></div>
-                <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem;">
-                  <span id="prevYtTag" style="font-weight:800; color:var(--admin-accent); letter-spacing:0.04em;"><i class="fa-solid fa-circle-play"></i> WATCH IN PLAYER</span>
-                  <span id="prevYtIdText" style="color:var(--admin-muted); font-family:monospace;">ID: fpleoX_sUIA</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <section class="admin-card">
-            <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
-              <h2 style="font-size:1rem;"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Active Apostles TV Videos (<span id="ytListCount">4</span>)</h2>
-              <span style="font-size:0.75rem; color:var(--admin-muted);">Immediate sync to homepage</span>
-            </div>
-
-            <div id="ytManageList" class="dispatches-manage-list">
-              <!-- Rendered via JS -->
-            </div>
-          </section>
-        </div>
       </div>
     </div>
 
@@ -1593,6 +1632,11 @@
       if (btn) btn.classList.add('active');
       const pane = document.getElementById('pane-' + tabId);
       if (pane) pane.classList.add('active');
+
+      if (tabId === 'apostlestv') {
+        renderApostlesTvManageList();
+        updateYtLivePreview();
+      }
     }
 
     // Auth logic
@@ -1626,6 +1670,7 @@
       loadFixtures();
       loadStandings();
       loadApostlesTv();
+      loadHeroWriteup();
       updateBlogLivePreview();
       updateYtLivePreview();
     }
@@ -2105,6 +2150,50 @@
         if (btn) btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fetch';
         updateYtLivePreview();
       }
+    }
+
+    function handleYtFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        alert("Please choose an image file (JPG, PNG, WebP).");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          const maxDim = 800;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          const customThumbInput = document.getElementById('ytCustomThumb');
+          if (customThumbInput) customThumbInput.value = compressedDataUrl;
+          updateYtLivePreview();
+          showToast("Custom thumbnail attached!");
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
     }
 
     function setYtPresetThumb(path) {
@@ -2614,6 +2703,44 @@
       localStorage.setItem('ya_admin_passkey', newKey);
       document.getElementById('newPasskeyInput').value = '';
       showToast("Staff passkey updated successfully!");
+    }
+
+    // Hero Write-Up Manager
+    function loadHeroWriteup() {
+      try {
+        const stored = localStorage.getItem('ya_hero_custom');
+        if (stored) {
+          const data = JSON.parse(stored);
+          const hInput = document.getElementById('heroHeadlineInput');
+          const sInput = document.getElementById('heroSubtitleInput');
+          if (hInput && data.headline) hInput.value = data.headline;
+          if (sInput && data.subtitle) sInput.value = data.subtitle;
+        }
+      } catch(e) {}
+    }
+
+    function saveHeroWriteup() {
+      const headline = document.getElementById('heroHeadlineInput')?.value.trim();
+      const subtitle = document.getElementById('heroSubtitleInput')?.value.trim();
+      if (!headline || !subtitle) {
+        alert("Please enter both headline and subtitle.");
+        return;
+      }
+      localStorage.setItem('ya_hero_custom', JSON.stringify({ headline, subtitle }));
+      window.dispatchEvent(new Event('storage'));
+      showToast("Homepage hero write-up updated live!");
+    }
+
+    function resetHeroWriteup() {
+      const defaultHeadline = "Young Apostles FC: Fighting for Glory in Ghana's Premier League";
+      const defaultSubtitle = `"AGYA NA ƆWƆ TUMI" &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.`;
+      const hInput = document.getElementById('heroHeadlineInput');
+      const sInput = document.getElementById('heroSubtitleInput');
+      if (hInput) hInput.value = defaultHeadline;
+      if (sInput) sInput.value = defaultSubtitle;
+      localStorage.setItem('ya_hero_custom', JSON.stringify({ headline: defaultHeadline, subtitle: defaultSubtitle }));
+      window.dispatchEvent(new Event('storage'));
+      showToast("Hero write-up reset to default!");
     }
 
     // Toast helper
