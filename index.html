@@ -256,18 +256,33 @@
               </div>
             </div>
 
+            <!-- 2 older posts/news displayed directly -->
             <div class="dispatches-list" id="dispatchesContainer">
-              <!-- Latest 2 active dispatches rendered dynamically -->
+              <!-- Top 2 older dispatches rendered dynamically -->
             </div><!-- /.dispatches-list -->
 
-            <!-- Folded Drawer for Older Dispatches -->
-            <div class="dispatches-fold-wrap" id="dispatchesFoldWrap" style="display:none;">
-              <button type="button" class="btn-dispatches-fold" id="btnDispatchesFold" onclick="toggleOlderDispatches()">
-                <span><i class="fa-solid fa-clock-rotate-left"></i> Previous Dispatches (<span id="olderDispatchesCount">0</span>)</span>
+            <!-- Cool Dropdown & Archive Selector to Access Older Posts -->
+            <div class="sidebar-dropdown-archive" id="sidebarDropdownArchive">
+              <div class="sidebar-dropdown-label">
+                <i class="fa-solid fa-clock-rotate-left" style="color:var(--ya-gold);"></i>
+                <span>Previous Stories &amp; Match Archive</span>
+              </div>
+              <div class="sidebar-select-wrapper">
+                <select id="olderStoriesSelect" class="sidebar-custom-select" onchange="handleOlderStorySelect(this.value)">
+                  <option value="" disabled selected>📂 Select an older story to read...</option>
+                  <!-- Populated dynamically via JS -->
+                </select>
+                <i class="fa-solid fa-chevron-down select-arrow-icon"></i>
+              </div>
+
+              <!-- Collapsible Drawer Toggle -->
+              <button type="button" class="btn-sidebar-fold-toggle" id="btnDispatchesFold" onclick="toggleOlderDispatches()">
+                <span><i class="fa-solid fa-layer-group"></i> Browse All Past News (<span id="olderDispatchesCount">0</span>)</span>
                 <i class="fa-solid fa-chevron-down" id="dispatchesChevron"></i>
               </button>
+
               <div class="older-dispatches-drawer" id="olderDispatchesDrawer">
-                <!-- Dynamically populated older dispatches -->
+                <!-- Dynamically populated older dispatches cards -->
               </div>
             </div>
 

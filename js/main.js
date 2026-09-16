@@ -1058,6 +1058,29 @@ const UNIFIED_BLOGS_KEY = "ya_club_unified_blogs";
 
 const DEFAULT_UNIFIED_BLOGS = [
   {
+    id: 'debibi-united-derby',
+    title: "Young Apostles Face Debibi United in First Regional Derby of GPL Season",
+    category: "MATCH PREVIEW",
+    badgeClass: "news-badge-pill--preview",
+    date: "Sep 16, 2026",
+    source: "Apostles Media Dispatch",
+    author: "Young Apostles FC",
+    image: "assets/fixtures-round2.jpg",
+    excerpt: "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Wenchi's top-flight representatives.",
+    content: `
+      <p><strong>WENCHI / DEBIBI</strong> &mdash; Young Apostles FC will make the short regional journey to Derby Presby Park on Sunday afternoon for a highly anticipated Matchday 3 encounter against <strong>Debibi United FC</strong> in the 2026/27 Ghana Premier League.</p>
+      <p>The fixture marks the first regional Bono derby of the campaign, with both sides eager to establish early dominance. Head Coach Abu Abdul-Hanan conducted an intensive tactical workout at the Wenchi Sports Stadium on Wednesday, focusing on midfield control and quick transitions.</p>
+      <div style="margin:1.5rem 0; padding:1.25rem; background:rgba(0,87,184,0.06); border-left:4px solid var(--ya-blue); border-radius:0 8px 8px 0;">
+        <blockquote style="font-style:italic; font-size:1.05rem; color:var(--ya-blue-deep); margin:0 0 0.5rem 0;">
+          "Derby matches demand composure, tactical discipline, and total commitment. We respect Debibi United, but our aim is to travel with authority and fight for all three points for our traveling supporters."
+        </blockquote>
+        <cite style="font-weight:700; color:var(--ya-gold-hover); font-size:0.85rem;">&mdash; Abu Abdul-Hanan, Head Coach</cite>
+      </div>
+      <p>Kickoff is scheduled for Sunday at 3:00 PM GMT at Derby Presby Park. Live coverage and instant dispatches will be provided across all official Young Apostles FC media channels.</p>
+    `,
+    readTime: "3 min read"
+  },
+  {
     id: 'prempeh-winner-holy-stars',
     title: "Prempeh Stunner Seals Historic First GPL Victory for Young Apostles",
     category: "MATCH REPORT",
@@ -1487,21 +1510,43 @@ function renderDispatches() {
     `;
   }
 
-  // Show top 2 active dispatches
-  const topDispatches = blogs.slice(0, 2);
-  container.innerHTML = topDispatches.map(createDispatchHtml).join('');
+  // Show 2 older posts/news in sidebar (avoiding duplicating position 0 when possible)
+  const sidebarItems = blogs.length > 2 ? blogs.slice(1, 3) : blogs.slice(0, 2);
+  container.innerHTML = sidebarItems.map(createDispatchHtml).join('');
 
-  // Fold the rest into expandable drawer so they don't stretch the sidebar
-  const olderDispatches = blogs.slice(2);
-  if (foldWrap && drawer) {
-    if (olderDispatches.length > 0) {
-      foldWrap.style.display = 'block';
-      if (countEl) countEl.textContent = olderDispatches.length;
-      drawer.innerHTML = olderDispatches.map(createDispatchHtml).join('');
+  // Cool Dropdown & Archive Drawer: populated with older stories
+  const olderItems = blogs.length > 3 ? blogs.slice(3) : blogs.slice(2);
+  const selectEl = document.getElementById('olderStoriesSelect');
+
+  if (selectEl) {
+    if (olderItems.length > 0) {
+      selectEl.innerHTML = `
+        <option value="" disabled selected>📂 Select an older story to read...</option>
+        ${olderItems.map(item => `<option value="${item.id}">📜 [${item.date ? item.date.split('·')[0].trim() : 'Archive'}] ${item.title}</option>`).join('')}
+      `;
     } else {
-      foldWrap.style.display = 'none';
+      selectEl.innerHTML = `<option value="" disabled selected>No older archives available</option>`;
     }
   }
+
+  const drawer = document.getElementById('olderDispatchesDrawer');
+  const countEl = document.getElementById('olderDispatchesCount');
+  if (drawer && countEl) {
+    countEl.textContent = olderItems.length;
+    if (olderItems.length > 0) {
+      drawer.innerHTML = olderItems.map(createDispatchHtml).join('');
+    } else {
+      drawer.innerHTML = `<div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.8rem;">No more older stories in archive.</div>`;
+    }
+  }
+}
+
+// Handle selection from the cool older stories dropdown
+function handleOlderStorySelect(articleId) {
+  if (!articleId) return;
+  openNewsArticle(articleId);
+  const select = document.getElementById('olderStoriesSelect');
+  if (select) select.selectedIndex = 0;
 }
 
 function toggleOlderDispatches() {

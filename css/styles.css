@@ -3732,36 +3732,96 @@ button {
   }
 }
 
-/* Sidebar Folded Dispatches */
-.dispatches-fold-wrap {
+/* Sidebar Cool Dropdown & Archive Selector */
+.sidebar-dropdown-archive {
+  padding: 1rem 1.25rem 1.15rem;
+  background: #f8fafc;
   border-top: 1px solid var(--border-subtle);
-  background: #fdfdfd;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.btn-dispatches-fold {
+.sidebar-dropdown-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ya-blue-deep);
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.sidebar-select-wrapper {
+  position: relative;
   width: 100%;
-  background: transparent;
-  border: none;
-  padding: 0.85rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-custom-select {
+  width: 100%;
+  background: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0.65rem 2.2rem 0.65rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--ya-blue-deep);
+  appearance: none;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.sidebar-custom-select:hover {
+  border-color: var(--ya-blue);
+}
+
+.sidebar-custom-select:focus {
+  outline: none;
+  border-color: var(--ya-blue);
+  box-shadow: 0 0 0 3px rgba(0, 87, 184, 0.15);
+}
+
+.select-arrow-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--ya-blue);
+  font-size: 0.8rem;
+}
+
+.btn-sidebar-fold-toggle {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.82rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--ya-blue);
   cursor: pointer;
-  transition: background 0.15s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
-.btn-dispatches-fold:hover {
-  background: #f1f5f9;
+.btn-sidebar-fold-toggle:hover {
+  background: #eff6ff;
+  border-color: var(--ya-blue-light);
 }
 
-.btn-dispatches-fold i.fa-chevron-down {
+.btn-sidebar-fold-toggle i.fa-chevron-down {
   transition: transform 0.3s ease;
 }
 
-.btn-dispatches-fold.open i.fa-chevron-down {
+.btn-sidebar-fold-toggle.open i.fa-chevron-down {
   transform: rotate(180deg);
 }
 
@@ -3769,12 +3829,13 @@ button {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.35s ease, opacity 0.25s ease;
+  transition: max-height 0.4s ease-in-out, opacity 0.3s ease;
 }
 
 .older-dispatches-drawer.open {
-  max-height: 1200px;
+  max-height: 1500px;
   opacity: 1;
+  margin-top: 0.75rem;
 }
 
 /* Partners ribbon hover */
