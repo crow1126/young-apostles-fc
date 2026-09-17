@@ -17,6 +17,21 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Anticipate Site Lock Guard -->
+  <script>
+    (function() {
+      // Check query parameter override or localStorage authorization
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('preview') === '1121231234') {
+        localStorage.setItem('ya_portal_authorized', 'true');
+      }
+      const isAuth = localStorage.getItem('ya_portal_authorized');
+      if (isAuth !== 'true') {
+        window.location.replace('anticipate.html');
+      }
+    })();
+  </script>
 </head>
 <body>
   <!-- =========================================================

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ANTICIPATE &middot; Young Apostles FC Official Portal</title>
-  <meta name="description" content="Anticipate the official digital launch of Young Apostles Football Club. Wenchi's pride competing in the Ghana Premier League. Countdown to Friday PM.">
+  <title>ANTICIPATE &middot; Young Apostles Football Club</title>
+  <meta name="description" content="Anticipate the official digital portal launch of Young Apostles Football Club. Wenchi's pride competing in the Ghana Premier League. Countdown to Friday PM.">
   <link rel="icon" type="image/png" href="assets/official-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     :root {
-      --ya-blue-deep: #070E29;
-      --ya-blue-dark: #0A1640;
-      --ya-blue:      #0E1E5B;
+      --ya-blue-deep: #050B1E;
+      --ya-blue-dark: #081232;
+      --ya-blue-card: rgba(8, 18, 50, 0.72);
       --ya-gold:      #FFB800;
       --ya-gold-hover:#E5A800;
       --ya-font-head: 'Outfit', sans-serif;
@@ -30,11 +30,10 @@
     body {
       background-color: var(--ya-blue-deep);
       background-image: 
-        radial-gradient(circle at 50% 20%, rgba(14, 30, 91, 0.7) 0%, transparent 65%),
-        radial-gradient(circle at 80% 80%, rgba(255, 184, 0, 0.08) 0%, transparent 50%),
-        url('assets/hero-bg.jpg');
+        linear-gradient(180deg, rgba(5, 11, 30, 0.75) 0%, rgba(5, 11, 30, 0.88) 45%, rgba(5, 11, 30, 0.96) 100%),
+        url('assets/anticipate-team-bg.jpg');
       background-size: cover;
-      background-position: center;
+      background-position: center 28%;
       background-attachment: fixed;
       color: #FFFFFF;
       font-family: var(--ya-font-body);
@@ -46,21 +45,72 @@
       overflow-x: hidden;
     }
 
-    /* Dark Mesh Overlay */
-    body::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(7, 14, 41, 0.88);
-      backdrop-filter: blur(8px);
-      z-index: 1;
+    /* Top Brand Navigation */
+    .anticipate-nav {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .anticipate-container {
+    .brand-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      padding: 0.4rem 1.1rem 0.4rem 0.5rem;
+      border-radius: 999px;
+    }
+
+    .brand-crest-small {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+
+    .brand-text {
+      font-family: var(--ya-font-head);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #FFFFFF;
+      text-transform: uppercase;
+    }
+
+    .nav-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+    }
+
+    .nav-tag img {
+      height: 18px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    /* Main Container */
+    .main-wrap {
       position: relative;
-      z-index: 2;
+      z-index: 10;
       width: 100%;
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 2.5rem 1.5rem;
       text-align: center;
@@ -71,257 +121,192 @@
       flex: 1;
     }
 
-    /* Top Brand Nav */
-    .top-bar {
+    /* Crest Hero */
+    .crest-presentation {
       position: relative;
-      z-index: 2;
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-      max-width: 1240px;
-      margin: 0 auto;
-    }
-
-    .brand-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.65rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 0.45rem 1rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: #FFFFFF;
-    }
-
-    .brand-pill img {
-      width: 22px;
-      height: 22px;
-      object-fit: contain;
-    }
-
-    .btn-preview-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 0.4rem 0.9rem;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      transition: all 0.25s ease;
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-preview-link:hover {
-      color: var(--ya-gold);
-      border-color: var(--ya-gold);
-      background: rgba(255, 184, 0, 0.1);
-    }
-
-    /* Crest Presentation */
-    .crest-wrapper {
-      position: relative;
-      margin-bottom: 1.75rem;
+      margin-bottom: 2rem;
     }
 
     .crest-glow {
       position: absolute;
-      inset: -15px;
-      background: radial-gradient(circle, rgba(255, 184, 0, 0.35) 0%, transparent 70%);
+      inset: -20px;
+      background: radial-gradient(circle, rgba(255, 184, 0, 0.28) 0%, transparent 68%);
       border-radius: 50%;
-      filter: blur(16px);
-      animation: pulseGlow 3s ease-in-out infinite alternate;
+      filter: blur(20px);
+      animation: pulseGlow 3.5s ease-in-out infinite alternate;
     }
 
     @keyframes pulseGlow {
-      from { transform: scale(0.9); opacity: 0.6; }
-      to { transform: scale(1.1); opacity: 1; }
+      from { transform: scale(0.92); opacity: 0.5; }
+      to { transform: scale(1.1); opacity: 0.95; }
     }
 
     .club-crest {
       position: relative;
-      width: 125px;
-      height: 125px;
+      width: 130px;
+      height: 130px;
       object-fit: contain;
-      filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6));
-      animation: floatCrest 4s ease-in-out infinite alternate;
+      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.7));
     }
 
-    @keyframes floatCrest {
-      from { transform: translateY(0px); }
-      to { transform: translateY(-8px); }
-    }
-
-    /* Typography */
-    .anticipate-badge {
+    /* League Ribbon */
+    .league-pill {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(255, 184, 0, 0.15);
-      border: 1px solid rgba(255, 184, 0, 0.4);
+      background: rgba(255, 184, 0, 0.12);
+      border: 1px solid rgba(255, 184, 0, 0.35);
       color: var(--ya-gold);
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       font-weight: 800;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      padding: 0.4rem 1.1rem;
+      padding: 0.4rem 1.25rem;
       border-radius: 999px;
       margin-bottom: 1.25rem;
     }
 
-    .anticipate-title {
+    /* Big Title */
+    .anticipate-headline {
       font-family: var(--ya-font-head);
-      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      font-size: clamp(3.2rem, 7.5vw, 5.8rem);
       font-weight: 900;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      line-height: 1.02;
+      line-height: 0.98;
       margin-bottom: 1rem;
-      background: linear-gradient(180deg, #FFFFFF 30%, #FFB800 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.5));
+      color: #FFFFFF;
+      text-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
     }
 
-    .anticipate-subtitle {
-      font-size: clamp(1rem, 2.2vw, 1.25rem);
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 620px;
+    .anticipate-lead {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 600px;
       line-height: 1.6;
       margin-bottom: 2.5rem;
+      font-weight: 400;
     }
 
-    .anticipate-subtitle strong {
-      color: var(--ya-gold);
-    }
-
-    /* Countdown Grid */
-    .countdown-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-      width: 100%;
-      max-width: 680px;
-      margin-bottom: 2.75rem;
-    }
-
-    .countdown-box {
-      background: rgba(14, 30, 91, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 1.4rem 0.75rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.25s ease, border-color 0.25s ease;
-    }
-
-    .countdown-box:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255, 184, 0, 0.5);
-    }
-
-    .countdown-box::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--ya-gold), transparent);
-    }
-
-    .countdown-number {
-      font-family: var(--ya-font-head);
-      font-size: clamp(2.2rem, 5vw, 3.6rem);
-      font-weight: 900;
+    .anticipate-lead strong {
       color: #FFFFFF;
-      line-height: 1;
-      margin-bottom: 0.4rem;
-      letter-spacing: -0.02em;
+      font-weight: 700;
     }
 
-    .countdown-label {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
+    .club-motto {
+      display: block;
+      margin-top: 0.4rem;
+      font-family: var(--ya-font-head);
+      font-size: 0.98rem;
+      font-weight: 700;
       letter-spacing: 0.14em;
       color: var(--ya-gold);
     }
 
-    /* Launch Date Notice */
-    .launch-notice {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.65rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 999px;
-      padding: 0.6rem 1.4rem;
-      font-size: 0.9rem;
-      color: #FFFFFF;
-      margin-bottom: 2rem;
+    /* Professional Countdown Boxes */
+    .countdown-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 2.25rem;
     }
 
-    .launch-notice i {
+    .timer-card {
+      background: var(--ya-blue-card);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+      border-radius: 16px;
+      padding: 1.4rem 0.65rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      backdrop-filter: blur(14px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .timer-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 184, 0, 0.4);
+    }
+
+    .timer-val {
+      font-family: var(--ya-font-head);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.03em;
+    }
+
+    .timer-lbl {
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
       color: var(--ya-gold);
     }
 
-    /* Action Buttons */
-    .action-group {
-      display: flex;
+    /* Target Bar */
+    .target-bar {
+      display: inline-flex;
       align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 2.5rem;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.78);
+      margin-bottom: 2.25rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .btn-portal-enter {
+    .target-bar i {
+      color: var(--ya-gold);
+    }
+
+    /* Enter Portal Button (Passcode Protected) */
+    .btn-portal-trigger {
       background: var(--ya-gold);
       color: var(--ya-blue-deep);
       font-family: var(--ya-font-head);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 800;
-      letter-spacing: 0.04em;
-      text-decoration: none;
-      padding: 0.9rem 2rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      padding: 0.9rem 2.4rem;
       border-radius: 999px;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      box-shadow: 0 4px 20px rgba(255, 184, 0, 0.4);
-      transition: all 0.25s ease;
+      gap: 0.65rem;
+      box-shadow: 0 8px 24px rgba(255, 184, 0, 0.35);
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      margin-bottom: 2.5rem;
     }
 
-    .btn-portal-enter:hover {
+    .btn-portal-trigger:hover {
       background: #FFFFFF;
       transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.45);
     }
 
-    /* Social Icons */
-    .social-links {
+    /* Social Links */
+    .social-strip {
       display: flex;
       align-items: center;
       gap: 1.25rem;
     }
 
-    .social-link {
-      width: 42px;
-      height: 42px;
+    .social-icon {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.12);
       display: flex;
       align-items: center;
@@ -329,128 +314,323 @@
       color: #FFFFFF;
       text-decoration: none;
       font-size: 1.05rem;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
     }
 
-    .social-link:hover {
+    .social-icon:hover {
       background: var(--ya-gold);
       color: var(--ya-blue-deep);
-      transform: translateY(-3px);
       border-color: var(--ya-gold);
+      transform: translateY(-3px);
     }
 
     /* Footer */
-    .bottom-footer {
+    .page-footer {
       position: relative;
-      z-index: 2;
-      padding: 1.5rem 2rem;
+      z-index: 10;
       text-align: center;
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.6);
+      padding: 1.5rem 1rem;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.5);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       width: 100%;
     }
 
-    @media (max-width: 600px) {
-      .countdown-grid {
+    /* =========================================================
+       PASSCODE MODAL
+       ========================================================= */
+    .passcode-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(5, 11, 30, 0.94);
+      backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .passcode-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .passcode-card {
+      background: #0A1640;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75);
+      border-radius: 20px;
+      padding: 2.25rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .passcode-modal.active .passcode-card {
+      transform: translateY(0);
+    }
+
+    .passcode-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: rgba(255, 255, 255, 0.75);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .passcode-close:hover {
+      background: var(--ya-gold);
+      color: var(--ya-blue-deep);
+    }
+
+    .lock-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(255, 184, 0, 0.12);
+      border: 1px solid rgba(255, 184, 0, 0.35);
+      color: var(--ya-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin: 0 auto 1.25rem;
+    }
+
+    .passcode-card h3 {
+      font-family: var(--ya-font-head);
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 0.4rem;
+    }
+
+    .passcode-card p {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .passcode-input {
+      width: 100%;
+      background: rgba(5, 11, 30, 0.75);
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      color: #FFFFFF;
+      font-family: var(--ya-font-head);
+      font-size: 1.25rem;
+      letter-spacing: 0.15em;
+      text-align: center;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .passcode-input:focus {
+      border-color: var(--ya-gold);
+      box-shadow: 0 0 16px rgba(255, 184, 0, 0.25);
+    }
+
+    .passcode-error {
+      color: #EF4444;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .passcode-submit {
+      width: 100%;
+      background: var(--ya-gold);
+      color: var(--ya-blue-deep);
+      border: none;
+      border-radius: 12px;
+      font-family: var(--ya-font-head);
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      padding: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .passcode-submit:hover {
+      background: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 640px) {
+      .countdown-row {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
       }
-      .countdown-box {
+      .timer-card {
         padding: 1.1rem 0.5rem;
       }
-      .anticipate-container {
-        padding: 1.5rem 1rem;
+      .anticipate-headline {
+        font-size: 2.8rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Bar -->
-  <header class="top-bar">
-    <div class="brand-pill">
-      <img src="assets/official-logo.png" alt="Young Apostles FC Logo">
-      <span>YOUNG APOSTLES FC</span>
+  <!-- Top Navigation -->
+  <header class="anticipate-nav">
+    <div class="brand-group">
+      <img src="assets/official-crest-transparent.png" alt="Young Apostles FC Crest" class="brand-crest-small">
+      <span class="brand-text">Young Apostles FC</span>
     </div>
-    <a href="index.html" class="btn-preview-link">
-      <span>Enter Portal</span> <i class="fa-solid fa-arrow-right"></i>
-    </a>
+    <div class="nav-tag">
+      <img src="assets/gpl-logo.png" alt="GPL">
+      <span>GPL 2026/27</span>
+    </div>
   </header>
 
-  <!-- Main Anticipate Content -->
-  <main class="anticipate-container">
+  <!-- Main Anticipate Card -->
+  <main class="main-wrap">
     
-    <!-- Club Crest with Glow -->
-    <div class="crest-wrapper">
+    <!-- Transparent Club Crest with Golden Aura -->
+    <div class="crest-presentation">
       <div class="crest-glow"></div>
-      <img src="assets/official-crest-hq.png" alt="Young Apostles FC Official Crest" class="club-crest">
+      <img src="assets/official-crest-transparent.png" alt="Young Apostles FC Official Crest" class="club-crest">
     </div>
 
-    <!-- Badge -->
-    <div class="anticipate-badge">
+    <!-- Official Launch Pill -->
+    <div class="league-pill">
       <i class="fa-solid fa-bolt"></i> Official Launch &bull; GPL 2026/27
     </div>
 
-    <!-- Main Title -->
-    <h1 class="anticipate-title">ANTICIPATE</h1>
+    <!-- Bold Headline -->
+    <h1 class="anticipate-headline">ANTICIPATE</h1>
 
     <!-- Subtitle -->
-    <p class="anticipate-subtitle">
-      Something extraordinary is coming to Ghanaian Football. The official digital matchday experience of <strong>Young Apostles FC</strong> launches this <strong>Friday PM</strong>.
-      <br>
-      <span style="font-size:0.9em; opacity:0.8; font-style:italic;">"AGYA NA ƆWƆ TUMI"</span>
+    <p class="anticipate-lead">
+      The official digital matchday portal of <strong>Young Apostles Football Club</strong> is currently counting down to launch.
+      <span class="club-motto">"AGYA NA ƆWƆ TUMI"</span>
     </p>
 
-    <!-- Live Real-Time Countdown to Friday PM -->
-    <div class="countdown-grid" id="anticipateCountdown">
-      <div class="countdown-box">
-        <div class="countdown-number" id="antDays">00</div>
-        <div class="countdown-label">Days</div>
+    <!-- Professional Countdown Grid -->
+    <div class="countdown-row" id="countdownGrid">
+      <div class="timer-card">
+        <div class="timer-val" id="antDays">00</div>
+        <div class="timer-lbl">Days</div>
       </div>
-      <div class="countdown-box">
-        <div class="countdown-number" id="antHours">00</div>
-        <div class="countdown-label">Hours</div>
+      <div class="timer-card">
+        <div class="timer-val" id="antHours">00</div>
+        <div class="timer-lbl">Hours</div>
       </div>
-      <div class="countdown-box">
-        <div class="countdown-number" id="antMinutes">00</div>
-        <div class="countdown-label">Minutes</div>
+      <div class="timer-card">
+        <div class="timer-val" id="antMinutes">00</div>
+        <div class="timer-lbl">Minutes</div>
       </div>
-      <div class="countdown-box">
-        <div class="countdown-number" id="antSeconds">00</div>
-        <div class="countdown-label">Seconds</div>
+      <div class="timer-card">
+        <div class="timer-val" id="antSeconds">00</div>
+        <div class="timer-lbl">Seconds</div>
       </div>
     </div>
 
-    <!-- Launch Notice -->
-    <div class="launch-notice">
+    <!-- Target Indicator -->
+    <div class="target-bar">
       <i class="fa-regular fa-clock"></i> Unveiling Friday, Sep 18, 2026 &bull; 6:00 PM GMT
     </div>
 
-    <!-- Enter / Preview Link -->
-    <div class="action-group">
-      <a href="index.html" class="btn-portal-enter">
-        <span>Enter Digital Portal</span>
-        <i class="fa-solid fa-arrow-right"></i>
-      </a>
-    </div>
+    <!-- Enter Portal Trigger (Requires Code 1121231234) -->
+    <button type="button" class="btn-portal-trigger" onclick="openPasscodeModal()">
+      <span>Enter Portal</span>
+      <i class="fa-solid fa-lock" style="font-size:0.85rem;"></i>
+    </button>
 
-    <!-- Club Social Links -->
-    <div class="social-links">
-      <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="social-link" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-      <a href="https://x.com/youngapostlesfc" target="_blank" rel="noopener" class="social-link" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-      <a href="https://instagram.com/youngapostlesfc" target="_blank" rel="noopener" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-      <a href="https://facebook.com/youngapostlesfc" target="_blank" rel="noopener" class="social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+    <!-- Club Social Strip -->
+    <div class="social-strip">
+      <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      <a href="https://x.com/youngapostlesfc" target="_blank" rel="noopener" class="social-icon" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://instagram.com/youngapostlesfc" target="_blank" rel="noopener" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://facebook.com/youngapostlesfc" target="_blank" rel="noopener" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
     </div>
 
   </main>
 
-  <!-- Bottom Footer -->
-  <footer class="bottom-footer">
+  <!-- Passcode Access Modal -->
+  <div class="passcode-modal" id="passcodeModal">
+    <div class="passcode-card">
+      <button type="button" class="passcode-close" onclick="closePasscodeModal()">&times;</button>
+      <div class="lock-badge"><i class="fa-solid fa-key"></i></div>
+      <h3>Authorized Access</h3>
+      <p>Please enter the security access passcode to unlock and enter the live portal.</p>
+      
+      <form onsubmit="handlePasscodeSubmit(event)">
+        <input type="password" id="passcodeInput" class="passcode-input" placeholder="Enter Passcode" maxlength="20" autofocus autocomplete="off">
+        <div class="passcode-error" id="passcodeError">Invalid passcode. Please try again.</div>
+        <button type="submit" class="passcode-submit">Unlock &amp; Enter Portal &rarr;</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="page-footer">
     &copy; 2026 Young Apostles Football Club. Wenchi, Bono Region, Ghana &middot; All Rights Reserved.
   </footer>
 
   <script>
+    // ACCESS PASSCODE
+    const REQUIRED_CODE = "1121231234";
+
+    function openPasscodeModal() {
+      const modal = document.getElementById('passcodeModal');
+      const input = document.getElementById('passcodeInput');
+      const err = document.getElementById('passcodeError');
+      if (err) err.style.display = 'none';
+      if (modal) modal.classList.add('active');
+      if (input) {
+        input.value = '';
+        setTimeout(() => input.focus(), 150);
+      }
+    }
+
+    function closePasscodeModal() {
+      const modal = document.getElementById('passcodeModal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function handlePasscodeSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('passcodeInput');
+      const err = document.getElementById('passcodeError');
+      const entered = (input.value || '').trim();
+
+      if (entered === REQUIRED_CODE) {
+        // Authorize session
+        localStorage.setItem('ya_portal_authorized', 'true');
+        // Redirect to live website
+        window.location.href = 'index.html';
+      } else {
+        if (err) err.style.display = 'block';
+        input.value = '';
+        input.focus();
+      }
+    }
+
     // Countdown to Friday PM (September 18, 2026 at 18:00:00 GMT)
     function getTargetFridayPM() {
       const now = new Date();
