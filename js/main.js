@@ -1,5 +1,5 @@
 /**
- * YOUNG APOSTLES FOOTBALL CLUB — OFFICIAL JAVASCRIPT
+ * YOUNG APOSTLES FOOTBALL CLUB â€” OFFICIAL JAVASCRIPT
  * Dribbble Premier UI/UX Design System
  * 38-Player Squad, Team Shop, Cart System, GPL 2026/27 Fixtures, Rankings & Highlights
  */
@@ -114,13 +114,13 @@ const PRODUCTS_DATA = [
   },
   {
     id: 'fan-scarf',
-    name: 'Young Apostles "Agya Na ƆwƆ Tumi" Scarf',
+    name: 'Young Apostles "Agya Na Æ†wÆ† Tumi" Scarf',
     category: 'accessories',
     price: 120,
     oldPrice: 150,
     image: 'assets/team-banner.jpg',
     tag: 'FAN FAVORITE',
-    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Ɔwɔ Tumi" in bold golden yellow and royal blue lettering.',
+    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Æ†wÉ” Tumi" in bold golden yellow and royal blue lettering.',
     customizable: false
   },
   {
@@ -175,7 +175,7 @@ const FIXTURES_ROUND_2 = [
   { week: 30, home: 'Young Apostles', away: 'Bechem United', venue: 'Wenchi Sports Stadium', date: 'Apr 18, 2027', type: 'Home' },
   { week: 31, home: 'Karela United', away: 'Young Apostles', venue: 'Naa Sheriga Sports Complex', date: 'Apr 25, 2027', type: 'Away' },
   { week: 32, home: 'Young Apostles', away: 'Port City', venue: 'Wenchi Sports Stadium', date: 'May 2, 2027', type: 'Home' },
-  { week: 33, home: 'Gold Stars FC', away: 'Young Apostles', venue: 'DUN’s Park, Bibiani', date: 'May 9, 2027', type: 'Away' },
+  { week: 33, home: 'Gold Stars FC', away: 'Young Apostles', venue: 'DUNâ€™s Park, Bibiani', date: 'May 9, 2027', type: 'Away' },
   { week: 34, home: 'Young Apostles', away: 'Dreams FC', venue: 'Wenchi Sports Stadium', date: 'May 16, 2027', type: 'Home' }
 ];
 
@@ -616,8 +616,8 @@ function renderFixturesModal(roundNum) {
         <span style="font-weight:700; color:var(--ya-green); font-size:0.8rem; margin-right:0.5rem;">WK ${fx.week}</span>
         <strong>${fx.home}</strong> vs <strong>${fx.away}</strong>
         <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
-          ${fx.venue} · ${fx.date}
-          ${fx.scorer ? `<span style="color:#15803d; font-weight:700; margin-left:6px;">⚽ ${fx.scorer}</span>` : ''}
+          ${fx.venue} Â· ${fx.date}
+          ${fx.scorer ? `<span style="color:#15803d; font-weight:700; margin-left:6px;">âš½ ${fx.scorer}</span>` : ''}
         </div>
       </div>
       <span style="padding:4px 10px; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800; ${badgeColor}">
@@ -679,7 +679,7 @@ function openNewsModal() {
 }
 
 function openAboutModal() {
-  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012–2026)');
+  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012â€“2026)');
 }
 
 function openYouTubeLink(url) {
@@ -700,7 +700,7 @@ const TOURNAMENTS_DATA = {
     title: 'Ghana Premier League',
     season: '2026/2027 Season',
     teams: '18 Clubs',
-    dates: '15 August 2026 – 25 May 2027',
+    dates: '15 August 2026 â€“ 25 May 2027',
     targetDate: new Date(Date.now() + 48 * 24 * 60 * 60 * 1000)
   },
   facup: {
@@ -708,7 +708,7 @@ const TOURNAMENTS_DATA = {
     title: 'MTN FA Cup Ghana',
     season: '2026/2027 Knockout Tournament',
     teams: '64 Clubs Nationwide',
-    dates: 'October 2026 – June 2027',
+    dates: 'October 2026 â€“ June 2027',
     targetDate: new Date(Date.now() + 65 * 24 * 60 * 60 * 1000)
   },
   supercup: {
@@ -724,7 +724,7 @@ const TOURNAMENTS_DATA = {
     title: 'CAF Champions League Preliminary',
     season: '2027 Pan-African Stage',
     teams: '54 African Champions',
-    dates: 'February 2027 – November 2027',
+    dates: 'February 2027 â€“ November 2027',
     targetDate: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000)
   }
 };
@@ -843,7 +843,7 @@ function renderMatches(typeFilter = 'all') {
     // Time/score center box
     const isWin = f.result === 'W';
     const isLoss = f.result === 'L';
-    const resultTag = isWin ? 'WIN · FT' : isLoss ? 'LOSS · FT' : 'DRAW · FT';
+    const resultTag = isWin ? 'WIN Â· FT' : isLoss ? 'LOSS Â· FT' : 'DRAW Â· FT';
     const resultColor = isWin ? '#15803D' : isLoss ? '#B91C1C' : '#475569';
     const resultBg = isWin ? '#DCFCE7' : isLoss ? '#FEE2E2' : '#F1F5F9';
     const resultBorder = isWin ? '#86EFAC' : isLoss ? '#FCA5A5' : '#CBD5E1';
@@ -852,7 +852,7 @@ function renderMatches(typeFilter = 'all') {
       ? `<div class="match-score-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:${resultBg}; border:1px solid ${resultBorder}; min-width:74px;">
            <span style="font-size:0.62rem; font-weight:800; color:${resultColor}; letter-spacing:0.08em; text-transform:uppercase;">${resultTag}</span>
            <span style="font-size:1.25rem; font-weight:900; color:${resultColor}; line-height:1.2; letter-spacing:0.02em;">${f.score}</span>
-           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;">⚽ ${f.scorer}</span>` : ''}
+           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;">âš½ ${f.scorer}</span>` : ''}
          </div>`
       : `<div class="match-time-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:#F8FAFC; border:1px solid #E2E8F0; min-width:74px;">
            <span style="font-size:0.62rem; font-weight:800; color:#034694; letter-spacing:0.08em; text-transform:uppercase;">KICKOFF</span>
@@ -945,7 +945,7 @@ function updateCountdown() {
   if (headEl) headEl.textContent = `${isHome ? 'Home' : 'Away'} vs ${opponent}`;
   if (venEl) {
     const dateStr = nextMatch.kickoff.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
-    venEl.textContent = `${nextMatch.venue} · ${dateStr} · 15:00 GMT`;
+    venEl.textContent = `${nextMatch.venue} Â· ${dateStr} Â· 15:00 GMT`;
   }
 }
 
@@ -976,7 +976,7 @@ function showToast(msg) {
 
 // ==========================================
 // ==========================================
-// 14. APOSTLES TV — YOUTUBE VIDEOS SYSTEM (DYNAMIC & ADMIN CONTROLLED)
+// 14. APOSTLES TV â€” YOUTUBE VIDEOS SYSTEM (DYNAMIC & ADMIN CONTROLLED)
 // ==========================================
 const DEFAULT_APOSTLES_TV_VIDEOS = [
   {
@@ -1065,133 +1065,62 @@ const DEFAULT_UNIFIED_BLOGS = [
     date: "Sep 16, 2026",
     source: "Apostles Media Dispatch",
     author: "Young Apostles FC",
-    image: "assets/fixtures-round2.jpg",
-    excerpt: "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Wenchi's top-flight representatives.",
-    content: `
-      <p><strong>WENCHI / DEBIBI</strong> &mdash; Young Apostles FC will make the short regional journey to Derby Presby Park on Sunday afternoon for a highly anticipated Matchday 3 encounter against <strong>Debibi United FC</strong> in the 2026/27 Ghana Premier League.</p>
-      <p>The fixture marks the first regional Bono derby of the campaign, with both sides eager to establish early dominance. Head Coach Abu Abdul-Hanan conducted an intensive tactical workout at the Wenchi Sports Stadium on Wednesday, focusing on midfield control and quick transitions.</p>
-      <div style="margin:1.5rem 0; padding:1.25rem; background:rgba(0,87,184,0.06); border-left:4px solid var(--ya-blue); border-radius:0 8px 8px 0;">
-        <blockquote style="font-style:italic; font-size:1.05rem; color:var(--ya-blue-deep); margin:0 0 0.5rem 0;">
-          "Derby matches demand composure, tactical discipline, and total commitment. We respect Debibi United, but our aim is to travel with authority and fight for all three points for our traveling supporters."
-        </blockquote>
-        <cite style="font-weight:700; color:var(--ya-gold-hover); font-size:0.85rem;">&mdash; Abu Abdul-Hanan, Head Coach</cite>
-      </div>
-      <p>Kickoff is scheduled for Sunday at 3:00 PM GMT at Derby Presby Park. Live coverage and instant dispatches will be provided across all official Young Apostles FC media channels.</p>
-    `,
-    readTime: "3 min read"
+    image: "assets/md3-debibi-derby.jpg",
+    excerpt: "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season.",
+    content: `<p>Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League.</p><p>The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season, with both sides set for another chapter in a growing local rivalry.</p><p>Young Apostles head into the contest with momentum after securing their first league victory of the campaign, a 1-0 home win over Basake Holy Stars, courtesy of an early Samuel Prempeh strike.</p><h4>Apostles Hold the Head-to-Head Advantage</h4><p>The two clubs have met five times in all competitions, with Young Apostles holding the better record. The Apostles have recorded three wins, one draw and one defeat, scoring six goals and conceding four. In their four previous Division One League meetings, Young Apostles have also dominated the head-to-head record, winning three and losing one.</p><h4>A Strong Record at Derby Presby Park</h4><p>Young Apostles have enjoyed success at Debibi Presby Park in their previous competitive meetings. The Apostles became the first club to defeat Debibi United at their home ground, winning 1-0 in a Division One League encounter.</p><p>With both clubs now competing in the Ghana Premier League, Sunday's meeting carries added significance. Young Apostles will be looking to build on their Matchday 2 victory and maintain their positive record against Debibi United, while the hosts will be seeking to claim the points on home soil.</p><p><strong>The first regional derby of the season awaits. Debibi United FC vs Young Apostles FC &bull; GPL MD3 &bull; Derby Presby Park &bull; Sun 20th Sep &bull; 3:00PM</strong></p>`,
+    readTime: "4 min read"
   },
   {
     id: 'prempeh-winner-holy-stars',
-    title: "Prempeh Stunner Seals Historic First GPL Victory for Young Apostles",
+    title: "Samuel Prempeh Strike Earns Young Apostles First Win of the Season",
     category: "MATCH REPORT",
     badgeClass: "news-badge-pill--match",
-    date: "Sep 16, 2026",
+    date: "Sep 13, 2026",
     source: "Apostles Media Dispatch",
     author: "Young Apostles FC",
-    image: "assets/apostle-tv-video1.jpg",
-    excerpt: "Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations at Wenchi Sports Stadium on Sunday as Young Apostles FC defeated Basake Holy Stars 1–0 to secure their landmark maiden Ghana Premier League triumph.",
-    content: `
-      <p><strong>WENCHI</strong> &mdash; In front of a passionate, capacity home crowd at the Wenchi Sports Stadium, Young Apostles FC recorded their landmark first-ever Ghana Premier League victory on Sunday afternoon, edging Basake Holy Stars 1&ndash;0 on Matchday 2.</p>
-      <p>The decisive breakthrough came inside the opening seven minutes. Forward <strong>Samuel Prempeh</strong> chased down an incisive ball from midfield, beat two defenders with a slick first touch, and slotted coolly into the bottom right corner past the Holy Stars goalkeeper.</p>
-      <div style="margin:1.5rem 0; padding:1.25rem; background:rgba(0,87,184,0.06); border-left:4px solid var(--ya-blue); border-radius:0 8px 8px 0;">
-        <blockquote style="font-style:italic; font-size:1.05rem; color:var(--ya-blue-deep); margin:0 0 0.5rem 0;">
-          "This victory belongs to the good people of Wenchi who have supported us from Division Two, through Division One, and now onto the biggest stage in Ghana. The players showed relentless fighting spirit today."
-        </blockquote>
-        <cite style="font-weight:700; color:var(--ya-gold-hover); font-size:0.85rem;">&mdash; Abu Abdul-Hanan, Head Coach</cite>
-      </div>
-      <p>Basake Holy Stars mounted several attacking waves in search of an equalizer during the second half, but the Apostles defensive backline stood firm, marshaled by exceptional positioning and goalkeeping.</p>
-      <p>The victory lifts Young Apostles to 8th on the official GPL standings table with 3 points, while preserving Wenchi as an impenetrable fortress for visiting opponents.</p>
-    `,
+    image: "assets/md2-prempeh-win.jpg",
+    excerpt: "Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi. Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead.",
+    content: `<p>Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi.</p><p>Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead and set the tone for a determined home performance.</p><p>Having suffered a 3-0 defeat to Vision FC on Matchday 1, Young Apostles responded with a disciplined display to claim all three points in their first home league game of the campaign.</p><p>The victory also extends Young Apostles' unbeaten record against Basake Holy Stars in Wenchi. The Apostles had won the previous two meetings at home by identical 2-0 scorelines, and Prempeh's early strike ensured that Holy Stars once again left Wenchi without a victory.</p><p>The Apostles managed the game effectively after taking the lead, protecting their advantage until the final whistle to give the home supporters a winning start to the club's home league campaign.</p><p>The result moves Young Apostles onto three points after two matches.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid var(--ya-blue);border-radius:0 8px 8px 0;"><p style="font-weight:800;color:var(--ya-blue-deep);font-size:1.1rem;margin:0 0 0.25rem;">FULL TIME: Young Apostles FC 1-0 Basake Holy Stars</p><p style="margin:0;color:var(--text-muted);">&#9917; Scorer: Samuel Prempeh</p></div>`,
+    readTime: "3 min read"
+  },
+  {
+    id: 'holy-stars-matchday2-preview',
+    title: "Young Apostles Set for Basake Holy Stars Test in Wenchi",
+    category: "MATCH PREVIEW",
+    badgeClass: "news-badge-pill--preview",
+    date: "Sep 11, 2026",
+    source: "Apostles Media Dispatch",
+    author: "Young Apostles FC",
+    image: "assets/md2-holy-stars-preview.jpg",
+    excerpt: "Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.",
+    content: `<p>Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.</p><p>The Apostles will be looking to bounce back from their opening-day defeat to Vision FC, where they suffered a 3-0 loss in Tema. With the home support behind them, Young Apostles will be aiming to put their first points of the season on the board.</p><h4>Holy Stars Yet to Win in Wenchi</h4><p>Basake Holy Stars arrive in Wenchi looking for a first victory at the venue, but their previous visits have ended in defeats. The two most recent meetings between the sides in Wenchi have both gone the way of Young Apostles, with the Apostles recording 2-0 victories in each encounter.</p><h4>Apostles Ready to Respond</h4><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid var(--ya-blue);border-radius:0 8px 8px 0;"><blockquote style="font-style:italic;font-size:1.05rem;color:var(--ya-blue-deep);margin:0 0 0.5rem 0;">"The players lost concentration at certain moments against Vision, but we've worked on those mistakes and we are fully prepared for Holy Stars."</blockquote><cite style="font-weight:700;color:var(--ya-gold-hover);font-size:0.85rem;">&mdash; Assistant Coach Abubakar Fuseini</cite></div><p><strong>Young Apostles FC vs Basake Holy Stars &bull; Sun 12th Sep &bull; 3:00PM &bull; Wenchi Sports Stadium</strong></p>`,
     readTime: "3 min read"
   },
   {
     id: 'gpl-opener-vision-fc',
-    title: "Season Opener: Apostles Fall 3-0 to Clinical Vision FC in Tema",
+    title: "Young Apostles Fall to 3-0 Defeat Against Vision FC in GPL Opener",
     category: "MATCH REPORT",
     badgeClass: "news-badge-pill--match",
     date: "Sep 6, 2026",
     source: "GPL MD 1",
     author: "Young Apostles FC",
-    image: "assets/apostle-tv-video3.jpg",
-    excerpt: "Young Apostles kicked off their historic campaign at Nii Adjei Kraku Stadium, gaining vital top-flight experience despite opening day defeat.",
-    content: `
-      <p><strong>TEMA</strong> &mdash; Young Apostles FC began their maiden campaign in the top flight with an away test against Vision FC at the Nii Adjei Kraku II Sports Complex on Saturday afternoon.</p>
-      <p>The home side opened the scoring early in the 4th minute through Naziru Alhassan Nyenye before Setsofia Aqetey doubled the lead just before half-time (40') and added a third in the 68th minute.</p>
-      <p>Despite the scoreline, the Apostles created several promising chances in the second half, with the technical bench using the fixture to hand top-flight debuts to several young academy prospects.</p>
-    `,
-    readTime: "2 min read"
-  },
-  {
-    id: 'mayniak-kit-launch',
-    title: "Young Apostles Unveil 2026/27 Official Mayniak Matchwear Collection",
-    category: "OFFICIAL KIT",
-    badgeClass: "news-badge-pill--club",
-    date: "Sep 2, 2026",
-    source: "Club Release",
-    author: "Young Apostles FC",
-    image: "assets/kit-home-2026.jpg",
-    excerpt: "The official Royal Blue &amp; Gold home kit and white away strips are now available to fans worldwide via the online club shop.",
-    content: `
-      <p><strong>WENCHI</strong> &mdash; Young Apostles Football Club, in proud partnership with Mayniak Sportswear, is thrilled to present the official matchday kits for the 2026/27 Ghana Premier League season.</p>
-      <p>The home strip showcases the club's celebrated Royal Blue and Sunburst Gold, featuring bespoke geometric embossing inspired by traditional Bono cultural motifs. The away jersey is crafted in clean, pristine white with bold blue side panels.</p>
-      <p>Supporters can purchase authentic shirts with customized player names and numbers directly on our online store with mobile money checkout and nationwide delivery.</p>
-    `,
-    readTime: "2 min read"
-  },
-  {
-    id: 'ft-wenchi-holy-stars',
-    title: "FT in Wenchi: Young Apostles 1 - 0 Basake Holy Stars",
-    category: "MATCH REPORT",
-    badgeClass: "news-badge-pill--match",
-    date: "Sep 13 &middot; Full-Time Alert",
-    source: "Apostles Media Dispatch",
-    author: "Young Apostles FC",
-    image: "",
-    excerpt: "Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽",
-    content: `
-      <p><strong>FT in Wenchi: Young Apostles 1 - 0 Basake Holy Stars</strong></p>
-      <p>Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽</p>
-      <p>A memorable afternoon at Wenchi Sports Stadium as our boys fought with sheer determination to earn all three points in front of an ecstatic home crowd.</p>
-    `,
-    readTime: "1 min read"
-  },
-  {
-    id: 'debibi-preview',
-    title: "Preparations underway for Sunday's Matchday 3 away encounter vs Debibi United",
-    category: "MATCH PREVIEW",
-    badgeClass: "news-badge-pill--preview",
-    date: "Sep 15 &middot; Upcoming Fixture",
-    source: "Apostles Media Team",
-    author: "Young Apostles FC",
-    image: "",
-    excerpt: "Coach Abu puts the squad through morning tactical drills at Wenchi ahead of the regional clash at Debibi Park.",
-    content: `
-      <p>Preparations are in full swing for Sunday’s Matchday 3 away encounter vs <strong>Debibi United</strong> at Debibi Park.</p>
-      <p>Head Coach Abu Abdul-Hanan and the technical team conducted rigorous morning tactical sessions focusing on rapid counter-attacking transitions, set-piece execution, and disciplined defensive shape.</p>
-      <p>The squad will travel on Saturday afternoon in high spirits following last weekend’s historic 1-0 home victory.</p>
-    `,
-    readTime: "2 min read"
-  },
-  {
-    id: 'kit-shop-alert',
-    title: "Wear the Apostles Pride! Authentic 2026/27 Jerseys Available Now",
-    category: "OFFICIAL KIT",
-    badgeClass: "news-badge-pill--club",
-    date: "Sep 10 &middot; Kit Shop",
-    source: "Club Shop",
-    author: "Young Apostles FC",
-    image: "assets/kit-home-hanging.jpg",
-    excerpt: "Authentic 2026/27 Mayniak jerseys available with custom player name &amp; number printing. Nationwide delivery across Ghana.",
-    content: `
-      <p>Wear the Apostles pride! Authentic 2026/27 official Mayniak match jerseys are now available with custom player name and number printing.</p>
-      <p>Choose from our iconic Royal Blue & Gold Home Kit or the Pristine White Away Kit. Order directly via our club shop with mobile money checkout and fast nationwide courier delivery.</p>
-    `,
-    readTime: "1 min read"
+    image: "assets/md1-vision-loss.jpg",
+    excerpt: "Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.",
+    content: `<p>Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.</p><p>The Apostles entered the opening fixture looking to start the new campaign on a positive note, but Vision FC took control early and opened the scoring in the fifth minute through Nyenye Naziru.</p><p>Young Apostles were unable to find an equaliser before the break, and Vision doubled their advantage in the 40th minute when Setsofia Aqetey found the back of the net to send the hosts into halftime with a 2-0 lead.</p><p>The second half saw Young Apostles push for a response, but Vision remained in control. Aqetey completed his brace in the 68th minute to make it 3-0.</p><p>Despite efforts from the Apostles to get back into the contest, Vision held on to secure all three points in the opening game of the 2026/27 league season. Young Apostles will now turn their attention to their next fixture, against Basake Holy Stars.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(220,38,38,0.05);border-left:4px solid #dc2626;border-radius:0 8px 8px 0;"><p style="font-weight:800;color:#dc2626;font-size:1.05rem;margin:0 0 0.25rem;">FULL TIME: Vision FC 3-0 Young Apostles FC</p><p style="margin:0;color:var(--text-muted);font-size:0.9rem;">&#9917; Naziru (5') &bull; Aqetey (40', 68')</p></div>`,
+    readTime: "3 min read"
   }
 ];
 
+const CMS_CONTENT_VERSION = "2026-09-17-v1";
+
 function getUnifiedBlogs() {
   try {
+    if (localStorage.getItem('ya_cms_content_version') !== CMS_CONTENT_VERSION) {
+      localStorage.removeItem('ya_club_unified_blogs');
+      localStorage.removeItem('ya_unified_blogs');
+      localStorage.removeItem('ya_club_dispatches');
+      localStorage.setItem('ya_cms_content_version', CMS_CONTENT_VERSION);
+    }
     const raw = localStorage.getItem(UNIFIED_BLOGS_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
@@ -1513,8 +1442,8 @@ function renderDispatches() {
     ? sidebarItems.map(createDispatchHtml).join('')
     : blogs.slice(0, 2).map(createDispatchHtml).join(''); // fallback if fewer blogs
 
-  // Archive dropdown & drawer: everything beyond the sidebar's 2 items (index 4+)
-  const olderItems = blogs.slice(4);
+  // Archive dropdown & drawer: stories beyond top hero / sidebar
+  const olderItems = blogs.length > 4 ? blogs.slice(4) : blogs.slice(1);
   const selectEl = document.getElementById('olderStoriesSelect');
 
   if (selectEl) {
@@ -1905,4 +1834,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
 

@@ -1,8 +1,8 @@
-{
-  "lastUpdated": "2026-09-16T23:25:00Z",
+﻿{
+  "lastUpdated": "2026-09-16T23:48:00Z",
   "hero": {
     "headline": "Young Apostles FC: Fighting for Glory in Ghana's Premier League",
-    "subtitle": "<strong>\"AGYA NA ƆWƆ TUMI\"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level."
+    "subtitle": "<strong>\"AGYA NA \u0186W\u0186 TUMI\"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level."
   },
   "blogs": [
     {
@@ -13,75 +13,49 @@
       "date": "Sep 16, 2026",
       "source": "Apostles Media Dispatch",
       "author": "Young Apostles FC",
-      "image": "assets/fixtures-round2.jpg",
-      "excerpt": "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Wenchi's top-flight representatives.",
-      "content": "<p><strong>WENCHI / DEBIBI</strong> &mdash; Young Apostles FC will make the short regional journey to Derby Presby Park on Sunday afternoon for a highly anticipated Matchday 3 encounter against <strong>Debibi United FC</strong> in the 2026/27 Ghana Premier League.</p><p>The fixture marks the first regional Bono derby of the campaign, with both sides eager to establish early dominance. Head Coach Abu Abdul-Hanan conducted an intensive tactical workout at the Wenchi Sports Stadium on Wednesday, focusing on midfield control and quick transitions.</p><div style=\"margin:1.5rem 0; padding:1.25rem; background:rgba(0,87,184,0.06); border-left:4px solid var(--ya-blue); border-radius:0 8px 8px 0;\"><blockquote style=\"font-style:italic; font-size:1.05rem; color:var(--ya-blue-deep); margin:0 0 0.5rem 0;\">\"Derby matches demand composure, tactical discipline, and total commitment. We respect Debibi United, but our aim is to travel with authority and fight for all three points for our traveling supporters.\"</blockquote><cite style=\"font-weight:700; color:var(--ya-gold-hover); font-size:0.85rem;\">&mdash; Abu Abdul-Hanan, Head Coach</cite></div><p>Kickoff is scheduled for Sunday at 3:00 PM GMT at Derby Presby Park. Live coverage and instant dispatches will be provided across all official Young Apostles FC media channels.</p>",
-      "readTime": "3 min read"
+      "image": "assets/md3-debibi-derby.jpg",
+      "excerpt": "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season.",
+      "content": "<p>Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League.</p><p>The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season, with both sides set for another chapter in a growing local rivalry.</p><p>Young Apostles head into the contest with momentum after securing their first league victory of the campaign, a 1-0 home win over Basake Holy Stars, courtesy of an early Samuel Prempeh strike.</p><h4>Apostles Hold the Head-to-Head Advantage</h4><p>The two clubs have met five times in all competitions, with Young Apostles holding the better record. The Apostles have recorded three wins, one draw and one defeat, scoring six goals and conceding four.</p><h4>A Strong Record at Derby Presby Park</h4><p>Young Apostles have enjoyed success at Debibi Presby Park in their previous competitive meetings. The Apostles became the first club to defeat Debibi United at their home ground, winning 1-0 in a Division One League encounter.</p><p>With both clubs now competing in the Ghana Premier League, Sunday's meeting carries added significance. Young Apostles will be looking to build on their Matchday 2 victory and maintain their positive record against Debibi United, while the hosts will be seeking to claim the points on home soil.</p><p><strong>The first regional derby of the season awaits.</strong></p><p><strong>Debibi United FC vs Young Apostles FC &bull; GPL MD3 &bull; Derby Presby Park &bull; Sun 20th Sep &bull; 3:00PM</strong></p>",
+      "readTime": "4 min read"
     },
     {
       "id": "prempeh-winner-holy-stars",
       "title": "Samuel Prempeh Strike Earns Young Apostles First Win of the Season",
       "category": "MATCH REPORT",
       "badgeClass": "news-badge-pill--match",
-      "date": "Sep 16, 2026",
+      "date": "Sep 13, 2026",
       "source": "Apostles Media Dispatch",
       "author": "Young Apostles FC",
-      "image": "assets/apostle-tv-video1.jpg",
-      "excerpt": "Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi. Samuel Prempeh provided the decisive moment, scoring early to give the home fans a landmark triumph.",
-      "content": "<p><strong>WENCHI</strong> &mdash; In front of a passionate, capacity home crowd at the Wenchi Sports Stadium, Young Apostles FC recorded their landmark first-ever Ghana Premier League victory on Sunday afternoon, edging Basake Holy Stars 1&ndash;0 on Matchday 2.</p><p>The decisive breakthrough came inside the opening seven minutes. Forward <strong>Samuel Prempeh</strong> chased down an incisive ball from midfield, beat two defenders with a slick first touch, and slotted coolly into the bottom right corner past the Holy Stars goalkeeper.</p><div style=\"margin:1.5rem 0; padding:1.25rem; background:rgba(0,87,184,0.06); border-left:4px solid var(--ya-blue); border-radius:0 8px 8px 0;\"><blockquote style=\"font-style:italic; font-size:1.05rem; color:var(--ya-blue-deep); margin:0 0 0.5rem 0;\">\"This victory belongs to the good people of Wenchi who have supported us from Division Two, through Division One, and now onto the biggest stage in Ghana. The players showed relentless fighting spirit today.\"</blockquote><cite style=\"font-weight:700; color:var(--ya-gold-hover); font-size:0.85rem;\">&mdash; Abu Abdul-Hanan, Head Coach</cite></div><p>Basake Holy Stars mounted several attacking waves in search of an equalizer during the second half, but the Apostles defensive backline stood firm, marshaled by exceptional positioning and goalkeeping.</p><p>The victory lifts Young Apostles to 8th on the official GPL standings table with 3 points, while preserving Wenchi as an impenetrable fortress for visiting opponents.</p>",
+      "image": "assets/md2-prempeh-win.jpg",
+      "excerpt": "Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi. Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead.",
+      "content": "<p>Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi.</p><p>Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead and set the tone for a determined home performance.</p><p>Having suffered a 3-0 defeat to Vision FC on Matchday 1, Young Apostles responded with a disciplined display to claim all three points in their first home league game of the campaign.</p><p>The victory also extends Young Apostles' unbeaten record against Basake Holy Stars in Wenchi. The Apostles had won the previous two meetings at home by identical 2-0 scorelines, and Prempeh's early strike ensured that Holy Stars once again left Wenchi without a victory.</p><p>The Apostles managed the game effectively after taking the lead, protecting their advantage until the final whistle to give the home supporters a winning start to the club's home league campaign.</p><p>The result moves Young Apostles onto three points after two matches.</p><p><strong>FULL TIME: Young Apostles FC 1-0 Basake Holy Stars</strong><br>Scorer: Samuel Prempeh</p>",
+      "readTime": "3 min read"
+    },
+    {
+      "id": "holy-stars-matchday2-preview",
+      "title": "Young Apostles Set for Basake Holy Stars Test in Wenchi",
+      "category": "MATCH PREVIEW",
+      "badgeClass": "news-badge-pill--preview",
+      "date": "Sep 11, 2026",
+      "source": "Apostles Media Dispatch",
+      "author": "Young Apostles FC",
+      "image": "assets/md2-holy-stars-preview.jpg",
+      "excerpt": "Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.",
+      "content": "<p>Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.</p><p>The Apostles will be looking to bounce back from their opening-day defeat to Vision FC, where they suffered a 3-0 loss in Tema. With the home support behind them, Young Apostles will be aiming to put their first points of the season on the board.</p><h4>Holy Stars Yet to Win in Wenchi</h4><p>Basake Holy Stars arrive in Wenchi looking for a first victory at the venue, but their previous visits have ended in defeats. The two most recent meetings between the sides in Wenchi have both gone the way of Young Apostles, with the Apostles recording 2-0 victories in each encounter.</p><h4>Apostles Ready to Respond</h4><p>Assistant Coach Abubakar Fuseini says the team has addressed the mistakes from the opening-day defeat and is ready for the challenge ahead.</p><p><em>\"The players lost concentration at certain moments against Vision, but we've worked on those mistakes and we are fully prepared for Holy Stars.\"</em></p><p><strong>Young Apostles FC vs Basake Holy Stars &bull; Sun 12th Sep &bull; 3:00PM &bull; Wenchi Sports Stadium</strong></p>",
       "readTime": "3 min read"
     },
     {
       "id": "gpl-opener-vision-fc",
-      "title": "Season Opener: Apostles Fall 3-0 to Clinical Vision FC in Tema",
+      "title": "Young Apostles Fall to 3-0 Defeat Against Vision FC in GPL Opener",
       "category": "MATCH REPORT",
       "badgeClass": "news-badge-pill--match",
       "date": "Sep 6, 2026",
       "source": "GPL MD 1",
       "author": "Young Apostles FC",
-      "image": "assets/apostle-tv-video3.jpg",
-      "excerpt": "Young Apostles kicked off their historic campaign at Nii Adjei Kraku Stadium, gaining vital top-flight experience despite opening day defeat.",
-      "content": "<p><strong>TEMA</strong> &mdash; Young Apostles FC began their maiden campaign in the top flight with an away test against Vision FC at the Nii Adjei Kraku II Sports Complex on Saturday afternoon.</p><p>The home side opened the scoring early in the 4th minute through Naziru Alhassan Nyenye before Setsofia Aqetey doubled the lead just before half-time (40') and added a third in the 68th minute.</p><p>Despite the scoreline, the Apostles created several promising chances in the second half, with the technical bench using the fixture to hand top-flight debuts to several young academy prospects.</p>",
-      "readTime": "2 min read"
-    },
-    {
-      "id": "mayniak-kit-launch",
-      "title": "Young Apostles Unveil 2026/27 Official Mayniak Matchwear Collection",
-      "category": "OFFICIAL KIT",
-      "badgeClass": "news-badge-pill--club",
-      "date": "Sep 2, 2026",
-      "source": "Club Release",
-      "author": "Young Apostles FC",
-      "image": "assets/kit-home-2026.jpg",
-      "excerpt": "The official Royal Blue &amp; Gold home kit and white away strips are now available to fans worldwide via the online club shop.",
-      "content": "<p><strong>WENCHI</strong> &mdash; Young Apostles Football Club, in proud partnership with Mayniak Sportswear, is thrilled to present the official matchday kits for the 2026/27 Ghana Premier League season.</p><p>The home strip showcases the club's celebrated Royal Blue and Sunburst Gold, featuring bespoke geometric embossing inspired by traditional Bono cultural motifs. The away jersey is crafted in clean, pristine white with bold blue side panels.</p><p>Supporters can purchase authentic shirts with customized player names and numbers directly on our online store with mobile money checkout and nationwide delivery.</p>",
-      "readTime": "2 min read"
-    },
-    {
-      "id": "ft-wenchi-holy-stars",
-      "title": "FT in Wenchi: Young Apostles 1 - 0 Basake Holy Stars",
-      "category": "MATCH REPORT",
-      "badgeClass": "news-badge-pill--match",
-      "date": "Sep 13 · Full-Time Alert",
-      "source": "Apostles Media Dispatch",
-      "author": "Young Apostles FC",
-      "image": "",
-      "excerpt": "Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽",
-      "content": "<p><strong>FT in Wenchi: Young Apostles 1 - 0 Basake Holy Stars</strong></p><p>Samuel Prempeh’s 7th min strike secures our first-ever 3 points in the Ghana Premier League! Agya Na Ɔwɔ Tumi! 🔵🟡⚽</p><p>A memorable afternoon at Wenchi Sports Stadium as our boys fought with sheer determination to earn all three points in front of an ecstatic home crowd.</p>",
-      "readTime": "1 min read"
-    },
-    {
-      "id": "kit-shop-alert",
-      "title": "Wear the Apostles Pride! Authentic 2026/27 Jerseys Available Now",
-      "category": "OFFICIAL KIT",
-      "badgeClass": "news-badge-pill--club",
-      "date": "Sep 10 · Kit Shop",
-      "source": "Club Shop",
-      "author": "Young Apostles FC",
-      "image": "assets/kit-home-hanging.jpg",
-      "excerpt": "Authentic 2026/27 Mayniak jerseys available with custom player name &amp; number printing. Nationwide delivery across Ghana.",
-      "content": "<p>Wear the Apostles pride! Authentic 2026/27 official Mayniak match jerseys are now available with custom player name and number printing.</p><p>Choose from our iconic Royal Blue & Gold Home Kit or the Pristine White Away Kit. Order directly via our club shop with mobile money checkout and fast nationwide courier delivery.</p>",
-      "readTime": "1 min read"
+      "image": "assets/md1-vision-loss.jpg",
+      "excerpt": "Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.",
+      "content": "<p>Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.</p><p>The Apostles entered the opening fixture looking to start the new campaign on a positive note, but Vision FC took control early and opened the scoring in the fifth minute through Nyenye Naziru.</p><p>Young Apostles were unable to find an equaliser before the break, and Vision doubled their advantage in the 40th minute when Setsofia Aqetey found the back of the net to send the hosts into halftime with a 2-0 lead.</p><p>The second half saw Young Apostles push for a response, but Vision remained in control. Aqetey completed his brace in the 68th minute to make it 3-0.</p><p>Despite efforts from the Apostles to get back into the contest, Vision held on to secure all three points in the opening game of the 2026/27 league season.</p><p>Young Apostles will now turn their attention to their next fixture, against Basake Holy Stars, as they look to respond and put their first points of the campaign on the board.</p><p><strong>FULL TIME: Vision FC 3-0 Young Apostles FC</strong><br>Scorers: Naziru (5') &bull; Aqetey (40', 68')</p>",
+      "readTime": "3 min read"
     }
   ],
   "apostlesTv": [
@@ -89,7 +63,7 @@
       "id": "fpleoX_sUIA",
       "title": "Match Highlights: Young Apostles 1 - 0 Basake Holy Stars",
       "tag": "MATCH HIGHLIGHTS",
-      "thumb": "assets/apostle-tv-video1.jpg"
+      "thumb": "assets/md2-prempeh-win.jpg"
     },
     {
       "id": "CskM91775q8",
@@ -107,7 +81,7 @@
       "id": "gpl-opener-vision",
       "title": "Season Opener Replay: Vision FC vs Young Apostles",
       "tag": "FULL MATCH REPLAY",
-      "thumb": "assets/apostle-tv-video3.jpg"
+      "thumb": "assets/md1-vision-loss.jpg"
     }
   ],
   "standings": {
