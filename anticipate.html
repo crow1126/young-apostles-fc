@@ -143,10 +143,16 @@
 
     .club-crest {
       position: relative;
-      width: 130px;
-      height: 130px;
+      width: 140px;
+      height: 140px;
       object-fit: contain;
-      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.7));
+      filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.65));
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+    }
+
+    .club-crest:hover {
+      transform: scale(1.04);
     }
 
     /* League Ribbon */
@@ -498,7 +504,7 @@
   <!-- Top Navigation -->
   <header class="anticipate-nav">
     <div class="brand-group">
-      <img src="assets/official-crest-transparent.png" alt="Young Apostles FC Crest" class="brand-crest-small">
+      <img src="assets/club-logo-original.jpg" alt="Young Apostles FC Logo" class="brand-crest-small" style="border-radius:6px;">
       <span class="brand-text">Young Apostles FC</span>
     </div>
     <div class="nav-tag">
@@ -510,10 +516,10 @@
   <!-- Main Anticipate Card -->
   <main class="main-wrap">
     
-    <!-- Transparent Club Crest with Golden Aura -->
+    <!-- Club Logo Image Presentation -->
     <div class="crest-presentation">
       <div class="crest-glow"></div>
-      <img src="assets/official-crest-transparent.png" alt="Young Apostles FC Official Crest" class="club-crest">
+      <img src="assets/club-logo-original.jpg" alt="Young Apostles FC Official Club Logo" class="club-crest">
     </div>
 
     <!-- Official Launch Pill -->
