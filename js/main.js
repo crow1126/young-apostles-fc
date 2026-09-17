@@ -1816,6 +1816,75 @@ document.addEventListener('DOMContentLoaded', () => {
       renderMatches(btn.getAttribute('data-match-cat'));
     });
   });
+
+  // Init Anticipate Overlay Countdown
+  updateOverlayCountdown();
+  setInterval(updateOverlayCountdown, 1000);
 });
+
+// ==========================================
+// ANTICIPATE OVERLAY LOGIC
+// ==========================================
+function openAnticipateOverlay() {
+  const overlay = document.getElementById('anticipateOverlay');
+  if (overlay) {
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    updateOverlayCountdown();
+  }
+}
+
+function closeAnticipateOverlay() {
+  const overlay = document.getElementById('anticipateOverlay');
+  if (overlay) {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function getFridayPMTarget() {
+  const now = new Date();
+  const target = new Date(now);
+  const day = now.getDay();
+  let diff = (5 - day + 7) % 7;
+  if (diff === 0 && now.getHours() >= 18) {
+    diff = 7;
+  }
+  target.setDate(now.getDate() + diff);
+  target.setHours(18, 0, 0, 0);
+  return target;
+}
+
+const overlayFridayTarget = getFridayPMTarget();
+
+function updateOverlayCountdown() {
+  const now = new Date();
+  const diff = overlayFridayTarget.getTime() - now.getTime();
+
+  const dEl = document.getElementById('ovDays');
+  const hEl = document.getElementById('ovHours');
+  const mEl = document.getElementById('ovMinutes');
+  const sEl = document.getElementById('ovSeconds');
+
+  if (!dEl || !hEl || !mEl || !sEl) return;
+
+  if (diff <= 0) {
+    dEl.textContent = '00';
+    hEl.textContent = '00';
+    mEl.textContent = '00';
+    sEl.textContent = '00';
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  dEl.textContent = String(days).padStart(2, '0');
+  hEl.textContent = String(hours).padStart(2, '0');
+  mEl.textContent = String(minutes).padStart(2, '0');
+  sEl.textContent = String(seconds).padStart(2, '0');
+}
 
 

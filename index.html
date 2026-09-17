@@ -19,6 +19,63 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <!-- =========================================================
+       0. ANTICIPATE LAUNCH TICKER STRIP
+       ========================================================= -->
+  <div class="anticipate-top-strip" id="anticipateTopStrip">
+    <span class="anticipate-top-strip__badge"><i class="fa-solid fa-bolt"></i> ANTICIPATE</span>
+    <span class="anticipate-top-strip__text">Official Digital Portal Launch &bull; Friday PM (Sep 18, 6:00 PM GMT)</span>
+    <button type="button" class="anticipate-top-strip__btn" onclick="openAnticipateOverlay()">
+      <span>Countdown</span> <i class="fa-solid fa-hourglass-half"></i>
+    </button>
+  </div>
+
+  <!-- Full-Screen Anticipate Overlay Modal -->
+  <div class="anticipate-overlay" id="anticipateOverlay">
+    <button type="button" class="anticipate-overlay__close" onclick="closeAnticipateOverlay()" aria-label="Close">&times;</button>
+    
+    <div class="anticipate-overlay__crest-wrap">
+      <div class="anticipate-overlay__crest-glow"></div>
+      <img src="assets/official-crest-hq.png" alt="Young Apostles FC Crest" class="anticipate-overlay__crest">
+    </div>
+
+    <div class="anticipate-overlay__badge">
+      <i class="fa-solid fa-bolt"></i> Official Launch &bull; GPL 2026/27
+    </div>
+
+    <h2 class="anticipate-overlay__title">ANTICIPATE</h2>
+
+    <p class="anticipate-overlay__subtitle">
+      Something extraordinary is coming to Ghanaian Football. The official digital matchday experience of <strong>Young Apostles FC</strong> launches this <strong>Friday PM</strong>.
+      <br>
+      <span style="font-size:0.9em; opacity:0.8; font-style:italic; color:var(--ya-gold);">"AGYA NA ƆWƆ TUMI"</span>
+    </p>
+
+    <!-- Live Real-Time Countdown to Friday PM -->
+    <div class="anticipate-overlay__countdown" id="overlayCountdown">
+      <div class="anticipate-overlay__box">
+        <div class="anticipate-overlay__num" id="ovDays">00</div>
+        <div class="anticipate-overlay__label">Days</div>
+      </div>
+      <div class="anticipate-overlay__box">
+        <div class="anticipate-overlay__num" id="ovHours">00</div>
+        <div class="anticipate-overlay__label">Hours</div>
+      </div>
+      <div class="anticipate-overlay__box">
+        <div class="anticipate-overlay__num" id="ovMinutes">00</div>
+        <div class="anticipate-overlay__label">Minutes</div>
+      </div>
+      <div class="anticipate-overlay__box">
+        <div class="anticipate-overlay__num" id="ovSeconds">00</div>
+        <div class="anticipate-overlay__label">Seconds</div>
+      </div>
+    </div>
+
+    <button type="button" class="anticipate-overlay__enter-btn" onclick="closeAnticipateOverlay()">
+      <span>Explore Live Portal</span>
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
 
   <!-- =========================================================
        1. TOP UTILITY BAR
@@ -39,6 +96,9 @@
           <a href="https://www.facebook.com/share/1HLCxKYSXU/?mibextid=wwXIfr" target="_blank" rel="noopener" class="top-social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="top-social-link" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
+        <button class="top-cta-btn" onclick="openAnticipateOverlay()" style="margin-right:6px; background:rgba(255,184,0,0.15); border-color:var(--ya-gold); color:var(--ya-gold);">
+          <i class="fa-solid fa-bolt"></i> ANTICIPATE
+        </button>
         <button class="top-cta-btn" onclick="openMembershipModal()">
           <i class="fa-solid fa-crown"></i> Official Membership
         </button>
@@ -74,6 +134,7 @@
       </a>
 
       <nav class="nav-links" aria-label="Main Navigation">
+        <a href="anticipate.html" class="nav-link" style="color:var(--ya-gold); font-weight:800;"><i class="fa-solid fa-bolt" style="margin-right:3px;"></i> Anticipate</a>
         <a href="#news" class="nav-link active">News</a>
         <a href="#matches" class="nav-link">Schedule / Fixtures</a>
         <a href="#apostles-tv" class="nav-link">Apostles TV</a>
