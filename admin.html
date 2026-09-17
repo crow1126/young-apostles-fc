@@ -825,7 +825,7 @@
     <!-- Navigation Tabs -->
     <div class="admin-nav-tabs">
       <button class="admin-tab-btn active" onclick="switchAdminTab('dispatches', this)">
-        <i class="fa-solid fa-newspaper"></i> Blog &amp; Dispatches (CMS)
+        <i class="fa-solid fa-newspaper"></i> News &amp; Articles (CMS)
       </button>
       <button class="admin-tab-btn" onclick="switchAdminTab('apostlestv', this)">
         <i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Apostles TV
@@ -891,7 +891,7 @@
             <div style="font-weight:800; color:var(--admin-accent); margin-bottom:3px; display:flex; align-items:center; gap:6px;">
               <i class="fa-solid fa-sitemap"></i> Automatic Post Flow on Website:
             </div>
-            <span>New posts automatically publish to <strong>Position 1 (Big Hero)</strong>. Existing posts move to <strong>Position 2 &amp; 3 (Sub-Cards)</strong> and <strong>Positions 4, 5, 6 (Sidebar Dispatches)</strong>.</span>
+            <span>New posts automatically publish to <strong>Position 1 (Homepage Lead Hero)</strong>. Next stories appear at <strong>Position 2 &amp; 3 (Homepage Secondary Grid)</strong>, and older stories automatically display in the <strong>Past Stories Archive UI</strong>.</span>
           </div>
 
           <form id="blogForm" onsubmit="saveBlogPost(event)">
@@ -1036,9 +1036,9 @@
             <div class="admin-card">
               <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
                 <div>
-                  <h2 style="font-size:1rem;"><i class="fa-solid fa-list-ol"></i> Live Blogs &amp; Arrangement</h2>
+                  <h2 style="font-size:1rem;"><i class="fa-solid fa-list-ol"></i> Live Articles &amp; Arrangement</h2>
                   <div style="font-size:0.72rem; color:var(--admin-muted); margin-top:2px;">
-                    Positions 1, 2, 3 show in big news grid &bull; Positions 4, 5, 6+ show in sidebar dispatches
+                    Positions 1, 2, 3 show in homepage news sections &bull; Positions 4+ show in older articles archive
                   </div>
                 </div>
                 <div style="display:flex; gap:0.4rem;">
@@ -1740,19 +1740,13 @@
       container.innerHTML = currentBlogs.map((b, idx) => {
         let posBadge = '';
         if (idx === 0) {
-          posBadge = `<span class="pos-badge pos-badge--hero"><i class="fa-solid fa-trophy"></i> Position 1 &bull; Big Hero Story</span>`;
+          posBadge = `<span class="pos-badge pos-badge--hero"><i class="fa-solid fa-trophy"></i> Position 1 &bull; Homepage Lead Hero Story</span>`;
         } else if (idx === 1) {
-          posBadge = `<span class="pos-badge pos-badge--sub"><i class="fa-solid fa-table-cells-large"></i> Position 2 &bull; Sub-Card Left</span>`;
+          posBadge = `<span class="pos-badge pos-badge--sub"><i class="fa-solid fa-table-cells-large"></i> Position 2 &bull; Secondary Card Left</span>`;
         } else if (idx === 2) {
-          posBadge = `<span class="pos-badge pos-badge--sub"><i class="fa-solid fa-table-cells-large"></i> Position 3 &bull; Sub-Card Right</span>`;
-        } else if (idx === 3) {
-          posBadge = `<span class="pos-badge pos-badge--feed"><i class="fa-solid fa-bolt"></i> Position 4 &bull; Sidebar Dispatch 1</span>`;
-        } else if (idx === 4) {
-          posBadge = `<span class="pos-badge pos-badge--feed"><i class="fa-solid fa-bolt"></i> Position 5 &bull; Sidebar Dispatch 2</span>`;
-        } else if (idx === 5) {
-          posBadge = `<span class="pos-badge pos-badge--feed"><i class="fa-solid fa-bolt"></i> Position 6 &bull; Sidebar Dispatch 3</span>`;
+          posBadge = `<span class="pos-badge pos-badge--sub"><i class="fa-solid fa-table-cells-large"></i> Position 3 &bull; Secondary Card Right</span>`;
         } else {
-          posBadge = `<span class="pos-badge pos-badge--archive"><i class="fa-solid fa-newspaper"></i> Position ${idx + 1} &bull; Sidebar Feed</span>`;
+          posBadge = `<span class="pos-badge pos-badge--archive"><i class="fa-solid fa-box-archive"></i> Position ${idx + 1} &bull; Older Stories Archive</span>`;
         }
 
         const thumbHtml = b.image 

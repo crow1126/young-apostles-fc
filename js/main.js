@@ -17,13 +17,12 @@ const SQUAD_DATA = [
 
   // DEFENDERS
   { id: 6,  name: 'Issah Nyaabila',         number: 4,  role: 'DF', posName: 'Center Back',    image: 'assets/players/issah-nyaabila.jpg' },
-  { id: 7,  name: 'Abdul Rurf Rahman',      number: 15, role: 'DF', posName: 'Right Back',     image: 'assets/players/issah-salifu.jpg' },
   { id: 8,  name: 'Mathias Van Amegbe',     number: 25, role: 'DF', posName: 'Left Back',      image: 'assets/players/mathias-van-amegbe.jpg' },
-  { id: 9,  name: 'Illiasu Mumuni',         number: 24, role: 'DF', posName: 'Center Back',    image: 'assets/players/illiasu-mumuni.jpg' },
+  { id: 9,  name: 'Illiasu Mumuni',         number: 24, role: 'DF', posName: 'Center Back',    image: 'assets/players/issah-salifu.jpg' },
   { id: 10, name: 'Abdul Musah Mohammed',   number: 12, role: 'DF', posName: 'Full Back',      image: 'assets/players/abdul-musah-mohammed.jpg' },
   { id: 11, name: 'Abdul Mobarick',         number: 34, role: 'DF', posName: 'Left Back',      image: 'assets/players/abdul-mobarick.jpg' },
   { id: 12, name: 'Emmanuel Owusu Bempah',  number: 44, role: 'DF', posName: 'Right Back',     image: 'assets/players/emmanuel-owusu-bempah.jpg' },
-  { id: 13, name: 'Issah Salifu',           number: 23, role: 'DF', posName: 'Left Back',      image: 'assets/players/issah-salifu.jpg' },
+  { id: 13, name: 'Issah Salifu',           number: 23, role: 'DF', posName: 'Left Back',      image: 'assets/players/illiasu-mumuni.jpg' },
   { id: 14, name: 'Samuel Amankwah',        number: 3,  role: 'DF', posName: 'Center Back',    image: 'assets/players/samuel-amankwah.jpg' },
   { id: 15, name: 'Fumi Koulibaly Andrews', number: 48, role: 'DF', posName: 'Center Back',    image: 'assets/players/fumi-koulibaly-andrews.jpg' },
   { id: 16, name: 'Moses Titi',             number: 17, role: 'DF', posName: 'Wing Back',      image: 'assets/players/moses-titi.jpg' },
@@ -31,10 +30,10 @@ const SQUAD_DATA = [
   // MIDFIELDERS
   { id: 17, name: 'Ramzy Abubakar',         number: 8,  role: 'MD', posName: 'Playmaker',      image: 'assets/players/ramzy-abubakar.jpg' },
   { id: 18, name: 'Abdul Muftaw Ganiyu',    number: 5,  role: 'MD', posName: 'Def. Midfielder', image: 'assets/players/abdul-muftaw-ganiyu.jpg' },
-  { id: 19, name: 'Abdul Gamwu',            number: 32, role: 'MD', posName: 'Central Mid',    image: 'assets/players/abdul-gamwu.jpg' },
+  { id: 19, name: 'Abdul Ganiwu',           number: 32, role: 'MD', posName: 'Central Mid',    image: 'assets/players/abdul-gamwu.jpg' },
   { id: 20, name: 'John Afram Attah Jnr',   number: 20, role: 'MD', posName: 'Att. Midfielder', image: 'assets/players/john-afram-attah-jnr.jpg' },
   { id: 21, name: 'Agyei Emmanuel',         number: 51, role: 'MD', posName: 'Central Mid',    image: 'assets/players/agyei-emmanuel.jpg' },
-  { id: 22, name: 'Samuel Amadu',           number: 6,  role: 'MD', posName: 'Box-to-Box Mid', image: 'assets/players/samuel-amadu.jpg' },
+  { id: 22, name: 'Samuel Adamu',           number: 6,  role: 'MD', posName: 'Box-to-Box Mid', image: 'assets/players/samuel-amadu.jpg' },
   { id: 23, name: 'Awal Seidu',             number: 28, role: 'MD', posName: 'Central Mid',    image: 'assets/players/awal-seidu.jpg' },
   { id: 24, name: 'Felix Aboagye',          number: 18, role: 'MD', posName: 'Att. Midfielder', image: 'assets/players/felix-aboagye.jpg' },
   { id: 25, name: 'Huzaif Iddrisu',         number: 10, role: 'MD', posName: 'Att. Midfielder', image: 'assets/players/james-konadu.jpg' },
@@ -1210,60 +1209,80 @@ function renderNews() {
     }
   }
 
-  // POSITIONS 4+: Folded into Older Stories UI so they don't stretch the page
-  const olderNewsSection = document.getElementById('olderNewsSection');
-  const olderNewsGrid = document.getElementById('olderNewsGrid');
-  const olderNewsCountEl = document.getElementById('olderNewsCount');
-
-  if (olderNewsSection && olderNewsGrid) {
-    const olderArticles = blogs.slice(3);
-    if (olderArticles.length > 0) {
-      olderNewsSection.style.display = 'block';
-      if (olderNewsCountEl) olderNewsCountEl.textContent = olderArticles.length;
-      olderNewsGrid.innerHTML = olderArticles.map(art => {
-        const artImg = art.image || 'assets/kit-home-2026.jpg';
-        const badgeClass = art.badgeClass || (art.category && art.category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club');
-        const badgeText = art.category || 'CLUB NEWS';
-        const excerpt = art.excerpt || (art.content ? art.content.replace(/<[^>]+>/g, '').slice(0, 110) + '...' : '');
-
-        return `
-          <article class="news-mini-card" onclick="openNewsArticle('${art.id}')">
-            <div class="news-mini-card__thumb">
-              <img src="${artImg}" alt="${art.title}" onerror="this.src='assets/apostle-tv-video3.jpg'">
-              <span class="news-badge-pill ${badgeClass}">${badgeText}</span>
-            </div>
-            <div class="news-mini-card__content">
-              <div class="news-meta-row">
-                <span class="news-meta-date">${art.date || 'Past'}</span>
-                <span class="news-meta-dot">&bull;</span>
-                <span class="news-meta-source">${art.source || 'Club Archive'}</span>
-              </div>
-              <h4 class="news-mini-title">${art.title}</h4>
-              <p class="news-mini-excerpt">${excerpt}</p>
-              <span class="news-link-read">Read Article &rarr;</span>
-            </div>
-          </article>
-        `;
-      }).join('');
-    } else {
-      olderNewsSection.style.display = 'none';
-    }
-  }
+  // POSITIONS 4+: Rendered into Modern Archive Grid
+  renderArchiveGrid();
 }
 
-function toggleOlderNews() {
-  const fold = document.getElementById('olderNewsFold');
-  const btn = document.getElementById('btnToggleOlderNews');
-  const text = document.getElementById('olderNewsToggleText');
-  const icon = document.getElementById('olderNewsIcon');
-  if (!fold || !btn) return;
-  const isOpen = fold.classList.toggle('open');
-  btn.classList.toggle('open', isOpen);
-  if (text) text.textContent = isOpen ? 'Click to fold' : 'Click to view';
-  if (icon) {
-    icon.className = isOpen ? 'fa-solid fa-folder-open' : 'fa-solid fa-folder-closed';
-  }
+let currentArchiveFilter = 'all';
+
+function filterArchiveCategory(category, buttonEl) {
+  currentArchiveFilter = category;
+  const buttons = document.querySelectorAll('.archive-filter-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  if (buttonEl) buttonEl.classList.add('active');
+  renderArchiveGrid();
 }
+
+function renderArchiveGrid() {
+  const archiveGrid = document.getElementById('newsArchiveGrid');
+  const countBadge = document.getElementById('newsArchiveCountBadge');
+  if (!archiveGrid) return;
+
+  const blogs = getUnifiedBlogs();
+  const allOlder = blogs.slice(3);
+
+  if (countBadge) {
+    countBadge.textContent = `${allOlder.length} article${allOlder.length === 1 ? '' : 's'}`;
+  }
+
+  let filtered = allOlder;
+  if (currentArchiveFilter !== 'all') {
+    filtered = allOlder.filter(art => {
+      const cat = (art.category || '').toUpperCase();
+      return cat.includes(currentArchiveFilter.toUpperCase());
+    });
+  }
+
+  if (filtered.length === 0) {
+    archiveGrid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 2.5rem 1rem; color: var(--text-muted);">
+        <i class="fa-regular fa-newspaper" style="font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5; display: block;"></i>
+        <p style="font-weight: 600; font-size: 0.9rem; margin: 0;">No older stories in this category.</p>
+      </div>
+    `;
+    return;
+  }
+
+  archiveGrid.innerHTML = filtered.map(art => {
+    const artImg = art.image || 'assets/kit-home-2026.jpg';
+    const badgeClass = art.badgeClass || (art.category && art.category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club');
+    const badgeText = art.category || 'CLUB NEWS';
+    const excerpt = art.excerpt || (art.content ? art.content.replace(/<[^>]+>/g, '').slice(0, 115) + '...' : '');
+
+    return `
+      <article class="archive-card" onclick="openNewsArticle('${art.id}')">
+        <div class="archive-card__thumb">
+          <img src="${artImg}" alt="${art.title}" onerror="this.src='assets/apostle-tv-video3.jpg'">
+          <span class="news-badge-pill ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="archive-card__body">
+          <div class="news-meta-row">
+            <span class="news-meta-date"><i class="fa-regular fa-calendar"></i> ${art.date || 'Past'}</span>
+            <span class="news-meta-dot">&bull;</span>
+            <span class="news-meta-source">${art.source || 'Club Archive'}</span>
+          </div>
+          <h4 class="archive-card__title">${art.title}</h4>
+          <p class="archive-card__excerpt">${excerpt}</p>
+          <div class="archive-card__footer">
+            <span>Read Article &rarr;</span>
+            <span style="color:var(--text-muted); font-weight:600; font-size:0.72rem;">${art.readTime || '3 min read'}</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+}
+
 
 function openNewsArticle(articleId) {
   const blogs = getUnifiedBlogs();
@@ -1374,12 +1393,30 @@ function renderApostlesTv() {
   }).join('');
 }
 
+function extractYouTubeId(urlOrId) {
+  if (!urlOrId) return 'fpleoX_sUIA';
+  const clean = String(urlOrId).trim();
+  const match = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (match) return match[1];
+  if (/^[\w-]{11}$/.test(clean)) return clean;
+  if (clean === 'gpl-opener-vision') return '9SFZE0KVGak';
+  return 'fpleoX_sUIA';
+}
+
 function playApostleVideo(videoId, title) {
   const modal = document.getElementById('videoPlayerModal');
   const frame = document.getElementById('videoPlayerFrame');
   const titleEl = document.getElementById('videoPlayerTitle');
-  if (frame) frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-  if (titleEl) titleEl.textContent = title || 'Apostles TV &middot; Young Apostles FC';
+  const directLink = document.getElementById('videoPlayerDirectLink');
+  
+  const cleanId = extractYouTubeId(videoId);
+  if (frame) {
+    frame.src = `https://www.youtube-nocookie.com/embed/${cleanId}?autoplay=1&rel=0&enablejsapi=1`;
+  }
+  if (directLink) {
+    directLink.href = `https://www.youtube.com/watch?v=${cleanId}`;
+  }
+  if (titleEl) titleEl.textContent = title || 'Apostles TV · Young Apostles FC';
   if (modal) modal.classList.add('open');
 }
 
@@ -1398,89 +1435,19 @@ function openYouTubeLink(url) {
 }
 
 // ==========================================
-// 17. CLUB DISPATCHES (SIDEBAR FEED - POSITIONS 4, 5, 6+)
+// 17. CLUB DISPATCHES (DEPRECATED - REPLACED BY 3 HOMEPAGE NEWS + MODERN ARCHIVE)
 // ==========================================
 function getDispatches() {
   return getUnifiedBlogs();
 }
 
 function renderDispatches() {
-  const container = document.getElementById('dispatchesContainer');
-  if (!container) return;
-
-  const blogs = getUnifiedBlogs();
-  if (!blogs || blogs.length === 0) return;
-
-  function createDispatchHtml(item) {
-    const imgHtml = item.image
-      ? `<img src="${item.image}" alt="Dispatch Media" class="dispatch-media-thumb" onerror="this.style.display='none'">`
-      : '';
-
-    const textContent = item.excerpt || (item.content ? item.content.replace(/<[^>]+>/g, '').slice(0, 150) + '...' : '');
-
-    return `
-      <div class="dispatch-item" onclick="openNewsArticle('${item.id}')">
-        <div class="dispatch-item__meta">
-          <img src="assets/official-logo.png" alt="YA" class="dispatch-avatar">
-          <div>
-            <div class="dispatch-author">${item.author || 'Young Apostles FC'} <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i></div>
-            <div class="dispatch-time">${item.date || 'Live Alert'}</div>
-          </div>
-        </div>
-        <div class="dispatch-item__text">
-          <strong>${item.title}</strong> &mdash; ${textContent}
-        </div>
-        ${imgHtml}
-        <div class="dispatch-tag-link"><i class="fa-regular fa-newspaper"></i> Read full story &rarr;</div>
-      </div>
-    `;
-  }
-
-  // Sidebar shows blogs 3 & 4 (index 2 and 3) — main area covers 1, 2, 3 (index 0-2 featured + subgrid)
-  const sidebarItems = blogs.slice(2, 4);
-  container.innerHTML = sidebarItems.length > 0
-    ? sidebarItems.map(createDispatchHtml).join('')
-    : blogs.slice(0, 2).map(createDispatchHtml).join(''); // fallback if fewer blogs
-
-  // Archive dropdown & drawer: stories beyond top hero / sidebar
-  const olderItems = blogs.length > 4 ? blogs.slice(4) : blogs.slice(1);
-  const selectEl = document.getElementById('olderStoriesSelect');
-
-  if (selectEl) {
-    if (olderItems.length > 0) {
-      selectEl.innerHTML = `
-        <option value="" disabled selected>📂 Select an older story to read...</option>
-        ${olderItems.map(item => `<option value="${item.id}">📜 [${item.date ? item.date.split('·')[0].trim() : 'Archive'}] ${item.title}</option>`).join('')}
-      `;
-    } else {
-      selectEl.innerHTML = `<option value="" disabled selected>No older archives yet</option>`;
-    }
-  }
-
-  const drawer = document.getElementById('olderDispatchesDrawer');
-  const countEl = document.getElementById('olderDispatchesCount');
-  if (drawer && countEl) {
-    countEl.textContent = olderItems.length;
-    drawer.innerHTML = olderItems.length > 0
-      ? olderItems.map(createDispatchHtml).join('')
-      : `<div style="padding:1rem; text-align:center; color:var(--text-muted); font-size:0.8rem;">No more older stories in archive.</div>`;
-  }
+  // Live dispatches sidebar removed in favor of 3 homepage news sections + modern archive UI
 }
 
-// Handle selection from the cool older stories dropdown
 function handleOlderStorySelect(articleId) {
   if (!articleId) return;
   openNewsArticle(articleId);
-  const select = document.getElementById('olderStoriesSelect');
-  if (select) select.selectedIndex = 0;
-}
-
-function toggleOlderDispatches() {
-  const drawer = document.getElementById('olderDispatchesDrawer');
-  const btn = document.getElementById('btnDispatchesFold');
-  if (!drawer || !btn) return;
-  const isOpen = drawer.classList.toggle('open');
-  btn.classList.toggle('open', isOpen);
 }
 
 // ==========================================
