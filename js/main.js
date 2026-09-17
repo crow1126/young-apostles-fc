@@ -1135,82 +1135,98 @@ function getNewsArticles() {
 }
 
 function renderNews() {
-  const featContainer = document.getElementById('newsFeaturedContainer');
-  const subContainer = document.getElementById('newsSubgridContainer');
-  if (!featContainer && !subContainer) return;
+  const heroContainer = document.getElementById('newsHeroContainer');
+  const stackedContainer = document.getElementById('newsStackedContainer');
+  const bottomStrip = document.getElementById('newsBottomStrip');
+  const stripCount = document.getElementById('newsStripCount');
 
   const blogs = getUnifiedBlogs();
   if (!blogs || blogs.length === 0) return;
 
-  // POSITION 1: Latest blog -> Big Featured Hero
-  const lead = blogs[0];
-  if (featContainer && lead) {
-    const leadImg = lead.image || 'assets/apostle-tv-video1.jpg';
-    const badgeClass = lead.badgeClass || (lead.category && lead.category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club');
-    const badgeText = lead.category || 'CLUB NEWS';
+  // POSITION 1: Hero Card (Left)
+  if (heroContainer && blogs[0]) {
+    const lead = blogs[0];
+    const leadImg = lead.image || 'assets/md3-debibi-derby.jpg';
+    const tag = (lead.category || 'ARTICLE').toUpperCase();
     const dateText = lead.date || 'Sep 16, 2026';
-    const sourceText = lead.source || 'Apostles Media Dispatch';
-    const excerpt = lead.excerpt || (lead.content ? lead.content.replace(/<[^>]+>/g, '').slice(0, 190) + '...' : '');
+    const readTime = lead.readTime || '4 min read';
 
-    featContainer.innerHTML = `
-      <article class="news-featured-card" onclick="openNewsArticle('${lead.id}')">
-        <div class="news-featured-card__media">
-          <img src="${leadImg}" alt="${lead.title}" onerror="this.src='assets/apostle-tv-video1.jpg'">
-          <span class="news-badge-pill ${badgeClass}">${badgeText}</span>
-        </div>
-        <div class="news-featured-card__body">
-          <div class="news-meta-row">
-            <span class="news-meta-date"><i class="fa-regular fa-calendar"></i> ${dateText}</span>
-            <span class="news-meta-dot">&bull;</span>
-            <span class="news-meta-source"><i class="fa-brands fa-x-twitter"></i> ${sourceText}</span>
-          </div>
-          <h3 class="news-featured-title">${lead.title}</h3>
-          <p class="news-featured-excerpt">
-            ${excerpt}
-          </p>
-          <div class="news-card-footer">
-            <span class="news-read-btn">Read Full Story &rarr;</span>
-            <span class="news-read-time">${lead.readTime || '3 min read'}</span>
+    heroContainer.innerHTML = `
+      <article class="news-hero-card" onclick="openNewsArticle('${lead.id}')">
+        <img src="${leadImg}" alt="${lead.title}" class="news-hero-card__bg" onerror="this.src='assets/md3-debibi-derby.jpg'">
+        <div class="news-hero-card__overlay"></div>
+        <div class="news-hero-card__content">
+          <span class="news-tag-badge">${tag}</span>
+          <h3 class="news-hero-card__title">${lead.title}</h3>
+          <div class="news-hero-card__meta">
+            <span><i class="fa-regular fa-calendar"></i> ${dateText}</span>
+            <span>&bull;</span>
+            <span>${readTime}</span>
           </div>
         </div>
       </article>
     `;
   }
 
-  // POSITIONS 2 & 3: 2nd and 3rd blogs -> Subgrid cards
-  if (subContainer) {
-    const subArticles = blogs.slice(1, 3);
-    if (subArticles.length > 0) {
-      subContainer.innerHTML = subArticles.map(art => {
+  // POSITIONS 2 & 3: 2 Stacked Cards (Right)
+  if (stackedContainer) {
+    const stackedBlogs = blogs.slice(1, 3);
+    stackedContainer.innerHTML = stackedBlogs.map(art => {
+      const artImg = art.image || 'assets/md2-prempeh-win.jpg';
+      const tag = (art.category || 'ARTICLE').toUpperCase();
+      const dateText = art.date || 'Recent';
+      const readTime = art.readTime || '3 min read';
+
+      return `
+        <article class="news-stacked-card" onclick="openNewsArticle('${art.id}')">
+          <img src="${artImg}" alt="${art.title}" class="news-stacked-card__bg" onerror="this.src='assets/md2-prempeh-win.jpg'">
+          <div class="news-stacked-card__overlay"></div>
+          <div class="news-stacked-card__content">
+            <span class="news-tag-badge">${tag}</span>
+            <h4 class="news-stacked-card__title">${art.title}</h4>
+            <div class="news-hero-card__meta" style="font-size:0.75rem;">
+              <span>${dateText} &bull; ${readTime}</span>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  // POSITIONS 4+: Bottom Strip (Older Stories)
+  if (bottomStrip) {
+    const olderBlogs = blogs.slice(3);
+    if (stripCount) {
+      stripCount.textContent = `${olderBlogs.length} Story${olderBlogs.length === 1 ? '' : 'ies'}`;
+    }
+
+    if (olderBlogs.length === 0) {
+      bottomStrip.innerHTML = `
+        <div style="grid-column: 1 / -1; padding: 1.25rem; color: rgba(255,255,255,0.6); font-size: 0.88rem; text-align: center;">
+          <i class="fa-regular fa-newspaper" style="margin-right: 0.5rem; color: var(--ya-gold);"></i> All current dispatches are featured above.
+        </div>
+      `;
+    } else {
+      bottomStrip.innerHTML = olderBlogs.map(art => {
         const artImg = art.image || 'assets/kit-home-2026.jpg';
-        const badgeClass = art.badgeClass || (art.category && art.category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--club');
-        const badgeText = art.category || 'CLUB NEWS';
-        const excerpt = art.excerpt || (art.content ? art.content.replace(/<[^>]+>/g, '').slice(0, 120) + '...' : '');
+        const tag = (art.category || 'CLUB NEWS').toUpperCase();
+        const dateText = art.date || 'Past';
 
         return `
-          <article class="news-mini-card" onclick="openNewsArticle('${art.id}')">
-            <div class="news-mini-card__thumb">
+          <div class="news-strip-item" onclick="openNewsArticle('${art.id}')">
+            <div class="news-strip-thumb">
               <img src="${artImg}" alt="${art.title}" onerror="this.src='assets/apostle-tv-video3.jpg'">
-              <span class="news-badge-pill ${badgeClass}">${badgeText}</span>
             </div>
-            <div class="news-mini-card__content">
-              <div class="news-meta-row">
-                <span class="news-meta-date">${art.date || 'Recent'}</span>
-                <span class="news-meta-dot">&bull;</span>
-                <span class="news-meta-source">${art.source || 'Club Release'}</span>
-              </div>
-              <h4 class="news-mini-title">${art.title}</h4>
-              <p class="news-mini-excerpt">${excerpt}</p>
-              <span class="news-link-read">Read Article &rarr;</span>
+            <div class="news-strip-text">
+              <div class="news-strip-tag">${tag}</div>
+              <h5 class="news-strip-heading">${art.title}</h5>
+              <div class="news-strip-date">${dateText}</div>
             </div>
-          </article>
+          </div>
         `;
       }).join('');
     }
   }
-
-  // POSITIONS 4+: Rendered into Modern Archive Grid
-  renderArchiveGrid();
 }
 
 let currentArchiveFilter = 'all';

@@ -137,109 +137,77 @@
   <!-- =========================================================
        4. LATEST CLUB NEWS + LIVE SOCIAL FEED
        ========================================================= -->
-  <section class="section" id="news" style="background:#fff;">
+  <!-- =========================================================
+       4. CLUB NEWS & ARTICLES (PREMIER LEAGUE MAGAZINE LAYOUT)
+       ========================================================= -->
+  <section class="section news-section-wrap" id="news">
     <div class="container">
-      <div class="section-header section-header--split">
+      <div class="section-header section-header--light">
         <div>
-          <h2 class="section-title">Club News &amp; Articles <span style="font-size:0.75em;">&rarr;</span></h2>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">
+          <div class="news-header-eyebrow"><i class="fa-solid fa-circle-play"></i> OFFICIAL CLUB COVERAGE</div>
+          <h2 class="section-title">Club News &amp; Stories</h2>
+          <p class="section-subtext">
             Official match previews, match reports, and club statements &middot; Young Apostles FC Media
           </p>
         </div>
-        <a href="admin.html" class="section-link-action" title="Media Team CMS Login">
-          <i class="fa-solid fa-feather-pointed"></i> News CMS Portal <i class="fa-solid fa-arrow-right"></i>
-        </a>
       </div>
 
-      <!-- Top 3 News Sections: Lead Featured Story (Pos 1) + 2 Secondary Cards (Pos 2 & 3) -->
-      <div class="news-magazine-layout">
-        <!-- Section 1: Featured Lead Story (Position 1 from CMS) -->
-        <div id="newsFeaturedContainer">
-          <article class="news-featured-card" onclick="openNewsArticle('debibi-united-derby')">
-            <div class="news-featured-card__media">
-              <img src="assets/md3-debibi-derby.jpg" alt="Debibi United vs Young Apostles Derby Preview">
-              <span class="news-badge-pill news-badge-pill--preview">MATCH PREVIEW</span>
-            </div>
-            <div class="news-featured-card__body">
-              <div class="news-meta-row">
-                <span class="news-meta-date"><i class="fa-regular fa-calendar"></i> Sep 16, 2026</span>
-                <span class="news-meta-dot">&bull;</span>
-                <span class="news-meta-source"><i class="fa-solid fa-bullhorn"></i> Official Club Release</span>
-              </div>
-              <h3 class="news-featured-title">Young Apostles Face Debibi United in First Regional Derby of GPL Season</h3>
-              <p class="news-featured-excerpt">
-                Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture marks the first regional derby involving Young Apostles in the top flight this season.
-              </p>
-              <div class="news-card-footer">
-                <span class="news-read-btn">Read Full Story &rarr;</span>
-                <span class="news-read-time">4 min read</span>
+      <!-- Chelsea-Style Grid: 1 Large Hero on Left + 2 Stacked Cards on Right -->
+      <div class="news-pl-grid">
+        <!-- LEFT: 1 Large Featured Hero Card (Position 1 from CMS) -->
+        <div class="news-pl-hero" id="newsHeroContainer">
+          <article class="news-hero-card" onclick="openNewsArticle('debibi-united-derby')">
+            <img src="assets/md3-debibi-derby.jpg" alt="Young Apostles Face Debibi United" class="news-hero-card__bg">
+            <div class="news-hero-card__overlay"></div>
+            <div class="news-hero-card__content">
+              <span class="news-tag-badge">MATCH PREVIEW</span>
+              <h3 class="news-hero-card__title">Young Apostles Face Debibi United in First Regional Derby of GPL Season</h3>
+              <div class="news-hero-card__meta">
+                <span><i class="fa-regular fa-calendar"></i> Sep 16, 2026</span>
+                <span>&bull;</span>
+                <span>4 min read</span>
               </div>
             </div>
           </article>
         </div>
 
-        <!-- Sections 2 & 3: Secondary Highlight Cards (Positions 2 & 3 from CMS) -->
-        <div class="news-subgrid" id="newsSubgridContainer">
-          <!-- Article 2 -->
-          <article class="news-mini-card" onclick="openNewsArticle('prempeh-winner-holy-stars')">
-            <div class="news-mini-card__thumb">
-              <img src="assets/md2-prempeh-win.jpg" alt="Samuel Prempeh matchwinner vs Holy Stars">
-              <span class="news-badge-pill news-badge-pill--match">MATCH REPORT</span>
-            </div>
-            <div class="news-mini-card__content">
-              <div class="news-meta-row">
-                <span class="news-meta-date">Sep 13, 2026</span>
-                <span class="news-meta-dot">&bull;</span>
-                <span class="news-meta-source">Match Report</span>
+        <!-- RIGHT: 2 Stacked Secondary Cards (Positions 2 & 3 from CMS) -->
+        <div class="news-pl-stacked" id="newsStackedContainer">
+          <!-- Card 1 -->
+          <article class="news-stacked-card" onclick="openNewsArticle('prempeh-winner-holy-stars')">
+            <img src="assets/md2-prempeh-win.jpg" alt="Samuel Prempeh Strike Earns Young Apostles First Win" class="news-stacked-card__bg">
+            <div class="news-stacked-card__overlay"></div>
+            <div class="news-stacked-card__content">
+              <span class="news-tag-badge">MATCH REPORT</span>
+              <h4 class="news-stacked-card__title">Samuel Prempeh Strike Earns Young Apostles First Win of the Season</h4>
+              <div class="news-hero-card__meta" style="font-size:0.75rem;">
+                <span>Sep 13, 2026 &bull; 3 min read</span>
               </div>
-              <h4 class="news-mini-title">Samuel Prempeh Strike Earns Young Apostles First Win of the Season</h4>
-              <p class="news-mini-excerpt">Young Apostles secured their first victory of the 2026/27 GPL season with a narrow 1-0 win over Basake Holy Stars in Wenchi courtesy of Samuel Prempeh's early strike.</p>
-              <span class="news-link-read">Read Article &rarr;</span>
             </div>
           </article>
 
-          <!-- Article 3 -->
-          <article class="news-mini-card" onclick="openNewsArticle('holy-stars-matchday2-preview')">
-            <div class="news-mini-card__thumb">
-              <img src="assets/md2-holy-stars-preview.jpg" alt="Basake Holy Stars Matchday 2 Test">
-              <span class="news-badge-pill news-badge-pill--preview">MATCH PREVIEW</span>
-            </div>
-            <div class="news-mini-card__content">
-              <div class="news-meta-row">
-                <span class="news-meta-date">Sep 11, 2026</span>
-                <span class="news-meta-dot">&bull;</span>
-                <span class="news-meta-source">Match Preview</span>
+          <!-- Card 2 -->
+          <article class="news-stacked-card" onclick="openNewsArticle('holy-stars-matchday2-preview')">
+            <img src="assets/md2-holy-stars-preview.jpg" alt="Young Apostles Set for Basake Holy Stars Test" class="news-stacked-card__bg">
+            <div class="news-stacked-card__overlay"></div>
+            <div class="news-stacked-card__content">
+              <span class="news-tag-badge">MATCH PREVIEW</span>
+              <h4 class="news-stacked-card__title">Young Apostles Set for Basake Holy Stars Test in Wenchi</h4>
+              <div class="news-hero-card__meta" style="font-size:0.75rem;">
+                <span>Sep 11, 2026 &bull; 3 min read</span>
               </div>
-              <h4 class="news-mini-title">Young Apostles Set for Basake Holy Stars Test in Wenchi</h4>
-              <p class="news-mini-excerpt">The Apostles return to action on Matchday 2 hosting Basake Holy Stars in their first home league fixture of the campaign at Wenchi Sports Stadium.</p>
-              <span class="news-link-read">Read Article &rarr;</span>
             </div>
           </article>
         </div>
       </div>
 
-      <!-- Modern UI for Older Articles & Past Stories (Positions 4+ from CMS) -->
-      <div class="news-archive-section" id="newsArchiveSection">
-        <div class="news-archive-header">
-          <div class="news-archive-title-wrap">
-            <div class="news-archive-icon-badge"><i class="fa-solid fa-box-archive"></i></div>
-            <div>
-              <h3 class="news-archive-title">Older Stories &amp; Match Archive</h3>
-              <div class="news-archive-subtitle">Access past club news, match previews, and matchday reports</div>
-            </div>
-            <span class="news-archive-count-pill" id="newsArchiveCountBadge">0 articles</span>
-          </div>
-          <!-- Interactive Category Filter Tabs -->
-          <div class="news-archive-filters" id="newsArchiveFilters">
-            <button type="button" class="archive-filter-btn active" onclick="filterArchiveCategory('all', this)">All</button>
-            <button type="button" class="archive-filter-btn" onclick="filterArchiveCategory('MATCH REPORT', this)">Match Reports</button>
-            <button type="button" class="archive-filter-btn" onclick="filterArchiveCategory('MATCH PREVIEW', this)">Match Previews</button>
-            <button type="button" class="archive-filter-btn" onclick="filterArchiveCategory('CLUB NEWS', this)">Club News</button>
-          </div>
+      <!-- BOTTOM STRIP: Older Stories & Match Archive (Positions 4+ from CMS - Matching Image 3 Bottom Bar) -->
+      <div class="news-pl-strip-wrap" id="newsBottomStripWrap">
+        <div class="news-pl-strip-header">
+          <span class="news-pl-strip-title"><i class="fa-solid fa-layer-group" style="color:var(--ya-gold);"></i> More Club Stories &amp; Past Reports</span>
+          <span class="news-pl-strip-count" id="newsStripCount">Archive Stories</span>
         </div>
-
-        <!-- Modern Cards Grid for Older Stories -->
-        <div class="news-archive-grid" id="newsArchiveGrid">
+        <div class="news-pl-strip" id="newsBottomStrip">
           <!-- Populated dynamically via renderNews() in main.js -->
         </div>
       </div>

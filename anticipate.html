@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANTICIPATE &middot; Young Apostles FC Official Portal</title>
+  <meta name="description" content="Anticipate the official digital launch of Young Apostles Football Club. Wenchi's pride competing in the Ghana Premier League. Countdown to Friday PM.">
+  <link rel="icon" type="image/png" href="assets/official-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --ya-blue-deep: #070E29;
+      --ya-blue-dark: #0A1640;
+      --ya-blue:      #0E1E5B;
+      --ya-gold:      #FFB800;
+      --ya-gold-hover:#E5A800;
+      --ya-font-head: 'Outfit', sans-serif;
+      --ya-font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ya-blue-deep);
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(14, 30, 91, 0.7) 0%, transparent 65%),
+        radial-gradient(circle at 80% 80%, rgba(255, 184, 0, 0.08) 0%, transparent 50%),
+        url('assets/hero-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #FFFFFF;
+      font-family: var(--ya-font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Dark Mesh Overlay */
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(7, 14, 41, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 1;
+    }
+
+    .anticipate-container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    /* Top Brand Nav */
+    .top-bar {
+      position: relative;
+      z-index: 2;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+    }
+
+    .brand-pill img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
+    }
+
+    .btn-preview-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.25s ease;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-preview-link:hover {
+      color: var(--ya-gold);
+      border-color: var(--ya-gold);
+      background: rgba(255, 184, 0, 0.1);
+    }
+
+    /* Crest Presentation */
+    .crest-wrapper {
+      position: relative;
+      margin-bottom: 1.75rem;
+    }
+
+    .crest-glow {
+      position: absolute;
+      inset: -15px;
+      background: radial-gradient(circle, rgba(255, 184, 0, 0.35) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(16px);
+      animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      from { transform: scale(0.9); opacity: 0.6; }
+      to { transform: scale(1.1); opacity: 1; }
+    }
+
+    .club-crest {
+      position: relative;
+      width: 125px;
+      height: 125px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.6));
+      animation: floatCrest 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatCrest {
+      from { transform: translateY(0px); }
+      to { transform: translateY(-8px); }
+    }
+
+    /* Typography */
+    .anticipate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 184, 0, 0.15);
+      border: 1px solid rgba(255, 184, 0, 0.4);
+      color: var(--ya-gold);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.1rem;
+      border-radius: 999px;
+      margin-bottom: 1.25rem;
+    }
+
+    .anticipate-title {
+      font-family: var(--ya-font-head);
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.02;
+      margin-bottom: 1rem;
+      background: linear-gradient(180deg, #FFFFFF 30%, #FFB800 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.5));
+    }
+
+    .anticipate-subtitle {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 620px;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+
+    .anticipate-subtitle strong {
+      color: var(--ya-gold);
+    }
+
+    /* Countdown Grid */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 680px;
+      margin-bottom: 2.75rem;
+    }
+
+    .countdown-box {
+      background: rgba(14, 30, 91, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 1.4rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .countdown-box:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 184, 0, 0.5);
+    }
+
+    .countdown-box::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--ya-gold), transparent);
+    }
+
+    .countdown-number {
+      font-family: var(--ya-font-head);
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .countdown-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--ya-gold);
+    }
+
+    /* Launch Date Notice */
+    .launch-notice {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem;
+      color: #FFFFFF;
+      margin-bottom: 2rem;
+    }
+
+    .launch-notice i {
+      color: var(--ya-gold);
+    }
+
+    /* Action Buttons */
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-portal-enter {
+      background: var(--ya-gold);
+      color: var(--ya-blue-deep);
+      font-family: var(--ya-font-head);
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 20px rgba(255, 184, 0, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .btn-portal-enter:hover {
+      background: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Social Icons */
+    .social-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .social-link {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 1.05rem;
+      transition: all 0.25s ease;
+    }
+
+    .social-link:hover {
+      background: var(--ya-gold);
+      color: var(--ya-blue-deep);
+      transform: translateY(-3px);
+      border-color: var(--ya-gold);
+    }
+
+    /* Footer */
+    .bottom-footer {
+      position: relative;
+      z-index: 2;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.6);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      .countdown-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+      .countdown-box {
+        padding: 1.1rem 0.5rem;
+      }
+      .anticipate-container {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="brand-pill">
+      <img src="assets/official-logo.png" alt="Young Apostles FC Logo">
+      <span>YOUNG APOSTLES FC</span>
+    </div>
+    <a href="index.html" class="btn-preview-link">
+      <span>Enter Portal</span> <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </header>
+
+  <!-- Main Anticipate Content -->
+  <main class="anticipate-container">
+    
+    <!-- Club Crest with Glow -->
+    <div class="crest-wrapper">
+      <div class="crest-glow"></div>
+      <img src="assets/official-crest-hq.png" alt="Young Apostles FC Official Crest" class="club-crest">
+    </div>
+
+    <!-- Badge -->
+    <div class="anticipate-badge">
+      <i class="fa-solid fa-bolt"></i> Official Launch &bull; GPL 2026/27
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="anticipate-title">ANTICIPATE</h1>
+
+    <!-- Subtitle -->
+    <p class="anticipate-subtitle">
+      Something extraordinary is coming to Ghanaian Football. The official digital matchday experience of <strong>Young Apostles FC</strong> launches this <strong>Friday PM</strong>.
+      <br>
+      <span style="font-size:0.9em; opacity:0.8; font-style:italic;">"AGYA NA ƆWƆ TUMI"</span>
+    </p>
+
+    <!-- Live Real-Time Countdown to Friday PM -->
+    <div class="countdown-grid" id="anticipateCountdown">
+      <div class="countdown-box">
+        <div class="countdown-number" id="antDays">00</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-number" id="antHours">00</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-number" id="antMinutes">00</div>
+        <div class="countdown-label">Minutes</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-number" id="antSeconds">00</div>
+        <div class="countdown-label">Seconds</div>
+      </div>
+    </div>
+
+    <!-- Launch Notice -->
+    <div class="launch-notice">
+      <i class="fa-regular fa-clock"></i> Unveiling Friday, Sep 18, 2026 &bull; 6:00 PM GMT
+    </div>
+
+    <!-- Enter / Preview Link -->
+    <div class="action-group">
+      <a href="index.html" class="btn-portal-enter">
+        <span>Enter Digital Portal</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <!-- Club Social Links -->
+    <div class="social-links">
+      <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="social-link" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      <a href="https://x.com/youngapostlesfc" target="_blank" rel="noopener" class="social-link" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://instagram.com/youngapostlesfc" target="_blank" rel="noopener" class="social-link" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://facebook.com/youngapostlesfc" target="_blank" rel="noopener" class="social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+    </div>
+
+  </main>
+
+  <!-- Bottom Footer -->
+  <footer class="bottom-footer">
+    &copy; 2026 Young Apostles Football Club. Wenchi, Bono Region, Ghana &middot; All Rights Reserved.
+  </footer>
+
+  <script>
+    // Countdown to Friday PM (September 18, 2026 at 18:00:00 GMT)
+    function getTargetFridayPM() {
+      const now = new Date();
+      const target = new Date(now);
+      const day = now.getDay();
+      let diff = (5 - day + 7) % 7;
+      if (diff === 0 && now.getHours() >= 18) {
+        diff = 7;
+      }
+      target.setDate(now.getDate() + diff);
+      target.setHours(18, 0, 0, 0);
+      return target;
+    }
+
+    const targetDate = getTargetFridayPM();
+
+    function updateCountdown() {
+      const now = new Date();
+      const difference = targetDate.getTime() - now.getTime();
+
+      if (difference <= 0) {
+        document.getElementById('antDays').textContent = '00';
+        document.getElementById('antHours').textContent = '00';
+        document.getElementById('antMinutes').textContent = '00';
+        document.getElementById('antSeconds').textContent = '00';
+        return;
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById('antDays').textContent = String(days).padStart(2, '0');
+      document.getElementById('antHours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('antMinutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('antSeconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
