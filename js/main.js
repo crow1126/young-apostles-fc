@@ -2072,7 +2072,7 @@ function closeAnticipateOverlay() {
 }
 
 function getSaturdayAMTarget() {
-  const fixedTarget = new Date('2026-09-19T08:00:00');
+  const fixedTarget = new Date('2026-09-19T13:00:00');
   const now = new Date();
   if (fixedTarget.getTime() > now.getTime()) {
     return fixedTarget;
