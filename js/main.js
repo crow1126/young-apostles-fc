@@ -62,42 +62,42 @@ const PRODUCTS_DATA = [
     category: 'kits',
     price: 350,
     oldPrice: 420,
-    image: 'assets/kit-home-hanging.jpg',
+    image: 'assets/kit-home-player-2026.jpg',
     tag: 'OFFICIAL 2026/27',
-    description: 'The authentic 2026/27 Young Apostles FC Home Jersey engineered by Mayniak. Features radiant golden yellow textured fabric with navy blue trims, Ghana Premier League sleeve badge, breathable moisture-wicking technology, and the iconic club crest.',
-    customizable: true
-  },
-  {
-    id: 'kit-home-showcase',
-    name: 'Home Kit 2026/27 (Player Edition)',
-    category: 'kits',
-    price: 380,
-    oldPrice: 450,
-    image: 'assets/kit-home-2026.jpg',
-    tag: 'PLAYER EDITION',
-    description: 'Official 2026/27 Player Edition match jersey as modeled by Ramzy #8 and squad. Complete with matchday cut and breathable mesh ventilation.',
+    description: 'The authentic 2026/27 Young Apostles FC Home Jersey engineered by Mayniak. Modeled by Ramzy Abubakar #8. Features radiant golden yellow textured fabric with navy blue trims, Ghana Premier League sleeve badge, breathable moisture-wicking technology, and the iconic club crest.',
     customizable: true
   },
   {
     id: 'kit-away',
-    name: 'Official 2026/27 Away Kit (Mayniak)',
+    name: 'Official 2026/27 Away Kit (Mayniak Ivory White)',
     category: 'kits',
     price: 350,
     oldPrice: 420,
     image: 'assets/kit-away-2026.jpg',
     tag: 'OFFICIAL AWAY',
-    description: 'The elegant 2026/27 Young Apostles FC Away Jersey by Mayniak. Designed with crisp ivory white, bronze-copper sleeve cuffs, and dynamic checkered flank details.',
+    description: 'The elegant 2026/27 Young Apostles FC Away Jersey photoshoot by Mayniak. Designed with crisp ivory white, bronze-copper sleeve cuffs, and dynamic checkered flank details.',
     customizable: true
   },
   {
-    id: 'kit-gk-cyan',
-    name: 'Official 2026/27 Goalkeeper Kit (Cyan)',
+    id: 'crest-cap',
+    name: 'Official Young Apostles FC 3D Shield Snapback Cap',
+    category: 'accessories',
+    price: 120,
+    oldPrice: 150,
+    image: 'assets/ya-official-cap.jpg',
+    tag: 'NEW ARRIVAL',
+    description: 'Official structured 6-panel snapback cap in deep navy blue with radiant gold visor stitching and high-density 3D embroidered Young Apostles FC shield crest on the front crown. One size fits all with adjustable snap closure.',
+    customizable: false
+  },
+  {
+    id: 'kit-home-hanging',
+    name: '2026/27 Home Jersey (Club Hanger Edition)',
     category: 'kits',
     price: 350,
-    oldPrice: 400,
-    image: 'assets/kit-home-2026.jpg',
-    tag: 'GOALKEEPER',
-    description: 'Electric cyan matchday goalkeeper jersey worn by Frank Boateng and Osman Wahabu. Crafted with reinforced impact stitching and athletic airflow panels.',
+    oldPrice: 420,
+    image: 'assets/kit-home-hanging.jpg',
+    tag: 'CLUB EDITION',
+    description: 'Authentic 2026/27 Young Apostles FC match jersey presentation on club hanger. Complete with authentic GPL badges and Mayniak ventilation technology.',
     customizable: true
   },
   {
@@ -106,31 +106,20 @@ const PRODUCTS_DATA = [
     category: 'training',
     price: 250,
     oldPrice: 300,
-    image: 'assets/kit-away-2026.jpg',
+    image: 'assets/players/ramzy-abubakar.jpg',
     tag: 'TRAINING WEAR',
     description: 'Lightweight, ultra-durable training top engineered for pre-match warmups and everyday athletic lifestyle.',
     customizable: false
   },
   {
     id: 'fan-scarf',
-    name: 'Young Apostles "Agya Na Æ†wÆ† Tumi" Scarf',
-    category: 'accessories',
-    price: 120,
-    oldPrice: 150,
-    image: 'assets/team-banner.jpg',
-    tag: 'FAN FAVORITE',
-    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Æ†wÉ” Tumi" in bold golden yellow and royal blue lettering.',
-    customizable: false
-  },
-  {
-    id: 'crest-cap',
-    name: 'Official 3D Embroidered Snapback Cap',
+    name: 'Young Apostles "Agya Na Ɔwɔ Tumi" Stadium Scarf',
     category: 'accessories',
     price: 100,
     oldPrice: 130,
-    image: 'assets/official-logo.png',
-    tag: 'BESTSELLER',
-    description: 'High-profile structured snapback with high-density embroidered Young Apostles shield crest on the front crown.',
+    image: 'assets/team-banner.jpg',
+    tag: 'FAN FAVORITE',
+    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Ɔwɔ Tumi" in bold golden yellow and royal blue lettering.',
     customizable: false
   }
 ];
@@ -393,11 +382,15 @@ function openProductModal(productId) {
         <div class="form-group" style="margin-bottom:0.75rem;">
           <label>Select Size</label>
           <select id="modalSize">
-            <option value="S">Small (S)</option>
-            <option value="M">Medium (M)</option>
-            <option value="L" selected>Large (L)</option>
-            <option value="XL">Extra Large (XL)</option>
-            <option value="XXL">Double XL (XXL)</option>
+            ${product.category === 'accessories' ? `
+              <option value="One Size" selected>One Size Fits All (Adjustable)</option>
+            ` : `
+              <option value="S">Small (S)</option>
+              <option value="M">Medium (M)</option>
+              <option value="L" selected>Large (L)</option>
+              <option value="XL">Extra Large (XL)</option>
+              <option value="XXL">Double XL (XXL)</option>
+            `}
           </select>
         </div>
 
@@ -628,17 +621,37 @@ function renderFixturesModal(roundNum) {
 }
 
 // ==========================================
-// 10. CHECKOUT & MEMBERSHIP MODALS
+// 10. SECURE MOMO PAYMENT GATEWAY & CHECKOUT
 // ==========================================
+let currentPendingOrder = null;
+let currentPayMethod = 'momo';
+
+function selectPayMethod(method, el) {
+  currentPayMethod = method;
+  document.querySelectorAll('.pay-method-option').forEach(opt => opt.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
 function openCheckoutModal() {
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
   if (subtotal === 0) {
-    showToast('Your cart is empty!');
+    showToast('Your shopping bag is empty!');
     return;
   }
   const grandTotal = subtotal + 25;
+
+  const subEl = document.getElementById('coSubtotalAmount');
   const totalEl = document.getElementById('coTotalAmount');
+  if (subEl) subEl.textContent = `GHS ${subtotal.toFixed(2)}`;
   if (totalEl) totalEl.textContent = `GHS ${grandTotal.toFixed(2)}`;
+
+  // Reset steps
+  const step1 = document.getElementById('checkoutStepDetails');
+  const step2 = document.getElementById('checkoutStepGateway');
+  const step3 = document.getElementById('checkoutStepReceipt');
+  if (step1) step1.style.display = 'block';
+  if (step2) step2.style.display = 'none';
+  if (step3) step3.style.display = 'none';
 
   closeCartDrawer();
   document.getElementById('checkoutModal')?.classList.add('open');
@@ -648,16 +661,254 @@ function closeCheckoutModal() {
   document.getElementById('checkoutModal')?.classList.remove('open');
 }
 
-function handleCheckout(e) {
+function handleDetailsSubmit(e) {
   e.preventDefault();
-  const name = document.getElementById('coName')?.value;
-  const phone = document.getElementById('coPhone')?.value;
-  const city = document.getElementById('coCity')?.value;
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const grandTotal = subtotal + 25;
 
-  showToast(`Order confirmed for ${name}! MoMo prompt sent to ${phone}.`);
+  const name = document.getElementById('coName')?.value.trim();
+  const phone = document.getElementById('coPhone')?.value.trim();
+  const city = document.getElementById('coCity')?.value.trim();
+  const address = document.getElementById('coAddress')?.value.trim();
+
+  if (!name || !phone || !city || !address) {
+    showToast('Please fill all required fields');
+    return;
+  }
+
+  // Generate unique order reference
+  const randomRef = 'YAFC-' + Math.floor(1000 + Math.random() * 9000);
+
+  currentPendingOrder = {
+    ref: randomRef,
+    name: name,
+    phone: phone,
+    city: city,
+    address: address,
+    method: currentPayMethod,
+    items: JSON.parse(JSON.stringify(cart)),
+    subtotal: subtotal,
+    delivery: 25,
+    total: grandTotal,
+    date: new Date().toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }),
+    recipientName: 'Young Apostles FC (Gerald Damoah Domfeh)',
+    recipientMomo: '0539779380'
+  };
+
+  // Populate Gateway Screen
+  const gwAmount = document.getElementById('gatewayAmount');
+  const gwRef = document.getElementById('gatewayRef');
+  const instAmt = document.getElementById('instAmount');
+  const instRef = document.getElementById('instRef');
+
+  if (gwAmount) gwAmount.textContent = `GHS ${grandTotal.toFixed(2)}`;
+  if (gwRef) gwRef.textContent = currentPendingOrder.ref;
+  if (instAmt) instAmt.textContent = `GHS ${grandTotal.toFixed(2)}`;
+  if (instRef) instRef.textContent = currentPendingOrder.ref;
+
+  // Show Gateway Screen
+  document.getElementById('checkoutStepDetails').style.display = 'none';
+  document.getElementById('checkoutStepGateway').style.display = 'block';
+  showToast('Connecting to Secured MoMo Gateway...');
+}
+
+function copyMomoNumber() {
+  const num = '0539779380';
+  navigator.clipboard.writeText(num).then(() => {
+    const btn = document.getElementById('btnCopyMomo');
+    if (btn) {
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Copied!</span>';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fa-regular fa-copy"></i> <span>Copy</span>';
+        btn.classList.remove('copied');
+      }, 2500);
+    }
+    showToast('MoMo Number 0539779380 copied to clipboard!');
+  }).catch(() => {
+    showToast('Official MoMo: 0539779380');
+  });
+}
+
+function copyMomoRef() {
+  const ref = currentPendingOrder ? currentPendingOrder.ref : 'YAFC-ORDER';
+  navigator.clipboard.writeText(ref).then(() => {
+    const btn = document.getElementById('btnCopyRef');
+    if (btn) {
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Copied!</span>';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fa-regular fa-copy"></i> <span>Copy</span>';
+        btn.classList.remove('copied');
+      }, 2500);
+    }
+    showToast(`Reference ${ref} copied!`);
+  }).catch(() => {
+    showToast(`Reference: ${ref}`);
+  });
+}
+
+function backToCheckoutDetails() {
+  document.getElementById('checkoutStepGateway').style.display = 'none';
+  document.getElementById('checkoutStepDetails').style.display = 'block';
+}
+
+function confirmMomoPayment() {
+  if (!currentPendingOrder) return;
+
+  const txInput = document.getElementById('coTxId');
+  const txId = (txInput?.value || '').trim() || 'MOMO-' + Math.floor(100000000 + Math.random() * 900000000);
+  currentPendingOrder.txId = txId;
+  currentPendingOrder.status = 'PAID & VERIFIED';
+
+  // Save to persistent storage
+  try {
+    const existingOrders = JSON.parse(localStorage.getItem('ya_orders') || '[]');
+    existingOrders.unshift(currentPendingOrder);
+    localStorage.setItem('ya_orders', JSON.stringify(existingOrders));
+  } catch (err) {
+    console.warn('LocalStorage error saving order', err);
+  }
+
+  // Render Receipt
+  renderOrderReceipt(currentPendingOrder);
+
+  // Clear cart
   cart = [];
   saveCart();
-  closeCheckoutModal();
+
+  showToast('Payment verified! Order placed successfully.');
+}
+
+function renderOrderReceipt(order) {
+  const container = document.getElementById('checkoutStepReceipt');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="receipt-card">
+      <div class="receipt-header">
+        <div style="width:52px; height:52px; border-radius:50%; background:rgba(22, 163, 74, 0.12); color:#16A34A; display:flex; align-items:center; justify-content:center; margin:0 auto 0.75rem; font-size:1.6rem;">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue); margin-bottom:0.25rem;">
+          PAYMENT VERIFIED &amp; ORDER CONFIRMED!
+        </h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.75rem;">
+          Official Young Apostles FC Digital Store Receipt
+        </p>
+        <span style="display:inline-block; font-family:monospace; font-size:0.95rem; font-weight:800; background:rgba(255, 184, 0, 0.15); color:var(--ya-blue-deep); padding:4px 12px; border-radius:999px; border:1px solid rgba(255,184,0,0.4);">
+          ORDER REF: ${order.ref}
+        </span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; font-size:0.82rem; margin-bottom:1.25rem; background:var(--bg-subtle); padding:0.9rem; border-radius:var(--radius-md);">
+        <div>
+          <span style="color:var(--text-muted); display:block; font-size:0.7rem; text-transform:uppercase;">Customer</span>
+          <strong>${order.name}</strong><br>
+          <span>${order.phone}</span>
+        </div>
+        <div>
+          <span style="color:var(--text-muted); display:block; font-size:0.7rem; text-transform:uppercase;">Destination</span>
+          <strong>${order.city}</strong><br>
+          <span>${order.address}</span>
+        </div>
+        <div>
+          <span style="color:var(--text-muted); display:block; font-size:0.7rem; text-transform:uppercase;">MoMo Recipient</span>
+          <strong>Gerald Damoah Domfeh</strong><br>
+          <span style="color:var(--ya-blue); font-weight:700;">0539779380</span>
+        </div>
+        <div>
+          <span style="color:var(--text-muted); display:block; font-size:0.7rem; text-transform:uppercase;">Transaction ID</span>
+          <strong style="font-family:monospace;">${order.txId}</strong><br>
+          <span style="color:#16A34A; font-weight:700;"><i class="fa-solid fa-lock"></i> Secured</span>
+        </div>
+      </div>
+
+      <table class="receipt-items-table">
+        <thead>
+          <tr>
+            <th>Item &amp; Customization</th>
+            <th style="text-align:center;">Qty</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${order.items.map(item => `
+            <tr>
+              <td>
+                <div style="font-weight:700; color:var(--text-main);">${item.name}</div>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Size: ${item.size} ${item.customName ? `&bull; Print: ${item.customName} #${item.customNumber}` : ''}</div>
+              </td>
+              <td style="text-align:center;">${item.qty}</td>
+              <td>GHS ${(item.price * item.qty).toFixed(2)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="color:var(--text-muted); font-size:0.8rem;">Subtotal:</td>
+            <td>GHS ${order.subtotal.toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="color:var(--text-muted); font-size:0.8rem;">Nationwide Courier Dispatch:</td>
+            <td>GHS 25.00</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="font-size:1rem; color:var(--ya-blue);">TOTAL PAID:</td>
+            <td style="font-size:1.15rem; color:#16A34A;">GHS ${order.total.toFixed(2)}</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div style="display:flex; flex-direction:column; gap:0.65rem; margin-top:1.25rem;">
+        <button type="button" class="btn-whatsapp-dispatch" onclick="sendOrderViaWhatsApp()">
+          <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Send Receipt to Club WhatsApp (+233 539 779 380)
+        </button>
+        <button type="button" class="btn-hero-primary" style="justify-content:center; padding:0.85rem;" onclick="closeCheckoutModal(); window.location.href='#store';">
+          <i class="fa-solid fa-bag-shopping"></i> Continue Shopping
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('checkoutStepGateway').style.display = 'none';
+  container.style.display = 'block';
+}
+
+function sendOrderViaWhatsApp() {
+  if (!currentPendingOrder) return;
+
+  const order = currentPendingOrder;
+  const itemsText = order.items.map(i => 
+    `• ${i.name} (Size: ${i.size}${i.customName ? `, ${i.customName} #${i.customNumber}` : ''}) x${i.qty} = GHS ${(i.price * i.qty).toFixed(2)}`
+  ).join('\n');
+
+  const message = 
+`⚽ *YOUNG APOSTLES FC — OFFICIAL STORE ORDER*
+━━━━━━━━━━━━━━━━━━━━
+📋 *Order Reference:* ${order.ref}
+👤 *Customer Name:* ${order.name}
+📞 *Customer Phone:* ${order.phone}
+📍 *Delivery City:* ${order.city}
+🏠 *Address / Landmark:* ${order.address}
+
+🛍️ *ORDERED ITEMS:*
+${itemsText}
+
+💰 *Items Subtotal:* GHS ${order.subtotal.toFixed(2)}
+🚚 *Courier Delivery:* GHS 25.00
+💳 *TOTAL AMOUNT:* GHS ${order.total.toFixed(2)}
+
+📱 *MOMO PAYMENT DETAILS:*
+• Paid to MoMo: *0539779380*
+• Recipient: *Gerald Damoah Domfeh* (Young Apostles FC)
+• Transaction ID: ${order.txId || document.getElementById('coTxId')?.value || 'Pending Verification'}
+• Date: ${order.date}
+━━━━━━━━━━━━━━━━━━━━
+_Submitted via Official Young Apostles FC Digital Portal_`;
+
+  const url = `https://wa.me/233539779380?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
 }
 
 function openMembershipModal() {
@@ -1592,8 +1843,8 @@ const POLICY_DATA = {
       </div>
 
       <div style="margin-bottom:1.2rem; margin-top:1rem;">
-        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-clipboard-check" style="color:#16a34a; margin-right:6px;"></i>1. Verify Official Merchant Name</h5>
-        <p>When the USSD authorization prompt appears on your mobile device (e.g. *170#), verify that the recipient merchant name confirms <strong>YOUNG APOSTLES FC</strong> or our authorized merchandise logistics coordinator before entering your approval PIN.</p>
+        <h5 style="font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:0.35rem;"><i class="fa-solid fa-clipboard-check" style="color:#16a34a; margin-right:6px;"></i>1. Verify Official Merchant Name &amp; Number</h5>
+        <p>When authorizing payment (e.g. via <strong>*170#</strong> or MoMo App), verify that the recipient name confirms <strong>Young Apostles FC (Gerald Damoah Domfeh)</strong> on official MoMo line <strong>0539779380</strong> before entering your approval PIN.</p>
       </div>
 
       <div style="margin-bottom:1.2rem;">

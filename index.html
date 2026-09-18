@@ -916,56 +916,183 @@
 
   <!-- Checkout Modal (Ghana MoMo / Card) -->
   <div class="modal-overlay" id="checkoutModal">
-    <div class="modal-box">
+    <div class="modal-box checkout-modal-box">
       <button class="modal-close-btn" onclick="closeCheckoutModal()">&times;</button>
-      <div id="checkoutModalContent">
+      
+      <!-- STEP 1: Delivery & Contact Details -->
+      <div id="checkoutStepDetails">
         <div style="text-align:center; margin-bottom:1.5rem;">
-          <img src="assets/official-logo.png" style="width:50px; margin:0 auto 0.5rem;">
+          <img src="assets/official-logo.png" style="width:52px; margin:0 auto 0.5rem;" alt="Young Apostles FC">
           <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue);">SECURE CHECKOUT</h3>
-          <p style="color:var(--text-muted); font-size:0.85rem;">Official Young Apostles FC Team Shop</p>
+          <p style="color:var(--text-muted); font-size:0.85rem;">Young Apostles FC Official Team Store &middot; Wenchi</p>
         </div>
 
-        <form id="checkoutForm" onsubmit="handleCheckout(event)">
+        <form id="checkoutForm" onsubmit="handleDetailsSubmit(event)">
           <div class="form-grid">
             <div class="form-group">
               <label>Full Name *</label>
               <input type="text" required placeholder="Kwame Mensah" id="coName">
             </div>
             <div class="form-group">
-              <label>Phone Number (MoMo Contact) *</label>
+              <label>Phone Number (WhatsApp / Contact) *</label>
               <input type="tel" required placeholder="024 XXX XXXX" id="coPhone">
             </div>
           </div>
+
           <div class="form-grid">
             <div class="form-group">
-              <label>Delivery City / Town *</label>
-              <input type="text" required placeholder="Wenchi, Sunyani, Kumasi, Accra" id="coCity">
+              <label>Delivery Town / City *</label>
+              <input type="text" required placeholder="Wenchi, Sunyani, Kumasi, Accra..." id="coCity">
             </div>
             <div class="form-group">
-              <label>Address / Pick-up Point *</label>
-              <input type="text" required placeholder="Street / Landmark" id="coAddress">
+              <label>Delivery Address / Landmark *</label>
+              <input type="text" required placeholder="Street address or local landmark" id="coAddress">
             </div>
           </div>
+
           <div class="form-group" style="margin-bottom:1.25rem;">
-            <label>Payment Method</label>
-            <select id="coMethod">
-              <option value="momo">MTN Mobile Money</option>
-              <option value="telecel">Telecel Cash / AT</option>
-              <option value="card">Visa / Mastercard</option>
-            </select>
-          </div>
-          <div style="background:var(--bg-subtle); padding:1rem; border-radius:var(--radius-md); margin-bottom:1.25rem; font-size:0.875rem;">
-            <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem;">
-              <span>Total Amount</span>
-              <strong id="coTotalAmount" style="color:var(--ya-blue);">GHS 0.00</strong>
+            <label>Select Payment Gateway</label>
+            <div class="payment-method-selector">
+              <label class="pay-method-option active" onclick="selectPayMethod('momo', this)">
+                <input type="radio" name="payMethod" value="momo" checked style="display:none;">
+                <div class="pay-method-card">
+                  <span class="momo-pill-tag">RECOMMENDED</span>
+                  <i class="fa-solid fa-mobile-screen-button" style="color:#F59E0B; font-size:1.3rem;"></i>
+                  <div>
+                    <strong>MTN Mobile Money (Ghana MoMo)</strong>
+                    <small>0539779380 &bull; Gerald Damoah Domfeh</small>
+                  </div>
+                </div>
+              </label>
+              <label class="pay-method-option" onclick="selectPayMethod('telecel', this)">
+                <input type="radio" name="payMethod" value="telecel" style="display:none;">
+                <div class="pay-method-card">
+                  <i class="fa-solid fa-signal" style="color:#EF4444; font-size:1.3rem;"></i>
+                  <div>
+                    <strong>Telecel Cash / AT Money</strong>
+                    <small>Cross-network transfer to 0539779380</small>
+                  </div>
+                </div>
+              </label>
             </div>
-            <span style="color:var(--text-muted); font-size:0.75rem;">Prompt will be sent to your phone for authorization upon confirming.</span>
           </div>
-          <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center;">
-            <i class="fa-solid fa-lock"></i> Authorize & Pay
+
+          <!-- Summary Breakdown Box -->
+          <div class="checkout-summary-box">
+            <div class="summary-line">
+              <span>Items Total</span>
+              <strong id="coSubtotalAmount">GHS 0.00</strong>
+            </div>
+            <div class="summary-line">
+              <span>Nationwide Courier Dispatch</span>
+              <span>GHS 25.00</span>
+            </div>
+            <div class="summary-line total-line">
+              <span>Total Payable</span>
+              <strong id="coTotalAmount" style="color:var(--ya-blue); font-size:1.15rem;">GHS 0.00</strong>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:0.9rem;">
+            <i class="fa-solid fa-shield-halved"></i> Proceed to MoMo Payment Gateway &rarr;
           </button>
         </form>
       </div>
+
+      <!-- STEP 2: Secured Official MoMo Gateway Screen -->
+      <div id="checkoutStepGateway" style="display:none;">
+        <div class="momo-gateway-header">
+          <div class="security-shield-pill">
+            <i class="fa-solid fa-shield-halved"></i> Secured Mobile Money Gateway
+          </div>
+          <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue); margin:0.5rem 0 0.25rem;">
+            Authorize Mobile Money Transfer
+          </h3>
+          <p style="font-size:0.85rem; color:var(--text-muted);">
+            Send exact payment to the official Young Apostles FC MoMo account:
+          </p>
+        </div>
+
+        <!-- Official MoMo Account Card -->
+        <div class="momo-account-card">
+          <div class="momo-badge-row">
+            <span class="momo-network-badge"><i class="fa-solid fa-bolt"></i> MTN Mobile Money</span>
+            <span class="momo-verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Official Account</span>
+          </div>
+
+          <div class="momo-field-grid">
+            <div class="momo-field">
+              <span class="momo-field-label">Official MoMo Number</span>
+              <div class="momo-copy-row">
+                <span class="momo-number-val" id="gatewayMomoNumber">0539779380</span>
+                <button type="button" class="btn-copy-momo" onclick="copyMomoNumber()" id="btnCopyMomo">
+                  <i class="fa-regular fa-copy"></i> <span>Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="momo-field">
+              <span class="momo-field-label">Authorized Account Name</span>
+              <div class="momo-name-val">Young Apostles FC <br><strong>(Gerald Damoah Domfeh)</strong></div>
+            </div>
+
+            <div class="momo-field">
+              <span class="momo-field-label">Amount Payable</span>
+              <div class="momo-amount-val" id="gatewayAmount">GHS 0.00</div>
+            </div>
+
+            <div class="momo-field">
+              <span class="momo-field-label">Payment Reference</span>
+              <div class="momo-copy-row">
+                <span class="momo-ref-val" id="gatewayRef">YAFC-XXXX</span>
+                <button type="button" class="btn-copy-momo" onclick="copyMomoRef()" id="btnCopyRef">
+                  <i class="fa-regular fa-copy"></i> <span>Copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive USSD Instructions -->
+        <div class="momo-instructions-box">
+          <div class="inst-title"><i class="fa-solid fa-mobile-screen-button"></i> Fast Payment Instructions:</div>
+          <ol class="inst-steps">
+            <li>Dial <strong>*170#</strong> on your MTN phone (or open your MoMo App).</li>
+            <li>Select <strong>1) Transfer Money</strong> &rarr; <strong>1) MoMo User</strong>.</li>
+            <li>Enter recipient number: <strong>0539779380</strong>.</li>
+            <li>Confirm recipient name shows: <strong>Gerald Damoah Domfeh</strong>.</li>
+            <li>Enter amount <strong id="instAmount">GHS 0.00</strong> and reference <strong id="instRef">YAFC-XXXX</strong>.</li>
+            <li>Enter your MoMo Secret PIN to authorize.</li>
+          </ol>
+        </div>
+
+        <!-- Verification / Transaction ID Input -->
+        <div class="momo-verify-block">
+          <label style="font-size:0.82rem; font-weight:700; color:#1E293B; margin-bottom:0.4rem; display:block;">
+            Enter MoMo Transaction ID (From your MTN confirmation SMS):
+          </label>
+          <div style="margin-bottom:1rem;">
+            <input type="text" id="coTxId" placeholder="e.g. 29482019482" class="txid-input">
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:0.65rem;">
+            <button type="button" class="btn-hero-primary" style="justify-content:center; padding:0.85rem;" onclick="confirmMomoPayment()">
+              <i class="fa-solid fa-circle-check"></i> I Have Paid &bull; Confirm Order
+            </button>
+            <button type="button" class="btn-whatsapp-dispatch" onclick="sendOrderViaWhatsApp()">
+              <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Dispatch Order &amp; Receipt on WhatsApp
+            </button>
+          </div>
+          
+          <button type="button" class="btn-back-link" onclick="backToCheckoutDetails()">
+            &larr; Back to Order Details
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Order Receipt & Success Screen -->
+      <div id="checkoutStepReceipt" style="display:none;"></div>
+
     </div>
   </div>
 
