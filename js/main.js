@@ -1842,24 +1842,28 @@ function closeAnticipateOverlay() {
   }
 }
 
-function getFridayPMTarget() {
+function getSaturdayAMTarget() {
+  const fixedTarget = new Date('2026-09-19T08:00:00');
   const now = new Date();
+  if (fixedTarget.getTime() > now.getTime()) {
+    return fixedTarget;
+  }
   const target = new Date(now);
   const day = now.getDay();
-  let diff = (5 - day + 7) % 7;
-  if (diff === 0 && now.getHours() >= 18) {
+  let diff = (6 - day + 7) % 7;
+  if (diff === 0 && now.getHours() >= 8) {
     diff = 7;
   }
   target.setDate(now.getDate() + diff);
-  target.setHours(18, 0, 0, 0);
+  target.setHours(8, 0, 0, 0);
   return target;
 }
 
-const overlayFridayTarget = getFridayPMTarget();
+const overlaySaturdayTarget = getSaturdayAMTarget();
 
 function updateOverlayCountdown() {
   const now = new Date();
-  const diff = overlayFridayTarget.getTime() - now.getTime();
+  const diff = overlaySaturdayTarget.getTime() - now.getTime();
 
   const dEl = document.getElementById('ovDays');
   const hEl = document.getElementById('ovHours');

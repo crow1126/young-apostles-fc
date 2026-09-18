@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ANTICIPATE &middot; Young Apostles Football Club</title>
-  <meta name="description" content="Anticipate the official digital portal launch of Young Apostles Football Club. Wenchi's pride competing in the Ghana Premier League. Countdown to Friday PM.">
+  <meta name="description" content="Anticipate the official digital portal launch of Young Apostles Football Club. Wenchi's pride competing in the Ghana Premier League. Countdown to Saturday 8:00 AM.">
   <link rel="icon" type="image/png" href="assets/official-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -558,7 +558,7 @@
 
     <!-- Target Indicator -->
     <div class="target-bar">
-      <i class="fa-regular fa-clock"></i> Unveiling Friday, Sep 18, 2026 &bull; 6:00 PM GMT
+      <i class="fa-regular fa-clock"></i> Unveiling Saturday, Sep 19, 2026 &bull; 8:00 AM GMT
     </div>
 
     <!-- Enter Portal Trigger (Requires Code 1121231234) -->
@@ -637,21 +637,25 @@
       }
     }
 
-    // Countdown to Friday PM (September 18, 2026 at 18:00:00 GMT)
-    function getTargetFridayPM() {
+    // Countdown to Saturday 8:00 AM (September 19, 2026 at 08:00:00 GMT)
+    function getTargetSaturdayAM() {
+      const fixedTarget = new Date('2026-09-19T08:00:00');
       const now = new Date();
+      if (fixedTarget.getTime() > now.getTime()) {
+        return fixedTarget;
+      }
       const target = new Date(now);
       const day = now.getDay();
-      let diff = (5 - day + 7) % 7;
-      if (diff === 0 && now.getHours() >= 18) {
+      let diff = (6 - day + 7) % 7;
+      if (diff === 0 && now.getHours() >= 8) {
         diff = 7;
       }
       target.setDate(now.getDate() + diff);
-      target.setHours(18, 0, 0, 0);
+      target.setHours(8, 0, 0, 0);
       return target;
     }
 
-    const targetDate = getTargetFridayPM();
+    const targetDate = getTargetSaturdayAM();
 
     function updateCountdown() {
       const now = new Date();
