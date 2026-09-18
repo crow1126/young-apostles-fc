@@ -729,17 +729,29 @@
       <div class="section-header section-header--split">
         <div>
           <h2 class="section-title">Team Shop <span style="font-size:0.75em;">&rarr;</span></h2>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Authentic 2026/27 Mayniak Matchwear, Training Apparel & Accessories</p>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Authentic 2026/27 Mayniak Matchwear &amp; Official Fan Accessories</p>
         </div>
         <button class="section-link-action" onclick="openCartDrawer()">
-          <i class="fa-solid fa-bag-shopping"></i> View Cart (<span id="shopCartCounter">0</span>)
+          <i class="fa-solid fa-bookmark"></i> Reservation Bag (<span id="shopCartCounter">0</span>)
         </button>
+      </div>
+
+      <!-- VIP Launch Waitlist Banner -->
+      <div class="shop-waitlist-banner">
+        <div class="waitlist-banner-left">
+          <span class="waitlist-live-badge"><i class="fa-solid fa-bolt" style="color:#22C55E;"></i> LAUNCH WAITLIST ACTIVE &bull; PRE-ORDER RESERVATIONS</span>
+          <h3 class="waitlist-banner-title">Reserve Your 2026/27 Matchwear &bull; No Payment Today</h3>
+          <p class="waitlist-banner-sub">Lock in your spot ahead of the official Saturday 8:00 AM launch. First-come, first-served queue numbers. You will be notified via WhatsApp / SMS once the shop opens to complete payment and receive your gear.</p>
+        </div>
+        <div class="waitlist-banner-right">
+          <span class="waitlist-counter-num" id="waitlistQueueCount">#048</span>
+          <span class="waitlist-counter-label">Next Available Queue Spot</span>
+        </div>
       </div>
 
       <div class="category-tabs" id="shopFilterTabs">
         <button class="tab-btn active" data-shop-filter="all">All Items</button>
         <button class="tab-btn" data-shop-filter="kits">Match Kits</button>
-        <button class="tab-btn" data-shop-filter="training">Training Wear</button>
         <button class="tab-btn" data-shop-filter="accessories">Accessories</button>
       </div>
 
@@ -919,12 +931,15 @@
     <div class="modal-box checkout-modal-box">
       <button class="modal-close-btn" onclick="closeCheckoutModal()">&times;</button>
       
-      <!-- STEP 1: Delivery & Contact Details -->
+      <!-- STEP 1: VIP Waitlist & Reservation Details -->
       <div id="checkoutStepDetails">
-        <div style="text-align:center; margin-bottom:1.5rem;">
+        <div style="text-align:center; margin-bottom:1.25rem;">
           <img src="assets/official-logo.png" style="width:52px; margin:0 auto 0.5rem;" alt="Young Apostles FC">
-          <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue);">SECURE CHECKOUT</h3>
-          <p style="color:var(--text-muted); font-size:0.85rem;">Young Apostles FC Official Team Store &middot; Wenchi</p>
+          <div style="display:inline-block; font-size:0.72rem; font-weight:800; color:#16A34A; background:rgba(22,163,74,0.1); border:1px solid rgba(22,163,74,0.3); padding:3px 10px; border-radius:999px; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.06em;">
+            <i class="fa-solid fa-lock-open"></i> Zero Payment Today &bull; Reserve Your Spot
+          </div>
+          <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue);">JOIN VIP LAUNCH WAITLIST</h3>
+          <p style="color:var(--text-muted); font-size:0.85rem;">Official Young Apostles FC 2026/27 Matchday Store</p>
         </div>
 
         <form id="checkoutForm" onsubmit="handleDetailsSubmit(event)">
@@ -934,7 +949,7 @@
               <input type="text" required placeholder="Kwame Mensah" id="coName">
             </div>
             <div class="form-group">
-              <label>Phone Number (WhatsApp / Contact) *</label>
+              <label>Phone Number (WhatsApp / SMS) *</label>
               <input type="tel" required placeholder="024 XXX XXXX" id="coPhone">
             </div>
           </div>
@@ -950,27 +965,37 @@
             </div>
           </div>
 
-          <div class="form-group" style="margin-bottom:1.25rem;">
-            <label>Select Payment Gateway</label>
+          <div class="form-group" style="margin-bottom:1rem;">
+            <label>Preferred Payment Gateway When Shop Opens</label>
             <div class="payment-method-selector">
               <label class="pay-method-option active" onclick="selectPayMethod('momo', this)">
                 <input type="radio" name="payMethod" value="momo" checked style="display:none;">
                 <div class="pay-method-card">
                   <span class="momo-pill-tag">RECOMMENDED</span>
-                  <i class="fa-solid fa-mobile-screen-button" style="color:#F59E0B; font-size:1.3rem;"></i>
+                  <i class="fa-solid fa-mobile-screen-button" style="color:#F59E0B; font-size:1.25rem;"></i>
                   <div>
                     <strong>MTN Mobile Money (Ghana MoMo)</strong>
                     <small>0539779380 &bull; Gerald Damoah Domfeh</small>
                   </div>
                 </div>
               </label>
-              <label class="pay-method-option" onclick="selectPayMethod('telecel', this)">
-                <input type="radio" name="payMethod" value="telecel" style="display:none;">
+              <label class="pay-method-option" onclick="selectPayMethod('paystack', this)">
+                <input type="radio" name="payMethod" value="paystack" style="display:none;">
                 <div class="pay-method-card">
-                  <i class="fa-solid fa-signal" style="color:#EF4444; font-size:1.3rem;"></i>
+                  <i class="fa-regular fa-credit-card" style="color:#0EA5E9; font-size:1.25rem;"></i>
                   <div>
-                    <strong>Telecel Cash / AT Money</strong>
-                    <small>Cross-network transfer to 0539779380</small>
+                    <strong>Paystack / Debit Card</strong>
+                    <small>Visa, Mastercard, Bank Transfer</small>
+                  </div>
+                </div>
+              </label>
+              <label class="pay-method-option" onclick="selectPayMethod('moolre', this)">
+                <input type="radio" name="payMethod" value="moolre" style="display:none;">
+                <div class="pay-method-card">
+                  <i class="fa-solid fa-signal" style="color:#EF4444; font-size:1.25rem;"></i>
+                  <div>
+                    <strong>Moolre / Telecel Cash / AT Money</strong>
+                    <small>Cross-network mobile money wallet</small>
                   </div>
                 </div>
               </label>
@@ -980,7 +1005,7 @@
           <!-- Summary Breakdown Box -->
           <div class="checkout-summary-box">
             <div class="summary-line">
-              <span>Items Total</span>
+              <span>Reserved Gear Total</span>
               <strong id="coSubtotalAmount">GHS 0.00</strong>
             </div>
             <div class="summary-line">
@@ -988,13 +1013,19 @@
               <span>GHS 25.00</span>
             </div>
             <div class="summary-line total-line">
-              <span>Total Payable</span>
+              <span>Total Value (Payable at Launch)</span>
               <strong id="coTotalAmount" style="color:var(--ya-blue); font-size:1.15rem;">GHS 0.00</strong>
             </div>
           </div>
 
+          <!-- Waitlist Rules Note -->
+          <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:var(--radius-sm); padding:0.75rem 0.9rem; margin-bottom:1.1rem; font-size:0.78rem; color:#92400E; line-height:1.45;">
+            <i class="fa-solid fa-circle-info" style="margin-right:4px;"></i>
+            <strong>First-Come, First-Served:</strong> Your spot will be locked with an official Queue Number. When the store officially launches Saturday 8:00 AM, you will be alerted via SMS &amp; WhatsApp to complete payment within 4 hours to keep your reservation.
+          </div>
+
           <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:0.9rem;">
-            <i class="fa-solid fa-shield-halved"></i> Proceed to MoMo Payment Gateway &rarr;
+            <i class="fa-solid fa-bookmark"></i> Lock In Spot &amp; Join Waitlist &rarr;
           </button>
         </form>
       </div>

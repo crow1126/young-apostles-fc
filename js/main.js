@@ -53,7 +53,7 @@ const SQUAD_DATA = [
 ];
 
 // ==========================================
-// 2. DATA: TEAM SHOP PRODUCTS
+// 2. DATA: TEAM SHOP PRODUCTS (VIP PRE-ORDER & WAITLIST ALLOCATION)
 // ==========================================
 const PRODUCTS_DATA = [
   {
@@ -63,7 +63,7 @@ const PRODUCTS_DATA = [
     price: 350,
     oldPrice: 420,
     image: 'assets/kit-home-player-2026.jpg',
-    tag: 'OFFICIAL 2026/27',
+    tag: 'VIP PRE-ORDER',
     description: 'The authentic 2026/27 Young Apostles FC Home Jersey engineered by Mayniak. Modeled by Ramzy Abubakar #8. Features radiant golden yellow textured fabric with navy blue trims, Ghana Premier League sleeve badge, breathable moisture-wicking technology, and the iconic club crest.',
     customizable: true
   },
@@ -73,9 +73,9 @@ const PRODUCTS_DATA = [
     category: 'kits',
     price: 350,
     oldPrice: 420,
-    image: 'assets/kit-away-2026.jpg',
-    tag: 'OFFICIAL AWAY',
-    description: 'The elegant 2026/27 Young Apostles FC Away Jersey photoshoot by Mayniak. Designed with crisp ivory white, bronze-copper sleeve cuffs, and dynamic checkered flank details.',
+    image: 'assets/kit-away-player-2026.jpg',
+    tag: 'VIP PRE-ORDER',
+    description: 'The authentic 2026/27 Young Apostles FC Away Jersey by Mayniak. Modeled by Mathias Van Amegbe #25. Designed with crisp ivory white, bronze-copper sleeve cuffs, breathable side panels, and dynamic checkered flank details.',
     customizable: true
   },
   {
@@ -90,36 +90,14 @@ const PRODUCTS_DATA = [
     customizable: false
   },
   {
-    id: 'kit-home-hanging',
-    name: '2026/27 Home Jersey (Club Hanger Edition)',
-    category: 'kits',
-    price: 350,
-    oldPrice: 420,
-    image: 'assets/kit-home-hanging.jpg',
-    tag: 'CLUB EDITION',
-    description: 'Authentic 2026/27 Young Apostles FC match jersey presentation on club hanger. Complete with authentic GPL badges and Mayniak ventilation technology.',
-    customizable: true
-  },
-  {
-    id: 'training-top',
-    name: 'Young Apostles Pre-Match Training Jersey',
-    category: 'training',
-    price: 250,
-    oldPrice: 300,
-    image: 'assets/players/ramzy-abubakar.jpg',
-    tag: 'TRAINING WEAR',
-    description: 'Lightweight, ultra-durable training top engineered for pre-match warmups and everyday athletic lifestyle.',
-    customizable: false
-  },
-  {
     id: 'fan-scarf',
-    name: 'Young Apostles "Agya Na Ɔwɔ Tumi" Stadium Scarf',
+    name: 'Official "Agya Na Ɔwɔ Tumi" Stadium Scarf',
     category: 'accessories',
-    price: 100,
-    oldPrice: 130,
-    image: 'assets/team-banner.jpg',
-    tag: 'FAN FAVORITE',
-    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Ɔwɔ Tumi" in bold golden yellow and royal blue lettering.',
+    price: 120,
+    oldPrice: 150,
+    image: 'assets/ya-official-scarf.jpg',
+    tag: 'CLUB HERITAGE',
+    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Ɔwɔ Tumi" in bold white lettering, radiant golden yellow and navy stripes, embroidered club shield crests on both ends, and classic gold and white fringe tassels.',
     customizable: false
   }
 ];
