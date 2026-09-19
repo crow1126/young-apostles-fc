@@ -16,72 +16,11 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=3.2">
 
   <!-- Live Site — No auth guard needed -->
 </head>
 <body>
-  <!-- =========================================================
-       MEMBER PROFILE SIDE PANEL
-       ========================================================= -->
-  <div class="profile-overlay" id="profileOverlay" onclick="if(event.target===this)closeProfilePanel()"></div>
-  <aside class="profile-panel" id="profilePanel">
-    <div class="profile-panel__header">
-      <div class="profile-panel__title"><i class="fa-solid fa-user-circle"></i> My Profile</div>
-      <button onclick="closeProfilePanel()" class="profile-panel__close">&times;</button>
-    </div>
-    <div class="profile-panel__body">
-      <!-- Avatar -->
-      <div class="profile-avatar-wrap">
-        <div class="profile-avatar" id="profileAvatar">YA</div>
-        <div>
-          <div class="profile-name" id="profileDisplayName">Guest Fan</div>
-          <div class="profile-tier" id="profileTierBadge"><i class="fa-solid fa-star"></i> Guest</div>
-        </div>
-      </div>
-
-      <!-- Edit form -->
-      <form id="profileForm" onsubmit="saveProfile(event)">
-        <div class="profile-field-group">
-          <label>Full Name</label>
-          <input type="text" id="profileName" placeholder="Kwame Mensah" autocomplete="name">
-        </div>
-        <div class="profile-field-group">
-          <label>Phone / WhatsApp</label>
-          <input type="tel" id="profilePhone" placeholder="024 XXX XXXX" autocomplete="tel">
-        </div>
-        <div class="profile-field-group">
-          <label>Email (optional)</label>
-          <input type="email" id="profileEmail" placeholder="you@example.com" autocomplete="email">
-        </div>
-        <div class="profile-field-group">
-          <label>Membership Tier</label>
-          <select id="profileTier">
-            <option value="Guest">Guest Fan</option>
-            <option value="Standard">Standard Apostle (GHS 200/yr)</option>
-            <option value="Gold VIP">Gold VIP Apostle (GHS 500/yr)</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-hero-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">
-          <i class="fa-solid fa-floppy-disk"></i> Save Profile
-        </button>
-      </form>
-
-      <!-- My Orders / Waitlist -->
-      <div class="profile-section-title"><i class="fa-solid fa-clock-rotate-left"></i> My Waitlist Entries</div>
-      <div id="profileOrdersList" class="profile-orders-list">
-        <div class="profile-orders-empty"><i class="fa-solid fa-basket-shopping"></i><p>No waitlist entries yet.</p></div>
-      </div>
-
-      <div class="profile-section-title"><i class="fa-solid fa-shield-halved"></i> Membership Perks</div>
-      <div class="profile-perks-list" id="profilePerksList">
-        <div class="profile-perk"><i class="fa-solid fa-check"></i> Access to official club news</div>
-        <div class="profile-perk"><i class="fa-solid fa-check"></i> Priority waitlist notifications</div>
-        <div class="profile-perk" id="perkDiscount" style="opacity:.4">10% Team Shop Discount (Standard+)</div>
-        <div class="profile-perk" id="perkVip" style="opacity:.4">Free 2026/27 Jersey + VIP Match Access (Gold VIP)</div>
-      </div>
-    </div>
-  </aside>
 
   <!-- =========================================================
        1. TOP UTILITY BAR
@@ -102,10 +41,10 @@
           <a href="https://www.facebook.com/share/1HLCxKYSXU/?mibextid=wwXIfr" target="_blank" rel="noopener" class="top-social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="top-social-link" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
-        <button class="top-cta-btn" onclick="openProfilePanel()" style="margin-right:6px;" id="profileTopBtn">
-          <i class="fa-solid fa-user-circle"></i> <span id="profileTopName">My Profile</span>
+        <button class="top-cta-btn" onclick="openProfileModal()" id="profileTopBtn">
+          <i class="fa-solid fa-circle-user"></i> <span id="profileTopName">My Profile</span>
         </button>
-        <button class="top-cta-btn" onclick="openMembershipModal()">
+        <button class="top-cta-btn top-cta-btn--gold" onclick="openMembershipModal()" id="membershipTopBtn">
           <i class="fa-solid fa-crown"></i> Official Membership
         </button>
       </div>
@@ -719,25 +658,24 @@
     <div class="container">
       <div class="section-header section-header--split">
         <div>
-          <h2 class="section-title">Team Shop <span style="font-size:0.75em;">&rarr;</span></h2>
-          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Authentic 2026/27 Mayniak Matchwear &amp; Official Fan Accessories</p>
+          <h2 class="section-title">Official Team Shop &amp; Pre-Order Waitlist <span style="font-size:0.75em;">&rarr;</span></h2>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-top:0.25rem;">Authentic 2026/27 Mayniak Matchwear &amp; Official Fan Accessories &bull; Zero Upfront Payment</p>
         </div>
         <button class="section-link-action" onclick="openCartDrawer()">
-          <i class="fa-solid fa-bag-shopping"></i> My Bag (<span id="shopCartCounter">0</span>)
+          <i class="fa-solid fa-list-check"></i> My Waitlist (<span id="shopCartCounter">0</span>)
         </button>
       </div>
 
-
       <!-- Waitlist / Preorder Notice -->
       <div class="shop-waitlist-banner">
-        <div class="shop-waitlist-banner__icon"><i class="fa-solid fa-list-check"></i></div>
+        <div class="shop-waitlist-banner__icon"><i class="fa-solid fa-shirt"></i></div>
         <div class="shop-waitlist-banner__text">
-          <div class="shop-waitlist-banner__title">Official Pre-Order Waiting List — Now Open</div>
-          <div class="shop-waitlist-banner__sub">Select your kit &amp; size, join the waitlist. We'll contact you via WhatsApp/SMS to confirm and arrange payment when your order is ready.</div>
+          <div class="shop-waitlist-banner__title">Official 2026/27 Match Kit Pre-Order &amp; Waiting List is Live</div>
+          <div class="shop-waitlist-banner__sub">Reserve your authentic Mayniak jerseys &amp; club accessories today with <strong>zero upfront payment</strong>. We allocate inventory on a first-come queue. You will receive WhatsApp/SMS confirmation to arrange delivery when your kit is ready.</div>
         </div>
         <div class="shop-waitlist-banner__count">
           <div class="shop-waitlist-count-num" id="shopWaitlistCount">0</div>
-          <div class="shop-waitlist-count-lbl">on list</div>
+          <div class="shop-waitlist-count-lbl">in queue</div>
         </div>
       </div>
 
@@ -875,14 +813,19 @@
   <!-- =========================================================
        MODALS, CART DRAWER & CHECKOUT
        ========================================================= -->
-  <!-- Cart Slide-out Drawer -->
+  <!-- Cart Slide-out Drawer (Pre-Order Waitlist Bag) -->
   <div class="cart-drawer-overlay" id="cartOverlay" onclick="closeCartDrawer()"></div>
   <aside class="cart-drawer" id="cartDrawer">
     <div class="cart-drawer__header">
       <h3 style="font-family:var(--font-heading); font-size:1.15rem; font-weight:700; color:var(--ya-blue);">
-        <i class="fa-solid fa-bag-shopping" style="color:var(--ya-gold);"></i> YOUR CART (<span id="cartItemCount">0</span>)
+        <i class="fa-solid fa-list-check" style="color:var(--ya-gold);"></i> PRE-ORDER WAITLIST (<span id="cartItemCount">0</span>)
       </h3>
-      <button onclick="closeCartDrawer()" style="font-size:1.25rem; color:var(--text-muted);">&times;</button>
+      <button onclick="closeCartDrawer()" style="font-size:1.25rem; color:var(--text-muted); background:none; border:none; cursor:pointer;">&times;</button>
+    </div>
+
+    <!-- Zero Payment Reminder -->
+    <div style="background:rgba(22,163,74,0.08); border-left:3px solid #16A34A; padding:0.65rem 0.9rem; font-size:0.78rem; color:#15803D; margin:0.75rem 1rem 0; border-radius:4px;">
+      <i class="fa-solid fa-circle-check"></i> <strong>Zero Payment Today</strong> &bull; Reserve official sizes &amp; custom printing in queue.
     </div>
 
     <div class="cart-drawer__body" id="cartItemsList">
@@ -891,19 +834,19 @@
 
     <div class="cart-drawer__footer">
       <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-size:0.875rem;">
-        <span>Subtotal</span>
+        <span>Reserved Gear Value</span>
         <span id="cartSubtotal" style="font-weight:700;">GHS 0.00</span>
       </div>
       <div style="display:flex; justify-content:space-between; margin-bottom:1rem; font-size:0.875rem; color:var(--text-muted);">
-        <span>Courier Delivery (Ghana)</span>
+        <span>Estimated Delivery (Ghana)</span>
         <span>GHS 25.00</span>
       </div>
       <div style="display:flex; justify-content:space-between; margin-bottom:1.25rem; font-size:1.1rem; font-weight:800;">
-        <span>Total</span>
+        <span>Total (Pay on Launch / Dispatch)</span>
         <span id="cartGrandTotal" style="color:var(--ya-blue);">GHS 0.00</span>
       </div>
       <button class="btn-hero-primary" style="width:100%; justify-content:center;" onclick="openCheckoutModal()">
-        <i class="fa-solid fa-lock"></i> Proceed to Checkout
+        <i class="fa-solid fa-list-check"></i> Complete Waitlist Reservation &rarr;
       </button>
     </div>
   </aside>
@@ -918,20 +861,20 @@
     </div>
   </div>
 
-  <!-- Checkout Modal (Ghana MoMo / Card) -->
+  <!-- Checkout / Pre-Order Waitlist Modal -->
   <div class="modal-overlay" id="checkoutModal">
     <div class="modal-box checkout-modal-box">
       <button class="modal-close-btn" onclick="closeCheckoutModal()">&times;</button>
       
-      <!-- STEP 1: Waitlist & Reservation Details -->
+      <!-- STEP 1: Waitlist & Reservation Details Form -->
       <div id="checkoutStepDetails">
         <div style="text-align:center; margin-bottom:1.25rem;">
           <img src="assets/official-logo.png" style="width:52px; margin:0 auto 0.5rem;" alt="Young Apostles FC">
           <div style="display:inline-block; font-size:0.72rem; font-weight:800; color:#16A34A; background:rgba(22,163,74,0.1); border:1px solid rgba(22,163,74,0.3); padding:3px 10px; border-radius:999px; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.06em;">
-            <i class="fa-solid fa-list-check"></i> No Payment Now &bull; Reserve Your Spot
+            <i class="fa-solid fa-list-check"></i> Zero Payment Today &bull; Official Queue Reservation
           </div>
-          <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue);">JOIN THE PREORDER WAITING LIST</h3>
-          <p style="color:var(--text-muted); font-size:0.85rem;">Official Young Apostles FC 2026/27 Mayniak Store</p>
+          <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue);">JOIN THE PRE-ORDER WAITING LIST</h3>
+          <p style="color:var(--text-muted); font-size:0.85rem;">Official Young Apostles FC 2026/27 Mayniak Matchwear</p>
         </div>
 
         <form id="checkoutForm" onsubmit="handleDetailsSubmit(event)">
@@ -957,43 +900,6 @@
             </div>
           </div>
 
-          <div class="form-group" style="margin-bottom:1rem;">
-            <label>Preferred Payment Gateway When Shop Opens</label>
-            <div class="payment-method-selector">
-              <label class="pay-method-option active" onclick="selectPayMethod('momo', this)">
-                <input type="radio" name="payMethod" value="momo" checked style="display:none;">
-                <div class="pay-method-card">
-                  <span class="momo-pill-tag">RECOMMENDED</span>
-                  <i class="fa-solid fa-mobile-screen-button" style="color:#F59E0B; font-size:1.25rem;"></i>
-                  <div>
-                    <strong>MTN Mobile Money (Ghana MoMo)</strong>
-                    <small>0539779380 &bull; Gerald Damoah Domfeh</small>
-                  </div>
-                </div>
-              </label>
-              <label class="pay-method-option" onclick="selectPayMethod('paystack', this)">
-                <input type="radio" name="payMethod" value="paystack" style="display:none;">
-                <div class="pay-method-card">
-                  <i class="fa-regular fa-credit-card" style="color:#0EA5E9; font-size:1.25rem;"></i>
-                  <div>
-                    <strong>Paystack / Debit Card</strong>
-                    <small>Visa, Mastercard, Bank Transfer</small>
-                  </div>
-                </div>
-              </label>
-              <label class="pay-method-option" onclick="selectPayMethod('moolre', this)">
-                <input type="radio" name="payMethod" value="moolre" style="display:none;">
-                <div class="pay-method-card">
-                  <i class="fa-solid fa-signal" style="color:#EF4444; font-size:1.25rem;"></i>
-                  <div>
-                    <strong>Moolre / Telecel Cash / AT Money</strong>
-                    <small>Cross-network mobile money wallet</small>
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
-
           <!-- Summary Breakdown Box -->
           <div class="checkout-summary-box">
             <div class="summary-line">
@@ -1005,116 +911,60 @@
               <span>GHS 25.00</span>
             </div>
             <div class="summary-line total-line">
-              <span>Total Value (Payable at Launch)</span>
+              <span>Total Value (Payable at Launch / Dispatch)</span>
               <strong id="coTotalAmount" style="color:var(--ya-blue); font-size:1.15rem;">GHS 0.00</strong>
             </div>
           </div>
 
-          <!-- Waitlist Rules Note -->
-          <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:var(--radius-sm); padding:0.75rem 0.9rem; margin-bottom:1.1rem; font-size:0.78rem; color:#92400E; line-height:1.45;">
-            <i class="fa-solid fa-circle-info" style="margin-right:4px;"></i>
-            <strong>First-Come, First-Served:</strong> Your spot will be locked with an official Queue Number. When the store officially launches Saturday 8:00 AM, you will be alerted via SMS &amp; WhatsApp to complete payment within 4 hours to keep your reservation.
+          <!-- Waitlist Policy Note -->
+          <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:var(--radius-sm); padding:0.75rem 0.9rem; margin-bottom:1.1rem; font-size:0.78rem; color:#166534; line-height:1.45;">
+            <i class="fa-solid fa-shield-halved" style="margin-right:4px; color:#16A34A;"></i>
+            <strong>First-Come, First-Served Queue:</strong> Your order will be assigned an official Queue Number and recorded in the club database. No payment is charged today. When your gear is ready, you will be notified on WhatsApp to confirm delivery and payment.
           </div>
 
           <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:0.9rem;">
-            <i class="fa-solid fa-list-check"></i> Join Waiting List &rarr;
+            <i class="fa-solid fa-list-check"></i> Lock In Spot &amp; Join Waitlist &rarr;
           </button>
         </form>
       </div>
 
-      <!-- STEP 2: Secured Official MoMo Gateway Screen -->
-      <div id="checkoutStepGateway" style="display:none;">
-        <div class="momo-gateway-header">
-          <div class="security-shield-pill">
-            <i class="fa-solid fa-shield-halved"></i> Secured Mobile Money Gateway
-          </div>
-          <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue); margin:0.5rem 0 0.25rem;">
-            Authorize Mobile Money Transfer
-          </h3>
-          <p style="font-size:0.85rem; color:var(--text-muted);">
-            Send exact payment to the official Young Apostles FC MoMo account:
-          </p>
+      <!-- STEP 2: Instant Waitlist Confirmation & Queue Receipt -->
+      <div id="checkoutStepReceipt" style="display:none; text-align:center; padding:1rem 0.5rem;">
+        <div class="waitlist-success-badge">
+          <div class="waitlist-success-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <span class="waitlist-queue-pill" id="receiptQueuePill">QUEUE #YAFC-WAIT-8492</span>
         </div>
+        <h3 style="font-family:var(--font-heading); font-size:1.45rem; font-weight:900; color:var(--ya-blue); margin:0.6rem 0 0.25rem;">
+          You're On The Official Waiting List!
+        </h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; max-width:420px; margin:0 auto 1.1rem;">
+          Thank you, <strong id="receiptFanName" style="color:var(--ya-blue);">Kwame</strong>. Zero payment charged today. Your allocation is recorded in the official Young Apostles FC database.
+        </p>
 
-        <!-- Official MoMo Account Card -->
-        <div class="momo-account-card">
-          <div class="momo-badge-row">
-            <span class="momo-network-badge"><i class="fa-solid fa-bolt"></i> MTN Mobile Money</span>
-            <span class="momo-verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Official Account</span>
-          </div>
-
-          <div class="momo-field-grid">
-            <div class="momo-field">
-              <span class="momo-field-label">Official MoMo Number</span>
-              <div class="momo-copy-row">
-                <span class="momo-number-val" id="gatewayMomoNumber">0539779380</span>
-                <button type="button" class="btn-copy-momo" onclick="copyMomoNumber()" id="btnCopyMomo">
-                  <i class="fa-regular fa-copy"></i> <span>Copy</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="momo-field">
-              <span class="momo-field-label">Authorized Account Name</span>
-              <div class="momo-name-val">Young Apostles FC <br><strong>(Gerald Damoah Domfeh)</strong></div>
-            </div>
-
-            <div class="momo-field">
-              <span class="momo-field-label">Amount Payable</span>
-              <div class="momo-amount-val" id="gatewayAmount">GHS 0.00</div>
-            </div>
-
-            <div class="momo-field">
-              <span class="momo-field-label">Payment Reference</span>
-              <div class="momo-copy-row">
-                <span class="momo-ref-val" id="gatewayRef">YAFC-XXXX</span>
-                <button type="button" class="btn-copy-momo" onclick="copyMomoRef()" id="btnCopyRef">
-                  <i class="fa-regular fa-copy"></i> <span>Copy</span>
-                </button>
-              </div>
-            </div>
+        <div class="waitlist-receipt-box">
+          <div class="receipt-row"><span>Queue Reference:</span><strong id="receiptRefId" style="font-family:monospace; color:var(--ya-blue);">YAFC-WAIT-XXXX</strong></div>
+          <div class="receipt-row"><span>WhatsApp Contact:</span><strong id="receiptPhone">024 XXX XXXX</strong></div>
+          <div class="receipt-row"><span>Delivery City:</span><strong id="receiptCity">Wenchi, Bono</strong></div>
+          <div class="receipt-row"><span>Reserved Gear:</span><strong id="receiptItemsSummary">Home Match Kit</strong></div>
+          <div class="receipt-row" style="border-top:1px dashed #E2E8F0; padding-top:0.45rem; margin-top:0.45rem;">
+            <span>Total Value (Pay at Dispatch):</span><strong id="receiptTotal" style="color:var(--ya-blue); font-size:1rem;">GHS 375.00</strong>
           </div>
         </div>
 
-        <!-- Interactive USSD Instructions -->
-        <div class="momo-instructions-box">
-          <div class="inst-title"><i class="fa-solid fa-mobile-screen-button"></i> Fast Payment Instructions:</div>
-          <ol class="inst-steps">
-            <li>Dial <strong>*170#</strong> on your MTN phone (or open your MoMo App).</li>
-            <li>Select <strong>1) Transfer Money</strong> &rarr; <strong>1) MoMo User</strong>.</li>
-            <li>Enter recipient number: <strong>0539779380</strong>.</li>
-            <li>Confirm recipient name shows: <strong>Gerald Damoah Domfeh</strong>.</li>
-            <li>Enter amount <strong id="instAmount">GHS 0.00</strong> and reference <strong id="instRef">YAFC-XXXX</strong>.</li>
-            <li>Enter your MoMo Secret PIN to authorize.</li>
-          </ol>
+        <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:8px; padding:0.75rem 0.9rem; margin:1rem 0; font-size:0.78rem; color:#166534; text-align:left; line-height:1.45;">
+          <i class="fa-solid fa-circle-check" style="color:#16A34A; margin-right:4px;"></i>
+          <strong>Next Step:</strong> Our team will message you on WhatsApp prior to dispatch to verify your jersey sizing, confirm player printing, and arrange doorstep delivery.
         </div>
 
-        <!-- Verification / Transaction ID Input -->
-        <div class="momo-verify-block">
-          <label style="font-size:0.82rem; font-weight:700; color:#1E293B; margin-bottom:0.4rem; display:block;">
-            Enter MoMo Transaction ID (From your MTN confirmation SMS):
-          </label>
-          <div style="margin-bottom:1rem;">
-            <input type="text" id="coTxId" placeholder="e.g. 29482019482" class="txid-input">
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:0.65rem;">
-            <button type="button" class="btn-hero-primary" style="justify-content:center; padding:0.85rem;" onclick="confirmMomoPayment()">
-              <i class="fa-solid fa-circle-check"></i> I Have Paid &bull; Confirm Order
-            </button>
-            <button type="button" class="btn-whatsapp-dispatch" onclick="sendOrderViaWhatsApp()">
-              <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Dispatch Order &amp; Receipt on WhatsApp
-            </button>
-          </div>
-          
-          <button type="button" class="btn-back-link" onclick="backToCheckoutDetails()">
-            &larr; Back to Order Details
+        <div style="display:flex; flex-direction:column; gap:0.65rem;">
+          <button type="button" class="btn-whatsapp-dispatch" onclick="sendWaitlistWhatsApp()" style="justify-content:center; padding:0.85rem;">
+            <i class="fa-brands fa-whatsapp" style="font-size:1.25rem;"></i> Send Reservation to Club WhatsApp
+          </button>
+          <button type="button" class="btn-hero-secondary" onclick="finishWaitlistReservation()" style="justify-content:center; padding:0.7rem; font-size:0.85rem;">
+            Done &bull; Continue Exploring
           </button>
         </div>
       </div>
-
-      <!-- STEP 3: Order Receipt & Success Screen -->
-      <div id="checkoutStepReceipt" style="display:none;"></div>
 
     </div>
   </div>
@@ -1142,27 +992,106 @@
     </div>
   </div>
 
+  <!-- Member Profile Modal -->
+  <div class="modal-overlay" id="profileModal" style="display:none;" onclick="if(event.target===this)closeProfileModal()">
+    <div class="modal-box profile-modal-box">
+      <div class="profile-modal-hdr">
+        <div class="profile-modal-hdr__inner">
+          <img src="assets/official-logo.png" alt="YAFC" class="profile-modal-hdr__crest">
+          <div class="profile-modal-hdr__titles">
+            <div class="profile-modal-hdr__tag">Official Fan Portal</div>
+            <h3 class="profile-modal-hdr__title">Club Member Profile</h3>
+          </div>
+          <button class="modal-close-btn" onclick="closeProfileModal()" style="color:#fff; background:rgba(255,255,255,0.15); border:none; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1.2rem; display:flex; align-items:center; justify-content:center;">&times;</button>
+        </div>
+      </div>
+
+      <div class="profile-modal-body">
+        <!-- Fan Avatar & Tier Display -->
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar" id="profileAvatar">YA</div>
+          <div class="profile-info">
+            <div class="profile-name" id="profileDisplayName">Guest Fan</div>
+            <div class="profile-tier-row">
+              <span class="profile-tier" id="profileTierBadge"><i class="fa-solid fa-star"></i> Guest Fan</span>
+              <button type="button" class="profile-tier-upgrade-btn" onclick="openMembershipFromProfile()">
+                <i class="fa-solid fa-crown"></i> Upgrade Membership
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fan Details Edit Form -->
+        <form id="profileForm" onsubmit="saveProfile(event)">
+          <div class="profile-field-group">
+            <label>Full Name</label>
+            <input type="text" id="profileName" placeholder="Kwame Mensah" autocomplete="name">
+          </div>
+          <div class="profile-field-group">
+            <label>Phone / WhatsApp</label>
+            <input type="tel" id="profilePhone" placeholder="024 XXX XXXX" autocomplete="tel">
+          </div>
+          <div class="profile-field-group">
+            <label>Email (optional)</label>
+            <input type="email" id="profileEmail" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <div class="profile-field-group">
+            <label>Membership Tier</label>
+            <select id="profileTier">
+              <option value="Guest">Guest Fan</option>
+              <option value="Standard">Standard Apostle (GHS 200/yr)</option>
+              <option value="Gold VIP">Gold VIP Apostle (GHS 500/yr)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:0.8rem; margin-top:0.4rem;">
+            <i class="fa-solid fa-floppy-disk"></i> Save Profile Details
+          </button>
+        </form>
+
+        <!-- My Waitlist Reservations -->
+        <div class="profile-section-title"><i class="fa-solid fa-clock-rotate-left"></i> My Waitlist Reservations</div>
+        <div id="profileOrdersList" class="profile-orders-list">
+          <div class="profile-orders-empty">
+            <i class="fa-solid fa-list-check"></i>
+            <p>No active reservations yet.</p>
+          </div>
+        </div>
+
+        <!-- Member Perks -->
+        <div class="profile-section-title"><i class="fa-solid fa-shield-halved"></i> Member Privileges</div>
+        <div class="profile-perks-list">
+          <div class="profile-perk"><i class="fa-solid fa-check"></i> Access to official team news &amp; fixtures</div>
+          <div class="profile-perk"><i class="fa-solid fa-check"></i> Priority pre-order waitlist allocation</div>
+          <div class="profile-perk" id="perkDiscount" style="opacity:.4;"><i class="fa-solid fa-check"></i> 10% Team Shop Discount (Standard+)</div>
+          <div class="profile-perk" id="perkVip" style="opacity:.4;"><i class="fa-solid fa-check"></i> Free 2026/27 Jersey + VIP Matchday Access (Gold VIP)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Membership Modal -->
-  <div class="modal-overlay" id="membershipModal">
-    <div class="modal-box">
+  <div class="modal-overlay" id="membershipModal" style="display:none;" onclick="if(event.target===this)closeMembershipModal()">
+    <div class="modal-box" style="max-width:620px;">
       <button class="modal-close-btn" onclick="closeMembershipModal()">&times;</button>
       <div style="text-align:center; margin-bottom:1.5rem;">
-        <img src="assets/official-logo.png" style="width:60px; margin:0 auto 0.5rem;">
-        <h3 style="font-family:var(--font-heading); font-size:1.45rem; font-weight:800; color:var(--ya-blue);">OFFICIAL APOSTLE MEMBERSHIP</h3>
-        <p style="color:var(--text-muted); font-size:0.85rem;">Support Wenchi's Premier League club, unlock store discounts & VIP benefits.</p>
+        <img src="assets/official-logo.png" style="width:56px; margin:0 auto 0.5rem;">
+        <h3 style="font-family:var(--font-heading); font-size:1.45rem; font-weight:900; color:var(--ya-blue);">OFFICIAL CLUB MEMBERSHIP</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem;">Stand with Wenchi's Premier League club &bull; Unlock exclusive member privileges.</p>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
-        <div style="border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1.25rem; text-align:center;">
-          <h4 style="font-weight:700; font-size:1rem; color:var(--ya-blue);">Standard Apostle</h4>
-          <div style="font-size:1.35rem; font-weight:800; color:var(--ya-blue); margin:0.5rem 0;">GHS 200 <span style="font-size:0.75rem; color:var(--text-muted);">/yr</span></div>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:1rem;">Official membership badge, 10% team shop discount, exclusive media.</p>
-          <button class="btn-hero-primary" style="width:100%; font-size:0.8rem; padding:0.5rem;" onclick="joinMembership('Standard Apostle')">Join Standard</button>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem;">
+        <div style="border:1.5px solid var(--border-color); border-radius:var(--radius-md); padding:1.35rem 1.15rem; text-align:center; background:#F8FAFC;">
+          <span style="font-size:0.68rem; font-weight:800; color:var(--ya-blue); background:rgba(0,87,184,0.1); padding:2px 8px; border-radius:999px; text-transform:uppercase;">Official Fan</span>
+          <h4 style="font-weight:800; font-size:1.1rem; color:var(--ya-blue); margin-top:0.4rem;">Standard Apostle</h4>
+          <div style="font-size:1.45rem; font-weight:900; color:var(--ya-blue); margin:0.5rem 0;">GHS 200 <span style="font-size:0.75rem; color:var(--text-muted); font-weight:500;">/yr</span></div>
+          <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1.1rem; line-height:1.45;">Official membership badge, 10% team shop discount, exclusive media dispatch.</p>
+          <button class="btn-hero-secondary" style="width:100%; font-size:0.82rem; padding:0.6rem; justify-content:center;" onclick="joinMembership('Standard Apostle')">Join Standard</button>
         </div>
-        <div style="border:2px solid var(--ya-gold); background:rgba(255,184,0,0.06); border-radius:var(--radius-md); padding:1.25rem; text-align:center;">
-          <h4 style="font-weight:700; font-size:1rem; color:var(--ya-blue-deep);">Gold VIP Apostle</h4>
-          <div style="font-size:1.35rem; font-weight:800; color:var(--ya-blue); margin:0.5rem 0;">GHS 500 <span style="font-size:0.75rem; color:var(--text-muted);">/yr</span></div>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:1rem;">Free 2026/27 official home jersey, 20% shop discount, VIP match access.</p>
-          <button class="btn-hero-primary" style="width:100%; font-size:0.8rem; padding:0.5rem;" onclick="joinMembership('Gold VIP Apostle')">Join Gold VIP</button>
+        <div style="border:2px solid var(--ya-gold); background:linear-gradient(180deg, rgba(255,184,0,0.08), rgba(255,184,0,0.02)); border-radius:var(--radius-md); padding:1.35rem 1.15rem; text-align:center; box-shadow:0 6px 20px rgba(241,180,52,0.15);">
+          <span style="font-size:0.68rem; font-weight:800; color:#92400E; background:#FEF3C7; border:1px solid #FCD34D; padding:2px 8px; border-radius:999px; text-transform:uppercase;"><i class="fa-solid fa-crown"></i> VIP ACCESS</span>
+          <h4 style="font-weight:800; font-size:1.1rem; color:var(--ya-blue-deep); margin-top:0.4rem;">Gold VIP Apostle</h4>
+          <div style="font-size:1.45rem; font-weight:900; color:var(--ya-blue); margin:0.5rem 0;">GHS 500 <span style="font-size:0.75rem; color:var(--text-muted); font-weight:500;">/yr</span></div>
+          <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1.1rem; line-height:1.45;">Free 2026/27 official home jersey, 20% shop discount, VIP match hospitality pass.</p>
+          <button class="btn-hero-primary" style="width:100%; font-size:0.82rem; padding:0.6rem; justify-content:center;" onclick="joinMembership('Gold VIP Apostle')">Join Gold VIP</button>
         </div>
       </div>
     </div>
@@ -1260,6 +1189,6 @@
     <span id="toastText">Action completed successfully!</span>
   </div>
 
-  <script src="js/main.js?v=2.3"></script>
+  <script src="js/main.js?v=3.2"></script>
 </body>
 </html>

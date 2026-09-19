@@ -426,7 +426,7 @@ function openProductModal(productId) {
         ` : ''}
 
         <button class="btn-hero-primary" style="width:100%; justify-content:center;" onclick="handleModalAdd('${product.id}')">
-          <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+          <i class="fa-solid fa-list-check"></i> Add to Waitlist Reservation
         </button>
       </div>
     </div>
@@ -641,6 +641,11 @@ function closeCheckoutModal() {
 
 function handleDetailsSubmit(e) {
   e.preventDefault();
+  if (!cart || cart.length === 0) {
+    showToast('Your waitlist bag is empty. Please select a kit first!');
+    return;
+  }
+
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
   const grandTotal = subtotal + 25;
 
@@ -654,8 +659,8 @@ function handleDetailsSubmit(e) {
     return;
   }
 
-  // Generate unique order reference
-  const randomRef = 'YAFC-' + Math.floor(1000 + Math.random() * 9000);
+  // Generate unique official queue reference
+  const randomRef = 'YAFC-WAIT-' + Math.floor(1000 + Math.random() * 9000);
 
   currentPendingOrder = {
     ref: randomRef,
@@ -663,99 +668,82 @@ function handleDetailsSubmit(e) {
     phone: phone,
     city: city,
     address: address,
-    method: currentPayMethod,
     items: JSON.parse(JSON.stringify(cart)),
     subtotal: subtotal,
     delivery: 25,
     total: grandTotal,
+    status: 'On Waitlist',
     date: new Date().toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }),
-    recipientName: 'Young Apostles FC (Gerald Damoah Domfeh)',
-    recipientMomo: '0539779380'
+    timestamp: Date.now()
   };
 
-  // Populate Gateway Screen
-  const gwAmount = document.getElementById('gatewayAmount');
-  const gwRef = document.getElementById('gatewayRef');
-  const instAmt = document.getElementById('instAmount');
-  const instRef = document.getElementById('instRef');
-
-  if (gwAmount) gwAmount.textContent = `GHS ${grandTotal.toFixed(2)}`;
-  if (gwRef) gwRef.textContent = currentPendingOrder.ref;
-  if (instAmt) instAmt.textContent = `GHS ${grandTotal.toFixed(2)}`;
-  if (instRef) instRef.textContent = currentPendingOrder.ref;
-
-  // Show Gateway Screen
-  document.getElementById('checkoutStepDetails').style.display = 'none';
-  document.getElementById('checkoutStepGateway').style.display = 'block';
-  showToast('Connecting to Secured MoMo Gateway...');
-}
-
-function copyMomoNumber() {
-  const num = '0539779380';
-  navigator.clipboard.writeText(num).then(() => {
-    const btn = document.getElementById('btnCopyMomo');
-    if (btn) {
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Copied!</span>';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.innerHTML = '<i class="fa-regular fa-copy"></i> <span>Copy</span>';
-        btn.classList.remove('copied');
-      }, 2500);
-    }
-    showToast('MoMo Number 0539779380 copied to clipboard!');
-  }).catch(() => {
-    showToast('Official MoMo: 0539779380');
-  });
-}
-
-function copyMomoRef() {
-  const ref = currentPendingOrder ? currentPendingOrder.ref : 'YAFC-ORDER';
-  navigator.clipboard.writeText(ref).then(() => {
-    const btn = document.getElementById('btnCopyRef');
-    if (btn) {
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Copied!</span>';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.innerHTML = '<i class="fa-regular fa-copy"></i> <span>Copy</span>';
-        btn.classList.remove('copied');
-      }, 2500);
-    }
-    showToast(`Reference ${ref} copied!`);
-  }).catch(() => {
-    showToast(`Reference: ${ref}`);
-  });
-}
-
-function backToCheckoutDetails() {
-  document.getElementById('checkoutStepGateway').style.display = 'none';
-  document.getElementById('checkoutStepDetails').style.display = 'block';
-}
-
-function confirmMomoPayment() {
-  if (!currentPendingOrder) return;
-
-  const txInput = document.getElementById('coTxId');
-  const txId = (txInput?.value || '').trim() || 'MOMO-' + Math.floor(100000000 + Math.random() * 900000000);
-  currentPendingOrder.txId = txId;
-  currentPendingOrder.status = 'PAID & VERIFIED';
-
   // Save to persistent storage
+  saveWaitlistOrder(currentPendingOrder);
+
+  // Update profile with name & phone if not saved yet
   try {
-    const existingOrders = JSON.parse(localStorage.getItem('ya_orders') || '[]');
-    existingOrders.unshift(currentPendingOrder);
-    localStorage.setItem('ya_orders', JSON.stringify(existingOrders));
-  } catch (err) {
-    console.warn('LocalStorage error saving order', err);
+    const profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}');
+    if (!profile.name) profile.name = name;
+    if (!profile.phone) profile.phone = phone;
+    localStorage.setItem('ya_user_profile', JSON.stringify(profile));
+  } catch(e) {}
+
+  // Populate Receipt UI
+  const pillEl = document.getElementById('receiptQueuePill');
+  const nameEl = document.getElementById('receiptFanName');
+  const refEl = document.getElementById('receiptRefId');
+  const phoneEl = document.getElementById('receiptPhone');
+  const cityEl = document.getElementById('receiptCity');
+  const itemsEl = document.getElementById('receiptItemsSummary');
+  const totalEl = document.getElementById('receiptTotal');
+
+  if (pillEl) pillEl.textContent = `QUEUE #${randomRef}`;
+  if (nameEl) nameEl.textContent = name;
+  if (refEl) refEl.textContent = randomRef;
+  if (phoneEl) phoneEl.textContent = phone;
+  if (cityEl) cityEl.textContent = `${city} (${address})`;
+  if (itemsEl) {
+    itemsEl.textContent = currentPendingOrder.items.map(i => `${i.name} [Size: ${i.size || 'L'}] x${i.qty}`).join(', ');
   }
+  if (totalEl) totalEl.textContent = `GHS ${grandTotal.toFixed(2)}`;
 
-  // Render Receipt
-  renderOrderReceipt(currentPendingOrder);
+  // Transition views: show receipt, hide details form
+  const detailsEl = document.getElementById('checkoutStepDetails');
+  const receiptEl = document.getElementById('checkoutStepReceipt');
+  if (detailsEl) detailsEl.style.display = 'none';
+  if (receiptEl) receiptEl.style.display = 'block';
 
-  // Clear cart
+  // Empty cart
   cart = [];
   saveCart();
+  updateCartUI();
 
-  showToast('Payment verified! Order placed successfully.');
+  showToast('Spot confirmed! You are now in the official waitlist queue.');
+}
+
+function sendWaitlistWhatsApp() {
+  if (!currentPendingOrder) return;
+  const itemsStr = (currentPendingOrder.items || []).map(i => `• ${i.name} (Size: ${i.size || 'L'}${i.customName ? ', Print: ' + i.customName + ' #' + i.customNum : ''}) x${i.qty}`).join('%0A');
+  const msg = `*OFFICIAL YOUNG APOSTLES FC PRE-ORDER WAITLIST*%0A%0A` +
+              `*Queue No:* ${currentPendingOrder.ref}%0A` +
+              `*Customer:* ${currentPendingOrder.name}%0A` +
+              `*WhatsApp:* ${currentPendingOrder.phone}%0A` +
+              `*Location:* ${currentPendingOrder.city} (${currentPendingOrder.address})%0A%0A` +
+              `*Reserved Gear:*%0A${itemsStr}%0A%0A` +
+              `*Total Value:* GHS ${currentPendingOrder.total.toFixed(2)} (Pay on delivery)%0A%0A` +
+              `_Agya Na Ɔwɔ Tumi! Please confirm my waitlist allocation._`;
+
+  window.open(`https://wa.me/233539779380?text=${msg}`, '_blank');
+}
+
+function finishWaitlistReservation() {
+  closeCheckoutModal();
+  const detailsEl = document.getElementById('checkoutStepDetails');
+  const receiptEl = document.getElementById('checkoutStepReceipt');
+  if (detailsEl) detailsEl.style.display = 'block';
+  if (receiptEl) receiptEl.style.display = 'none';
+  loadProfileData();
+  showToast('Reservation complete. Thank you for standing with Young Apostles FC!');
 }
 
 function renderOrderReceipt(order) {
@@ -890,24 +878,36 @@ _Submitted via Official Young Apostles FC Digital Portal_`;
 }
 
 function openMembershipModal() {
-  document.getElementById('membershipModal')?.classList.add('open');
+  const modal = document.getElementById('membershipModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('open');
+  }
+  document.body.style.overflow = 'hidden';
 }
 
 function closeMembershipModal() {
-  document.getElementById('membershipModal')?.classList.remove('open');
+  const modal = document.getElementById('membershipModal');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('open');
+  }
+  document.body.style.overflow = '';
 }
 
 function joinMembership(tierName) {
-  // Save membership tier to profile
   try {
     const profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}');
     profile.tier = tierName;
+    if (!profile.name) profile.name = 'Official Fan';
     localStorage.setItem('ya_user_profile', JSON.stringify(profile));
   } catch(e) {}
-  showToast(`Welcome to Young Apostles FC ${tierName}!`);
+  showToast(`Welcome to Young Apostles FC — ${tierName}!`);
   closeMembershipModal();
-  // Refresh profile panel if open
   loadProfileData();
+  setTimeout(() => {
+    openProfileModal();
+  }, 400);
 }
 
 function openNewsModal() {
@@ -2061,20 +2061,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ==========================================
-// MEMBER PROFILE PANEL
+// MEMBER PROFILE MODAL
 // ==========================================
-function openProfilePanel() {
+function openProfileModal() {
   loadProfileData();
-  document.getElementById('profilePanel')?.classList.add('open');
-  document.getElementById('profileOverlay')?.classList.add('open');
+  const modal = document.getElementById('profileModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('open');
+  }
   document.body.style.overflow = 'hidden';
 }
 
-function closeProfilePanel() {
-  document.getElementById('profilePanel')?.classList.remove('open');
-  document.getElementById('profileOverlay')?.classList.remove('open');
+function closeProfileModal() {
+  const modal = document.getElementById('profileModal');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('open');
+  }
   document.body.style.overflow = '';
 }
+
+function openMembershipFromProfile() {
+  closeProfileModal();
+  setTimeout(() => {
+    openMembershipModal();
+  }, 200);
+}
+
+const openProfilePanel = openProfileModal;
+const closeProfilePanel = closeProfileModal;
 
 function loadProfileData() {
   let profile = {};
@@ -2184,23 +2200,6 @@ function updateWaitlistCount() {
     el.textContent = orders.length;
   } catch(e) { el.textContent = '0'; }
 }
-
-// Intercept handleDetailsSubmit to also save to waitlist store
-const _origHandleDetailsSubmit = typeof handleDetailsSubmit !== 'undefined' ? handleDetailsSubmit : null;
-// Override via event — we hook into the existing form
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('checkoutForm');
-  if (form) {
-    form.addEventListener('submit', () => {
-      // After the existing handler runs, save to waitlist
-      setTimeout(() => {
-        if (currentPendingOrder) {
-          saveWaitlistOrder(currentPendingOrder);
-        }
-      }, 100);
-    });
-  }
-});
 
 // Stub out old anticipate functions to prevent any residual errors
 function openAnticipateOverlay() {}
