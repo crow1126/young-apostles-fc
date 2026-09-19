@@ -3,2861 +3,1437 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard &middot; Young Apostles FC Media &amp; Match Operations</title>
-  <link rel="icon" type="image/png" href="assets/official-crest-hq.png">
+  <title>Admin Portal · Young Apostles FC</title>
+  <link rel="icon" type="image/png" href="assets/official-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css">
   <style>
+    /* ===== BASE ===== */
     :root {
-      --admin-bg: #090E1A;
-      --admin-surface: #10192B;
-      --admin-surface-2: #18243E;
-      --admin-border: rgba(255, 255, 255, 0.08);
-      --admin-text: #F3F4F6;
-      --admin-muted: #9CA3AF;
-      --admin-primary: #0057B8;
-      --admin-accent: #F1B434;
-      --admin-accent-glow: rgba(241, 180, 52, 0.25);
-      --admin-success: #16A34A;
-      --admin-danger: #EF4444;
+      --ab: #090E1A; --as: #10192B; --as2: #18243E; --ab2: #0A1640;
+      --aborder: rgba(255,255,255,0.09); --atext: #F3F4F6; --amuted: #9CA3AF;
+      --aprimary: #0057B8; --agold: #F1B434; --aglow: rgba(241,180,52,0.22);
+      --asuccess: #16A34A; --adanger: #EF4444; --awarning: #F59E0B;
+      --fh: 'Outfit', sans-serif; --fb: 'Plus Jakarta Sans', sans-serif;
+      --sidebar-w: 240px;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--ab); color: var(--atext); font-family: var(--fb); min-height: 100vh; overflow-x: hidden; }
+    button { font-family: inherit; cursor: pointer; }
+    a { text-decoration: none; color: inherit; }
+    input, select, textarea { font-family: inherit; }
 
-    body.admin-body {
-      background: var(--admin-bg);
-      color: var(--admin-text);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(0, 87, 184, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(241, 180, 52, 0.08) 0%, transparent 45%);
+    /* ===== LOGIN GATE ===== */
+    #loginGate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--ab);
+      background-image: radial-gradient(circle at 20% 30%, rgba(0,87,184,0.18) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(241,180,52,0.1) 0%, transparent 40%);
+      display: flex; align-items: center; justify-content: center; padding: 1.5rem;
     }
+    .login-card {
+      background: var(--as); border: 1px solid var(--aborder);
+      border-radius: 20px; padding: 2.5rem 2rem; max-width: 420px; width: 100%;
+      box-shadow: 0 32px 64px rgba(0,0,0,0.7);
+      animation: loginFadeIn 0.5s ease;
+    }
+    @keyframes loginFadeIn {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .login-crest { width:64px; height:64px; object-fit:contain; display:block; margin:0 auto 1.25rem; border-radius:8px; }
+    .login-title { font-family:var(--fh); font-size:1.5rem; font-weight:900; text-align:center; color:#fff; }
+    .login-sub { font-size:0.82rem; color:var(--amuted); text-align:center; margin:0.35rem 0 1.75rem; }
+    .login-label { font-size:0.75rem; font-weight:700; color:var(--amuted); text-transform:uppercase; letter-spacing:0.06em; display:block; margin-bottom:0.35rem; }
+    .login-input {
+      width:100%; background:rgba(255,255,255,0.05); border:1.5px solid var(--aborder);
+      border-radius:10px; color:#fff; font-size:1rem; padding:0.8rem 1rem;
+      outline:none; transition:border-color 0.2s; margin-bottom:1rem;
+    }
+    .login-input:focus { border-color: var(--agold); }
+    .login-err { font-size:0.8rem; color:#EF4444; margin-bottom:0.75rem; display:none; text-align:center; }
+    .btn-login {
+      width:100%; background:var(--agold); color:var(--ab); font-family:var(--fh);
+      font-size:1rem; font-weight:800; border:none; border-radius:10px; padding:0.9rem;
+      transition:all 0.2s;
+    }
+    .btn-login:hover { background:#fff; transform:translateY(-2px); }
 
-    /* Admin Top Bar */
-    .admin-navbar {
-      background: rgba(16, 25, 43, 0.88);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--admin-border);
-      padding: 0.85rem 1.75rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .admin-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      text-decoration: none;
-      color: #fff;
-    }
-    .admin-brand img {
-      width: 42px;
-      height: 42px;
-      object-fit: contain;
-    }
-    .admin-brand-text h1 {
-      font-family: var(--font-heading);
-      font-size: 1.05rem;
-      font-weight: 800;
-      margin: 0;
-      letter-spacing: 0.5px;
-      color: #fff;
-    }
-    .admin-brand-text span {
-      font-size: 0.72rem;
-      color: var(--admin-accent);
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-    .admin-nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+    /* ===== LAYOUT ===== */
+    #adminApp { display:none; min-height:100vh; }
+    .admin-layout { display:flex; min-height:100vh; }
 
+    /* ===== SIDEBAR ===== */
+    .admin-sidebar {
+      width: var(--sidebar-w); background: var(--as); border-right: 1px solid var(--aborder);
+      display: flex; flex-direction: column; position: fixed; top:0; left:0; bottom:0; z-index:100;
+      overflow-y: auto; transition: transform 0.3s ease;
+    }
+    .sidebar-brand {
+      padding: 1.25rem 1rem 1rem; border-bottom: 1px solid var(--aborder);
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .sidebar-brand img { width:38px; height:38px; object-fit:contain; border-radius:6px; }
+    .sidebar-brand-text { line-height: 1.2; }
+    .sidebar-brand-title { font-family:var(--fh); font-size:0.88rem; font-weight:800; color:#fff; }
+    .sidebar-brand-sub { font-size:0.66rem; color:var(--agold); font-weight:700; text-transform:uppercase; letter-spacing:0.08em; }
+
+    .sidebar-nav { flex:1; padding: 0.75rem 0; }
+    .sidebar-section-label {
+      font-size:0.62rem; font-weight:800; color:var(--amuted); text-transform:uppercase;
+      letter-spacing:0.12em; padding:0.75rem 1.1rem 0.35rem;
+    }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 0.7rem; padding: 0.62rem 1.1rem;
+      font-size:0.85rem; font-weight:600; color: var(--amuted); border-radius:8px;
+      margin: 0 0.5rem 0.15rem; transition: all 0.18s;
+      border: 1px solid transparent;
+    }
+    .sidebar-link i { width:18px; text-align:center; font-size:0.9rem; }
+    .sidebar-link:hover { background:rgba(255,255,255,0.07); color:#fff; }
+    .sidebar-link.active {
+      background: rgba(241,180,52,0.12); border-color: rgba(241,180,52,0.25);
+      color: var(--agold); font-weight:700;
+    }
+    .sidebar-link.active i { color:var(--agold); }
+
+    .sidebar-footer {
+      padding:1rem; border-top:1px solid var(--aborder);
+      display:flex; flex-direction:column; gap:0.5rem;
+    }
     .btn-view-site {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid var(--admin-border);
-      color: #fff;
-      padding: 0.5rem 1.1rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
+      display:flex; align-items:center; justify-content:center; gap:0.5rem;
+      background:rgba(255,255,255,0.07); border:1px solid var(--aborder);
+      color:#fff; padding:0.5rem 1rem; border-radius:8px; font-size:0.82rem;
+      font-weight:600; transition:all 0.2s;
     }
-    .btn-view-site:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: rgba(255, 255, 255, 0.25);
-      color: var(--admin-accent);
-    }
+    .btn-view-site:hover { background:var(--aprimary); border-color:var(--aprimary); }
     .btn-logout {
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      color: #FCA5A5;
-      padding: 0.5rem 0.9rem;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
+      display:flex; align-items:center; justify-content:center; gap:0.5rem;
+      background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25);
+      color:#EF4444; padding:0.5rem 1rem; border-radius:8px; font-size:0.82rem;
+      font-weight:700; transition:all 0.2s;
     }
-    .btn-logout:hover {
-      background: rgba(239, 68, 68, 0.25);
-      color: #fff;
+    .btn-logout:hover { background:rgba(239,68,68,0.25); }
+
+    /* ===== MAIN CONTENT ===== */
+    .admin-main {
+      margin-left: var(--sidebar-w); flex:1; display:flex; flex-direction:column;
+      min-width:0;
+    }
+    .admin-topbar {
+      background: rgba(16,25,43,0.9); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--aborder); padding:0.9rem 1.5rem;
+      display:flex; align-items:center; justify-content:space-between;
+      position:sticky; top:0; z-index:50;
+    }
+    .topbar-title { font-family:var(--fh); font-size:1.1rem; font-weight:800; color:#fff; }
+    .topbar-right { display:flex; align-items:center; gap:0.75rem; }
+    .admin-avatar {
+      width:36px; height:36px; border-radius:50%;
+      background:linear-gradient(135deg,#0057B8,#F1B434); color:#fff;
+      font-family:var(--fh); font-size:0.85rem; font-weight:800;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid var(--agold);
     }
 
-    /* Auth screen */
-    .auth-container {
-      min-height: calc(100vh - 72px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-    .auth-card {
-      background: var(--admin-surface);
-      border: 1px solid var(--admin-border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 440px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      text-align: center;
-    }
-    .auth-card img {
-      width: 76px;
-      height: 76px;
-      object-fit: contain;
-      margin-bottom: 1.25rem;
-    }
-    .auth-card h2 {
-      font-family: var(--font-heading);
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #fff;
-      margin: 0 0 0.5rem;
-    }
-    .auth-card p {
-      font-size: 0.88rem;
-      color: var(--admin-muted);
-      line-height: 1.5;
-      margin-bottom: 1.75rem;
-    }
-    .auth-input-group {
-      margin-bottom: 1.25rem;
-      text-align: left;
-    }
-    .auth-input-group label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--admin-muted);
-      margin-bottom: 0.4rem;
-    }
-    .auth-input {
-      width: 100%;
-      background: var(--admin-surface-2);
-      border: 1px solid var(--admin-border);
-      color: #fff;
-      padding: 0.85rem 1rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-family: inherit;
-      outline: none;
-      box-sizing: border-box;
-      transition: all 0.2s;
-    }
-    .auth-input:focus {
-      border-color: var(--admin-accent);
-      box-shadow: 0 0 0 3px var(--admin-accent-glow);
-    }
-    .btn-auth-submit {
-      width: 100%;
-      background: linear-gradient(135deg, var(--admin-primary) 0%, #001489 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      padding: 0.85rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: all 0.2s;
-    }
-    .btn-auth-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 87, 184, 0.4);
-    }
-    .auth-hint {
-      margin-top: 1.25rem;
-      font-size: 0.78rem;
-      color: var(--admin-muted);
-      background: rgba(255, 255, 255, 0.03);
-      padding: 0.6rem;
-      border-radius: 6px;
-    }
+    /* ===== PANELS ===== */
+    .admin-panel { display:none; padding:1.5rem; }
+    .admin-panel.active { display:block; }
 
-    /* Admin Workspace */
-    .admin-workspace {
-      display: none;
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-    }
-    .admin-workspace.active {
-      display: block;
-    }
-
-    /* Real-Time Status Notification Banner */
-    .sync-alert-banner {
-      background: linear-gradient(90deg, rgba(0, 87, 184, 0.25) 0%, rgba(22, 163, 74, 0.2) 100%);
-      border: 1px solid rgba(22, 163, 74, 0.4);
-      border-radius: 12px;
-      padding: 0.85rem 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-    .sync-alert-left {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.88rem;
-    }
-    .sync-pulse-dot {
-      width: 10px;
-      height: 10px;
-      background: #22C55E;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #22C55E;
-      animation: pulse 1.6s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(1.2); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    /* Navigation Tabs */
-    .admin-nav-tabs {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.75rem;
-      border-bottom: 1px solid var(--admin-border);
-      padding-bottom: 0.75rem;
-      overflow-x: auto;
-    }
-    .admin-tab-btn {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--admin-border);
-      color: var(--admin-muted);
-      padding: 0.7rem 1.25rem;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .admin-tab-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-    }
-    .admin-tab-btn.active {
-      background: var(--admin-primary);
-      border-color: var(--admin-primary);
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(0, 87, 184, 0.4);
-    }
-
-    /* Tab content panes */
-    .tab-pane {
-      display: none;
-    }
-    .tab-pane.active {
-      display: block;
-    }
-
-    /* Stats row */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.75rem;
-    }
+    /* ===== STAT CARDS ===== */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-bottom:1.5rem; }
     .stat-card {
-      background: var(--admin-surface);
-      border: 1px solid var(--admin-border);
-      border-radius: 12px;
-      padding: 1.25rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+      background:var(--as); border:1px solid var(--aborder); border-radius:14px;
+      padding:1.25rem; transition:border-color 0.2s;
     }
-    .stat-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      background: rgba(0, 87, 184, 0.2);
-      color: #60A5FA;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-    }
-    .stat-meta h3 {
-      font-size: 1.45rem;
-      font-weight: 800;
-      margin: 0;
-      color: #fff;
-    }
-    .stat-meta span {
-      font-size: 0.78rem;
-      color: var(--admin-muted);
-      font-weight: 600;
+    .stat-card:hover { border-color:rgba(241,180,52,0.3); }
+    .stat-card__label { font-size:0.72rem; font-weight:700; color:var(--amuted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.5rem; }
+    .stat-card__value { font-family:var(--fh); font-size:2rem; font-weight:900; color:#fff; line-height:1; }
+    .stat-card__sub { font-size:0.75rem; color:var(--amuted); margin-top:0.3rem; }
+    .stat-card__icon {
+      float:right; width:40px; height:40px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center; font-size:1.1rem;
+      background:rgba(241,180,52,0.1); color:var(--agold);
     }
 
-    /* Admin layout */
-    .admin-layout-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 1.75rem;
-    }
-    @media (max-width: 1024px) {
-      .admin-layout-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+    /* ===== SECTION HEADER ===== */
+    .section-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
+    .section-hdr-title { font-family:var(--fh); font-size:1rem; font-weight:800; color:#fff; }
 
-    /* Cards */
-    .admin-card {
-      background: var(--admin-surface);
-      border: 1px solid var(--admin-border);
-      border-radius: 14px;
-      padding: 1.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    /* ===== DATA TABLE ===== */
+    .admin-table-wrap { background:var(--as); border:1px solid var(--aborder); border-radius:14px; overflow:hidden; }
+    .admin-table { width:100%; border-collapse:collapse; font-size:0.83rem; }
+    .admin-table thead { background:rgba(255,255,255,0.04); }
+    .admin-table th { padding:0.75rem 1rem; text-align:left; font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--amuted); border-bottom:1px solid var(--aborder); }
+    .admin-table td { padding:0.75rem 1rem; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
+    .admin-table tr:last-child td { border-bottom:none; }
+    .admin-table tr:hover td { background:rgba(255,255,255,0.03); }
+    .badge {
+      display:inline-block; padding:2px 10px; border-radius:999px; font-size:0.68rem; font-weight:800;
+      text-transform:uppercase; letter-spacing:0.06em;
     }
-    .admin-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--admin-border);
-    }
-    .admin-card-header h2 {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #fff;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    .badge-green { background:rgba(22,163,74,0.15); color:#4ade80; border:1px solid rgba(22,163,74,0.25); }
+    .badge-gold  { background:rgba(241,180,52,0.15); color:var(--agold); border:1px solid rgba(241,180,52,0.25); }
+    .badge-blue  { background:rgba(0,87,184,0.2); color:#60a5fa; border:1px solid rgba(0,87,184,0.3); }
+    .badge-red   { background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.25); }
 
-    /* Forms */
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-    @media (max-width: 640px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-    .form-group label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--admin-muted);
-      margin-bottom: 0.4rem;
-    }
-    .form-control {
-      width: 100%;
-      background: var(--admin-surface-2);
-      border: 1px solid var(--admin-border);
-      color: #fff;
-      padding: 0.75rem 0.95rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-family: inherit;
-      outline: none;
-      box-sizing: border-box;
-      transition: all 0.2s;
-    }
-    .form-control:focus {
-      border-color: var(--admin-accent);
-      box-shadow: 0 0 0 3px var(--admin-accent-glow);
-    }
-    textarea.form-control {
-      min-height: 105px;
-      resize: vertical;
-    }
-
-    /* Buttons */
+    /* ===== BTN STYLES ===== */
     .btn-admin-primary {
-      background: linear-gradient(135deg, #0057B8 0%, #001489 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s;
+      background:var(--agold); color:var(--ab); font-family:var(--fh); font-size:0.85rem;
+      font-weight:800; border:none; border-radius:8px; padding:0.55rem 1.1rem;
+      display:inline-flex; align-items:center; gap:0.45rem; transition:all 0.2s;
     }
-    .btn-admin-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 87, 184, 0.45);
-    }
+    .btn-admin-primary:hover { background:#fff; }
     .btn-admin-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--admin-border);
-      color: #fff;
-      padding: 0.75rem 1.25rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
+      background:rgba(255,255,255,0.07); color:#fff; font-family:var(--fh);
+      font-size:0.82rem; font-weight:700; border:1px solid var(--aborder);
+      border-radius:8px; padding:0.5rem 1rem; display:inline-flex; align-items:center;
+      gap:0.4rem; transition:all 0.2s;
     }
-    .btn-admin-secondary:hover {
-      background: rgba(255, 255, 255, 0.12);
+    .btn-admin-secondary:hover { background:rgba(255,255,255,0.13); }
+    .btn-admin-danger {
+      background:rgba(239,68,68,0.12); color:#f87171; font-size:0.78rem;
+      font-weight:700; border:1px solid rgba(239,68,68,0.25); border-radius:6px;
+      padding:4px 10px;
     }
-    .btn-admin-accent {
-      background: linear-gradient(135deg, #F1B434 0%, #D97706 100%);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #090E1A;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s;
+    .btn-admin-danger:hover { background:rgba(239,68,68,0.25); }
+    .btn-admin-sm {
+      font-size:0.75rem; font-weight:700; border:1px solid var(--aborder);
+      border-radius:6px; padding:3px 9px; background:rgba(255,255,255,0.06);
+      color:var(--amuted); transition:all 0.15s;
     }
-    .btn-admin-accent:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(241, 180, 52, 0.4);
+    .btn-admin-sm:hover { color:#fff; background:rgba(255,255,255,0.1); }
+
+    /* ===== FORM FIELDS ===== */
+    .admin-form-group { margin-bottom:1rem; }
+    .admin-form-group label { display:block; font-size:0.73rem; font-weight:700; color:var(--amuted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.4rem; }
+    .admin-input, .admin-select, .admin-textarea {
+      width:100%; background:rgba(255,255,255,0.05); border:1.5px solid var(--aborder);
+      border-radius:8px; color:#fff; font-size:0.9rem; padding:0.65rem 0.9rem;
+      outline:none; transition:border-color 0.2s;
+    }
+    .admin-input::placeholder, .admin-textarea::placeholder { color:rgba(255,255,255,0.3); }
+    .admin-input:focus, .admin-select:focus, .admin-textarea:focus { border-color:var(--agold); }
+    .admin-select option { background:var(--as2); }
+    .admin-textarea { min-height:100px; resize:vertical; }
+
+    /* ===== CMS CARD (editable record) ===== */
+    .cms-card {
+      background:var(--as); border:1px solid var(--aborder); border-radius:12px;
+      padding:1.1rem 1.25rem; margin-bottom:0.75rem; display:flex;
+      align-items:flex-start; justify-content:space-between; gap:1rem;
+    }
+    .cms-card__body { flex:1; min-width:0; }
+    .cms-card__tag { font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--agold); margin-bottom:0.25rem; }
+    .cms-card__title { font-weight:700; font-size:0.88rem; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:480px; }
+    .cms-card__meta { font-size:0.73rem; color:var(--amuted); margin-top:0.2rem; }
+    .cms-card__actions { display:flex; gap:0.4rem; flex-shrink:0; }
+
+    /* ===== ADD FORM PANEL ===== */
+    .add-form-panel {
+      background:var(--as2); border:1px solid var(--aborder); border-radius:14px;
+      padding:1.5rem; margin-bottom:1.25rem; display:none;
+    }
+    .add-form-panel.open { display:block; }
+    .add-form-title { font-family:var(--fh); font-size:0.95rem; font-weight:800; color:#fff; margin-bottom:1rem; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+    @media (max-width:600px) { .form-row { grid-template-columns:1fr; } }
+
+    /* ===== TOAST ===== */
+    #adminToast {
+      position:fixed; bottom:1.5rem; right:1.5rem; z-index:9998;
+      background:var(--agold); color:var(--ab); font-family:var(--fh);
+      font-size:0.85rem; font-weight:800; padding:0.7rem 1.25rem; border-radius:10px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.5); transform:translateY(80px);
+      opacity:0; transition:all 0.3s ease; max-width:320px;
+    }
+    #adminToast.show { transform:translateY(0); opacity:1; }
+
+    /* ===== SETTINGS ===== */
+    .settings-card {
+      background:var(--as); border:1px solid var(--aborder); border-radius:14px;
+      padding:1.5rem; margin-bottom:1rem;
+    }
+    .settings-card h3 { font-family:var(--fh); font-size:0.95rem; font-weight:800; color:#fff; margin-bottom:1rem; }
+    .settings-note { font-size:0.78rem; color:var(--amuted); line-height:1.5; margin-top:0.5rem; }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align:center; padding:3rem 1rem; color:var(--amuted);
+    }
+    .empty-state i { font-size:2.5rem; opacity:0.3; margin-bottom:0.75rem; display:block; }
+    .empty-state p { font-size:0.88rem; }
+
+    /* ===== MOBILE SIDEBAR TOGGLE ===== */
+    .mobile-sidebar-btn {
+      display:none; position:fixed; bottom:1.25rem; left:1.25rem; z-index:200;
+      background:var(--agold); color:var(--ab); width:48px; height:48px;
+      border-radius:50%; font-size:1.2rem; border:none; box-shadow:0 4px 18px rgba(0,0,0,0.4);
+    }
+    @media (max-width:768px) {
+      .mobile-sidebar-btn { display:flex; align-items:center; justify-content:center; }
+      .admin-sidebar { transform:translateX(-100%); }
+      .admin-sidebar.open { transform:translateX(0); }
+      .admin-main { margin-left:0; }
     }
 
-    /* Preset chips */
-    .preset-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.5rem;
+    /* ===== PAGE-SPECIFIC ===== */
+    .panel-intro {
+      background:linear-gradient(135deg, rgba(0,87,184,0.15), rgba(241,180,52,0.08));
+      border:1px solid rgba(241,180,52,0.2); border-radius:12px;
+      padding:1rem 1.25rem; margin-bottom:1.25rem;
+      font-size:0.83rem; color:var(--amuted); line-height:1.6;
     }
-    .preset-chip {
-      font-size: 0.72rem;
-      background: var(--admin-surface-2);
-      border: 1px solid var(--admin-border);
-      color: var(--admin-muted);
-      padding: 3px 8px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .preset-chip:hover {
-      border-color: var(--admin-accent);
-      color: #fff;
-    }
-
-    /* Image preview box */
-    .image-preview-box {
-      border: 2px dashed var(--admin-border);
-      border-radius: 8px;
-      padding: 1rem;
-      text-align: center;
-      margin-top: 0.6rem;
-      position: relative;
-      background: rgba(0, 0, 0, 0.2);
-    }
-    .image-preview-box.has-image {
-      border-style: solid;
-      border-color: rgba(241, 180, 52, 0.4);
-    }
-    .image-preview-box img {
-      max-width: 100%;
-      max-height: 180px;
-      border-radius: 6px;
-      object-fit: cover;
-      display: none;
-    }
-    .image-preview-box.has-image img {
-      display: block;
-      margin: 0 auto;
-    }
-    .image-preview-box.has-image .upload-prompt {
-      display: none;
-    }
-    .btn-remove-preview {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(239, 68, 68, 0.85);
-      border: none;
-      color: #fff;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-    .image-preview-box.has-image .btn-remove-preview {
-      display: flex;
-    }
-
-    /* Preview card mirroring site */
-    .preview-card-outer {
-      background: #fff;
-      color: #1F2937;
-      border-radius: 12px;
-      padding: 1.25rem;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    }
-
-    /* Manage list */
-    .dispatches-manage-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      margin-top: 1rem;
-      max-height: 520px;
-      overflow-y: auto;
-      padding-right: 0.35rem;
-    }
-    .dispatch-manage-card {
-      background: var(--admin-surface-2);
-      border: 1px solid var(--admin-border);
-      border-radius: 10px;
-      padding: 0.95rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 0.85rem;
-      transition: border-color 0.2s;
-    }
-    .dispatch-manage-card:hover {
-      border-color: rgba(241, 180, 52, 0.4);
-    }
-    .dispatch-manage-info {
-      flex: 1;
-    }
-    .dispatch-manage-time {
-      font-size: 0.72rem;
-      color: var(--admin-accent);
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-    .dispatch-manage-text {
-      font-size: 0.85rem;
-      line-height: 1.45;
-      color: #E5E7EB;
-    }
-    .dispatch-manage-thumb {
-      width: 64px;
-      height: 44px;
-      border-radius: 6px;
-      object-fit: cover;
-      margin-top: 0.4rem;
-      border: 1px solid var(--admin-border);
-    }
-
-    /* Blog Arrangement Position Badges */
-    .pos-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-      margin-bottom: 0.35rem;
-    }
-    .pos-badge--hero {
-      background: rgba(245, 200, 0, 0.16);
-      color: #F5C800;
-      border: 1px solid rgba(245, 200, 0, 0.4);
-    }
-    .pos-badge--sub {
-      background: rgba(59, 130, 246, 0.16);
-      color: #93C5FD;
-      border: 1px solid rgba(59, 130, 246, 0.4);
-    }
-    .pos-badge--feed {
-      background: rgba(34, 197, 94, 0.16);
-      color: #86EFAC;
-      border: 1px solid rgba(34, 197, 94, 0.4);
-    }
-    .pos-badge--archive {
-      background: rgba(148, 163, 184, 0.14);
-      color: #CBD5E1;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-    }
-
-    .yt-manage-thumb {
-      width: 88px;
-      height: 52px;
-      border-radius: 6px;
-      object-fit: cover;
-      margin-top: 0.4rem;
-      border: 1px solid var(--admin-border);
-      display: block;
-    }
-    .dispatch-manage-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-    .btn-action-icon {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--admin-border);
-      color: var(--admin-muted);
-      width: 30px;
-      height: 30px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      font-size: 0.85rem;
-    }
-    .btn-action-icon:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-    }
-    .btn-action-icon.delete:hover {
-      background: rgba(239, 68, 68, 0.2);
-      color: #F87171;
-      border-color: rgba(239, 68, 68, 0.4);
-    }
-
-    /* Match Manager Table */
-    .fixtures-table-wrap {
-      max-height: 560px;
-      overflow-y: auto;
-      border: 1px solid var(--admin-border);
-      border-radius: 10px;
-      margin-top: 1rem;
-    }
-    .fixtures-admin-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.86rem;
-      text-align: left;
-    }
-    .fixtures-admin-table th {
-      background: var(--admin-surface-2);
-      padding: 0.75rem 1rem;
-      color: var(--admin-muted);
-      font-weight: 700;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--admin-border);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .fixtures-admin-table td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      color: #E2E8F0;
-    }
-    .fixtures-admin-table tr:hover {
-      background: rgba(255, 255, 255, 0.03);
-    }
-    .match-status-badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-    .match-status-badge.completed {
-      background: rgba(22, 163, 74, 0.2);
-      color: #4ADE80;
-      border: 1px solid rgba(22, 163, 74, 0.4);
-    }
-    .match-status-badge.upcoming {
-      background: rgba(0, 87, 184, 0.2);
-      color: #60A5FA;
-      border: 1px solid rgba(0, 87, 184, 0.4);
-    }
-
-    /* Toast */
-    .admin-toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #10192B;
-      border: 1px solid var(--admin-accent);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      color: #fff;
-      padding: 0.85rem 1.25rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 1000;
-    }
-    .admin-toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
+    .panel-intro strong { color:var(--agold); }
   </style>
 </head>
-<body class="admin-body">
+<body>
 
-  <!-- Admin Top Bar -->
-  <header class="admin-navbar">
-    <a href="index.html" class="admin-brand">
-      <img src="assets/official-crest-hq.png" alt="Young Apostles Crest">
-      <div class="admin-brand-text">
-        <h1>Young Apostles FC</h1>
-        <span>Official Media &amp; Match Operations Admin</span>
-      </div>
-    </a>
-    <div class="admin-nav-actions">
-      <a href="index.html" class="btn-view-site" target="_blank">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Site
-      </a>
-      <button class="btn-logout" id="btnLogout" onclick="logoutAdmin()" style="display:none;">
-        <i class="fa-solid fa-power-off"></i> Logout
-      </button>
-    </div>
-  </header>
-
-  <!-- Login Gate Screen -->
-  <div class="auth-container" id="authScreen">
-    <div class="auth-card">
-      <img src="assets/official-crest-hq.png" alt="Young Apostles FC Crest">
-      <h2>Media &amp; Match Operations</h2>
-      <p>Enter the club management passkey to control live dispatches, match scorelines, and GPL standings.</p>
-
-      <form id="authForm" onsubmit="handleLogin(event)">
-        <div class="auth-input-group">
-          <label for="adminPasskey"><i class="fa-solid fa-key" style="color:var(--admin-accent);"></i> Security Passkey</label>
-          <input type="password" id="adminPasskey" class="auth-input" placeholder="Enter passkey" autofocus required>
-        </div>
-        <button type="submit" class="btn-auth-submit">
-          <i class="fa-solid fa-unlock"></i> Unlock Admin Panel
-        </button>
-      </form>
-
-      <div class="auth-hint">
-        <i class="fa-solid fa-shield-halved" style="color:var(--admin-accent); margin-right:4px;"></i>
-        Default Passkey: <strong>apostles2026</strong>
-      </div>
-    </div>
+<!-- ========== LOGIN GATE ========== -->
+<div id="loginGate">
+  <div class="login-card">
+    <img src="assets/official-logo.png" alt="Young Apostles FC" class="login-crest">
+    <h1 class="login-title">Club Admin Portal</h1>
+    <p class="login-sub">Young Apostles FC · Secure CMS & Operations Dashboard</p>
+    <form onsubmit="handleAdminLogin(event)">
+      <label class="login-label">Username</label>
+      <input type="text" id="loginUser" class="login-input" placeholder="admin" autocomplete="username">
+      <label class="login-label">Password</label>
+      <input type="password" id="loginPass" class="login-input" placeholder="••••••••" autocomplete="current-password">
+      <div class="login-err" id="loginErr">Incorrect credentials. Try again.</div>
+      <button type="submit" class="btn-login"><i class="fa-solid fa-unlock-keyhole"></i> Access Portal</button>
+    </form>
+    <p style="text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:1.25rem;">
+      Default: admin / yafc2026 · Change in Settings after login
+    </p>
   </div>
+</div>
 
-  <!-- Main Admin Workspace -->
-  <main class="admin-workspace" id="adminWorkspace">
-    
-    <!-- Real-time sync notification banner -->
-    <div class="sync-alert-banner">
-      <div class="sync-alert-left">
-        <div class="sync-pulse-dot"></div>
-        <div>
-          <strong>Global Multi-Device Cloud Sync:</strong> Centralized via <code>data/cms.json</code>. Updates can be pushed live so they reflect across all mobile phones and desktop computers worldwide.
+<!-- ========== ADMIN APP ========== -->
+<div id="adminApp">
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-brand">
+        <img src="assets/official-logo.png" alt="YAFC">
+        <div class="sidebar-brand-text">
+          <div class="sidebar-brand-title">YAFC Admin</div>
+          <div class="sidebar-brand-sub">CMS Portal</div>
         </div>
       </div>
-      <div style="display:flex; align-items:center; gap:0.85rem;">
-        <button onclick="deployCmsToCloud()" style="background:#F5C800; color:#00105a; border:none; padding:5px 14px; border-radius:20px; font-weight:800; font-size:0.75rem; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(245,200,0,0.4);">
-          <i class="fa-solid fa-cloud-arrow-up"></i> Deploy Worldwide
-        </button>
-        <a href="index.html" target="_blank" style="color:var(--admin-accent); font-weight:700; text-decoration:none; font-size:0.85rem;">
-          Verify Live Site &rarr;
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Overview</div>
+        <a class="sidebar-link active" onclick="showPanel('dashboard')" href="#">
+          <i class="fa-solid fa-chart-line"></i> Dashboard
         </a>
-      </div>
-    </div>
 
-    <!-- Navigation Tabs -->
-    <div class="admin-nav-tabs">
-      <button class="admin-tab-btn active" onclick="switchAdminTab('dispatches', this)">
-        <i class="fa-solid fa-newspaper"></i> News &amp; Articles (CMS)
-      </button>
-      <button class="admin-tab-btn" onclick="switchAdminTab('apostlestv', this)">
-        <i class="fa-brands fa-youtube" style="color:#ef4444;"></i> Apostles TV
-      </button>
-      <button class="admin-tab-btn" onclick="switchAdminTab('matches', this)">
-        <i class="fa-solid fa-futbol"></i> Match Scorelines &amp; Fixtures
-      </button>
-      <button class="admin-tab-btn" onclick="switchAdminTab('standings', this)">
-        <i class="fa-solid fa-list-ol"></i> GPL Standings Table
-      </button>
-      <button class="admin-tab-btn" onclick="switchAdminTab('info', this)">
-        <i class="fa-solid fa-sliders"></i> System &amp; Live Verification
-      </button>
-    </div>
+        <div class="sidebar-section-label">Fan Data</div>
+        <a class="sidebar-link" onclick="showPanel('waitlist')" href="#">
+          <i class="fa-solid fa-list-check"></i> Waiting List
+        </a>
+        <a class="sidebar-link" onclick="showPanel('preorders')" href="#">
+          <i class="fa-solid fa-bag-shopping"></i> Preorders
+        </a>
+        <a class="sidebar-link" onclick="showPanel('members')" href="#">
+          <i class="fa-solid fa-users"></i> Members
+        </a>
 
-    <!-- Top Stats Row -->
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon"><i class="fa-solid fa-newspaper"></i></div>
-        <div class="stat-meta">
-          <h3 id="statDispatchCount">6</h3>
-          <span>Live Blog Posts</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:rgba(239, 68, 68, 0.2); color:#EF4444;"><i class="fa-brands fa-youtube"></i></div>
-        <div class="stat-meta">
-          <h3 id="statYtCount">4</h3>
-          <span>Apostles TV Videos</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:rgba(22, 163, 74, 0.2); color:#4ADE80;"><i class="fa-solid fa-circle-check"></i></div>
-        <div class="stat-meta">
-          <h3 id="statCompletedMatches">1</h3>
-          <span>Completed Matches</span>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:rgba(241, 180, 52, 0.2); color:var(--admin-accent);"><i class="fa-solid fa-trophy"></i></div>
-        <div class="stat-meta">
-          <h3 id="statYaPoints">3 PTS</h3>
-          <span>GPL 2026/27 Points</span>
-        </div>
-      </div>
-    </div>
+        <div class="sidebar-section-label">Content CMS</div>
+        <a class="sidebar-link" onclick="showPanel('news')" href="#">
+          <i class="fa-solid fa-newspaper"></i> News Articles
+        </a>
+        <a class="sidebar-link" onclick="showPanel('fixtures')" href="#">
+          <i class="fa-solid fa-calendar-days"></i> Fixtures
+        </a>
+        <a class="sidebar-link" onclick="showPanel('apostlestv')" href="#">
+          <i class="fa-brands fa-youtube"></i> Apostles TV
+        </a>
+        <a class="sidebar-link" onclick="showPanel('shop')" href="#">
+          <i class="fa-solid fa-shirt"></i> Shop Products
+        </a>
+        <a class="sidebar-link" onclick="showPanel('hero')" href="#">
+          <i class="fa-solid fa-image"></i> Hero Section
+        </a>
 
-    <!-- =========================================================
-         TAB 1: BLOG & DISPATCHES (SIMPLIFIED CMS)
-         ========================================================= -->
-    <div class="tab-pane active" id="pane-dispatches">
-      <div class="admin-layout-grid">
-        
-        <!-- LEFT COLUMN: Simplified Post Creator Form -->
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-feather-pointed"></i> <span id="blogFormTitle">Publish New Blog Post</span></h2>
-            <span style="font-size:0.75rem; color:var(--admin-accent); font-weight:700;"><i class="fa-solid fa-arrows-rotate"></i> Auto-Arrangement Active</span>
+        <div class="sidebar-section-label">System</div>
+        <a class="sidebar-link" onclick="showPanel('settings')" href="#">
+          <i class="fa-solid fa-gear"></i> Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a class="btn-view-site" href="main.html" target="_blank">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i> View Live Site
+        </a>
+        <button class="btn-logout" onclick="adminLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="admin-main">
+      <!-- TOP BAR -->
+      <div class="admin-topbar">
+        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+        <div class="topbar-right">
+          <div style="font-size:0.78rem;color:var(--amuted);" id="adminClockEl"></div>
+          <div class="admin-avatar" id="adminAvatarEl">AD</div>
+        </div>
+      </div>
+
+      <!-- CONTENT AREA -->
+      <div style="flex:1; overflow-y:auto;">
+
+        <!-- ===== DASHBOARD ===== -->
+        <div class="admin-panel active" id="panel-dashboard">
+          <div class="stats-grid" id="dashStats"></div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <!-- Recent waitlist -->
+            <div>
+              <div class="section-hdr">
+                <div class="section-hdr-title"><i class="fa-solid fa-list-check" style="color:var(--agold);margin-right:0.4rem;"></i> Recent Waitlist</div>
+                <button class="btn-admin-sm" onclick="showPanel('waitlist')">View All</button>
+              </div>
+              <div class="admin-table-wrap" id="dashWaitlistTable"></div>
+            </div>
+            <!-- Recent members -->
+            <div>
+              <div class="section-hdr">
+                <div class="section-hdr-title"><i class="fa-solid fa-users" style="color:var(--agold);margin-right:0.4rem;"></i> Recent Members</div>
+                <button class="btn-admin-sm" onclick="showPanel('members')">View All</button>
+              </div>
+              <div class="admin-table-wrap" id="dashMembersTable"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== WAITING LIST ===== -->
+        <div class="admin-panel" id="panel-waitlist">
+          <div class="panel-intro">
+            <strong>Waiting List</strong> — All fans who joined the shop preorder list. Contact them via WhatsApp/SMS when items are ready to ship.
+          </div>
+          <div class="section-hdr">
+            <div class="section-hdr-title">Waiting List Entries</div>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn-admin-secondary" onclick="exportCSV('waitlist')"><i class="fa-solid fa-download"></i> Export CSV</button>
+              <button class="btn-admin-secondary" onclick="clearDataConfirm('ya_waitlist_orders','Waiting List')"><i class="fa-solid fa-trash"></i> Clear All</button>
+            </div>
+          </div>
+          <div class="admin-table-wrap" id="waitlistTable"></div>
+        </div>
+
+        <!-- ===== PREORDERS ===== -->
+        <div class="admin-panel" id="panel-preorders">
+          <div class="panel-intro">
+            <strong>Preorders</strong> — Detailed view of all order items from the waitlist. Each entry shows items, sizes, totals, and customer contact.
+          </div>
+          <div class="section-hdr">
+            <div class="section-hdr-title">Preorder Details</div>
+            <button class="btn-admin-secondary" onclick="exportCSV('preorders')"><i class="fa-solid fa-download"></i> Export CSV</button>
+          </div>
+          <div class="admin-table-wrap" id="preordersTable"></div>
+        </div>
+
+        <!-- ===== MEMBERS ===== -->
+        <div class="admin-panel" id="panel-members">
+          <div class="panel-intro">
+            <strong>Members</strong> — Fans who have self-registered with a profile on the site. Membership tier shows Standard or Gold VIP.
+          </div>
+          <div class="section-hdr">
+            <div class="section-hdr-title">Member Registrations</div>
+            <button class="btn-admin-secondary" onclick="exportCSV('members')"><i class="fa-solid fa-download"></i> Export CSV</button>
+          </div>
+          <div class="admin-table-wrap" id="membersTable"></div>
+        </div>
+
+        <!-- ===== NEWS CMS ===== -->
+        <div class="admin-panel" id="panel-news">
+          <div class="section-hdr">
+            <div class="section-hdr-title">News Articles</div>
+            <button class="btn-admin-primary" onclick="toggleAddForm('newsAddForm')">
+              <i class="fa-solid fa-plus"></i> New Article
+            </button>
           </div>
 
-          <!-- Visual Workflow Helper Banner -->
-          <div style="background:rgba(0, 87, 184, 0.12); border:1px solid rgba(0, 87, 184, 0.35); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1.25rem; font-size:0.8rem; line-height:1.45; color:#E2E8F0;">
-            <div style="font-weight:800; color:var(--admin-accent); margin-bottom:3px; display:flex; align-items:center; gap:6px;">
-              <i class="fa-solid fa-sitemap"></i> Automatic Post Flow on Website:
-            </div>
-            <span>New posts automatically publish to <strong>Position 1 (Homepage Lead Hero)</strong>. Next stories appear at <strong>Position 2 &amp; 3 (Homepage Secondary Grid)</strong>, and older stories automatically display in the <strong>Past Stories Archive UI</strong>.</span>
-          </div>
-
-          <form id="blogForm" onsubmit="saveBlogPost(event)">
-            <input type="hidden" id="editBlogId" value="">
-
-            <!-- 1. Blog Title -->
-            <div class="form-group">
-              <label for="blogTitle"><i class="fa-solid fa-heading"></i> Blog Title <span style="color:#EF4444;">*</span></label>
-              <input type="text" id="blogTitle" class="form-control" placeholder="Enter headline / blog title (e.g. Prempeh Stunner Seals Historic First GPL Victory)" required oninput="updateBlogLivePreview()">
-            </div>
-
-            <!-- 2. Blog Message / Story Content -->
-            <div class="form-group">
-              <label for="blogMessage"><i class="fa-solid fa-align-left"></i> Blog Message / Story <span style="color:#EF4444;">*</span></label>
-              <textarea id="blogMessage" class="form-control" rows="5" placeholder="Type the blog story, match details or club message here. This displays on the website cards and inside the full reading modal..." required oninput="updateBlogLivePreview()"></textarea>
-            </div>
-
-            <!-- 3. Category & Date Row -->
+          <!-- Add Form -->
+          <div class="add-form-panel" id="newsAddForm">
+            <div class="add-form-title">Add / Edit News Article</div>
             <div class="form-row">
-              <div class="form-group">
-                <label for="blogCategory"><i class="fa-solid fa-tag"></i> Category / Badge</label>
-                <select id="blogCategory" class="form-control" onchange="updateBlogLivePreview()">
-                  <option value="MATCH REPORT" selected>MATCH REPORT</option>
-                  <option value="CLUB NEWS">CLUB NEWS</option>
-                  <option value="OFFICIAL KIT">OFFICIAL KIT</option>
-                  <option value="MATCH PREVIEW">MATCH PREVIEW</option>
-                  <option value="LIVE ALERT">LIVE ALERT</option>
-                  <option value="OFFICIAL STATEMENT">OFFICIAL STATEMENT</option>
+              <div class="admin-form-group">
+                <label>Article ID (slug)</label>
+                <input type="text" class="admin-input" id="nId" placeholder="e.g. matchday-4-preview">
+              </div>
+              <div class="admin-form-group">
+                <label>Category</label>
+                <select class="admin-select" id="nCategory">
+                  <option value="MATCH PREVIEW">Match Preview</option>
+                  <option value="MATCH REPORT">Match Report</option>
+                  <option value="CLUB NEWS">Club News</option>
+                  <option value="ANNOUNCEMENT">Announcement</option>
+                  <option value="TRANSFER">Transfer</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label for="blogDate"><i class="fa-regular fa-calendar"></i> Date / Timestamp</label>
-                <div style="display:flex; gap:0.4rem;">
-                  <input type="text" id="blogDate" class="form-control" value="Sep 16, 2026" oninput="updateBlogLivePreview()">
-                  <button type="button" class="btn-admin-secondary" onclick="setBlogTodayDate()" style="white-space:nowrap; padding:0 0.65rem; font-size:0.75rem;" title="Set to today's date">
-                    Today
-                  </button>
-                </div>
+            </div>
+            <div class="admin-form-group">
+              <label>Title</label>
+              <input type="text" class="admin-input" id="nTitle" placeholder="Article headline">
+            </div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Date</label>
+                <input type="text" class="admin-input" id="nDate" placeholder="Sep 20, 2026">
+              </div>
+              <div class="admin-form-group">
+                <label>Image URL / Path</label>
+                <input type="text" class="admin-input" id="nImage" placeholder="assets/md3-debibi-derby.jpg">
               </div>
             </div>
+            <div class="admin-form-group">
+              <label>Excerpt (short summary)</label>
+              <textarea class="admin-textarea" id="nExcerpt" placeholder="Short preview shown on cards..."></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label>Full Article Body (HTML allowed)</label>
+              <textarea class="admin-textarea" id="nContent" style="min-height:140px;" placeholder="<p>Full article body...</p>"></textarea>
+            </div>
+            <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
+              <button class="btn-admin-primary" onclick="saveNewsArticle()"><i class="fa-solid fa-floppy-disk"></i> Save Article</button>
+              <button class="btn-admin-secondary" onclick="toggleAddForm('newsAddForm')">Cancel</button>
+            </div>
+          </div>
 
-            <!-- 4. Media Photo (Optional) -->
-            <div class="form-group">
-              <label><i class="fa-regular fa-image"></i> Photo (Optional &middot; Auto-Optimized)</label>
-              <div style="display:flex; gap:0.5rem; margin-bottom:0.4rem;">
-                <input type="file" id="blogFileInput" accept="image/*" style="display:none;" onchange="handleBlogFileUpload(event)">
-                <button type="button" class="btn-admin-secondary" style="padding:0.5rem 0.85rem; font-size:0.8rem;" onclick="document.getElementById('blogFileInput').click()">
-                  <i class="fa-solid fa-upload"></i> Upload from Device
-                </button>
-                <input type="text" id="blogImageUrl" class="form-control" placeholder="Or enter image URL / asset path" oninput="updateBlogLivePreview()" style="flex:1;">
+          <div id="newsList"></div>
+        </div>
+
+        <!-- ===== FIXTURES CMS ===== -->
+        <div class="admin-panel" id="panel-fixtures">
+          <div class="section-hdr">
+            <div class="section-hdr-title">Fixtures &amp; Results</div>
+            <button class="btn-admin-primary" onclick="toggleAddForm('fixtureAddForm')">
+              <i class="fa-solid fa-plus"></i> Update Fixture
+            </button>
+          </div>
+
+          <div class="add-form-panel" id="fixtureAddForm">
+            <div class="add-form-title">Update Fixture / Enter Result</div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Matchday Week #</label>
+                <input type="number" class="admin-input" id="fxWeek" placeholder="e.g. 3" min="1" max="34">
               </div>
-
-              <!-- Quick Asset Preset Chips -->
-              <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.25rem;">Quick Presets:</div>
-              <div class="preset-chips">
-                <span class="preset-chip" onclick="setBlogPresetImage('assets/apostle-tv-video1.jpg')">Match Action 1</span>
-                <span class="preset-chip" onclick="setBlogPresetImage('assets/apostle-tv-video2.jpg')">Training / Coach</span>
-                <span class="preset-chip" onclick="setBlogPresetImage('assets/apostle-tv-video3.jpg')">Vision FC Match</span>
-                <span class="preset-chip" onclick="setBlogPresetImage('assets/kit-home-hanging.jpg')">Home Kit</span>
-                <span class="preset-chip" onclick="setBlogPresetImage('assets/players/samuel-prempeh.jpg')">Samuel Prempeh #21</span>
-                <span class="preset-chip" onclick="setBlogPresetImage('assets/official-logo.png')">Club Crest</span>
-                <span class="preset-chip" onclick="setBlogPresetImage('')">No Photo</span>
-              </div>
-
-              <div class="image-preview-box" id="blogPreviewBox">
-                <button type="button" class="btn-remove-preview" onclick="removeBlogImage()">&times;</button>
-                <img id="blogPreviewImg" src="" alt="Image Preview">
-                <div class="upload-prompt" style="color:var(--admin-muted); font-size:0.8rem;">
-                  <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.4rem; margin-bottom:0.25rem; display:block;"></i>
-                  No photo selected (will publish as clean text post)
-                </div>
+              <div class="admin-form-group">
+                <label>Venue</label>
+                <input type="text" class="admin-input" id="fxVenue" placeholder="Wenchi Sports Stadium">
               </div>
             </div>
-
-            <!-- Submit & Clear Buttons -->
-            <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
-              <button type="submit" class="btn-admin-primary" id="btnSubmitBlog">
-                <i class="fa-solid fa-paper-plane"></i> Publish Blog Post
-              </button>
-              <button type="button" class="btn-admin-secondary" onclick="resetBlogForm()">
-                Clear Form
-              </button>
-            </div>
-          </form>
-        </section>
-
-        <!-- RIGHT COLUMN: Real-Time Preview & Manage Live Arrangement -->
-        <div>
-          <div class="live-preview-wrap">
-            <div class="admin-card" style="margin-bottom:1.5rem;">
-              <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
-                <h2 style="font-size:1rem;"><i class="fa-solid fa-eye"></i> Live Site Appearance</h2>
-                <div style="display:flex; gap:0.4rem;">
-                  <button type="button" class="btn-admin-secondary" id="previewModeHeroBtn" onclick="setPreviewMode('hero')" style="padding:3px 8px; font-size:0.72rem; font-weight:700; background:var(--admin-surface); color:var(--admin-accent); border-color:var(--admin-accent);">
-                    Position 1 (Hero)
-                  </button>
-                  <button type="button" class="btn-admin-secondary" id="previewModeFeedBtn" onclick="setPreviewMode('feed')" style="padding:3px 8px; font-size:0.72rem; font-weight:700;">
-                    Position 4 (Sidebar)
-                  </button>
-                </div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Home Team</label>
+                <input type="text" class="admin-input" id="fxHome" placeholder="Young Apostles">
               </div>
-
-              <!-- Hero Preview (Position 1) -->
-              <div id="previewHeroBox" style="background:#fff; border-radius:12px; overflow:hidden; border:1px solid #E2E8F0; color:#1E293B;">
-                <div style="position:relative; height:180px; background:#0B1220;">
-                  <img id="prevHeroImg" src="assets/apostle-tv-video1.jpg" alt="Hero Preview" style="width:100%; height:100%; object-fit:cover;">
-                  <span id="prevHeroBadge" style="position:absolute; top:12px; left:12px; background:#0057B8; color:#fff; font-size:0.7rem; font-weight:800; padding:4px 10px; border-radius:4px;">MATCH REPORT</span>
-                </div>
-                <div style="padding:1rem;">
-                  <div style="font-size:0.75rem; color:#64748B; margin-bottom:0.35rem;">
-                    <span id="prevHeroDate"><i class="fa-regular fa-calendar"></i> Sep 16, 2026</span> &bull; <span>Apostles Media Dispatch</span>
-                  </div>
-                  <h3 id="prevHeroTitle" style="font-size:1.05rem; font-weight:800; color:#0B1220; margin:0 0 0.5rem 0; line-height:1.35;">Prempeh Stunner Seals Historic First GPL Victory</h3>
-                  <p id="prevHeroMsg" style="font-size:0.83rem; color:#475569; margin:0 0 0.75rem 0; line-height:1.5;">Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations at Wenchi Sports Stadium...</p>
-                  <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; font-weight:700; color:#0057B8;">
-                    <span>Read Full Story &rarr;</span>
-                    <span style="color:#94A3B8;">3 min read</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Feed Preview (Position 4) -->
-              <div id="previewFeedBox" style="display:none; background:#fff; border-radius:12px; padding:1rem; border:1px solid #E2E8F0; color:#1E293B;">
-                <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
-                  <img src="assets/official-logo.png" alt="YA" style="width:30px; height:30px; border-radius:50%; object-fit:contain;">
-                  <div>
-                    <div style="font-size:0.82rem; font-weight:800; color:#001489;">Young Apostles FC <i class="fa-solid fa-circle-check" style="color:#0057B8; font-size:0.75rem;"></i></div>
-                    <div style="font-size:0.7rem; color:#64748B;" id="prevFeedDate">Sep 16, 2026 &middot; Live Alert</div>
-                  </div>
-                </div>
-                <div style="font-size:0.85rem; color:#1E293B; line-height:1.5; margin-bottom:0.4rem;" id="prevFeedText">
-                  <strong>Prempeh Stunner Seals Historic First GPL Victory</strong> &mdash; Samuel Prempeh’s clinical 7th-minute strike ignited wild celebrations...
-                </div>
-                <img id="prevFeedImg" src="" alt="Feed Media" style="display:none; width:100%; max-height:160px; object-fit:cover; border-radius:8px; margin-bottom:0.4rem;">
-                <div style="font-size:0.75rem; font-weight:800; color:#0057B8;">
-                  <i class="fa-regular fa-newspaper"></i> Read full story &rarr;
-                </div>
+              <div class="admin-form-group">
+                <label>Away Team</label>
+                <input type="text" class="admin-input" id="fxAway" placeholder="Opponent">
               </div>
             </div>
-
-            <!-- Manage Published Blogs with Clear Position Badges -->
-            <div class="admin-card">
-              <div class="admin-card-header" style="margin-bottom:0.75rem; padding-bottom:0.5rem;">
-                <div>
-                  <h2 style="font-size:1rem;"><i class="fa-solid fa-list-ol"></i> Live Articles &amp; Arrangement</h2>
-                  <div style="font-size:0.72rem; color:var(--admin-muted); margin-top:2px;">
-                    Positions 1, 2, 3 show in homepage news sections &bull; Positions 4+ show in older articles archive
-                  </div>
-                </div>
-                <div style="display:flex; gap:0.4rem;">
-                  <button type="button" class="btn-admin-secondary" style="font-size:0.72rem; padding:3px 8px;" title="Reset to official 6 posts" onclick="resetBlogsToDefault()">
-                    <i class="fa-solid fa-rotate-left"></i> Reset Defaults
-                  </button>
-                </div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Date</label>
+                <input type="text" class="admin-input" id="fxDate" placeholder="Sep 20, 2026">
               </div>
-
-              <div class="dispatches-manage-list" id="blogsManageList">
-                <!-- Rendered via JS -->
+              <div class="admin-form-group">
+                <label>Score (if played, e.g. 1 - 0)</label>
+                <input type="text" class="admin-input" id="fxScore" placeholder="1 - 0 or leave blank">
               </div>
             </div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Result (W / L / D)</label>
+                <select class="admin-select" id="fxResult">
+                  <option value="">— Upcoming —</option>
+                  <option value="W">W (Win)</option>
+                  <option value="L">L (Loss)</option>
+                  <option value="D">D (Draw)</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>Goalscorer(s)</label>
+                <input type="text" class="admin-input" id="fxScorer" placeholder="Prempeh 7'">
+              </div>
+            </div>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn-admin-primary" onclick="saveFixture()"><i class="fa-solid fa-floppy-disk"></i> Save Fixture</button>
+              <button class="btn-admin-secondary" onclick="toggleAddForm('fixtureAddForm')">Cancel</button>
+            </div>
+          </div>
+
+          <div class="admin-table-wrap" id="fixturesList"></div>
+        </div>
+
+        <!-- ===== APOSTLES TV ===== -->
+        <div class="admin-panel" id="panel-apostlestv">
+          <div class="section-hdr">
+            <div class="section-hdr-title">Apostles TV Videos</div>
+            <button class="btn-admin-primary" onclick="toggleAddForm('tvAddForm')">
+              <i class="fa-solid fa-plus"></i> Add Video
+            </button>
+          </div>
+          <div class="add-form-panel" id="tvAddForm">
+            <div class="add-form-title">Add YouTube Video</div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>YouTube Video ID or URL</label>
+                <input type="text" class="admin-input" id="tvId" placeholder="e.g. fpleoX_sUIA or full URL">
+              </div>
+              <div class="admin-form-group">
+                <label>Tag / Label</label>
+                <input type="text" class="admin-input" id="tvTag" placeholder="MATCH HIGHLIGHTS">
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label>Title</label>
+              <input type="text" class="admin-input" id="tvTitle" placeholder="Match Highlights: YAFC vs ...">
+            </div>
+            <div class="admin-form-group">
+              <label>Thumbnail (leave blank for YouTube auto)</label>
+              <input type="text" class="admin-input" id="tvThumb" placeholder="assets/apostle-tv-video1.jpg">
+            </div>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn-admin-primary" onclick="saveTvVideo()"><i class="fa-solid fa-floppy-disk"></i> Save Video</button>
+              <button class="btn-admin-secondary" onclick="toggleAddForm('tvAddForm')">Cancel</button>
+            </div>
+          </div>
+          <div id="tvList"></div>
+        </div>
+
+        <!-- ===== SHOP CMS ===== -->
+        <div class="admin-panel" id="panel-shop">
+          <div class="section-hdr">
+            <div class="section-hdr-title">Shop Products</div>
+            <button class="btn-admin-primary" onclick="toggleAddForm('shopAddForm')">
+              <i class="fa-solid fa-plus"></i> Add Product
+            </button>
+          </div>
+          <div class="add-form-panel" id="shopAddForm">
+            <div class="add-form-title">Add / Edit Product</div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Product ID</label>
+                <input type="text" class="admin-input" id="spId" placeholder="kit-home">
+              </div>
+              <div class="admin-form-group">
+                <label>Category</label>
+                <select class="admin-select" id="spCat">
+                  <option value="kits">Kits</option>
+                  <option value="accessories">Accessories</option>
+                </select>
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label>Product Name</label>
+              <input type="text" class="admin-input" id="spName" placeholder="Official 2026/27 Home Kit">
+            </div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Price (GHS)</label>
+                <input type="number" class="admin-input" id="spPrice" placeholder="350">
+              </div>
+              <div class="admin-form-group">
+                <label>Old Price (GHS, optional)</label>
+                <input type="number" class="admin-input" id="spOldPrice" placeholder="420">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Image Path</label>
+                <input type="text" class="admin-input" id="spImage" placeholder="assets/kit-home-player-2026.jpg">
+              </div>
+              <div class="admin-form-group">
+                <label>Tag Label</label>
+                <input type="text" class="admin-input" id="spTag" placeholder="VIP PRE-ORDER">
+              </div>
+            </div>
+            <div class="admin-form-group">
+              <label>Description</label>
+              <textarea class="admin-textarea" id="spDesc" placeholder="Product description..."></textarea>
+            </div>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn-admin-primary" onclick="saveShopProduct()"><i class="fa-solid fa-floppy-disk"></i> Save Product</button>
+              <button class="btn-admin-secondary" onclick="toggleAddForm('shopAddForm')">Cancel</button>
+            </div>
+          </div>
+          <div id="shopProductList"></div>
+        </div>
+
+        <!-- ===== HERO CMS ===== -->
+        <div class="admin-panel" id="panel-hero">
+          <div class="section-hdr">
+            <div class="section-hdr-title">Hero Section Writeup</div>
+          </div>
+          <div class="add-form-panel open" style="margin-bottom:0;">
+            <div class="admin-form-group">
+              <label>Headline</label>
+              <input type="text" class="admin-input" id="heroHeadline" placeholder="Young Apostles FC: Fighting for Glory...">
+            </div>
+            <div class="admin-form-group">
+              <label>Subtitle / Subtext (HTML allowed)</label>
+              <textarea class="admin-textarea" id="heroSubtitle" placeholder="<strong>AGYA NA ƆWƆ TUMI</strong> &middot; ..."></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label>Young Apostles Standings — Rank</label>
+              <input type="number" class="admin-input" id="standRank" placeholder="8" style="width:80px;display:inline;">
+            </div>
+            <div class="form-row" style="margin-top:0.75rem;">
+              <div class="admin-form-group">
+                <label>Played</label><input type="number" class="admin-input" id="standPlayed" placeholder="2">
+              </div>
+              <div class="admin-form-group">
+                <label>Goal Diff</label><input type="number" class="admin-input" id="standDiff" placeholder="-2">
+              </div>
+              <div class="admin-form-group">
+                <label>Points</label><input type="number" class="admin-input" id="standPts" placeholder="3">
+              </div>
+            </div>
+            <button class="btn-admin-primary" onclick="saveHeroAndStandings()">
+              <i class="fa-solid fa-floppy-disk"></i> Save &amp; Push to Site
+            </button>
           </div>
         </div>
 
-      </div>
-    </div>
-
-    <!-- =========================================================
-         TAB 2: APOSTLES TV & YOUTUBE VIDEO CMS
-         ========================================================= -->
-    <div class="tab-pane" id="pane-apostlestv">
-      <div class="admin-layout-grid">
-
-        <!-- LEFT COLUMN: Video Creator / Upload Form -->
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> <span id="ytFormTitle">Add Video to Apostles TV</span></h2>
-            <span style="font-size:0.75rem; color:var(--admin-accent); font-weight:700;"><i class="fa-solid fa-arrows-rotate"></i> Real-Time TV Sync</span>
-          </div>
-
-          <!-- YouTube helper banner -->
-          <div style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.3); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1.25rem; font-size:0.8rem; line-height:1.45; color:#E2E8F0;">
-            <div style="font-weight:800; color:#F87171; margin-bottom:3px; display:flex; align-items:center; gap:6px;">
-              <i class="fa-brands fa-youtube"></i> YouTube Video Upload / Link CMS:
-            </div>
-            <span>Paste any YouTube link (e.g. <code>https://www.youtube.com/watch?v=...</code>, <code>https://youtu.be/...</code>, YouTube Shorts, or 11-character video ID). Click <strong>Auto-Fetch</strong> to pull the official title automatically, or type custom info!</span>
-          </div>
-
-          <form id="apostlesTvForm" onsubmit="saveApostlesTvVideo(event)">
-            <input type="hidden" id="editApostlesTvId" value="">
-
-            <!-- 1. YouTube URL or ID -->
-            <div class="form-group">
-              <label for="ytVideoUrl"><i class="fa-solid fa-link"></i> YouTube Video Link / URL or ID <span style="color:#EF4444;">*</span></label>
-              <div style="display:flex; gap:0.5rem;">
-                <input type="text" id="ytVideoUrl" class="form-control" placeholder="Paste YouTube link (e.g. https://youtu.be/fpleoX_sUIA)" required oninput="handleYouTubeUrlInput()">
-                <button type="button" class="btn-admin-secondary" style="white-space:nowrap; padding:0 0.85rem; font-size:0.8rem;" onclick="fetchVideoMetaFromUrl()" title="Auto-fetch video title from YouTube">
-                  <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fetch
-                </button>
-              </div>
-              <div id="ytDetectedBadge" style="display:none; font-size:0.75rem; color:#4ADE80; font-weight:700; margin-top:0.35rem;">
-                <i class="fa-solid fa-check-circle"></i> Detected YouTube ID: <span id="ytDetectedId" style="font-family:monospace; background:rgba(0,0,0,0.3); padding:2px 6px; border-radius:4px;"></span>
-              </div>
-            </div>
-
-            <!-- 2. Video Title -->
-            <div class="form-group">
-              <label for="ytVideoTitle"><i class="fa-solid fa-heading"></i> Video Title <span style="color:#EF4444;">*</span></label>
-              <input type="text" id="ytVideoTitle" class="form-control" placeholder="e.g. Match Highlights: Young Apostles 1 - 0 Basake Holy Stars" required oninput="updateYtLivePreview()">
-            </div>
-
-            <!-- 3. Category / Tag -->
+        <!-- ===== SETTINGS ===== -->
+        <div class="admin-panel" id="panel-settings">
+          <div class="settings-card">
+            <h3><i class="fa-solid fa-lock" style="color:var(--agold);margin-right:0.5rem;"></i> Change Admin Credentials</h3>
             <div class="form-row">
-              <div class="form-group">
-                <label for="ytVideoTag"><i class="fa-solid fa-tag"></i> Category / Badge</label>
-                <select id="ytVideoTag" class="form-control" onchange="updateYtLivePreview()">
-                  <option value="MATCH HIGHLIGHTS" selected>MATCH HIGHLIGHTS</option>
-                  <option value="PRE-MATCH INTERVIEW">PRE-MATCH INTERVIEW</option>
-                  <option value="POST-MATCH INTERVIEW">POST-MATCH INTERVIEW</option>
-                  <option value="TRAINING &amp; BEHIND THE SCENES">TRAINING &amp; BEHIND THE SCENES</option>
-                  <option value="PRESS CONFERENCE">PRESS CONFERENCE</option>
-                  <option value="CLUB ANTHEM">CLUB ANTHEM</option>
-                  <option value="EXCLUSIVE FEATURE">EXCLUSIVE FEATURE</option>
-                </select>
+              <div class="admin-form-group">
+                <label>New Username</label>
+                <input type="text" class="admin-input" id="newUser" placeholder="admin">
               </div>
-
-              <div class="form-group">
-                <label for="ytCustomThumb"><i class="fa-regular fa-image"></i> Custom Thumbnail (Optional)</label>
-                <div style="display:flex; gap:0.5rem;">
-                  <input type="file" id="ytFileInput" accept="image/*" style="display:none;" onchange="handleYtFileUpload(event)">
-                  <button type="button" class="btn-admin-secondary" style="padding:0.5rem 0.85rem; font-size:0.8rem; white-space:nowrap;" onclick="document.getElementById('ytFileInput').click()">
-                    <i class="fa-solid fa-upload"></i> Upload
-                  </button>
-                  <input type="text" id="ytCustomThumb" class="form-control" placeholder="Auto uses YouTube HQ cover, or paste image URL" oninput="updateYtLivePreview()">
-                </div>
+              <div class="admin-form-group">
+                <label>New Password</label>
+                <input type="password" class="admin-input" id="newPass" placeholder="New password">
               </div>
             </div>
-
-            <!-- Quick Asset Preset Chips for Thumbnail -->
-            <div style="font-size:0.75rem; color:var(--admin-muted); margin-bottom:0.35rem;">Quick Thumbnail Presets:</div>
-            <div class="preset-chips" style="margin-bottom:1.25rem;">
-              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video1.jpg')">Match Action 1</span>
-              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video2.jpg')">Coach / Training</span>
-              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video3.jpg')">Match Action 2</span>
-              <span class="preset-chip" onclick="setYtPresetThumb('assets/apostle-tv-video4.jpg')">Matchday / Fans</span>
-              <span class="preset-chip" onclick="setYtPresetThumb('')">YouTube HQ Auto</span>
+            <div class="admin-form-group">
+              <label>Confirm New Password</label>
+              <input type="password" class="admin-input" id="confirmPass" placeholder="Confirm password">
             </div>
-
-            <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
-              <button type="submit" class="btn-admin-accent" id="btnSubmitYt">
-                <i class="fa-solid fa-plus"></i> Add Video to Apostles TV
-              </button>
-              <button type="button" class="btn-admin-secondary" onclick="resetYtForm()">
-                Clear Form
-              </button>
-              <button type="button" class="btn-admin-secondary" onclick="resetApostlesTvToDefault()" style="margin-left:auto; font-size:0.78rem; opacity:0.8;">
-                Reset Defaults
-              </button>
-            </div>
-          </form>
-        </section>
-
-        <!-- RIGHT COLUMN: Live Preview & Reorder List -->
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-tv"></i> Apostles TV Live Preview</h2>
-            <span style="font-size:0.75rem; color:var(--admin-muted); font-weight:600;">Website Card Appearance</span>
-          </div>
-
-          <!-- Video Live Preview Card -->
-          <div style="background:#0F172A; border-radius:12px; overflow:hidden; border:1px solid var(--admin-border); margin-bottom:1.5rem; max-width:420px;">
-            <div style="position:relative; aspect-ratio:16/9; background:#000;">
-              <img id="prevYtThumb" src="https://img.youtube.com/vi/fpleoX_sUIA/hqdefault.jpg" alt="Video preview" style="width:100%; height:100%; object-fit:cover;">
-              <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.35);">
-                <div style="width:48px; height:48px; border-radius:50%; background:rgba(239, 68, 68, 0.9); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.1rem;">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-              </div>
-              <span id="prevYtIdText" style="position:absolute; bottom:8px; right:8px; background:rgba(0,0,0,0.75); color:#fff; font-size:0.68rem; font-family:monospace; padding:2px 6px; border-radius:4px;">ID: fpleoX_sUIA</span>
-            </div>
-            <div style="padding:1rem;">
-              <h3 id="prevYtTitle" style="font-size:0.95rem; font-weight:800; color:#fff; margin:0 0 0.5rem 0; line-height:1.4;">Match Highlights: Young Apostles 1 - 0 Basake Holy Stars</h3>
-              <div style="height:1px; background:rgba(255,255,255,0.08); margin:0.5rem 0;"></div>
-              <div id="prevYtTag" style="font-size:0.72rem; font-weight:800; color:var(--admin-accent); text-transform:uppercase; letter-spacing:0.5px;">
-                <i class="fa-solid fa-circle-play"></i> MATCH HIGHLIGHTS
-              </div>
-            </div>
-          </div>
-
-          <!-- Manage Current Apostles TV Videos List -->
-          <div class="admin-card-header" style="margin-top:1.5rem;">
-            <h2><i class="fa-solid fa-list-check"></i> Published Videos (<span id="ytListCount">4</span>)</h2>
-            <span style="font-size:0.75rem; color:var(--admin-muted);">Reorder or Delete</span>
-          </div>
-
-          <div id="ytManageList" style="display:flex; flex-direction:column; gap:0.75rem; max-height:420px; overflow-y:auto; padding-right:4px;">
-            <!-- Rendered by JS -->
-          </div>
-        </section>
-
-      </div>
-    </div>
-
-    <!-- =========================================================
-         TAB 3: MATCH SCORELINES & FIXTURES MANAGER
-         ========================================================= -->
-    <div class="tab-pane" id="pane-matches">
-      <div class="admin-layout-grid">
-        
-        <!-- Form to Update Fixture Score -->
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-pen-ruler"></i> Update Match Scoreline</h2>
-            <span style="font-size:0.75rem; color:var(--admin-muted); font-weight:600;">Updates homepage &amp; 34-week calendar</span>
-          </div>
-
-          <form id="matchScoreForm" onsubmit="saveMatchScore(event)">
-            <div class="form-group">
-              <label for="matchWeekSelect"><i class="fa-solid fa-calendar-day"></i> Select GPL Matchday</label>
-              <select id="matchWeekSelect" class="form-control" onchange="loadMatchForEdit(this.value)">
-                <!-- Populated via JS (Weeks 1 through 34) -->
-              </select>
-            </div>
-
-            <div style="background:var(--admin-surface-2); padding:1rem; border-radius:8px; border:1px solid var(--admin-border); margin-bottom:1.25rem;">
-              <div style="font-size:0.75rem; color:var(--admin-accent); font-weight:700; text-transform:uppercase;">Selected Fixture</div>
-              <div id="matchCardFixtureDetails" style="font-size:1.05rem; font-weight:800; color:#fff; margin-top:0.25rem;">
-                <!-- Populated dynamically -->
-              </div>
-              <div id="matchCardSubDetails" style="font-size:0.8rem; color:var(--admin-muted); margin-top:0.2rem;">
-                <!-- Date and venue -->
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="matchStatus"><i class="fa-solid fa-stopwatch"></i> Match Status</label>
-              <select id="matchStatus" class="form-control" onchange="toggleScoreInputs()">
-                <option value="completed">Completed (Full-Time FT)</option>
-                <option value="upcoming">Upcoming Fixture (No Score)</option>
-              </select>
-            </div>
-
-            <div id="scoreInputsGroup">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="matchScoreStr"><i class="fa-solid fa-futbol"></i> Final Scoreline (e.g. 1 - 0)</label>
-                  <input type="text" id="matchScoreStr" class="form-control" placeholder="e.g. 1 - 0">
-                </div>
-                <div class="form-group">
-                  <label for="matchResultSelect"><i class="fa-solid fa-award"></i> Result for Young Apostles</label>
-                  <select id="matchResultSelect" class="form-control">
-                    <option value="W">Win (W) &bull; 3 Points</option>
-                    <option value="D">Draw (D) &bull; 1 Point</option>
-                    <option value="L">Loss (L) &bull; 0 Points</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="matchScorerInput"><i class="fa-solid fa-person-running"></i> Goalscorer(s) &amp; Minute (Optional)</label>
-                <input type="text" id="matchScorerInput" class="form-control" placeholder="e.g. Samuel Prempeh 7', Joel Gakpo 82'">
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="matchVenueInput"><i class="fa-solid fa-location-dot"></i> Venue Stadium</label>
-                <input type="text" id="matchVenueInput" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="matchDateInput"><i class="fa-solid fa-calendar"></i> Date &amp; Kickoff</label>
-                <input type="text" id="matchDateInput" class="form-control">
-              </div>
-            </div>
-
-            <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
-              <button type="submit" class="btn-admin-accent">
-                <i class="fa-solid fa-floppy-disk"></i> Save &amp; Publish Score
-              </button>
-              <button type="button" class="btn-admin-secondary" onclick="resetFixturesToDefault()">
-                Reset Season Scores
-              </button>
-            </div>
-          </form>
-        </section>
-
-        <!-- RIGHT COLUMN: 34-Week Fixtures Quick Table -->
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-calendar-check"></i> GPL 2026/27 Schedule (34 Matchdays)</h2>
-            <span style="font-size:0.75rem; color:var(--admin-muted);">Click any match to edit</span>
-          </div>
-
-          <div class="fixtures-table-wrap">
-            <table class="fixtures-admin-table">
-              <thead>
-                <tr>
-                  <th>Wk</th>
-                  <th>Match</th>
-                  <th>Status / Score</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="fixturesAdminTableBody">
-                <!-- Rendered by JS -->
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-      </div>
-    </div>
-
-    <!-- =========================================================
-         TAB 3: GPL STANDINGS TABLE MANAGER
-         ========================================================= -->
-    <div class="tab-pane" id="pane-standings">
-      <div class="admin-layout-grid">
-        
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-chart-line"></i> Young Apostles GPL Table Record</h2>
-            <span style="font-size:0.75rem; color:var(--admin-muted);">Controls homepage table highlight</span>
-          </div>
-
-          <form id="standingsForm" onsubmit="saveStandings(event)">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="standRank"><i class="fa-solid fa-ranking-star"></i> Table Position / Rank</label>
-                <input type="number" id="standRank" class="form-control" min="1" max="18" value="8" required>
-              </div>
-              <div class="form-group">
-                <label for="standPlayed"><i class="fa-solid fa-futbol"></i> Matches Played (P)</label>
-                <input type="number" id="standPlayed" class="form-control" min="0" max="34" value="2" required>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="standGoalDiff"><i class="fa-solid fa-scale-balanced"></i> Goal Difference (Diff)</label>
-                <input type="text" id="standGoalDiff" class="form-control" value="-2" placeholder="e.g. +1 or -2" required>
-              </div>
-              <div class="form-group">
-                <label for="standPoints"><i class="fa-solid fa-trophy"></i> Total Points (PTS)</label>
-                <input type="number" id="standPoints" class="form-control" min="0" max="102" value="3" required>
-              </div>
-            </div>
-
-            <div style="background:var(--admin-surface-2); padding:1rem; border-radius:8px; border:1px solid var(--admin-border); margin-bottom:1.25rem;">
-              <div style="font-size:0.75rem; color:var(--admin-accent); font-weight:700; text-transform:uppercase; margin-bottom:0.4rem;">Live Standings Preview:</div>
-              <div style="display:flex; align-items:center; gap:1.25rem; font-size:0.95rem;">
-                <div>Pos: <strong id="prevStandRank" style="color:var(--admin-accent);">8th</strong></div>
-                <div>Played: <strong id="prevStandP">2</strong></div>
-                <div>Diff: <strong id="prevStandDiff" style="color:#F87171;">-2</strong></div>
-                <div>Points: <strong id="prevStandPts" style="color:#4ADE80;">3 PTS</strong></div>
-              </div>
-            </div>
-
-            <button type="submit" class="btn-admin-accent">
-              <i class="fa-solid fa-floppy-disk"></i> Update GPL Standings
+            <button class="btn-admin-primary" onclick="saveCredentials()">
+              <i class="fa-solid fa-key"></i> Update Credentials
             </button>
-          </form>
-        </section>
-
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-circle-info"></i> How Standings Sync Works</h2>
+            <p class="settings-note">Credentials stored in this browser's localStorage. Anyone with access to this browser can change them.</p>
           </div>
-          <p style="font-size:0.88rem; color:var(--admin-muted); line-height:1.6;">
-            When you update the record here, the official Young Apostles FC highlighted row in the homepage Ghana Premier League standings table updates instantly.
-          </p>
-          <ul style="font-size:0.85rem; color:#E2E8F0; line-height:1.75; padding-left:1.25rem;">
-            <li>Rank badge changes color to reflect European/CAF qualification (Top 4) or standard mid-table.</li>
-            <li>Points badge updates with royal blue &amp; gold contrast.</li>
-            <li>No code changes or git push needed &mdash; updates propagate instantly to all users browsing the website.</li>
-          </ul>
-        </section>
 
-      </div>
+          <div class="settings-card">
+            <h3><i class="fa-solid fa-database" style="color:var(--agold);margin-right:0.5rem;"></i> Data Management</h3>
+            <div style="display:flex;flex-wrap:wrap;gap:0.6rem;">
+              <button class="btn-admin-secondary" onclick="clearDataConfirm('ya_waitlist_orders','Waiting List')"><i class="fa-solid fa-trash"></i> Clear Waitlist</button>
+              <button class="btn-admin-secondary" onclick="clearDataConfirm('ya_club_unified_blogs','News Articles')"><i class="fa-solid fa-trash"></i> Reset News to Default</button>
+              <button class="btn-admin-secondary" onclick="clearDataConfirm('ya_apostles_tv_videos','TV Videos')"><i class="fa-solid fa-trash"></i> Reset TV Videos</button>
+              <button class="btn-admin-secondary" onclick="clearDataConfirm('ya_club_fixtures','Fixtures')"><i class="fa-solid fa-trash"></i> Reset Fixtures</button>
+            </div>
+            <p class="settings-note" style="margin-top:0.75rem;">Clearing a section resets it to default/built-in data. Waitlist entries will be permanently deleted.</p>
+          </div>
+
+          <div class="settings-card">
+            <h3><i class="fa-solid fa-info-circle" style="color:var(--agold);margin-right:0.5rem;"></i> How to Access Admin Separately</h3>
+            <p class="settings-note">
+              The admin portal is at <strong style="color:#fff;">your-domain.com/admin.html</strong>. To keep it private:
+              <br><br>
+              1. <strong style="color:#fff;">Rename the file</strong> to something non-obvious (e.g. <code>ops-portal.html</code>) and update your bookmark.
+              <br>
+              2. Remove the "Club Admin Portal" footer link from <code>main.html</code> (it's already very subtle).
+              <br>
+              3. On a real server, you can restrict it to specific IP addresses using <code>.htaccess</code>.
+            </p>
+          </div>
+        </div>
+
+      </div><!-- /content area -->
+    </div><!-- /admin-main -->
+  </div><!-- /admin-layout -->
+</div><!-- /adminApp -->
+
+<button class="mobile-sidebar-btn" id="mobileSidebarToggle" onclick="toggleMobileSidebar()">
+  <i class="fa-solid fa-bars"></i>
+</button>
+
+<div id="adminToast"></div>
+
+<script>
+/* ==========================================
+   ADMIN AUTHENTICATION
+   ========================================== */
+const DEFAULT_USER = 'admin';
+const DEFAULT_PASS = 'yafc2026';
+
+function getAdminCreds() {
+  try {
+    const c = JSON.parse(localStorage.getItem('ya_admin_creds') || '{}');
+    return { user: c.user || DEFAULT_USER, pass: c.pass || DEFAULT_PASS };
+  } catch(e) { return { user: DEFAULT_USER, pass: DEFAULT_PASS }; }
+}
+
+function handleAdminLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const creds = getAdminCreds();
+  if (u === creds.user && p === creds.pass) {
+    document.getElementById('loginGate').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+    initAdmin();
+  } else {
+    const err = document.getElementById('loginErr');
+    err.style.display = 'block';
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+}
+
+function adminLogout() {
+  document.getElementById('loginGate').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'none';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+}
+
+function saveCredentials() {
+  const u = document.getElementById('newUser').value.trim();
+  const p = document.getElementById('newPass').value;
+  const c = document.getElementById('confirmPass').value;
+  if (!u || !p) { adminToast('Enter username and password'); return; }
+  if (p !== c) { adminToast('Passwords do not match'); return; }
+  localStorage.setItem('ya_admin_creds', JSON.stringify({ user: u, pass: p }));
+  adminToast('Credentials updated!');
+  document.getElementById('newUser').value = '';
+  document.getElementById('newPass').value = '';
+  document.getElementById('confirmPass').value = '';
+}
+
+/* ==========================================
+   INIT & NAVIGATION
+   ========================================== */
+function initAdmin() {
+  showPanel('dashboard');
+  startClock();
+  loadHeroFields();
+}
+
+let currentPanel = 'dashboard';
+const panelTitles = {
+  dashboard: 'Dashboard',
+  waitlist: 'Waiting List',
+  preorders: 'Preorders',
+  members: 'Members',
+  news: 'News CMS',
+  fixtures: 'Fixtures CMS',
+  apostlestv: 'Apostles TV',
+  shop: 'Shop Products',
+  hero: 'Hero & Standings',
+  settings: 'Settings'
+};
+
+function showPanel(id) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  const panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('active');
+  document.querySelectorAll('.sidebar-link').forEach(l => {
+    if (l.getAttribute('onclick') && l.getAttribute('onclick').includes(`'${id}'`)) {
+      l.classList.add('active');
+    }
+  });
+  document.getElementById('topbarTitle').textContent = panelTitles[id] || id;
+  currentPanel = id;
+  renderPanel(id);
+
+  // Close mobile sidebar
+  document.getElementById('adminSidebar').classList.remove('open');
+}
+
+function renderPanel(id) {
+  switch(id) {
+    case 'dashboard':   renderDashboard(); break;
+    case 'waitlist':    renderWaitlistTable(); break;
+    case 'preorders':   renderPreordersTable(); break;
+    case 'members':     renderMembersTable(); break;
+    case 'news':        renderNewsPanel(); break;
+    case 'fixtures':    renderFixturesPanel(); break;
+    case 'apostlestv':  renderTvPanel(); break;
+    case 'shop':        renderShopPanel(); break;
+    case 'hero':        loadHeroFields(); break;
+  }
+}
+
+/* ==========================================
+   CLOCK
+   ========================================== */
+function startClock() {
+  function tick() {
+    const now = new Date();
+    document.getElementById('adminClockEl').textContent =
+      now.toLocaleString('en-GB', { weekday:'short', day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+  }
+  tick();
+  setInterval(tick, 30000);
+}
+
+/* ==========================================
+   TOAST
+   ========================================== */
+function adminToast(msg) {
+  const t = document.getElementById('adminToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ==========================================
+   DATA HELPERS
+   ========================================== */
+function getWaitlist() {
+  try { return JSON.parse(localStorage.getItem('ya_waitlist_orders') || '[]'); } catch(e) { return []; }
+}
+function getOrders() {
+  try { return JSON.parse(localStorage.getItem('ya_orders') || '[]'); } catch(e) { return []; }
+}
+function getMembers() {
+  const profile = (() => { try { return JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(e) { return {}; } })();
+  const list = (() => { try { return JSON.parse(localStorage.getItem('ya_members_list') || '[]'); } catch(e) { return []; } })();
+  // Add single profile if it has a name
+  if (profile.name && !list.find(m => m.phone === profile.phone)) {
+    list.unshift({ ...profile, joinDate: profile.updatedAt || new Date().toISOString() });
+  }
+  return list;
+}
+function getBlogs() {
+  const DEFAULT_KEY = 'ya_club_unified_blogs';
+  try {
+    const raw = localStorage.getItem(DEFAULT_KEY);
+    if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) return p; }
+  } catch(e) {}
+  return [];
+}
+function saveBlogs(arr) {
+  localStorage.setItem('ya_club_unified_blogs', JSON.stringify(arr));
+  adminToast('News saved and pushed to site!');
+}
+function getFixtures() {
+  try {
+    const raw = localStorage.getItem('ya_club_fixtures');
+    if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) return p; }
+  } catch(e) {}
+  return [];
+}
+function saveFixtures(arr) { localStorage.setItem('ya_club_fixtures', JSON.stringify(arr)); }
+function getTvVideos() {
+  try {
+    const raw = localStorage.getItem('ya_apostles_tv_videos');
+    if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) return p; }
+  } catch(e) {}
+  return [];
+}
+function saveTvVideos(arr) { localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(arr)); adminToast('Apostles TV updated!'); }
+function getShopProducts() {
+  try {
+    const raw = localStorage.getItem('ya_shop_products');
+    if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) return p; }
+  } catch(e) {}
+  return [];
+}
+function saveShopProducts(arr) { localStorage.setItem('ya_shop_products', JSON.stringify(arr)); adminToast('Shop updated!'); }
+
+/* ==========================================
+   DASHBOARD
+   ========================================== */
+function renderDashboard() {
+  const waitlist = getWaitlist();
+  const orders = getOrders();
+  const allOrders = [...waitlist, ...orders];
+  const members = getMembers();
+  const revenue = allOrders.reduce((s, o) => s + (Number(o.total) || 0), 0);
+  const goldVips = members.filter(m => m.tier === 'Gold VIP').length;
+
+  document.getElementById('dashStats').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-card__icon"><i class="fa-solid fa-list-check"></i></div>
+      <div class="stat-card__label">Waitlist Entries</div>
+      <div class="stat-card__value">${waitlist.length}</div>
+      <div class="stat-card__sub">Shop preorders waiting</div>
     </div>
-
-    <!-- =========================================================
-         TAB 4: SYSTEM & VERIFICATION
-         ========================================================= -->
-    <div class="tab-pane" id="pane-info">
-      <div class="admin-layout-grid">
-        
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-circle-check"></i> System Health &amp; Diagnostics</h2>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:0.85rem; font-size:0.9rem;">
-            <div style="display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid var(--admin-border);">
-              <span style="color:var(--admin-muted);">Browser Storage Quota:</span>
-              <span style="color:#4ADE80; font-weight:700;"><i class="fa-solid fa-check-circle"></i> Healthy (&lt; 200KB used)</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid var(--admin-border);">
-              <span style="color:var(--admin-muted);">Automatic Photo Compression:</span>
-              <span style="color:#4ADE80; font-weight:700;"><i class="fa-solid fa-bolt"></i> Enabled (Max 800px Canvas)</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:0.6rem 0; border-bottom:1px solid var(--admin-border);">
-              <span style="color:var(--admin-muted);">Cross-Tab Polling:</span>
-              <span style="color:#4ADE80; font-weight:700;"><i class="fa-solid fa-rotate"></i> 2000ms Active</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:0.6rem 0;">
-              <span style="color:var(--admin-muted);">Current Matchday:</span>
-              <span style="color:var(--admin-accent); font-weight:700;">GPL Matchday 3 (vs Debibi United)</span>
-            </div>
-          </div>
-
-          <div style="margin-top:1.5rem; display:flex; gap:0.75rem;">
-            <a href="index.html" target="_blank" class="btn-admin-primary">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Live Site Now
-            </a>
-            <button class="btn-admin-secondary" onclick="exportFullBackup()">
-              <i class="fa-solid fa-download"></i> Download Full Backup
-            </button>
-          </div>
-        </section>
-
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-shield-halved"></i> Security &amp; Passkey Control</h2>
-          </div>
-          <p style="font-size:0.85rem; color:var(--admin-muted); line-height:1.5;">
-            Want to change the staff login passkey? Enter the new passkey below:
-          </p>
-          <div class="form-group" style="margin-top:1rem;">
-            <label for="newPasskeyInput">New Admin Passkey</label>
-            <input type="text" id="newPasskeyInput" class="form-control" placeholder="Enter new passkey">
-          </div>
-          <button type="button" class="btn-admin-secondary" onclick="updatePasskey()">
-            Update Passkey
-          </button>
-        <section class="admin-card">
-          <div class="admin-card-header">
-            <h2><i class="fa-solid fa-feather"></i> Homepage Hero Banner Write-Up</h2>
-            <span style="font-size:0.75rem; color:var(--admin-accent); font-weight:700;">Live Sync</span>
-          </div>
-          <p style="font-size:0.85rem; color:var(--admin-muted); line-height:1.5; margin-bottom:1rem;">
-            Update the main headline and message displayed in the hero banner on the club homepage:
-          </p>
-          <div class="form-group">
-            <label for="heroHeadlineInput">Hero Headline</label>
-            <input type="text" id="heroHeadlineInput" class="form-control" value="Young Apostles FC: Fighting for Glory in Ghana's Premier League">
-          </div>
-          <div class="form-group">
-            <label for="heroSubtitleInput">Hero Subtitle / Description</label>
-            <textarea id="heroSubtitleInput" class="form-control" rows="3">"AGYA NA ƆWƆ TUMI" &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.</textarea>
-          </div>
-          <div style="display:flex; gap:0.75rem;">
-            <button type="button" class="btn-admin-accent" onclick="saveHeroWriteup()">
-              <i class="fa-solid fa-floppy-disk"></i> Update Hero Write-Up
-            </button>
-            <button type="button" class="btn-admin-secondary" onclick="resetHeroWriteup()">
-              Reset Default
-            </button>
-          </div>
-        </section>
-
-      </div>
+    <div class="stat-card">
+      <div class="stat-card__icon"><i class="fa-solid fa-bag-shopping"></i></div>
+      <div class="stat-card__label">Total Preorders</div>
+      <div class="stat-card__value">${allOrders.length}</div>
+      <div class="stat-card__sub">All time order entries</div>
     </div>
-
-  </main>
-
-  <!-- Toast Element -->
-  <div class="admin-toast" id="adminToast">
-    <i class="fa-solid fa-circle-check" style="color:var(--admin-accent); font-size:1.1rem;"></i>
-    <span id="adminToastMsg">Changes published successfully!</span>
-  </div>
-
-  <script>
-    const DEFAULT_PASSKEY = "apostles2026";
-    const DISPATCH_KEY = "ya_club_dispatches";
-    const FIXTURES_KEY = "ya_club_fixtures";
-    const STANDINGS_KEY = "ya_standings_record";
-    const ARTICLES_KEY = "ya_club_articles";
-    const APOSTLES_TV_KEY = "ya_apostles_tv_videos";
-
-    const INITIAL_APOSTLES_TV = [
-      {
-        id: 'fpleoX_sUIA',
-        title: 'Match Highlights: Young Apostles 1 - 0 Basake Holy Stars',
-        tag: 'MATCH HIGHLIGHTS',
-        thumb: 'assets/apostle-tv-video1.jpg'
-      },
-      {
-        id: 'ixgmCVIplsk',
-        title: 'Pre-Match Interview | Young Apostles vs Basake Holy Stars | Assistant Coach Abubakar Fuseini',
-        tag: 'PRE-MATCH INTERVIEW',
-        thumb: 'assets/apostle-tv-video2.jpg'
-      },
-      {
-        id: '9SFZE0KVGak',
-        title: 'Match Highlights: Vision FC 3 - 0 Young Apostles FC',
-        tag: 'MATCH HIGHLIGHTS',
-        thumb: 'assets/apostle-tv-video3.jpg'
-      },
-      {
-        id: '9AX0fmXUMU4',
-        title: 'Official Club Anthem & Matchday Experience at Wenchi',
-        tag: 'CLUB ANTHEM',
-        thumb: 'assets/apostle-tv-video4.jpg'
-      }
-    ];
-
-    const UNIFIED_BLOGS_KEY = "ya_club_unified_blogs";
-    let currentBlogs = [];
-    let currentBlogImage = "";
-    let currentPreviewMode = "hero";
-
-    // Initial default 6 posts matching the live website arrangement:
-    // Pos 1 = Big Hero, Pos 2 = Subcard Left, Pos 3 = Subcard Right, Pos 4, 5, 6 = Sidebar Dispatches
-    const DEFAULT_UNIFIED_BLOGS = [
-      {
-        id: 'debibi-united-derby',
-        title: "Young Apostles Face Debibi United in First Regional Derby of GPL Season",
-        category: "MATCH PREVIEW",
-        badgeClass: "news-badge-pill--preview",
-        date: "Sep 16, 2026",
-        source: "Apostles Media Dispatch",
-        author: "Young Apostles FC",
-        image: "assets/md3-debibi-derby.jpg",
-        excerpt: "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season.",
-        content: `Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League.\n\nThe fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season, with both sides set for another chapter in a growing local rivalry.\n\nYoung Apostles head into the contest with momentum after securing their first league victory of the campaign, a 1-0 home win over Basake Holy Stars, courtesy of an early Samuel Prempeh strike.\n\nThe two clubs have met five times in all competitions, with Young Apostles holding the better record. The Apostles have recorded three wins, one draw and one defeat, scoring six goals and conceding four. In their four previous Division One League meetings, Young Apostles have also dominated the head-to-head record, winning three and losing one.\n\nYoung Apostles have enjoyed success at Debibi Presby Park in their previous competitive meetings. The Apostles became the first club to defeat Debibi United at their home ground, winning 1-0 in a Division One League encounter. With both clubs now competing in the Ghana Premier League, Sunday's meeting carries added significance.`,
-        readTime: "4 min read"
-      },
-      {
-        id: 'prempeh-winner-holy-stars',
-        title: "Samuel Prempeh Strike Earns Young Apostles First Win of the Season",
-        category: "MATCH REPORT",
-        badgeClass: "news-badge-pill--match",
-        date: "Sep 13, 2026",
-        source: "Apostles Media Dispatch",
-        author: "Young Apostles FC",
-        image: "assets/md2-prempeh-win.jpg",
-        excerpt: "Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi. Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead.",
-        content: `Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi.\n\nSamuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead and set the tone for a determined home performance.\n\nHaving suffered a 3-0 defeat to Vision FC on Matchday 1, Young Apostles responded with a disciplined display to claim all three points in their first home league game of the campaign.\n\nThe victory also extends Young Apostles' unbeaten record against Basake Holy Stars in Wenchi. The Apostles had won the previous two meetings at home by identical 2-0 scorelines, and Prempeh's early strike ensured that Holy Stars once again left Wenchi without a victory.\n\nThe Apostles managed the game effectively after taking the lead, protecting their advantage until the final whistle to give the home supporters a winning start to the club's home league campaign. The result moves Young Apostles onto three points after two matches.`,
-        readTime: "3 min read"
-      },
-      {
-        id: 'holy-stars-matchday2-preview',
-        title: "Young Apostles Set for Basake Holy Stars Test in Wenchi",
-        category: "MATCH PREVIEW",
-        badgeClass: "news-badge-pill--preview",
-        date: "Sep 11, 2026",
-        source: "Apostles Media Dispatch",
-        author: "Young Apostles FC",
-        image: "assets/md2-holy-stars-preview.jpg",
-        excerpt: "Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.",
-        content: `Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.\n\nThe Apostles will be looking to bounce back from their opening-day defeat to Vision FC, where they suffered a 3-0 loss in Tema. With the home support behind them, Young Apostles will be aiming to put their first points of the season on the board.\n\nBasake Holy Stars arrive in Wenchi looking for a first victory at the venue, but their previous visits have ended in defeats. The two most recent meetings between the sides in Wenchi have both gone the way of Young Apostles, with the Apostles recording 2-0 victories in each encounter.\n\nAssistant Coach Abubakar Fuseini says the team has addressed the mistakes from the opening-day defeat and is ready for the challenge ahead: "The players lost concentration at certain moments against Vision, but we've worked on those mistakes and we are fully prepared for Holy Stars."`,
-        readTime: "3 min read"
-      },
-      {
-        id: 'gpl-opener-vision-fc',
-        title: "Young Apostles Fall to 3-0 Defeat Against Vision FC in GPL Opener",
-        category: "MATCH REPORT",
-        badgeClass: "news-badge-pill--match",
-        date: "Sep 6, 2026",
-        source: "GPL MD 1",
-        author: "Young Apostles FC",
-        image: "assets/md1-vision-loss.jpg",
-        excerpt: "Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.",
-        content: `Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.\n\nThe Apostles entered the opening fixture looking to start the new campaign on a positive note, but Vision FC took control early and opened the scoring in the fifth minute through Nyenye Naziru.\n\nYoung Apostles were unable to find an equaliser before the break, and Vision doubled their advantage in the 40th minute when Setsofia Aqetey found the back of the net to send the hosts into halftime with a 2-0 lead.\n\nThe second half saw Young Apostles push for a response, but Vision remained in control. Aqetey completed his brace in the 68th minute to make it 3-0.\n\nDespite efforts from the Apostles to get back into the contest, Vision held on to secure all three points in the opening game of the 2026/27 league season. Young Apostles will now turn their attention to their next fixture, against Basake Holy Stars.`,
-        readTime: "3 min read"
-      }
-    ];
-
-    // Initial default 34-week fixtures
-    const INITIAL_FIXTURES = [
-      { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 5, 2026', type: 'Away', score: '3 - 0', result: 'L' },
-      { week: 2, home: 'Young Apostles', away: 'Basake Holy Stars', venue: 'Wenchi Sports Stadium', date: 'Sep 13, 2026', type: 'Home', score: '1 - 0', result: 'W', scorer: 'Samuel Prempeh 7\'' },
-      { week: 3, home: 'Debibi United', away: 'Young Apostles', venue: 'Debibi Park', date: 'Sep 20, 2026', type: 'Away' },
-      { week: 4, home: 'Young Apostles', away: 'Heart of Lions', venue: 'Wenchi Sports Stadium', date: 'Sep 27, 2026', type: 'Home' },
-      { week: 5, home: 'Samartex', away: 'Young Apostles', venue: 'Nsenkyire Sports Complex', date: 'Oct 4, 2026', type: 'Away' },
-      { week: 6, home: 'Young Apostles', away: 'Aduana Stars', venue: 'Wenchi Sports Stadium', date: 'Oct 11, 2026', type: 'Home' },
-      { week: 7, home: 'Asante Kotoko', away: 'Young Apostles', venue: 'Baba Yara Sports Stadium', date: 'Oct 18, 2026', type: 'Away' },
-      { week: 8, home: 'Young Apostles', away: 'Hearts of Oak', venue: 'Wenchi Sports Stadium', date: 'Oct 25, 2026', type: 'Home' },
-      { week: 9, home: 'Berekum Chelsea', away: 'Young Apostles', venue: 'Golden City Park', date: 'Nov 1, 2026', type: 'Away' },
-      { week: 10, home: 'Young Apostles', away: 'Medeama SC', venue: 'Wenchi Sports Stadium', date: 'Nov 8, 2026', type: 'Home' },
-      { week: 11, home: 'Ashgold', away: 'Young Apostles', venue: 'Len Clay Stadium', date: 'Nov 15, 2026', type: 'Away' },
-      { week: 12, home: 'Young Apostles', away: 'Swedru All Blacks', venue: 'Wenchi Sports Stadium', date: 'Nov 22, 2026', type: 'Home' },
-      { week: 13, home: 'Bechem United', away: 'Young Apostles', venue: 'Nana Fosu Gyeabour Park', date: 'Nov 29, 2026', type: 'Away' },
-      { week: 14, home: 'Young Apostles', away: 'Karela United', venue: 'Wenchi Sports Stadium', date: 'Dec 6, 2026', type: 'Home' },
-      { week: 15, home: 'Port City', away: 'Young Apostles', venue: 'Port City Arena', date: 'Dec 13, 2026', type: 'Away' },
-      { week: 16, home: 'Young Apostles', away: 'Gold Stars FC', venue: 'Wenchi Sports Stadium', date: 'Dec 20, 2026', type: 'Home' },
-      { week: 17, home: 'Dreams FC', away: 'Young Apostles', venue: 'Theatre of Dreams, Dawu', date: 'Jan 3, 2027', type: 'Away' },
-      { week: 18, home: 'Young Apostles', away: 'Vision FC', venue: 'Wenchi Sports Stadium', date: 'Jan 17, 2027', type: 'Home' },
-      { week: 19, home: 'Basake Holy Stars', away: 'Young Apostles', venue: 'Aiyinase Arena', date: 'Jan 24, 2027', type: 'Away' },
-      { week: 20, home: 'Young Apostles', away: 'Debibi United', venue: 'Wenchi Sports Stadium', date: 'Jan 31, 2027', type: 'Home' },
-      { week: 21, home: 'Heart of Lions', away: 'Young Apostles', venue: 'Kpando Stadium', date: 'Feb 7, 2027', type: 'Away' },
-      { week: 22, home: 'Young Apostles', away: 'Samartex', venue: 'Wenchi Sports Stadium', date: 'Feb 14, 2027', type: 'Home' },
-      { week: 23, home: 'Aduana Stars', away: 'Young Apostles', venue: 'Nana Agyemang Badu I Park', date: 'Feb 21, 2027', type: 'Away' },
-      { week: 24, home: 'Young Apostles', away: 'Asante Kotoko', venue: 'Wenchi Sports Stadium', date: 'Feb 28, 2027', type: 'Home' },
-      { week: 25, home: 'Hearts of Oak', away: 'Young Apostles', venue: 'Accra Sports Stadium', date: 'Mar 7, 2027', type: 'Away' },
-      { week: 26, home: 'Young Apostles', away: 'Berekum Chelsea', venue: 'Wenchi Sports Stadium', date: 'Mar 14, 2027', type: 'Home' },
-      { week: 27, home: 'Medeama SC', away: 'Young Apostles', venue: 'T&A Stadium, Tarkwa', date: 'Mar 21, 2027', type: 'Away' },
-      { week: 28, home: 'Young Apostles', away: 'Ashgold', venue: 'Wenchi Sports Stadium', date: 'Apr 4, 2027', type: 'Home' },
-      { week: 29, home: 'Swedru All Blacks', away: 'Young Apostles', venue: 'Swedru Park', date: 'Apr 11, 2027', type: 'Away' },
-      { week: 30, home: 'Young Apostles', away: 'Bechem United', venue: 'Wenchi Sports Stadium', date: 'Apr 18, 2027', type: 'Home' },
-      { week: 31, home: 'Karela United', away: 'Young Apostles', venue: 'Naa Sheriga Sports Complex', date: 'Apr 25, 2027', type: 'Away' },
-      { week: 32, home: 'Young Apostles', away: 'Port City', venue: 'Wenchi Sports Stadium', date: 'May 2, 2027', type: 'Home' },
-      { week: 33, home: 'Gold Stars FC', away: 'Young Apostles', venue: 'DUN’s Park, Bibiani', date: 'May 9, 2027', type: 'Away' },
-      { week: 34, home: 'Young Apostles', away: 'Dreams FC', venue: 'Wenchi Sports Stadium', date: 'May 16, 2027', type: 'Home' }
-    ];
-
-    let currentFixtures = [];
-    let currentUploadedDataUrl = "";
-
-    // Tab Switching
-    function switchAdminTab(tabId, btn) {
-      document.querySelectorAll('.admin-nav-tabs .admin-tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-
-      if (btn) btn.classList.add('active');
-      const pane = document.getElementById('pane-' + tabId);
-      if (pane) pane.classList.add('active');
-
-      if (tabId === 'apostlestv') {
-        renderApostlesTvManageList();
-        updateYtLivePreview();
-      }
-    }
-
-    // Auth logic
-    function handleLogin(e) {
-      e.preventDefault();
-      const input = document.getElementById('adminPasskey').value.trim();
-      const storedKey = localStorage.getItem('ya_admin_passkey') || DEFAULT_PASSKEY;
-
-      if (input === storedKey) {
-        sessionStorage.setItem('ya_admin_authed', 'true');
-        showWorkspace();
-        showToast("Access granted! Welcome to Apostles Admin.");
-      } else {
-        alert("Incorrect passkey. Default passkey is: apostles2026");
-      }
-    }
-
-    function logoutAdmin() {
-      sessionStorage.removeItem('ya_admin_authed');
-      document.getElementById('authScreen').style.display = 'flex';
-      document.getElementById('adminWorkspace').classList.remove('active');
-      document.getElementById('btnLogout').style.display = 'none';
-      showToast("Logged out safely.");
-    }
-
-    function showWorkspace() {
-      document.getElementById('authScreen').style.display = 'none';
-      document.getElementById('adminWorkspace').classList.add('active');
-      document.getElementById('btnLogout').style.display = 'inline-block';
-      loadBlogs();
-      loadFixtures();
-      loadStandings();
-      loadApostlesTv();
-      loadHeroWriteup();
-      updateBlogLivePreview();
-      updateYtLivePreview();
-    }
-
-    // ==========================================
-    // 1. SIMPLIFIED BLOG & DISPATCHES MANAGEMENT
-    // Arrangement: 1 = Big Hero, 2 = Subcard Left, 3 = Subcard Right, 4, 5, 6+ = Sidebar
-    // ==========================================
-    function getCurrentFormattedDate() {
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      const now = new Date();
-      return `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
-    }
-
-    function setBlogTodayDate() {
-      document.getElementById('blogDate').value = getCurrentFormattedDate();
-      updateBlogLivePreview();
-    }
-
-    function loadBlogs() {
-      try {
-        const stored = localStorage.getItem(UNIFIED_BLOGS_KEY);
-        if (stored) {
-          currentBlogs = JSON.parse(stored);
-        } else {
-          currentBlogs = [...DEFAULT_UNIFIED_BLOGS];
-          saveAllBlogs();
-        }
-      } catch (err) {
-        currentBlogs = [...DEFAULT_UNIFIED_BLOGS];
-      }
-      renderBlogsManageList();
-      updateStats();
-    }
-
-    function saveAllBlogs() {
-      try {
-        localStorage.setItem(UNIFIED_BLOGS_KEY, JSON.stringify(currentBlogs));
-        // Keep legacy keys updated for maximum compatibility
-        localStorage.setItem(ARTICLES_KEY, JSON.stringify(currentBlogs));
-        localStorage.setItem(DISPATCH_KEY, JSON.stringify(currentBlogs.map(b => ({
-          id: b.id,
-          author: b.author || 'Young Apostles FC',
-          badge: true,
-          time: b.date || 'Live Alert',
-          text: `<strong>${b.title}</strong> &mdash; ${b.excerpt || b.content || ''}`,
-          image: b.image || '',
-          linkText: 'Read full story &rarr;',
-          articleId: b.id
-        }))));
-
-        renderBlogsManageList();
-        updateStats();
-        window.dispatchEvent(new Event('storage'));
-      } catch (err) {
-        console.error("Storage error saving blogs:", err);
-      }
-    }
-
-    function updateStats() {
-      const dispCountEl = document.getElementById('statDispatchCount');
-      if (dispCountEl) dispCountEl.textContent = currentBlogs.length;
-
-      const ytCountEl = document.getElementById('statYtCount');
-      if (ytCountEl) ytCountEl.textContent = currentApostlesTv.length;
-
-      const completedCount = currentFixtures.filter(f => Boolean(f.score)).length;
-      const compCountEl = document.getElementById('statCompletedMatches');
-      if (compCountEl) compCountEl.textContent = completedCount;
-
-      try {
-        const standRaw = localStorage.getItem(STANDINGS_KEY);
-        if (standRaw) {
-          const s = JSON.parse(standRaw);
-          const ptsEl = document.getElementById('statYaPoints');
-          if (ptsEl && s.points !== undefined) ptsEl.textContent = s.points + ' PTS';
-        }
-      } catch(e) {}
-    }
-
-    function renderBlogsManageList() {
-      const container = document.getElementById('blogsManageList');
-      if (!container) return;
-
-      if (currentBlogs.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--admin-muted); font-size:0.85rem;">No blog posts currently active. Create one above!</div>`;
-        return;
-      }
-
-      container.innerHTML = currentBlogs.map((b, idx) => {
-        let posBadge = '';
-        if (idx === 0) {
-          posBadge = `<span class="pos-badge pos-badge--hero"><i class="fa-solid fa-trophy"></i> Position 1 &bull; Homepage Lead Hero Story</span>`;
-        } else if (idx === 1) {
-          posBadge = `<span class="pos-badge pos-badge--sub"><i class="fa-solid fa-table-cells-large"></i> Position 2 &bull; Secondary Card Left</span>`;
-        } else if (idx === 2) {
-          posBadge = `<span class="pos-badge pos-badge--sub"><i class="fa-solid fa-table-cells-large"></i> Position 3 &bull; Secondary Card Right</span>`;
-        } else {
-          posBadge = `<span class="pos-badge pos-badge--archive"><i class="fa-solid fa-box-archive"></i> Position ${idx + 1} &bull; Older Stories Archive</span>`;
-        }
-
-        const thumbHtml = b.image 
-          ? `<img src="${b.image}" alt="thumb" class="dispatch-manage-thumb" onerror="this.style.display='none'">` 
-          : '';
-
-        const textSnippet = (b.excerpt || b.content || '').replace(/<[^>]+>/g, '');
-
-        return `
-          <div class="dispatch-manage-card">
-            <div class="dispatch-manage-info">
-              ${posBadge}
-              <div class="dispatch-manage-text" style="margin-top:0.25rem;">
-                <strong style="color:#fff; font-size:0.92rem;">${b.title}</strong>
-              </div>
-              <div style="font-size:0.75rem; color:var(--admin-muted); margin-top:0.2rem; line-height:1.4;">
-                ${textSnippet.slice(0, 110)}${textSnippet.length > 110 ? '...' : ''}
-              </div>
-              ${thumbHtml}
-            </div>
-            <div class="dispatch-manage-actions">
-              <button class="btn-action-icon" title="Move Up (Swap position with post above)" onclick="moveBlogPost(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
-                <i class="fa-solid fa-arrow-up"></i>
-              </button>
-              <button class="btn-action-icon" title="Move Down (Swap position with post below)" onclick="moveBlogPost(${idx}, 1)" ${idx === currentBlogs.length - 1 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
-                <i class="fa-solid fa-arrow-down"></i>
-              </button>
-              <button class="btn-action-icon" title="Edit Post" onclick="editBlogPost('${b.id}')">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="btn-action-icon delete" title="Delete Post (lower posts move up)" onclick="deleteBlogPost('${b.id}')">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function moveBlogPost(index, direction) {
-      const targetIndex = index + direction;
-      if (targetIndex < 0 || targetIndex >= currentBlogs.length) return;
-      const temp = currentBlogs[index];
-      currentBlogs[index] = currentBlogs[targetIndex];
-      currentBlogs[targetIndex] = temp;
-      saveAllBlogs();
-      showToast("Arrangement updated! Posts swapped positions.");
-    }
-
-    function deleteBlogPost(id) {
-      if (!confirm("Are you sure you want to remove this blog post? Subsequent posts will automatically move up.")) return;
-      currentBlogs = currentBlogs.filter(b => b.id !== id);
-      saveAllBlogs();
-      showToast("Blog removed. Remaining posts moved up.");
-    }
-
-    function editBlogPost(id) {
-      const b = currentBlogs.find(item => item.id === id);
-      if (!b) return;
-
-      document.getElementById('editBlogId').value = b.id;
-      document.getElementById('blogTitle').value = b.title || '';
-      document.getElementById('blogMessage').value = (b.content || b.excerpt || '').replace(/<[^>]+>/g, '').trim();
-      document.getElementById('blogCategory').value = b.category || 'MATCH REPORT';
-      document.getElementById('blogDate').value = b.date || getCurrentFormattedDate();
-      document.getElementById('blogImageUrl').value = b.image || '';
-
-      if (b.image) {
-        currentBlogImage = b.image;
-        document.getElementById('blogPreviewImg').src = b.image;
-        document.getElementById('blogPreviewBox').classList.add('has-image');
-      } else {
-        removeBlogImage();
-      }
-
-      document.getElementById('blogFormTitle').textContent = "Edit Blog Post";
-      document.getElementById('btnSubmitBlog').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Blog Post`;
-      updateBlogLivePreview();
-      window.scrollTo({ top: 120, behavior: 'smooth' });
-    }
-
-    function resetBlogForm() {
-      document.getElementById('blogForm').reset();
-      document.getElementById('editBlogId').value = '';
-      document.getElementById('blogFormTitle').textContent = "Publish New Blog Post";
-      document.getElementById('btnSubmitBlog').innerHTML = `<i class="fa-solid fa-paper-plane"></i> Publish Blog Post`;
-      removeBlogImage();
-      document.getElementById('blogDate').value = getCurrentFormattedDate();
-      document.getElementById('blogCategory').value = 'MATCH REPORT';
-      updateBlogLivePreview();
-    }
-
-    function resetBlogsToDefault() {
-      if (!confirm("Reset all blog posts to the official 6 defaults? Custom posts will be replaced.")) return;
-      currentBlogs = [...DEFAULT_UNIFIED_BLOGS];
-      saveAllBlogs();
-      resetBlogForm();
-      showToast("Arrangement reset to official 6 club defaults.");
-    }
-
-    function setPreviewMode(mode) {
-      currentPreviewMode = mode;
-      const heroBtn = document.getElementById('previewModeHeroBtn');
-      const feedBtn = document.getElementById('previewModeFeedBtn');
-      const heroBox = document.getElementById('previewHeroBox');
-      const feedBox = document.getElementById('previewFeedBox');
-
-      if (!heroBtn || !feedBtn || !heroBox || !feedBox) return;
-
-      if (mode === 'hero') {
-        heroBtn.style.background = 'var(--admin-surface)';
-        heroBtn.style.color = 'var(--admin-accent)';
-        heroBtn.style.borderColor = 'var(--admin-accent)';
-        feedBtn.style.background = '';
-        feedBtn.style.color = '';
-        feedBtn.style.borderColor = '';
-        heroBox.style.display = 'block';
-        feedBox.style.display = 'none';
-      } else {
-        feedBtn.style.background = 'var(--admin-surface)';
-        feedBtn.style.color = 'var(--admin-accent)';
-        feedBtn.style.borderColor = 'var(--admin-accent)';
-        heroBtn.style.background = '';
-        heroBtn.style.color = '';
-        heroBtn.style.borderColor = '';
-        heroBox.style.display = 'none';
-        feedBox.style.display = 'block';
-      }
-    }
-
-    function updateBlogLivePreview() {
-      const title = document.getElementById('blogTitle')?.value.trim() || 'Young Apostles FC Blog Post';
-      const msg = document.getElementById('blogMessage')?.value.trim() || 'Type your blog story or message above to preview how it appears live on the website...';
-      const cat = document.getElementById('blogCategory')?.value || 'MATCH REPORT';
-      const date = document.getElementById('blogDate')?.value.trim() || getCurrentFormattedDate();
-      const img = currentBlogImage || document.getElementById('blogImageUrl')?.value.trim() || 'assets/apostle-tv-video1.jpg';
-
-      // Hero elements
-      const prevHeroImg = document.getElementById('prevHeroImg');
-      if (prevHeroImg) prevHeroImg.src = img;
-      const prevHeroBadge = document.getElementById('prevHeroBadge');
-      if (prevHeroBadge) prevHeroBadge.textContent = cat;
-      const prevHeroDate = document.getElementById('prevHeroDate');
-      if (prevHeroDate) prevHeroDate.innerHTML = `<i class="fa-regular fa-calendar"></i> ${date}`;
-      const prevHeroTitle = document.getElementById('prevHeroTitle');
-      if (prevHeroTitle) prevHeroTitle.textContent = title;
-      const prevHeroMsg = document.getElementById('prevHeroMsg');
-      if (prevHeroMsg) prevHeroMsg.textContent = msg.slice(0, 180) + (msg.length > 180 ? '...' : '');
-
-      // Feed elements
-      const prevFeedDate = document.getElementById('prevFeedDate');
-      if (prevFeedDate) prevFeedDate.textContent = date;
-      const prevFeedText = document.getElementById('prevFeedText');
-      if (prevFeedText) prevFeedText.innerHTML = `<strong>${title}</strong> &mdash; ${msg.slice(0, 140)}${msg.length > 140 ? '...' : ''}`;
-      const prevFeedImg = document.getElementById('prevFeedImg');
-      if (prevFeedImg) {
-        if (currentBlogImage || document.getElementById('blogImageUrl')?.value.trim()) {
-          prevFeedImg.src = img;
-          prevFeedImg.style.display = 'block';
-        } else {
-          prevFeedImg.style.display = 'none';
-        }
-      }
-    }
-
-    function setBlogPresetImage(path) {
-      currentBlogImage = path;
-      const urlInput = document.getElementById('blogImageUrl');
-      if (urlInput) urlInput.value = path;
-      const previewBox = document.getElementById('blogPreviewBox');
-      const previewImg = document.getElementById('blogPreviewImg');
-      if (path && previewBox && previewImg) {
-        previewImg.src = path;
-        previewBox.classList.add('has-image');
-      } else {
-        removeBlogImage();
-      }
-      updateBlogLivePreview();
-    }
-
-    function removeBlogImage() {
-      currentBlogImage = "";
-      const urlInput = document.getElementById('blogImageUrl');
-      if (urlInput) urlInput.value = "";
-      const fileInput = document.getElementById('blogFileInput');
-      if (fileInput) fileInput.value = "";
-      const previewBox = document.getElementById('blogPreviewBox');
-      const previewImg = document.getElementById('blogPreviewImg');
-      if (previewImg) previewImg.src = "";
-      if (previewBox) previewBox.classList.remove('has-image');
-      updateBlogLivePreview();
-    }
-
-    function handleBlogFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      if (!file.type.startsWith('image/')) {
-        alert("Please choose an image file (JPG, PNG, WebP).");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-          const maxDim = 1000;
-
-          if (width > maxDim || height > maxDim) {
-            if (width > height) {
-              height = Math.round((height * maxDim) / width);
-              width = maxDim;
-            } else {
-              width = Math.round((width * maxDim) / height);
-              height = maxDim;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
-          currentBlogImage = compressedDataUrl;
-          const urlInput = document.getElementById('blogImageUrl');
-          if (urlInput) urlInput.value = "";
-          const previewImg = document.getElementById('blogPreviewImg');
-          if (previewImg) previewImg.src = compressedDataUrl;
-          const previewBox = document.getElementById('blogPreviewBox');
-          if (previewBox) previewBox.classList.add('has-image');
-          updateBlogLivePreview();
-          showToast("Image optimized and attached!");
-        };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function saveBlogPost(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editBlogId').value;
-      const title = document.getElementById('blogTitle').value.trim();
-      const message = document.getElementById('blogMessage').value.trim();
-      const category = document.getElementById('blogCategory').value;
-      const date = document.getElementById('blogDate').value.trim() || getCurrentFormattedDate();
-      const image = currentBlogImage || document.getElementById('blogImageUrl').value.trim();
-
-      if (!title || !message) {
-        alert("Please enter both a blog title and message.");
-        return;
-      }
-
-      const badgeClass = category.includes('MATCH') ? 'news-badge-pill--match' : (category.includes('PREVIEW') ? 'news-badge-pill--preview' : 'news-badge-pill--club');
-
-      const blogData = {
-        id: editId || ('blog-' + Date.now()),
-        title: title,
-        category: category,
-        badgeClass: badgeClass,
-        date: date,
-        source: 'Apostles Media Dispatch',
-        author: 'Young Apostles FC',
-        image: image,
-        excerpt: message.length > 220 ? (message.slice(0, 215) + '...') : message,
-        content: message.includes('<p>') ? message : `<p>${message.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`,
-        readTime: '3 min read'
-      };
-
-      if (editId) {
-        const idx = currentBlogs.findIndex(b => b.id === editId);
-        if (idx !== -1) {
-          currentBlogs[idx] = blogData;
-          showToast("Blog post updated successfully!");
-        }
-      } else {
-        // NEW POST: Added at index 0 -> becomes Position 1!
-        // What was Position 1 moves to 2, 2 moves to 3, 3 moves to 4, 4 moves to 5, 5 moves to 6!
-        currentBlogs.unshift(blogData);
-        showToast("New blog published! It is now Position 1 (Big Hero).");
-      }
-
-      saveAllBlogs();
-      resetBlogForm();
-    }
-
-    // ==========================================
-    // APOSTLES TV (YOUTUBE LINK MANAGER)
-    // ==========================================
-    function loadApostlesTv() {
-      try {
-        const stored = localStorage.getItem(APOSTLES_TV_KEY);
-        if (stored) {
-          currentApostlesTv = JSON.parse(stored);
-        } else {
-          currentApostlesTv = [...INITIAL_APOSTLES_TV];
-          localStorage.setItem(APOSTLES_TV_KEY, JSON.stringify(currentApostlesTv));
-        }
-      } catch(e) {
-        currentApostlesTv = [...INITIAL_APOSTLES_TV];
-      }
-      renderApostlesTvManageList();
-      updateStats();
-    }
-
-    function saveAllApostlesTv() {
-      try {
-        localStorage.setItem(APOSTLES_TV_KEY, JSON.stringify(currentApostlesTv));
-        renderApostlesTvManageList();
-        updateStats();
-        window.dispatchEvent(new Event('storage'));
-      } catch(err) {
-        console.error("Storage error:", err);
-      }
-    }
-
-    function extractYouTubeId(url) {
-      if (!url) return '';
-      url = url.trim();
-      if (/^[a-zA-Z0-9_-]{11}$/.test(url)) return url;
-      const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/i,
-        /youtube\.com\/watch\?.*&v=([a-zA-Z0-9_-]{11})/i
-      ];
-      for (const p of patterns) {
-        const m = url.match(p);
-        if (m && m[1]) return m[1];
-      }
-      return '';
-    }
-
-    function handleYouTubeUrlInput() {
-      const url = document.getElementById('ytVideoUrl').value.trim();
-      const detectedId = extractYouTubeId(url);
-      const badge = document.getElementById('ytDetectedBadge');
-      const detectedIdEl = document.getElementById('ytDetectedId');
-
-      if (detectedId) {
-        badge.style.display = 'block';
-        detectedIdEl.textContent = detectedId;
-      } else {
-        badge.style.display = 'none';
-      }
-      updateYtLivePreview();
-    }
-
-    async function fetchVideoMetaFromUrl() {
-      const urlInput = document.getElementById('ytVideoUrl').value.trim();
-      const id = extractYouTubeId(urlInput);
-      if (!id) {
-        alert("Please paste a valid YouTube video link or ID first.");
-        return;
-      }
-
-      const btn = event?.currentTarget;
-      if (btn) btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Fetching...';
-
-      try {
-        const res = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${id}`);
-        if (!res.ok) throw new Error('Fetch failed');
-        const data = await res.json();
-        if (data && data.title) {
-          document.getElementById('ytVideoTitle').value = data.title;
-          showToast("Video title fetched from YouTube!");
-        }
-      } catch(err) {
-        showToast("Could not auto-fetch title. Please enter title manually.");
-      } finally {
-        if (btn) btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Fetch';
-        updateYtLivePreview();
-      }
-    }
-
-    function handleYtFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      if (!file.type.startsWith('image/')) {
-        alert("Please choose an image file (JPG, PNG, WebP).");
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-          const maxDim = 800;
-
-          if (width > maxDim || height > maxDim) {
-            if (width > height) {
-              height = Math.round((height * maxDim) / width);
-              width = maxDim;
-            } else {
-              width = Math.round((width * maxDim) / height);
-              height = maxDim;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
-          const customThumbInput = document.getElementById('ytCustomThumb');
-          if (customThumbInput) customThumbInput.value = compressedDataUrl;
-          updateYtLivePreview();
-          showToast("Custom thumbnail attached!");
-        };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function setYtPresetThumb(path) {
-      document.getElementById('ytCustomThumb').value = path;
-      updateYtLivePreview();
-    }
-
-    function updateYtLivePreview() {
-      const url = document.getElementById('ytVideoUrl').value.trim();
-      const id = extractYouTubeId(url) || 'fpleoX_sUIA';
-      const title = document.getElementById('ytVideoTitle').value.trim() || 'Young Apostles FC Video';
-      const tag = document.getElementById('ytVideoTag').value || 'WATCH IN PLAYER';
-      const customThumb = document.getElementById('ytCustomThumb').value.trim();
-
-      const thumbUrl = customThumb ? customThumb : `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
-
-      const prevThumb = document.getElementById('prevYtThumb');
-      if (prevThumb) prevThumb.src = thumbUrl;
-
-      const prevTitle = document.getElementById('prevYtTitle');
-      if (prevTitle) prevTitle.textContent = title;
-
-      const prevTag = document.getElementById('prevYtTag');
-      if (prevTag) prevTag.innerHTML = `<i class="fa-solid fa-circle-play"></i> ${tag}`;
-
-      const prevIdText = document.getElementById('prevYtIdText');
-      if (prevIdText) prevIdText.textContent = `ID: ${id}`;
-    }
-
-    function renderApostlesTvManageList() {
-      const container = document.getElementById('ytManageList');
-      const countEl = document.getElementById('ytListCount');
-      if (countEl) countEl.textContent = currentApostlesTv.length;
-      if (!container) return;
-
-      if (currentApostlesTv.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:1.5rem; color:var(--admin-muted); font-size:0.85rem;">No videos currently active. Add one using the form!</div>`;
-        return;
-      }
-
-      container.innerHTML = currentApostlesTv.map((v, idx) => {
-        const thumbUrl = v.thumb ? v.thumb : `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
-
-        return `
-          <div class="dispatch-manage-card">
-            <div class="dispatch-manage-info">
-              <div class="dispatch-manage-time"><i class="fa-brands fa-youtube" style="color:#ef4444;"></i> ${v.tag || 'VIDEO'} &middot; ID: ${v.id}</div>
-              <div class="dispatch-manage-text"><strong>${v.title}</strong></div>
-              <img src="${thumbUrl}" alt="Thumb" class="yt-manage-thumb" onerror="this.src='https://img.youtube.com/vi/${v.id}/hqdefault.jpg'">
-            </div>
-            <div class="dispatch-manage-actions">
-              <button class="btn-action-icon" title="Move Up" onclick="moveApostlesTvVideo(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
-                <i class="fa-solid fa-arrow-up"></i>
-              </button>
-              <button class="btn-action-icon" title="Move Down" onclick="moveApostlesTvVideo(${idx}, 1)" ${idx === currentApostlesTv.length - 1 ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''}>
-                <i class="fa-solid fa-arrow-down"></i>
-              </button>
-              <button class="btn-action-icon" title="Edit Video" onclick="editApostlesTvVideo('${v.id}')">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="btn-action-icon delete" title="Delete Video" onclick="deleteApostlesTvVideo('${v.id}')">
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function moveApostlesTvVideo(index, direction) {
-      const targetIndex = index + direction;
-      if (targetIndex < 0 || targetIndex >= currentApostlesTv.length) return;
-      const temp = currentApostlesTv[index];
-      currentApostlesTv[index] = currentApostlesTv[targetIndex];
-      currentApostlesTv[targetIndex] = temp;
-      saveAllApostlesTv();
-      showToast("Video order updated.");
-    }
-
-    function deleteApostlesTvVideo(id) {
-      if (!confirm("Are you sure you want to remove this video from Apostles TV?")) return;
-      currentApostlesTv = currentApostlesTv.filter(v => v.id !== id);
-      saveAllApostlesTv();
-      showToast("Video removed from Apostles TV.");
-    }
-
-    function editApostlesTvVideo(id) {
-      const v = currentApostlesTv.find(item => item.id === id);
-      if (!v) return;
-
-      document.getElementById('editApostlesTvId').value = v.id;
-      document.getElementById('ytVideoUrl').value = `https://www.youtube.com/watch?v=${v.id}`;
-      document.getElementById('ytVideoTitle').value = v.title || '';
-      document.getElementById('ytVideoTag').value = v.tag || 'MATCH HIGHLIGHTS';
-      document.getElementById('ytCustomThumb').value = v.thumb || '';
-
-      document.getElementById('ytFormTitle').textContent = "Edit Apostles TV Video";
-      document.getElementById('btnSubmitYt').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update Video`;
-
-      handleYouTubeUrlInput();
-      updateYtLivePreview();
-      window.scrollTo({ top: 120, behavior: 'smooth' });
-    }
-
-    function resetYtForm() {
-      document.getElementById('apostlesTvForm').reset();
-      document.getElementById('editApostlesTvId').value = '';
-      document.getElementById('ytFormTitle').textContent = "Add Video to Apostles TV";
-      document.getElementById('btnSubmitYt').innerHTML = `<i class="fa-solid fa-plus"></i> Add Video to Apostles TV`;
-      document.getElementById('ytDetectedBadge').style.display = 'none';
-      updateYtLivePreview();
-    }
-
-    function resetApostlesTvToDefault() {
-      if (!confirm("Reset Apostles TV videos to club defaults? Custom videos will be replaced.")) return;
-      currentApostlesTv = [...INITIAL_APOSTLES_TV];
-      saveAllApostlesTv();
-      resetYtForm();
-      showToast("Apostles TV reset to official defaults.");
-    }
-
-    function saveApostlesTvVideo(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editApostlesTvId').value;
-      const url = document.getElementById('ytVideoUrl').value.trim();
-      const id = extractYouTubeId(url);
-      const title = document.getElementById('ytVideoTitle').value.trim();
-      const tag = document.getElementById('ytVideoTag').value;
-      const customThumb = document.getElementById('ytCustomThumb').value.trim();
-
-      if (!id) {
-        alert("Please enter a valid YouTube link or 11-character video ID.");
-        return;
-      }
-      if (!title) {
-        alert("Please enter a title for this video.");
-        return;
-      }
-
-      const videoData = {
-        id: id,
-        title: title,
-        tag: tag,
-        thumb: customThumb
-      };
-
-      if (editId) {
-        const idx = currentApostlesTv.findIndex(v => v.id === editId);
-        if (idx !== -1) {
-          currentApostlesTv[idx] = videoData;
-          showToast("Apostles TV video updated!");
-        }
-      } else {
-        currentApostlesTv.unshift(videoData);
-        showToast("New video published to Apostles TV!");
-      }
-
-      saveAllApostlesTv();
-      resetYtForm();
-    }
-
-    // Image handling with HTML5 Canvas auto-compression to avoid localStorage limits
-    function handleFileUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-          const maxDim = 800;
-
-          if (width > maxDim || height > maxDim) {
-            if (width > height) {
-              height = Math.round((height * maxDim) / width);
-              width = maxDim;
-            } else {
-              width = Math.round((width * maxDim) / height);
-              height = maxDim;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          // Compress to lightweight JPEG
-          currentUploadedDataUrl = canvas.toDataURL('image/jpeg', 0.72);
-          document.getElementById('previewImg').src = currentUploadedDataUrl;
-          document.getElementById('previewBox').classList.add('has-image');
-          document.getElementById('dispatchImageUrl').value = '';
-          updateLivePreview();
-        };
-        img.src = evt.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function setPresetImage(path) {
-      currentUploadedDataUrl = "";
-      document.getElementById('dispatchImageUrl').value = path;
-      if (path) {
-        document.getElementById('previewImg').src = path;
-        document.getElementById('previewBox').classList.add('has-image');
-      } else {
-        removeImage();
-      }
-      updateLivePreview();
-    }
-
-    function removeImage() {
-      currentUploadedDataUrl = "";
-      document.getElementById('dispatchImageUrl').value = '';
-      document.getElementById('previewImg').src = '';
-      document.getElementById('previewBox').classList.remove('has-image');
-      updateLivePreview();
-    }
-
-    function updateLivePreview() {
-      const author = document.getElementById('dispatchAuthor').value.trim() || 'Young Apostles FC';
-      const time = document.getElementById('dispatchTime').value.trim() || 'Just Now &middot; Live Alert';
-      const text = document.getElementById('dispatchText').value.trim() || 'Your dispatch message preview will appear here...';
-      const image = currentUploadedDataUrl || document.getElementById('dispatchImageUrl').value.trim();
-      const linkText = document.getElementById('dispatchLinkText').value.trim();
-
-      document.getElementById('prevAuthor').textContent = author;
-      document.getElementById('prevTime').innerHTML = time;
-      document.getElementById('prevText').innerHTML = text;
-
-      const prevMedia = document.getElementById('prevMedia');
-      if (image) {
-        prevMedia.src = image;
-        prevMedia.style.display = 'block';
-      } else {
-        prevMedia.style.display = 'none';
-      }
-
-      const prevLinkWrap = document.getElementById('prevLinkWrap');
-      if (linkText) {
-        document.getElementById('prevLinkText').textContent = linkText;
-        prevLinkWrap.style.display = 'flex';
-      } else {
-        prevLinkWrap.style.display = 'none';
-      }
-    }
-
-    function resetToDefaults() {
-      if (!confirm("Reset all dispatches to official club defaults? Custom dispatches will be replaced.")) return;
-      currentDispatches = [...INITIAL_DISPATCHES];
-      saveAllDispatches();
-      resetForm();
-      showToast("Reset to official defaults.");
-    }
-
-    function exportDispatches() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentDispatches, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "young_apostles_dispatches.json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-      showToast("Dispatches JSON downloaded!");
-    }
-
-    // ==========================================
-    // 2. MATCH SCORELINE & FIXTURES MANAGEMENT
-    // ==========================================
-    function loadFixtures() {
-      try {
-        const stored = localStorage.getItem(FIXTURES_KEY);
-        if (stored) {
-          currentFixtures = JSON.parse(stored);
-        } else {
-          currentFixtures = [...INITIAL_FIXTURES];
-          localStorage.setItem(FIXTURES_KEY, JSON.stringify(currentFixtures));
-        }
-      } catch(e) {
-        currentFixtures = [...INITIAL_FIXTURES];
-      }
-
-      populateMatchWeekDropdown();
-      renderFixturesAdminTable();
-      loadMatchForEdit(currentFixtures[1] ? 2 : 1);
-    }
-
-    function populateMatchWeekDropdown() {
-      const select = document.getElementById('matchWeekSelect');
-      if (!select) return;
-
-      select.innerHTML = currentFixtures.map(f => {
-        const vsText = `${f.home} vs ${f.away}`;
-        const scoreText = f.score ? `[FT: ${f.score}]` : '[Upcoming]';
-        return `<option value="${f.week}">Week ${f.week}: ${vsText} ${scoreText}</option>`;
-      }).join('');
-    }
-
-    function loadMatchForEdit(weekNum) {
-      weekNum = parseInt(weekNum, 10);
-      const fx = currentFixtures.find(f => f.week === weekNum);
-      if (!fx) return;
-
-      document.getElementById('matchWeekSelect').value = weekNum;
-      document.getElementById('matchCardFixtureDetails').textContent = `${fx.home} vs ${fx.away} (${fx.type})`;
-      document.getElementById('matchCardSubDetails').textContent = `${fx.venue} &bull; ${fx.date}`;
-
-      const statusSelect = document.getElementById('matchStatus');
-      const scoreStrInput = document.getElementById('matchScoreStr');
-      const resultSelect = document.getElementById('matchResultSelect');
-      const scorerInput = document.getElementById('matchScorerInput');
-      const venueInput = document.getElementById('matchVenueInput');
-      const dateInput = document.getElementById('matchDateInput');
-
-      venueInput.value = fx.venue || '';
-      dateInput.value = fx.date || '';
-
-      if (fx.score) {
-        statusSelect.value = 'completed';
-        scoreStrInput.value = fx.score;
-        resultSelect.value = fx.result || 'W';
-        scorerInput.value = fx.scorer || '';
-      } else {
-        statusSelect.value = 'upcoming';
-        scoreStrInput.value = '';
-        resultSelect.value = 'W';
-        scorerInput.value = '';
-      }
-
-      toggleScoreInputs();
-    }
-
-    function toggleScoreInputs() {
-      const status = document.getElementById('matchStatus').value;
-      const group = document.getElementById('scoreInputsGroup');
-      if (group) {
-        group.style.display = status === 'completed' ? 'block' : 'none';
-      }
-    }
-
-    function saveMatchScore(e) {
-      e.preventDefault();
-      const weekNum = parseInt(document.getElementById('matchWeekSelect').value, 10);
-      const status = document.getElementById('matchStatus').value;
-      const scoreStr = document.getElementById('matchScoreStr').value.trim();
-      const result = document.getElementById('matchResultSelect').value;
-      const scorer = document.getElementById('matchScorerInput').value.trim();
-      const venue = document.getElementById('matchVenueInput').value.trim();
-      const date = document.getElementById('matchDateInput').value.trim();
-
-      const idx = currentFixtures.findIndex(f => f.week === weekNum);
-      if (idx === -1) return;
-
-      if (status === 'completed') {
-        if (!scoreStr) {
-          alert("Please enter a scoreline (e.g. 1 - 0).");
-          return;
-        }
-        currentFixtures[idx].score = scoreStr;
-        currentFixtures[idx].result = result;
-        currentFixtures[idx].scorer = scorer;
-      } else {
-        delete currentFixtures[idx].score;
-        delete currentFixtures[idx].result;
-        delete currentFixtures[idx].scorer;
-      }
-
-      if (venue) currentFixtures[idx].venue = venue;
-      if (date) currentFixtures[idx].date = date;
-
-      try {
-        localStorage.setItem(FIXTURES_KEY, JSON.stringify(currentFixtures));
-        window.dispatchEvent(new Event('storage'));
-        populateMatchWeekDropdown();
-        document.getElementById('matchWeekSelect').value = weekNum;
-        renderFixturesAdminTable();
-        updateStats();
-        showToast(`Matchday ${weekNum} updated successfully!`);
-      } catch(err) {
-        console.error("Fixtures save error:", err);
-        alert("Error saving fixtures to localStorage.");
-      }
-    }
-
-    function renderFixturesAdminTable() {
-      const tbody = document.getElementById('fixturesAdminTableBody');
-      if (!tbody) return;
-
-      tbody.innerHTML = currentFixtures.map(f => {
-        const isComp = Boolean(f.score);
-        const statusBadge = isComp 
-          ? `<span class="match-status-badge completed">FT: ${f.score} (${f.result})</span>` 
-          : `<span class="match-status-badge upcoming">Upcoming</span>`;
-
-        return `
-          <tr>
-            <td style="font-weight:700; color:var(--admin-accent);">W${f.week}</td>
-            <td>
-              <div><strong>${f.home}</strong> vs <strong>${f.away}</strong></div>
-              <div style="font-size:0.75rem; color:var(--admin-muted);">${f.venue} &bull; ${f.date}</div>
-            </td>
-            <td>${statusBadge}</td>
-            <td>
-              <button type="button" class="btn-action-icon" title="Edit Match" onclick="loadMatchForEdit(${f.week}); window.scrollTo({top:180, behavior:'smooth'});">
-                <i class="fa-solid fa-pen"></i>
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function resetFixturesToDefault() {
-      if (!confirm("Reset all 34 fixtures and match scores back to season opener defaults?")) return;
-      currentFixtures = [...INITIAL_FIXTURES];
-      localStorage.setItem(FIXTURES_KEY, JSON.stringify(currentFixtures));
-      window.dispatchEvent(new Event('storage'));
-      populateMatchWeekDropdown();
-      renderFixturesAdminTable();
-      loadMatchForEdit(2);
-      updateStats();
-      showToast("Fixtures reset to official season defaults.");
-    }
-
-    // ==========================================
-    // 3. GPL STANDINGS TABLE MANAGEMENT
-    // ==========================================
-    function loadStandings() {
-      try {
-        const stored = localStorage.getItem(STANDINGS_KEY);
-        if (stored) {
-          const s = JSON.parse(stored);
-          if (s.rank !== undefined) document.getElementById('standRank').value = s.rank;
-          if (s.played !== undefined) document.getElementById('standPlayed').value = s.played;
-          if (s.diff !== undefined) document.getElementById('standGoalDiff').value = s.diff;
-          if (s.points !== undefined) document.getElementById('standPoints').value = s.points;
-        }
-      } catch(e) {}
-      updateStandingsPreview();
-    }
-
-    function updateStandingsPreview() {
-      const r = document.getElementById('standRank')?.value || '8';
-      const p = document.getElementById('standPlayed')?.value || '2';
-      const d = document.getElementById('standGoalDiff')?.value || '-2';
-      const pts = document.getElementById('standPoints')?.value || '3';
-
-      if (document.getElementById('prevStandRank')) document.getElementById('prevStandRank').textContent = r + 'th';
-      if (document.getElementById('prevStandP')) document.getElementById('prevStandP').textContent = p;
-      if (document.getElementById('prevStandDiff')) document.getElementById('prevStandDiff').textContent = d;
-      if (document.getElementById('prevStandPts')) document.getElementById('prevStandPts').textContent = pts + ' PTS';
-    }
-
-    document.querySelectorAll('#standingsForm input').forEach(input => {
-      input.addEventListener('input', updateStandingsPreview);
+    <div class="stat-card">
+      <div class="stat-card__icon"><i class="fa-solid fa-users"></i></div>
+      <div class="stat-card__label">Members</div>
+      <div class="stat-card__value">${members.length}</div>
+      <div class="stat-card__sub">${goldVips} Gold VIP</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__icon"><i class="fa-solid fa-ghana-cedi-sign"></i></div>
+      <div class="stat-card__label">Preorder Value</div>
+      <div class="stat-card__value">GHS ${revenue.toLocaleString()}</div>
+      <div class="stat-card__sub">Pending collection</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__icon"><i class="fa-solid fa-newspaper"></i></div>
+      <div class="stat-card__label">News Articles</div>
+      <div class="stat-card__value">${getBlogs().length || '4'}</div>
+      <div class="stat-card__sub">Published on site</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__icon"><i class="fa-brands fa-youtube"></i></div>
+      <div class="stat-card__label">TV Videos</div>
+      <div class="stat-card__value">${getTvVideos().length || 4}</div>
+      <div class="stat-card__sub">On Apostles TV</div>
+    </div>
+  `;
+
+  // Recent waitlist
+  const recentW = waitlist.slice(0, 5);
+  document.getElementById('dashWaitlistTable').innerHTML = recentW.length ? `
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Phone</th><th>Items</th><th>Total</th></tr></thead>
+      <tbody>${recentW.map(o => `
+        <tr>
+          <td>${o.name || '—'}</td>
+          <td style="font-family:monospace;">${o.phone || '—'}</td>
+          <td>${(o.items||[]).length} item(s)</td>
+          <td style="color:var(--agold);font-weight:700;">GHS ${Number(o.total||0).toFixed(2)}</td>
+        </tr>
+      `).join('')}</tbody>
+    </table>
+  ` : `<div class="empty-state"><i class="fa-solid fa-list-check"></i><p>No waitlist entries yet.</p></div>`;
+
+  // Recent members
+  const recentM = members.slice(0, 5);
+  document.getElementById('dashMembersTable').innerHTML = recentM.length ? `
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Tier</th><th>Phone</th></tr></thead>
+      <tbody>${recentM.map(m => `
+        <tr>
+          <td>${m.name || '—'}</td>
+          <td><span class="badge ${m.tier==='Gold VIP'?'badge-gold':m.tier==='Standard'?'badge-blue':'badge-green'}">${m.tier||'Guest'}</span></td>
+          <td style="font-family:monospace;">${m.phone || '—'}</td>
+        </tr>
+      `).join('')}</tbody>
+    </table>
+  ` : `<div class="empty-state"><i class="fa-solid fa-users"></i><p>No members registered yet.</p></div>`;
+}
+
+/* ==========================================
+   WAITLIST TABLE
+   ========================================== */
+function renderWaitlistTable() {
+  const data = getWaitlist();
+  const el = document.getElementById('waitlistTable');
+  if (!el) return;
+  if (!data.length) { el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-list-check"></i><p>No waitlist entries.</p></div>`; return; }
+  el.innerHTML = `
+    <table class="admin-table">
+      <thead><tr><th>Ref</th><th>Name</th><th>Phone</th><th>City</th><th>Items</th><th>Total</th><th>Date</th><th>WA</th></tr></thead>
+      <tbody>${data.map((o,i) => `
+        <tr>
+          <td><span class="profile-order-ref" style="font-family:monospace;font-size:0.75rem;color:var(--agold);">${o.ref||'—'}</span></td>
+          <td>${o.name||'—'}</td>
+          <td style="font-family:monospace;">${o.phone||'—'}</td>
+          <td>${o.city||'—'}</td>
+          <td>${(o.items||[]).map(it=>it.name).join(', ') || '—'}</td>
+          <td style="font-weight:700;color:var(--agold);">GHS ${Number(o.total||0).toFixed(2)}</td>
+          <td style="font-size:0.75rem;color:var(--amuted);">${o.date||'—'}</td>
+          <td><a href="https://wa.me/233${(o.phone||'').replace(/^0/,'').replace(/\s/g,'')}" target="_blank" style="color:#25D366;font-size:1.2rem;"><i class="fa-brands fa-whatsapp"></i></a></td>
+        </tr>
+      `).join('')}</tbody>
+    </table>
+  `;
+}
+
+/* ==========================================
+   PREORDERS TABLE
+   ========================================== */
+function renderPreordersTable() {
+  const waitlist = getWaitlist();
+  const orders = getOrders();
+  const all = [...waitlist, ...orders];
+  const el = document.getElementById('preordersTable');
+  if (!el) return;
+  if (!all.length) { el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-bag-shopping"></i><p>No preorders yet.</p></div>`; return; }
+
+  let rows = '';
+  all.forEach(o => {
+    (o.items || []).forEach(item => {
+      rows += `<tr>
+        <td><span style="font-family:monospace;font-size:0.75rem;color:var(--agold);">${o.ref||'—'}</span></td>
+        <td>${o.name||'—'}</td>
+        <td>${item.name||'—'}</td>
+        <td>${item.size||'—'}</td>
+        <td>${item.customName ? `${item.customName} #${item.customNumber}` : '—'}</td>
+        <td>${item.qty||1}</td>
+        <td>GHS ${Number((item.price||0)*(item.qty||1)).toFixed(2)}</td>
+        <td style="font-family:monospace;">${o.phone||'—'}</td>
+      </tr>`;
     });
+  });
 
-    function saveStandings(e) {
-      e.preventDefault();
-      const rank = document.getElementById('standRank').value.trim();
-      const played = document.getElementById('standPlayed').value.trim();
-      const diff = document.getElementById('standGoalDiff').value.trim();
-      const points = document.getElementById('standPoints').value.trim();
+  el.innerHTML = `
+    <table class="admin-table">
+      <thead><tr><th>Ref</th><th>Customer</th><th>Item</th><th>Size</th><th>Print</th><th>Qty</th><th>Subtotal</th><th>Phone</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
 
-      const record = { rank, played, diff, points };
-      try {
-        localStorage.setItem(STANDINGS_KEY, JSON.stringify(record));
-        window.dispatchEvent(new Event('storage'));
-        updateStats();
-        showToast("GPL Standings updated on live site!");
-      } catch(err) {
-        alert("Error saving standings.");
-      }
-    }
+/* ==========================================
+   MEMBERS TABLE
+   ========================================== */
+function renderMembersTable() {
+  const data = getMembers();
+  const el = document.getElementById('membersTable');
+  if (!el) return;
+  if (!data.length) { el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-users"></i><p>No member registrations yet.</p></div>`; return; }
+  el.innerHTML = `
+    <table class="admin-table">
+      <thead><tr><th>Name</th><th>Tier</th><th>Phone</th><th>Email</th><th>Joined</th></tr></thead>
+      <tbody>${data.map(m => `
+        <tr>
+          <td>${m.name||'—'}</td>
+          <td><span class="badge ${m.tier==='Gold VIP'?'badge-gold':m.tier==='Standard'?'badge-blue':'badge-green'}">${m.tier||'Guest'}</span></td>
+          <td style="font-family:monospace;">${m.phone||'—'}</td>
+          <td>${m.email||'—'}</td>
+          <td style="font-size:0.75rem;color:var(--amuted);">${m.updatedAt ? new Date(m.updatedAt).toLocaleDateString() : '—'}</td>
+        </tr>
+      `).join('')}</tbody>
+    </table>
+  `;
+}
 
-    // ==========================================
-    // 4. BACKUP & SYSTEM
-    // ==========================================
-    function exportFullBackup() {
-      const backup = {
-        dispatches: currentDispatches,
-        articles: localStorage.getItem(ARTICLES_KEY) ? JSON.parse(localStorage.getItem(ARTICLES_KEY)) : null,
-        apostlesTv: currentApostlesTv,
-        fixtures: currentFixtures,
-        standings: localStorage.getItem(STANDINGS_KEY) ? JSON.parse(localStorage.getItem(STANDINGS_KEY)) : null,
-        timestamp: new Date().toISOString()
-      };
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup, null, 2));
-      const a = document.createElement('a');
-      a.setAttribute("href", dataStr);
-      a.setAttribute("download", `young_apostles_backup_${Date.now()}.json`);
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      showToast("Full club database backup downloaded!");
-    }
+/* ==========================================
+   NEWS CMS
+   ========================================== */
+function renderNewsPanel() {
+  const blogs = getBlogs();
+  const el = document.getElementById('newsList');
+  if (!el) return;
+  if (!blogs.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-newspaper"></i><p>No custom articles. Default articles showing on site.</p></div>`;
+    return;
+  }
+  el.innerHTML = blogs.map((b, i) => `
+    <div class="cms-card">
+      <div class="cms-card__body">
+        <div class="cms-card__tag">${b.category||'ARTICLE'} · ${b.date||''}</div>
+        <div class="cms-card__title">${b.title}</div>
+        <div class="cms-card__meta">${b.id}</div>
+      </div>
+      <div class="cms-card__actions">
+        <button class="btn-admin-sm" onclick="editNewsArticle(${i})"><i class="fa-solid fa-pen"></i></button>
+        <button class="btn-admin-danger" onclick="deleteNewsArticle(${i})"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
 
-    function updatePasskey() {
-      const newKey = document.getElementById('newPasskeyInput').value.trim();
-      if (!newKey || newKey.length < 4) {
-        alert("Passkey must be at least 4 characters.");
-        return;
-      }
-      localStorage.setItem('ya_admin_passkey', newKey);
-      document.getElementById('newPasskeyInput').value = '';
-      showToast("Staff passkey updated successfully!");
-    }
+function saveNewsArticle() {
+  const blogs = getBlogs();
+  const id = document.getElementById('nId').value.trim();
+  if (!id) { adminToast('Article ID required'); return; }
+  const article = {
+    id, title: document.getElementById('nTitle').value.trim(),
+    category: document.getElementById('nCategory').value,
+    date: document.getElementById('nDate').value.trim(),
+    image: document.getElementById('nImage').value.trim(),
+    excerpt: document.getElementById('nExcerpt').value.trim(),
+    content: document.getElementById('nContent').value.trim(),
+    source: 'Apostles Media Dispatch', readTime: '3 min read',
+    badgeClass: document.getElementById('nCategory').value.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--preview'
+  };
+  const existing = blogs.findIndex(b => b.id === id);
+  if (existing >= 0) { blogs[existing] = article; } else { blogs.unshift(article); }
+  saveBlogs(blogs);
+  ['nId','nTitle','nDate','nImage','nExcerpt','nContent'].forEach(f => document.getElementById(f).value = '');
+  toggleAddForm('newsAddForm');
+  renderNewsPanel();
+}
 
-    // Hero Write-Up Manager
-    function loadHeroWriteup() {
-      try {
-        const stored = localStorage.getItem('ya_hero_custom');
-        if (stored) {
-          const data = JSON.parse(stored);
-          const hInput = document.getElementById('heroHeadlineInput');
-          const sInput = document.getElementById('heroSubtitleInput');
-          if (hInput && data.headline) hInput.value = data.headline;
-          if (sInput && data.subtitle) sInput.value = data.subtitle;
-        }
-      } catch(e) {}
-    }
+function editNewsArticle(index) {
+  const b = getBlogs()[index];
+  if (!b) return;
+  document.getElementById('nId').value = b.id || '';
+  document.getElementById('nTitle').value = b.title || '';
+  document.getElementById('nCategory').value = b.category || 'MATCH PREVIEW';
+  document.getElementById('nDate').value = b.date || '';
+  document.getElementById('nImage').value = b.image || '';
+  document.getElementById('nExcerpt').value = b.excerpt || '';
+  document.getElementById('nContent').value = b.content || '';
+  if (!document.getElementById('newsAddForm').classList.contains('open')) toggleAddForm('newsAddForm');
+}
 
-    function saveHeroWriteup() {
-      const headline = document.getElementById('heroHeadlineInput')?.value.trim();
-      const subtitle = document.getElementById('heroSubtitleInput')?.value.trim();
-      if (!headline || !subtitle) {
-        alert("Please enter both headline and subtitle.");
-        return;
-      }
-      localStorage.setItem('ya_hero_custom', JSON.stringify({ headline, subtitle }));
-      window.dispatchEvent(new Event('storage'));
-      showToast("Homepage hero write-up updated live!");
-    }
+function deleteNewsArticle(index) {
+  if (!confirm('Delete this article?')) return;
+  const blogs = getBlogs();
+  blogs.splice(index, 1);
+  saveBlogs(blogs);
+  renderNewsPanel();
+}
 
-    function resetHeroWriteup() {
-      const defaultHeadline = "Young Apostles FC: Fighting for Glory in Ghana's Premier League";
-      const defaultSubtitle = `"AGYA NA ƆWƆ TUMI" &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.`;
-      const hInput = document.getElementById('heroHeadlineInput');
-      const sInput = document.getElementById('heroSubtitleInput');
-      if (hInput) hInput.value = defaultHeadline;
-      if (sInput) sInput.value = defaultSubtitle;
-      localStorage.setItem('ya_hero_custom', JSON.stringify({ headline: defaultHeadline, subtitle: defaultSubtitle }));
-      window.dispatchEvent(new Event('storage'));
-      showToast("Hero write-up reset to default!");
-    }
+/* ==========================================
+   FIXTURES CMS
+   ========================================== */
+function renderFixturesPanel() {
+  const data = getFixtures();
+  const el = document.getElementById('fixturesList');
+  if (!el) return;
+  if (!data.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-calendar-days"></i><p>No custom fixtures. Default 34-week schedule showing on site.</p></div>`;
+    return;
+  }
+  el.innerHTML = `
+    <table class="admin-table">
+      <thead><tr><th>WK</th><th>Home</th><th>Away</th><th>Venue</th><th>Date</th><th>Score</th><th>Result</th><th>Scorer</th><th></th></tr></thead>
+      <tbody>${data.map((f,i) => `
+        <tr>
+          <td>${f.week}</td>
+          <td style="font-weight:700;">${f.home}</td>
+          <td>${f.away}</td>
+          <td style="font-size:0.75rem;color:var(--amuted);">${f.venue}</td>
+          <td style="font-size:0.78rem;">${f.date}</td>
+          <td style="font-family:monospace;font-weight:700;">${f.score||'TBD'}</td>
+          <td>${f.result ? `<span class="badge ${f.result==='W'?'badge-green':f.result==='L'?'badge-red':'badge-gold'}">${f.result}</span>` : '—'}</td>
+          <td style="font-size:0.75rem;color:var(--amuted);">${f.scorer||'—'}</td>
+          <td><button class="btn-admin-danger" onclick="deleteFixture(${i})"><i class="fa-solid fa-trash"></i></button></td>
+        </tr>
+      `).join('')}</tbody>
+    </table>
+  `;
+}
 
-    // ==========================================
-    // GLOBAL MULTI-DEVICE CLOUD SYNC & DEPLOY
-    // ==========================================
-    function compileFullCmsData() {
-      let heroData = {
-        headline: "Young Apostles FC: Fighting for Glory in Ghana's Premier League",
-        subtitle: `"AGYA NA ƆWƆ TUMI" &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.`
-      };
-      try {
-        const rawH = localStorage.getItem('ya_hero_custom');
-        if (rawH) heroData = JSON.parse(rawH);
-      } catch(e) {}
+function saveFixture() {
+  const week = parseInt(document.getElementById('fxWeek').value);
+  if (!week) { adminToast('Week number required'); return; }
+  const data = getFixtures();
+  const fix = {
+    week, home: document.getElementById('fxHome').value.trim(),
+    away: document.getElementById('fxAway').value.trim(),
+    venue: document.getElementById('fxVenue').value.trim(),
+    date: document.getElementById('fxDate').value.trim(),
+    score: document.getElementById('fxScore').value.trim(),
+    result: document.getElementById('fxResult').value,
+    scorer: document.getElementById('fxScorer').value.trim(),
+    type: document.getElementById('fxHome').value.trim().includes('Young Apostles') ? 'Home' : 'Away'
+  };
+  if (!fix.score) { delete fix.score; delete fix.result; }
+  const existing = data.findIndex(d => d.week === week);
+  if (existing >= 0) { data[existing] = fix; } else { data.push(fix); data.sort((a,b)=>a.week-b.week); }
+  saveFixtures(data);
+  adminToast('Fixture saved and pushed to site!');
+  ['fxWeek','fxHome','fxAway','fxVenue','fxDate','fxScore','fxScorer'].forEach(f => document.getElementById(f).value = '');
+  document.getElementById('fxResult').value = '';
+  toggleAddForm('fixtureAddForm');
+  renderFixturesPanel();
+}
 
-      let standingsData = { rank: "8", played: "2", diff: "-2", points: "3" };
-      try {
-        const rawS = localStorage.getItem(STANDINGS_KEY);
-        if (rawS) standingsData = JSON.parse(rawS);
-      } catch(e) {}
+function deleteFixture(i) {
+  if (!confirm('Delete this fixture?')) return;
+  const data = getFixtures();
+  data.splice(i, 1);
+  saveFixtures(data);
+  adminToast('Fixture deleted.');
+  renderFixturesPanel();
+}
 
-      return {
-        lastUpdated: new Date().toISOString(),
-        hero: heroData,
-        blogs: currentBlogs,
-        apostlesTv: currentApostlesTv,
-        standings: standingsData,
-        fixtures: currentFixtures
-      };
-    }
+/* ==========================================
+   APOSTLES TV
+   ========================================== */
+function renderTvPanel() {
+  const videos = getTvVideos();
+  const el = document.getElementById('tvList');
+  if (!el) return;
+  if (!videos.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fa-brands fa-youtube"></i><p>No custom videos. Default 4 videos showing.</p></div>`;
+    return;
+  }
+  el.innerHTML = videos.map((v,i) => `
+    <div class="cms-card">
+      <div class="cms-card__body">
+        <div class="cms-card__tag">${v.tag||'VIDEO'}</div>
+        <div class="cms-card__title">${v.title||v.id}</div>
+        <div class="cms-card__meta">ID: ${v.id}</div>
+      </div>
+      <div class="cms-card__actions">
+        <a href="https://youtube.com/watch?v=${v.id}" target="_blank" class="btn-admin-sm"><i class="fa-brands fa-youtube"></i></a>
+        <button class="btn-admin-danger" onclick="deleteTvVideo(${i})"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
 
-    async function deployCmsToCloud() {
-      const data = compileFullCmsData();
-      let token = localStorage.getItem('ya_gh_pat');
+function saveTvVideo() {
+  const rawId = document.getElementById('tvId').value.trim();
+  if (!rawId) { adminToast('Video ID required'); return; }
+  const idMatch = rawId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  const id = idMatch ? idMatch[1] : rawId;
+  const videos = getTvVideos();
+  videos.unshift({
+    id, title: document.getElementById('tvTitle').value.trim() || 'Young Apostles FC Video',
+    tag: document.getElementById('tvTag').value.trim() || 'WATCH IN PLAYER',
+    thumb: document.getElementById('tvThumb').value.trim() || ''
+  });
+  saveTvVideos(videos);
+  ['tvId','tvTitle','tvTag','tvThumb'].forEach(f => document.getElementById(f).value = '');
+  toggleAddForm('tvAddForm');
+  renderTvPanel();
+}
 
-      if (!token) {
-        const userToken = prompt("Enter your GitHub Personal Access Token to deploy live across all devices worldwide:\n\n(Click Cancel if you just want to download the updated data/cms.json file)");
-        if (userToken && userToken.trim()) {
-          token = userToken.trim();
-          localStorage.setItem('ya_gh_pat', token);
-        } else {
-          downloadCmsJson();
-          return;
-        }
-      }
+function deleteTvVideo(i) {
+  if (!confirm('Remove this video?')) return;
+  const videos = getTvVideos();
+  videos.splice(i, 1);
+  saveTvVideos(videos);
+  renderTvPanel();
+}
 
-      showToast("Deploying changes to cloud...");
-      try {
-        // 1. Fetch current SHA of data/cms.json from GitHub
-        const getRes = await fetch('https://api.github.com/repos/crow1126/young-apostles-fc/contents/data/cms.json', {
-          headers: {
-            'Authorization': 'token ' + token,
-            'Accept': 'application/vnd.github.v3+json'
-          }
-        });
+/* ==========================================
+   SHOP PRODUCTS
+   ========================================== */
+function renderShopPanel() {
+  const prods = getShopProducts();
+  const el = document.getElementById('shopProductList');
+  if (!el) return;
+  if (!prods.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-shirt"></i><p>No custom products. Default 4 products showing. Add new ones here.</p></div>`;
+    return;
+  }
+  el.innerHTML = prods.map((p,i) => `
+    <div class="cms-card">
+      <div class="cms-card__body">
+        <div class="cms-card__tag">${p.tag||p.category} · GHS ${p.price}</div>
+        <div class="cms-card__title">${p.name}</div>
+        <div class="cms-card__meta">${p.id}</div>
+      </div>
+      <div class="cms-card__actions">
+        <button class="btn-admin-danger" onclick="deleteShopProduct(${i})"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  `).join('');
+}
 
-        let sha = '';
-        if (getRes.ok) {
-          const fileMeta = await getRes.json();
-          sha = fileMeta.sha;
-        }
+function saveShopProduct() {
+  const id = document.getElementById('spId').value.trim();
+  if (!id) { adminToast('Product ID required'); return; }
+  const prods = getShopProducts();
+  prods.unshift({
+    id, name: document.getElementById('spName').value.trim(),
+    category: document.getElementById('spCat').value,
+    price: parseFloat(document.getElementById('spPrice').value) || 0,
+    oldPrice: parseFloat(document.getElementById('spOldPrice').value) || null,
+    image: document.getElementById('spImage').value.trim(),
+    tag: document.getElementById('spTag').value.trim() || 'NEW',
+    description: document.getElementById('spDesc').value.trim(),
+    customizable: false
+  });
+  saveShopProducts(prods);
+  ['spId','spName','spPrice','spOldPrice','spImage','spTag','spDesc'].forEach(f => document.getElementById(f).value = '');
+  toggleAddForm('shopAddForm');
+  renderShopPanel();
+}
 
-        // 2. Commit updated JSON directly
-        const contentEncoded = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-        const putRes = await fetch('https://api.github.com/repos/crow1126/young-apostles-fc/contents/data/cms.json', {
-          method: 'PUT',
-          headers: {
-            'Authorization': 'token ' + token,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: 'Club Admin Live Deployment via CMS Panel',
-            content: contentEncoded,
-            sha: sha || undefined
-          })
-        });
+function deleteShopProduct(i) {
+  if (!confirm('Delete this product?')) return;
+  const prods = getShopProducts();
+  prods.splice(i, 1);
+  saveShopProducts(prods);
+  renderShopPanel();
+}
 
-        if (putRes.ok) {
-          showToast("🚀 Successfully deployed worldwide! All mobile phones and computers will update within 40 seconds.");
-        } else {
-          const errData = await putRes.json();
-          alert("Deploy Notice: " + (errData.message || "Token verification issue. Downloaded backup instead."));
-          downloadCmsJson();
-        }
-      } catch (err) {
-        downloadCmsJson();
-      }
-    }
+/* ==========================================
+   HERO & STANDINGS
+   ========================================== */
+function loadHeroFields() {
+  try {
+    const h = JSON.parse(localStorage.getItem('ya_hero_custom') || '{}');
+    if (h.headline) document.getElementById('heroHeadline').value = h.headline;
+    if (h.subtitle) document.getElementById('heroSubtitle').value = h.subtitle;
+  } catch(e) {}
+  try {
+    const s = JSON.parse(localStorage.getItem('ya_standings_record') || '{}');
+    if (s.rank !== undefined) document.getElementById('standRank').value = s.rank;
+    if (s.played !== undefined) document.getElementById('standPlayed').value = s.played;
+    if (s.diff !== undefined) document.getElementById('standDiff').value = s.diff;
+    if (s.points !== undefined) document.getElementById('standPts').value = s.points;
+  } catch(e) {}
+}
 
-    function downloadCmsJson() {
-      const data = compileFullCmsData();
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "cms.json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-      showToast("Downloaded updated cms.json!");
-    }
+function saveHeroAndStandings() {
+  const headline = document.getElementById('heroHeadline').value.trim();
+  const subtitle = document.getElementById('heroSubtitle').value.trim();
+  if (headline) localStorage.setItem('ya_hero_custom', JSON.stringify({ headline, subtitle }));
 
-    function copyCmsJson() {
-      const data = compileFullCmsData();
-      navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(() => {
-        showToast("📋 All CMS data copied to clipboard!");
-      }).catch(() => {
-        showToast("Clipboard access denied.");
+  const rank = document.getElementById('standRank').value;
+  const played = document.getElementById('standPlayed').value;
+  const diff = document.getElementById('standDiff').value;
+  const points = document.getElementById('standPts').value;
+  if (rank || played || diff || points) {
+    localStorage.setItem('ya_standings_record', JSON.stringify({ rank, played, diff, points }));
+  }
+  adminToast('Hero & standings pushed to site!');
+}
+
+/* ==========================================
+   UTILITIES
+   ========================================== */
+function toggleAddForm(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+function toggleMobileSidebar() {
+  document.getElementById('adminSidebar').classList.toggle('open');
+}
+
+function clearDataConfirm(key, label) {
+  if (!confirm(`Are you sure you want to clear "${label}"? This cannot be undone.`)) return;
+  localStorage.removeItem(key);
+  adminToast(`${label} cleared.`);
+  renderPanel(currentPanel);
+}
+
+function exportCSV(type) {
+  let rows = [], headers = [];
+  if (type === 'waitlist') {
+    headers = ['Ref','Name','Phone','City','Address','Items','Total','Date','Payment Method'];
+    rows = getWaitlist().map(o => [
+      o.ref||'', o.name||'', o.phone||'', o.city||'', o.address||'',
+      (o.items||[]).map(i=>i.name).join(' | '), o.total||0, o.date||'', o.method||''
+    ]);
+  } else if (type === 'preorders') {
+    headers = ['Ref','Customer','Phone','Item','Size','Print Name','Print Number','Qty','Price'];
+    getWaitlist().concat(getOrders()).forEach(o => {
+      (o.items||[]).forEach(item => {
+        rows.push([o.ref||'',o.name||'',o.phone||'',item.name||'',item.size||'',item.customName||'',item.customNumber||'',item.qty||1,(item.price||0)*(item.qty||1)]);
       });
-    }
-
-    // Auto-sync initial state from central cloud data/cms.json
-    async function initAdminCloudSync() {
-      try {
-        const res = await fetch('data/cms.json?v=' + Date.now());
-        if (res.ok) {
-          const cloudData = await res.json();
-          if (cloudData && Array.isArray(cloudData.blogs) && cloudData.blogs.length > 0) {
-            const localVersion = localStorage.getItem('ya_cms_content_version');
-            if (localVersion !== '2026-09-17-v1' || !localStorage.getItem(UNIFIED_BLOGS_KEY)) {
-              currentBlogs = cloudData.blogs;
-              saveAllBlogs();
-              localStorage.setItem('ya_cms_content_version', '2026-09-17-v1');
-              if (typeof renderBlogAdminList === 'function') renderBlogAdminList();
-            }
-          }
-        }
-      } catch(e) {}
-    }
-
-    // Toast helper
-    function showToast(msg) {
-      const toast = document.getElementById('adminToast');
-      const text = document.getElementById('adminToastMsg');
-      if (!toast || !text) return;
-      text.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3500);
-    }
-
-    // Init check on load
-    document.addEventListener('DOMContentLoaded', () => {
-      initAdminCloudSync();
-      if (sessionStorage.getItem('ya_admin_authed') === 'true') {
-        showWorkspace();
-      }
     });
-  </script>
+  } else if (type === 'members') {
+    headers = ['Name','Tier','Phone','Email','Joined'];
+    rows = getMembers().map(m => [m.name||'',m.tier||'Guest',m.phone||'',m.email||'',m.updatedAt||'']);
+  }
+  const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = `yafc-${type}-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  adminToast('CSV downloaded!');
+}
+</script>
 </body>
 </html>

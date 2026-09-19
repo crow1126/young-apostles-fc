@@ -18,79 +18,70 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
 
-  <!-- Anticipate Site Lock Guard -->
-  <script>
-    (function() {
-      // Check query parameter override or localStorage authorization
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('preview') === '1121231234') {
-        localStorage.setItem('ya_portal_authorized', 'true');
-      }
-      const isAuth = localStorage.getItem('ya_portal_authorized');
-      if (isAuth !== 'true') {
-        window.location.replace('index.html');
-      }
-    })();
-  </script>
+  <!-- Live Site — No auth guard needed -->
 </head>
 <body>
   <!-- =========================================================
-       0. ANTICIPATE LAUNCH TICKER STRIP
+       MEMBER PROFILE SIDE PANEL
        ========================================================= -->
-  <div class="anticipate-top-strip" id="anticipateTopStrip">
-    <span class="anticipate-top-strip__badge"><i class="fa-solid fa-bolt"></i> ANTICIPATE</span>
-    <span class="anticipate-top-strip__text">Official Digital Portal Launch &bull; Saturday PM (Sep 19, 1:00 PM GMT)</span>
-    <button type="button" class="anticipate-top-strip__btn" onclick="openAnticipateOverlay()">
-      <span>Countdown</span> <i class="fa-solid fa-hourglass-half"></i>
-    </button>
-  </div>
-
-  <!-- Full-Screen Anticipate Overlay Modal -->
-  <div class="anticipate-overlay" id="anticipateOverlay">
-    <button type="button" class="anticipate-overlay__close" onclick="closeAnticipateOverlay()" aria-label="Close">&times;</button>
-    
-    <div class="anticipate-overlay__crest-wrap">
-      <div class="anticipate-overlay__crest-glow"></div>
-      <img src="assets/official-crest-hq.png" alt="Young Apostles FC Crest" class="anticipate-overlay__crest">
+  <div class="profile-overlay" id="profileOverlay" onclick="if(event.target===this)closeProfilePanel()"></div>
+  <aside class="profile-panel" id="profilePanel">
+    <div class="profile-panel__header">
+      <div class="profile-panel__title"><i class="fa-solid fa-user-circle"></i> My Profile</div>
+      <button onclick="closeProfilePanel()" class="profile-panel__close">&times;</button>
     </div>
+    <div class="profile-panel__body">
+      <!-- Avatar -->
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profileAvatar">YA</div>
+        <div>
+          <div class="profile-name" id="profileDisplayName">Guest Fan</div>
+          <div class="profile-tier" id="profileTierBadge"><i class="fa-solid fa-star"></i> Guest</div>
+        </div>
+      </div>
 
-    <div class="anticipate-overlay__badge">
-      <i class="fa-solid fa-bolt"></i> Official Launch &bull; GPL 2026/27
+      <!-- Edit form -->
+      <form id="profileForm" onsubmit="saveProfile(event)">
+        <div class="profile-field-group">
+          <label>Full Name</label>
+          <input type="text" id="profileName" placeholder="Kwame Mensah" autocomplete="name">
+        </div>
+        <div class="profile-field-group">
+          <label>Phone / WhatsApp</label>
+          <input type="tel" id="profilePhone" placeholder="024 XXX XXXX" autocomplete="tel">
+        </div>
+        <div class="profile-field-group">
+          <label>Email (optional)</label>
+          <input type="email" id="profileEmail" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="profile-field-group">
+          <label>Membership Tier</label>
+          <select id="profileTier">
+            <option value="Guest">Guest Fan</option>
+            <option value="Standard">Standard Apostle (GHS 200/yr)</option>
+            <option value="Gold VIP">Gold VIP Apostle (GHS 500/yr)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-hero-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">
+          <i class="fa-solid fa-floppy-disk"></i> Save Profile
+        </button>
+      </form>
+
+      <!-- My Orders / Waitlist -->
+      <div class="profile-section-title"><i class="fa-solid fa-clock-rotate-left"></i> My Waitlist Entries</div>
+      <div id="profileOrdersList" class="profile-orders-list">
+        <div class="profile-orders-empty"><i class="fa-solid fa-basket-shopping"></i><p>No waitlist entries yet.</p></div>
+      </div>
+
+      <div class="profile-section-title"><i class="fa-solid fa-shield-halved"></i> Membership Perks</div>
+      <div class="profile-perks-list" id="profilePerksList">
+        <div class="profile-perk"><i class="fa-solid fa-check"></i> Access to official club news</div>
+        <div class="profile-perk"><i class="fa-solid fa-check"></i> Priority waitlist notifications</div>
+        <div class="profile-perk" id="perkDiscount" style="opacity:.4">10% Team Shop Discount (Standard+)</div>
+        <div class="profile-perk" id="perkVip" style="opacity:.4">Free 2026/27 Jersey + VIP Match Access (Gold VIP)</div>
+      </div>
     </div>
-
-    <h2 class="anticipate-overlay__title">ANTICIPATE</h2>
-
-    <p class="anticipate-overlay__subtitle">
-      Something extraordinary is coming to Ghanaian Football. The official digital matchday experience of <strong>Young Apostles FC</strong> launches this <strong>Saturday 1:00 PM</strong>.
-      <br>
-      <span style="font-size:0.9em; opacity:0.8; font-style:italic; color:var(--ya-gold);">"AGYA NA ƆWƆ TUMI"</span>
-    </p>
-
-    <!-- Live Real-Time Countdown to Saturday 8:00 AM -->
-    <div class="anticipate-overlay__countdown" id="overlayCountdown">
-      <div class="anticipate-overlay__box">
-        <div class="anticipate-overlay__num" id="ovDays">00</div>
-        <div class="anticipate-overlay__label">Days</div>
-      </div>
-      <div class="anticipate-overlay__box">
-        <div class="anticipate-overlay__num" id="ovHours">00</div>
-        <div class="anticipate-overlay__label">Hours</div>
-      </div>
-      <div class="anticipate-overlay__box">
-        <div class="anticipate-overlay__num" id="ovMinutes">00</div>
-        <div class="anticipate-overlay__label">Minutes</div>
-      </div>
-      <div class="anticipate-overlay__box">
-        <div class="anticipate-overlay__num" id="ovSeconds">00</div>
-        <div class="anticipate-overlay__label">Seconds</div>
-      </div>
-    </div>
-
-    <button type="button" class="anticipate-overlay__enter-btn" onclick="closeAnticipateOverlay()">
-      <span>Explore Live Portal</span>
-      <i class="fa-solid fa-arrow-right"></i>
-    </button>
-  </div>
+  </aside>
 
   <!-- =========================================================
        1. TOP UTILITY BAR
@@ -111,8 +102,8 @@
           <a href="https://www.facebook.com/share/1HLCxKYSXU/?mibextid=wwXIfr" target="_blank" rel="noopener" class="top-social-link" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="https://www.youtube.com/@YoungApostlesFC" target="_blank" rel="noopener" class="top-social-link" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
-        <button class="top-cta-btn" onclick="openAnticipateOverlay()" style="margin-right:6px; background:rgba(255,184,0,0.15); border-color:var(--ya-gold); color:var(--ya-gold);">
-          <i class="fa-solid fa-bolt"></i> ANTICIPATE
+        <button class="top-cta-btn" onclick="openProfilePanel()" style="margin-right:6px;" id="profileTopBtn">
+          <i class="fa-solid fa-user-circle"></i> <span id="profileTopName">My Profile</span>
         </button>
         <button class="top-cta-btn" onclick="openMembershipModal()">
           <i class="fa-solid fa-crown"></i> Official Membership
@@ -149,7 +140,7 @@
       </a>
 
       <nav class="nav-links" aria-label="Main Navigation">
-        <a href="index.html" class="nav-link" style="color:var(--ya-gold); font-weight:800;"><i class="fa-solid fa-bolt" style="margin-right:3px;"></i> Anticipate</a>
+        <a href="#home" class="nav-link"><i class="fa-solid fa-house" style="margin-right:3px;"></i> Home</a>
         <a href="#news" class="nav-link active">News</a>
         <a href="#matches" class="nav-link">Schedule / Fixtures</a>
         <a href="#apostles-tv" class="nav-link">Apostles TV</a>
@@ -737,12 +728,16 @@
       </div>
 
 
-      <!-- Coming Soon Payment Notice -->
-      <div style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE); border:1px solid #BFDBFE; border-radius:12px; padding:1rem 1.25rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.75rem;">
-        <i class="fa-brands fa-cc-stripe" style="font-size:1.5rem; color:#635BFF;"></i>
-        <div>
-          <div style="font-weight:800; font-size:0.88rem; color:#1E3A8A;">Paystack Payment Gateway — Launching Saturday 1:00 PM</div>
-          <div style="font-size:0.78rem; color:#3B82F6; margin-top:2px;">Browse items &amp; build your bag. Full checkout with card &amp; MoMo goes live at launch.</div>
+      <!-- Waitlist / Preorder Notice -->
+      <div class="shop-waitlist-banner">
+        <div class="shop-waitlist-banner__icon"><i class="fa-solid fa-list-check"></i></div>
+        <div class="shop-waitlist-banner__text">
+          <div class="shop-waitlist-banner__title">Official Pre-Order Waiting List — Now Open</div>
+          <div class="shop-waitlist-banner__sub">Select your kit &amp; size, join the waitlist. We'll contact you via WhatsApp/SMS to confirm and arrange payment when your order is ready.</div>
+        </div>
+        <div class="shop-waitlist-banner__count">
+          <div class="shop-waitlist-count-num" id="shopWaitlistCount">0</div>
+          <div class="shop-waitlist-count-lbl">on list</div>
         </div>
       </div>
 
@@ -928,15 +923,15 @@
     <div class="modal-box checkout-modal-box">
       <button class="modal-close-btn" onclick="closeCheckoutModal()">&times;</button>
       
-      <!-- STEP 1: VIP Waitlist & Reservation Details -->
+      <!-- STEP 1: Waitlist & Reservation Details -->
       <div id="checkoutStepDetails">
         <div style="text-align:center; margin-bottom:1.25rem;">
           <img src="assets/official-logo.png" style="width:52px; margin:0 auto 0.5rem;" alt="Young Apostles FC">
           <div style="display:inline-block; font-size:0.72rem; font-weight:800; color:#16A34A; background:rgba(22,163,74,0.1); border:1px solid rgba(22,163,74,0.3); padding:3px 10px; border-radius:999px; margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.06em;">
-            <i class="fa-solid fa-lock-open"></i> Zero Payment Today &bull; Reserve Your Spot
+            <i class="fa-solid fa-list-check"></i> No Payment Now &bull; Reserve Your Spot
           </div>
-          <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue);">JOIN VIP LAUNCH WAITLIST</h3>
-          <p style="color:var(--text-muted); font-size:0.85rem;">Official Young Apostles FC 2026/27 Matchday Store</p>
+          <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; color:var(--ya-blue);">JOIN THE PREORDER WAITING LIST</h3>
+          <p style="color:var(--text-muted); font-size:0.85rem;">Official Young Apostles FC 2026/27 Mayniak Store</p>
         </div>
 
         <form id="checkoutForm" onsubmit="handleDetailsSubmit(event)">
@@ -1022,7 +1017,7 @@
           </div>
 
           <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:0.9rem;">
-            <i class="fa-solid fa-bookmark"></i> Lock In Spot &amp; Join Waitlist &rarr;
+            <i class="fa-solid fa-list-check"></i> Join Waiting List &rarr;
           </button>
         </form>
       </div>

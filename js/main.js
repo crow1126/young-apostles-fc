@@ -189,7 +189,7 @@ function addToCart(productId, customName = '', customNumber = '', size = 'L') {
   }
 
   saveCart();
-  showToast(`Added ${product.name} to bag!`);
+  showToast(`Added ${product.name} to waitlist!`);
   openCartDrawer();
 }
 
@@ -325,7 +325,7 @@ function renderProducts(filter = 'all') {
         </div>
         <div class="product-actions">
           <button class="btn-add-cart" onclick="addToCart('${product.id}')">
-            <i class="fa-solid fa-cart-plus"></i> Add to Bag
+            <i class="fa-solid fa-list-check"></i> Join Waitlist
           </button>
           <button class="btn-quick-view" onclick="openProductModal('${product.id}')" title="Quick View & Customize">
             <i class="fa-solid fa-eye"></i>
@@ -898,8 +898,16 @@ function closeMembershipModal() {
 }
 
 function joinMembership(tierName) {
+  // Save membership tier to profile
+  try {
+    const profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}');
+    profile.tier = tierName;
+    localStorage.setItem('ya_user_profile', JSON.stringify(profile));
+  } catch(e) {}
   showToast(`Welcome to Young Apostles FC ${tierName}!`);
   closeMembershipModal();
+  // Refresh profile panel if open
+  loadProfileData();
 }
 
 function openNewsModal() {
@@ -2046,78 +2054,155 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Init Anticipate Overlay Countdown
-  updateOverlayCountdown();
-  setInterval(updateOverlayCountdown, 1000);
+  // Init profile
+  loadProfileData();
+  updateWaitlistCount();
 });
 
+
 // ==========================================
-// ANTICIPATE OVERLAY LOGIC
+// MEMBER PROFILE PANEL
 // ==========================================
-function openAnticipateOverlay() {
-  const overlay = document.getElementById('anticipateOverlay');
-  if (overlay) {
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    updateOverlayCountdown();
-  }
+function openProfilePanel() {
+  loadProfileData();
+  document.getElementById('profilePanel')?.classList.add('open');
+  document.getElementById('profileOverlay')?.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
-function closeAnticipateOverlay() {
-  const overlay = document.getElementById('anticipateOverlay');
-  if (overlay) {
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-  }
+function closeProfilePanel() {
+  document.getElementById('profilePanel')?.classList.remove('open');
+  document.getElementById('profileOverlay')?.classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-function getSaturdayAMTarget() {
-  const fixedTarget = new Date('2026-09-19T13:00:00');
-  const now = new Date();
-  if (fixedTarget.getTime() > now.getTime()) {
-    return fixedTarget;
+function loadProfileData() {
+  let profile = {};
+  try { profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(e) {}
+
+  const nameEl = document.getElementById('profileName');
+  const phoneEl = document.getElementById('profilePhone');
+  const emailEl = document.getElementById('profileEmail');
+  const tierEl = document.getElementById('profileTier');
+
+  if (nameEl) nameEl.value = profile.name || '';
+  if (phoneEl) phoneEl.value = profile.phone || '';
+  if (emailEl) emailEl.value = profile.email || '';
+  if (tierEl) tierEl.value = profile.tier || 'Guest';
+
+  // Update display
+  const displayName = profile.name || 'Guest Fan';
+  const tier = profile.tier || 'Guest';
+  const initials = displayName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'YA';
+
+  const avatarEl = document.getElementById('profileAvatar');
+  const nameDisplayEl = document.getElementById('profileDisplayName');
+  const tierBadgeEl = document.getElementById('profileTierBadge');
+  const topNameEl = document.getElementById('profileTopName');
+
+  if (avatarEl) avatarEl.textContent = initials;
+  if (nameDisplayEl) nameDisplayEl.textContent = displayName;
+  if (tierBadgeEl) {
+    const tierIcon = tier === 'Gold VIP' ? '\u{1F451}' : tier === 'Standard' ? '\u2605' : '\u{1F464}';
+    tierBadgeEl.innerHTML = `${tierIcon} ${tier}`;
   }
-  const target = new Date(now);
-  const day = now.getDay();
-  let diff = (6 - day + 7) % 7;
-  if (diff === 0 && now.getHours() >= 8) {
-    diff = 7;
-  }
-  target.setDate(now.getDate() + diff);
-  target.setHours(8, 0, 0, 0);
-  return target;
+  if (topNameEl) topNameEl.textContent = profile.name ? profile.name.split(' ')[0] : 'My Profile';
+
+  // Perks visibility
+  const perkDiscount = document.getElementById('perkDiscount');
+  const perkVip = document.getElementById('perkVip');
+  if (perkDiscount) perkDiscount.style.opacity = (tier === 'Standard' || tier === 'Gold VIP') ? '1' : '0.4';
+  if (perkVip) perkVip.style.opacity = tier === 'Gold VIP' ? '1' : '0.4';
+
+  // Load waitlist orders
+  renderProfileOrders();
 }
 
-const overlaySaturdayTarget = getSaturdayAMTarget();
+function saveProfile(e) {
+  e.preventDefault();
+  const name = document.getElementById('profileName')?.value.trim();
+  const phone = document.getElementById('profilePhone')?.value.trim();
+  const email = document.getElementById('profileEmail')?.value.trim();
+  const tier = document.getElementById('profileTier')?.value || 'Guest';
 
-function updateOverlayCountdown() {
-  const now = new Date();
-  const diff = overlaySaturdayTarget.getTime() - now.getTime();
+  const profile = { name, phone, email, tier, updatedAt: new Date().toISOString() };
+  localStorage.setItem('ya_user_profile', JSON.stringify(profile));
+  loadProfileData();
+  showToast('Profile saved! Welcome, ' + (name || 'Apostle Fan') + '!');
+}
 
-  const dEl = document.getElementById('ovDays');
-  const hEl = document.getElementById('ovHours');
-  const mEl = document.getElementById('ovMinutes');
-  const sEl = document.getElementById('ovSeconds');
+function renderProfileOrders() {
+  const container = document.getElementById('profileOrdersList');
+  if (!container) return;
 
-  if (!dEl || !hEl || !mEl || !sEl) return;
+  let orders = [];
+  try { orders = JSON.parse(localStorage.getItem('ya_waitlist_orders') || '[]'); } catch(e) {}
 
-  if (diff <= 0) {
-    dEl.textContent = '00';
-    hEl.textContent = '00';
-    mEl.textContent = '00';
-    sEl.textContent = '00';
+  if (!orders.length) {
+    try { orders = JSON.parse(localStorage.getItem('ya_orders') || '[]'); } catch(e) {}
+  }
+
+  if (orders.length === 0) {
+    container.innerHTML = `<div class="profile-orders-empty"><i class="fa-solid fa-basket-shopping"></i><p>No waitlist entries yet. Browse the shop!</p></div>`;
     return;
   }
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-  dEl.textContent = String(days).padStart(2, '0');
-  hEl.textContent = String(hours).padStart(2, '0');
-  mEl.textContent = String(minutes).padStart(2, '0');
-  sEl.textContent = String(seconds).padStart(2, '0');
+  container.innerHTML = orders.slice(0, 5).map(order => `
+    <div class="profile-order-entry">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div class="profile-order-ref">${order.ref || 'YAFC-ORDER'}</div>
+          <div style="margin-top:0.2rem;font-size:0.8rem;color:var(--text-muted);">${order.date || ''}</div>
+          <div style="margin-top:0.3rem;font-size:0.82rem;font-weight:600;">${(order.items || []).map(i => i.name).join(', ')}</div>
+        </div>
+        <div>
+          <div class="profile-order-status">${order.status || 'On Waitlist'}</div>
+          <div style="font-size:0.78rem;font-weight:700;color:var(--ya-blue);margin-top:0.25rem;text-align:right;">GHS ${order.total ? order.total.toFixed(2) : '0.00'}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
 
+// ==========================================
+// WAITLIST ORDER SAVE
+// ==========================================
+function saveWaitlistOrder(orderData) {
+  try {
+    const existing = JSON.parse(localStorage.getItem('ya_waitlist_orders') || '[]');
+    existing.unshift({ ...orderData, status: 'On Waitlist', savedAt: new Date().toISOString() });
+    localStorage.setItem('ya_waitlist_orders', JSON.stringify(existing));
+    updateWaitlistCount();
+  } catch(e) {}
+}
 
+function updateWaitlistCount() {
+  const el = document.getElementById('shopWaitlistCount');
+  if (!el) return;
+  try {
+    const orders = JSON.parse(localStorage.getItem('ya_waitlist_orders') || '[]');
+    el.textContent = orders.length;
+  } catch(e) { el.textContent = '0'; }
+}
+
+// Intercept handleDetailsSubmit to also save to waitlist store
+const _origHandleDetailsSubmit = typeof handleDetailsSubmit !== 'undefined' ? handleDetailsSubmit : null;
+// Override via event — we hook into the existing form
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('checkoutForm');
+  if (form) {
+    form.addEventListener('submit', () => {
+      // After the existing handler runs, save to waitlist
+      setTimeout(() => {
+        if (currentPendingOrder) {
+          saveWaitlistOrder(currentPendingOrder);
+        }
+      }, 100);
+    });
+  }
+});
+
+// Stub out old anticipate functions to prevent any residual errors
+function openAnticipateOverlay() {}
+function closeAnticipateOverlay() {}
+function updateOverlayCountdown() {}
