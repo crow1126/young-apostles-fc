@@ -2104,34 +2104,83 @@ function loadProfileData() {
   if (nameEl) nameEl.value = profile.name || '';
   if (phoneEl) phoneEl.value = profile.phone || '';
   if (emailEl) emailEl.value = profile.email || '';
-  if (tierEl) tierEl.value = profile.tier || 'Guest';
+  
+  const currentTier = profile.tier || '';
+  if (tierEl) tierEl.value = currentTier;
+
+  // Highlight tier card only if explicitly selected (none preselected by default)
+  const optStd = document.getElementById('optTierStandard');
+  const optGold = document.getElementById('optTierGold');
+  if (optStd) optStd.classList.toggle('selected', currentTier.includes('Standard'));
+  if (optGold) optGold.classList.toggle('selected', currentTier.includes('Gold VIP'));
 
   // Update display
-  const displayName = profile.name || 'Guest Fan';
-  const tier = profile.tier || 'Guest';
-  const initials = displayName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || 'YA';
+  const displayName = profile.name || 'Official Fan';
+  const initials = profile.name
+    ? profile.name.trim().split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
+    : 'YA';
 
   const avatarEl = document.getElementById('profileAvatar');
   const nameDisplayEl = document.getElementById('profileDisplayName');
   const tierBadgeEl = document.getElementById('profileTierBadge');
   const topNameEl = document.getElementById('profileTopName');
 
-  if (avatarEl) avatarEl.textContent = initials;
+  if (avatarEl) avatarEl.textContent = initials || 'YA';
   if (nameDisplayEl) nameDisplayEl.textContent = displayName;
+  
   if (tierBadgeEl) {
-    const tierIcon = tier === 'Gold VIP' ? '\u{1F451}' : tier === 'Standard' ? '\u2605' : '\u{1F464}';
-    tierBadgeEl.innerHTML = `${tierIcon} ${tier}`;
+    if (currentTier.includes('Gold VIP')) {
+      tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--gold';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-crown"></i> Gold VIP Apostle &bull; 2026/27';
+    } else if (currentTier.includes('Standard')) {
+      tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--standard';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-star"></i> Standard Apostle &bull; 2026/27';
+    } else {
+      tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--guest';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-user"></i> Fan Member (No Tier Selected)';
+    }
   }
-  if (topNameEl) topNameEl.textContent = profile.name ? profile.name.split(' ')[0] : 'My Profile';
+
+  if (topNameEl) {
+    topNameEl.textContent = profile.name ? profile.name.trim().split(' ')[0] : 'My Profile';
+  }
 
   // Perks visibility
   const perkDiscount = document.getElementById('perkDiscount');
   const perkVip = document.getElementById('perkVip');
-  if (perkDiscount) perkDiscount.style.opacity = (tier === 'Standard' || tier === 'Gold VIP') ? '1' : '0.4';
-  if (perkVip) perkVip.style.opacity = tier === 'Gold VIP' ? '1' : '0.4';
+  if (perkDiscount) perkDiscount.style.opacity = currentTier ? '1' : '0.4';
+  if (perkVip) perkVip.style.opacity = currentTier.includes('Gold VIP') ? '1' : '0.4';
 
   // Load waitlist orders
   renderProfileOrders();
+}
+
+function selectTierInProfile(tier) {
+  const tierEl = document.getElementById('profileTier');
+  const current = tierEl ? tierEl.value : '';
+  
+  // Toggle: clicking already selected removes selection
+  const newTier = (current === tier || current.includes(tier)) ? '' : tier;
+  if (tierEl) tierEl.value = newTier;
+
+  const optStd = document.getElementById('optTierStandard');
+  const optGold = document.getElementById('optTierGold');
+  if (optStd) optStd.classList.toggle('selected', newTier.includes('Standard'));
+  if (optGold) optGold.classList.toggle('selected', newTier.includes('Gold VIP'));
+
+  const tierBadgeEl = document.getElementById('profileTierBadge');
+  if (tierBadgeEl) {
+    if (newTier.includes('Gold VIP')) {
+      tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--gold';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-crown"></i> Gold VIP Apostle &bull; 2026/27';
+    } else if (newTier.includes('Standard')) {
+      tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--standard';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-star"></i> Standard Apostle &bull; 2026/27';
+    } else {
+      tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--guest';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-user"></i> Fan Member (No Tier Selected)';
+    }
+  }
 }
 
 function saveProfile(e) {
@@ -2139,12 +2188,12 @@ function saveProfile(e) {
   const name = document.getElementById('profileName')?.value.trim();
   const phone = document.getElementById('profilePhone')?.value.trim();
   const email = document.getElementById('profileEmail')?.value.trim();
-  const tier = document.getElementById('profileTier')?.value || 'Guest';
+  const tier = document.getElementById('profileTier')?.value || '';
 
   const profile = { name, phone, email, tier, updatedAt: new Date().toISOString() };
   localStorage.setItem('ya_user_profile', JSON.stringify(profile));
   loadProfileData();
-  showToast('Profile saved! Welcome, ' + (name || 'Apostle Fan') + '!');
+  showToast('Profile saved successfully! Welcome, ' + (name || 'Apostle Fan'));
 }
 
 function renderProfileOrders() {

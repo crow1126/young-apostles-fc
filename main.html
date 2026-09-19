@@ -16,7 +16,410 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=3.2">
+  <link rel="stylesheet" href="css/styles.css?v=3.3">
+
+  <!-- Ultra-Cool Premier League Dark Luxury Modal Styles -->
+  <style id="ya-cool-modals-css">
+    #profileModal.modal-overlay, #membershipModal.modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 8, 22, 0.88);
+      backdrop-filter: blur(12px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      overflow-y: auto;
+    }
+    #profileModal.modal-overlay.open, #membershipModal.modal-overlay.open {
+      display: flex !important;
+    }
+
+    .cool-modal-box {
+      background: linear-gradient(160deg, #0C1636 0%, #060D24 100%) !important;
+      border: 1.5px solid rgba(241, 180, 52, 0.35) !important;
+      border-radius: 22px !important;
+      max-width: 620px !important;
+      width: 100% !important;
+      max-height: 92vh !important;
+      display: flex !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.85), 0 0 50px rgba(0, 87, 184, 0.25) !important;
+      color: #F8FAFC !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      position: relative !important;
+      padding: 0 !important;
+    }
+
+    .cool-modal-hdr {
+      background: linear-gradient(135deg, rgba(0, 87, 184, 0.35) 0%, rgba(241, 180, 52, 0.15) 100%), #0A1435;
+      padding: 1.4rem 1.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .cool-modal-hdr__left {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+    .cool-modal-hdr__crest {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(241, 180, 52, 0.4));
+    }
+    .cool-modal-hdr__tag {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #F1B434;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .cool-modal-hdr__title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: 0.02em;
+    }
+    .cool-modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cool-modal-close:hover {
+      background: #F1B434;
+      color: #060D24;
+      border-color: #F1B434;
+      transform: scale(1.05);
+    }
+
+    .cool-modal-body {
+      padding: 1.5rem 1.75rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .cool-fan-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 1.25rem 1.35rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cool-fan-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0057B8, #071330);
+      border: 2.5px solid #F1B434;
+      color: #F1B434;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 20px rgba(241, 180, 52, 0.35);
+    }
+    .cool-fan-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .cool-fan-name i { color: #16A34A; font-size: 0.9rem; }
+    .cool-tier-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-top: 0.35rem;
+    }
+    .cool-tier-pill--guest {
+      background: rgba(255, 255, 255, 0.08);
+      color: #94A3B8;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .cool-tier-pill--standard {
+      background: rgba(0, 87, 184, 0.25);
+      color: #60A5FA;
+      border: 1px solid rgba(0, 87, 184, 0.5);
+    }
+    .cool-tier-pill--gold {
+      background: rgba(241, 180, 52, 0.2);
+      color: #F1B434;
+      border: 1px solid rgba(241, 180, 52, 0.6);
+      box-shadow: 0 0 12px rgba(241, 180, 52, 0.2);
+    }
+
+    .cool-section-lbl {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .cool-section-lbl i { color: #F1B434; }
+
+    .cool-tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .cool-tier-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 1.15rem 1rem;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      position: relative;
+      text-align: center;
+    }
+    .cool-tier-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(241, 180, 52, 0.4);
+      transform: translateY(-2px);
+    }
+    .cool-tier-card.selected {
+      background: linear-gradient(135deg, rgba(241, 180, 52, 0.18) 0%, rgba(0, 87, 184, 0.2) 100%);
+      border-color: #F1B434;
+      box-shadow: 0 0 20px rgba(241, 180, 52, 0.25);
+    }
+    .cool-tier-card__badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94A3B8;
+      margin-bottom: 0.3rem;
+    }
+    .cool-tier-card.selected .cool-tier-card__badge {
+      color: #F1B434;
+    }
+    .cool-tier-card__title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #FFFFFF;
+      margin-bottom: 0.25rem;
+    }
+    .cool-tier-card__price {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #F1B434;
+      margin-bottom: 0.4rem;
+    }
+    .cool-tier-card__price span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #94A3B8;
+    }
+    .cool-tier-card__perks {
+      font-size: 0.75rem;
+      color: #CBD5E1;
+      line-height: 1.35;
+      margin-bottom: 0.75rem;
+      min-height: 2.2em;
+    }
+    .cool-tier-card__radio-btn {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94A3B8;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s;
+    }
+    .cool-tier-card.selected .cool-tier-card__radio-btn {
+      background: #F1B434;
+      color: #060D24;
+      border-color: #F1B434;
+    }
+
+    .cool-field-row {
+      margin-bottom: 1rem;
+    }
+    .cool-field-row label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.35rem;
+    }
+    .cool-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .cool-input-wrap i {
+      position: absolute;
+      left: 1rem;
+      color: #64748B;
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+    .cool-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 0.75rem 1rem 0.75rem 2.6rem;
+      color: #FFFFFF;
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .cool-input:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #F1B434;
+      box-shadow: 0 0 0 3px rgba(241, 180, 52, 0.15);
+    }
+    .cool-input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-cool-save {
+      width: 100%;
+      background: linear-gradient(135deg, #F1B434 0%, #D99516 100%);
+      color: #060D24;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      padding: 0.9rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      box-shadow: 0 8px 24px rgba(241, 180, 52, 0.35);
+      transition: all 0.25s ease;
+    }
+    .btn-cool-save:hover {
+      background: #FFFFFF;
+      color: #060D24;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 255, 255, 0.4);
+    }
+
+    .mem-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 1.4rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+    .mem-card:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(241, 180, 52, 0.4);
+      transform: translateY(-2px);
+    }
+    .mem-card--standard .mem-btn {
+      background: #0057B8;
+      color: #FFFFFF;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+    }
+    .mem-card--standard .mem-btn:hover {
+      background: #006ce6;
+      border-color: #FFFFFF;
+      box-shadow: 0 0 16px rgba(0, 87, 184, 0.5);
+    }
+    .mem-card--gold .mem-btn {
+      background: linear-gradient(135deg, #F1B434, #D99516);
+      color: #060D24;
+      border: none;
+      box-shadow: 0 4px 16px rgba(241, 180, 52, 0.3);
+    }
+    .mem-card--gold .mem-btn:hover {
+      background: #FFFFFF;
+      color: #060D24;
+    }
+    .mem-btn {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.2s;
+    }
+
+    .cool-perks-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .cool-perk-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.84rem;
+      color: #CBD5E1;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.55rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .cool-perk-item i {
+      color: #16A34A;
+      font-size: 0.85rem;
+    }
+  </style>
 
   <!-- Live Site — No auth guard needed -->
 </head>
@@ -992,107 +1395,176 @@
     </div>
   </div>
 
-  <!-- Member Profile Modal -->
+  <!-- Member Profile Modal (Cool Luxury Dark UI) -->
   <div class="modal-overlay" id="profileModal" style="display:none;" onclick="if(event.target===this)closeProfileModal()">
-    <div class="modal-box profile-modal-box">
-      <div class="profile-modal-hdr">
-        <div class="profile-modal-hdr__inner">
-          <img src="assets/official-logo.png" alt="YAFC" class="profile-modal-hdr__crest">
-          <div class="profile-modal-hdr__titles">
-            <div class="profile-modal-hdr__tag">Official Fan Portal</div>
-            <h3 class="profile-modal-hdr__title">Club Member Profile</h3>
+    <div class="cool-modal-box">
+      <!-- Header -->
+      <div class="cool-modal-hdr">
+        <div class="cool-modal-hdr__left">
+          <img src="assets/official-logo.png" alt="Young Apostles FC" class="cool-modal-hdr__crest">
+          <div>
+            <div class="cool-modal-hdr__tag">Official Fan Digital Pass</div>
+            <div class="cool-modal-hdr__title">Club Member Profile</div>
           </div>
-          <button class="modal-close-btn" onclick="closeProfileModal()" style="color:#fff; background:rgba(255,255,255,0.15); border:none; width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:1.2rem; display:flex; align-items:center; justify-content:center;">&times;</button>
         </div>
+        <button class="cool-modal-close" onclick="closeProfileModal()">&times;</button>
       </div>
 
-      <div class="profile-modal-body">
-        <!-- Fan Avatar & Tier Display -->
-        <div class="profile-avatar-wrap">
-          <div class="profile-avatar" id="profileAvatar">YA</div>
-          <div class="profile-info">
-            <div class="profile-name" id="profileDisplayName">Guest Fan</div>
-            <div class="profile-tier-row">
-              <span class="profile-tier" id="profileTierBadge"><i class="fa-solid fa-star"></i> Guest Fan</span>
-              <button type="button" class="profile-tier-upgrade-btn" onclick="openMembershipFromProfile()">
-                <i class="fa-solid fa-crown"></i> Upgrade Membership
-              </button>
+      <div class="cool-modal-body">
+        <!-- Fan ID Card -->
+        <div class="cool-fan-card">
+          <div class="cool-fan-avatar" id="profileAvatar">YA</div>
+          <div style="flex:1; min-width:0;">
+            <div class="cool-fan-name">
+              <span id="profileDisplayName">Official Fan</span>
+              <i class="fa-solid fa-circle-check" title="Official Club Fan"></i>
+            </div>
+            <div id="profileTierBadge" class="cool-tier-pill cool-tier-pill--guest">
+              <i class="fa-solid fa-user"></i> Fan Member (No Tier Selected)
             </div>
           </div>
         </div>
 
-        <!-- Fan Details Edit Form -->
+        <!-- Tier Selection (None Pre-selected) -->
+        <div class="cool-section-lbl">
+          <i class="fa-solid fa-crown"></i> Choose Your 2026/27 Membership Tier
+        </div>
+        <div class="cool-tier-grid">
+          <div class="cool-tier-card" id="optTierStandard" onclick="selectTierInProfile('Standard')">
+            <div class="cool-tier-card__badge"><i class="fa-solid fa-star"></i> OFFICIAL TIER</div>
+            <div class="cool-tier-card__title">Standard Apostle</div>
+            <div class="cool-tier-card__price">GHS 200 <span>/year</span></div>
+            <div class="cool-tier-card__perks">10% Shop Discount &bull; Priority Match Alerts</div>
+            <div class="cool-tier-card__radio-btn"><i class="fa-solid fa-check"></i> Select Standard</div>
+          </div>
+
+          <div class="cool-tier-card" id="optTierGold" onclick="selectTierInProfile('Gold VIP')">
+            <div class="cool-tier-card__badge" style="color:#F1B434;"><i class="fa-solid fa-crown"></i> VIP ACCESS</div>
+            <div class="cool-tier-card__title">Gold VIP Apostle</div>
+            <div class="cool-tier-card__price">GHS 500 <span>/year</span></div>
+            <div class="cool-tier-card__perks">Free 2026/27 Jersey &bull; VIP Matchday Pass</div>
+            <div class="cool-tier-card__radio-btn"><i class="fa-solid fa-check"></i> Select Gold VIP</div>
+          </div>
+        </div>
+        <input type="hidden" id="profileTier" value="">
+
+        <!-- Fan Info Form -->
         <form id="profileForm" onsubmit="saveProfile(event)">
-          <div class="profile-field-group">
+          <div class="cool-field-row">
             <label>Full Name</label>
-            <input type="text" id="profileName" placeholder="Kwame Mensah" autocomplete="name">
+            <div class="cool-input-wrap">
+              <i class="fa-solid fa-user"></i>
+              <input type="text" id="profileName" placeholder="Your Full Name" class="cool-input" autocomplete="name">
+            </div>
           </div>
-          <div class="profile-field-group">
-            <label>Phone / WhatsApp</label>
-            <input type="tel" id="profilePhone" placeholder="024 XXX XXXX" autocomplete="tel">
+
+          <div class="cool-field-row">
+            <label>Phone / WhatsApp Number</label>
+            <div class="cool-input-wrap">
+              <i class="fa-solid fa-phone"></i>
+              <input type="tel" id="profilePhone" placeholder="024 XXX XXXX" class="cool-input" autocomplete="tel">
+            </div>
           </div>
-          <div class="profile-field-group">
-            <label>Email (optional)</label>
-            <input type="email" id="profileEmail" placeholder="you@example.com" autocomplete="email">
+
+          <div class="cool-field-row">
+            <label>Email Address (Optional)</label>
+            <div class="cool-input-wrap">
+              <i class="fa-solid fa-envelope"></i>
+              <input type="email" id="profileEmail" placeholder="you@example.com" class="cool-input" autocomplete="email">
+            </div>
           </div>
-          <div class="profile-field-group">
-            <label>Membership Tier</label>
-            <select id="profileTier">
-              <option value="Guest">Guest Fan</option>
-              <option value="Standard">Standard Apostle (GHS 200/yr)</option>
-              <option value="Gold VIP">Gold VIP Apostle (GHS 500/yr)</option>
-            </select>
-          </div>
-          <button type="submit" class="btn-hero-primary" style="width:100%; justify-content:center; padding:0.8rem; margin-top:0.4rem;">
+
+          <button type="submit" class="btn-cool-save">
             <i class="fa-solid fa-floppy-disk"></i> Save Profile Details
           </button>
         </form>
 
         <!-- My Waitlist Reservations -->
-        <div class="profile-section-title"><i class="fa-solid fa-clock-rotate-left"></i> My Waitlist Reservations</div>
+        <div class="cool-section-lbl" style="margin-top:1.5rem;">
+          <i class="fa-solid fa-list-check"></i> My Pre-Order Reservations
+        </div>
         <div id="profileOrdersList" class="profile-orders-list">
-          <div class="profile-orders-empty">
-            <i class="fa-solid fa-list-check"></i>
-            <p>No active reservations yet.</p>
+          <div class="profile-orders-empty" style="background:rgba(255,255,255,0.03); border:1px dashed rgba(255,255,255,0.12); color:#94A3B8;">
+            <i class="fa-solid fa-shirt"></i>
+            <p>No active reservations yet. Browse the Team Shop!</p>
           </div>
         </div>
 
-        <!-- Member Perks -->
-        <div class="profile-section-title"><i class="fa-solid fa-shield-halved"></i> Member Privileges</div>
-        <div class="profile-perks-list">
-          <div class="profile-perk"><i class="fa-solid fa-check"></i> Access to official team news &amp; fixtures</div>
-          <div class="profile-perk"><i class="fa-solid fa-check"></i> Priority pre-order waitlist allocation</div>
-          <div class="profile-perk" id="perkDiscount" style="opacity:.4;"><i class="fa-solid fa-check"></i> 10% Team Shop Discount (Standard+)</div>
-          <div class="profile-perk" id="perkVip" style="opacity:.4;"><i class="fa-solid fa-check"></i> Free 2026/27 Jersey + VIP Matchday Access (Gold VIP)</div>
+        <!-- Member Perks Preview -->
+        <div class="cool-section-lbl" style="margin-top:1.5rem;">
+          <i class="fa-solid fa-shield-halved"></i> Member Privileges
+        </div>
+        <div class="cool-perks-grid">
+          <div class="cool-perk-item"><i class="fa-solid fa-check"></i> Official 2026/27 Ghana Premier League team news</div>
+          <div class="cool-perk-item"><i class="fa-solid fa-check"></i> Priority pre-order allocation on Mayniak kits</div>
+          <div class="cool-perk-item" id="perkDiscount" style="opacity:0.4;"><i class="fa-solid fa-check"></i> 10% Team Shop Discount (Standard+)</div>
+          <div class="cool-perk-item" id="perkVip" style="opacity:0.4;"><i class="fa-solid fa-check"></i> Free Official Match Jersey + VIP Hospitality (Gold VIP)</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Membership Modal -->
+  <!-- Official Club Membership Modal (Cool Luxury Dark UI) -->
   <div class="modal-overlay" id="membershipModal" style="display:none;" onclick="if(event.target===this)closeMembershipModal()">
-    <div class="modal-box" style="max-width:620px;">
-      <button class="modal-close-btn" onclick="closeMembershipModal()">&times;</button>
-      <div style="text-align:center; margin-bottom:1.5rem;">
-        <img src="assets/official-logo.png" style="width:56px; margin:0 auto 0.5rem;">
-        <h3 style="font-family:var(--font-heading); font-size:1.45rem; font-weight:900; color:var(--ya-blue);">OFFICIAL CLUB MEMBERSHIP</h3>
-        <p style="color:var(--text-muted); font-size:0.85rem;">Stand with Wenchi's Premier League club &bull; Unlock exclusive member privileges.</p>
+    <div class="cool-modal-box">
+      <!-- Header -->
+      <div class="cool-modal-hdr">
+        <div class="cool-modal-hdr__left">
+          <img src="assets/official-logo.png" alt="Young Apostles FC" class="cool-modal-hdr__crest">
+          <div>
+            <div class="cool-modal-hdr__tag">Ghana Premier League 2026/27</div>
+            <div class="cool-modal-hdr__title">Official Club Membership</div>
+          </div>
+        </div>
+        <button class="cool-modal-close" onclick="closeMembershipModal()">&times;</button>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem;">
-        <div style="border:1.5px solid var(--border-color); border-radius:var(--radius-md); padding:1.35rem 1.15rem; text-align:center; background:#F8FAFC;">
-          <span style="font-size:0.68rem; font-weight:800; color:var(--ya-blue); background:rgba(0,87,184,0.1); padding:2px 8px; border-radius:999px; text-transform:uppercase;">Official Fan</span>
-          <h4 style="font-weight:800; font-size:1.1rem; color:var(--ya-blue); margin-top:0.4rem;">Standard Apostle</h4>
-          <div style="font-size:1.45rem; font-weight:900; color:var(--ya-blue); margin:0.5rem 0;">GHS 200 <span style="font-size:0.75rem; color:var(--text-muted); font-weight:500;">/yr</span></div>
-          <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1.1rem; line-height:1.45;">Official membership badge, 10% team shop discount, exclusive media dispatch.</p>
-          <button class="btn-hero-secondary" style="width:100%; font-size:0.82rem; padding:0.6rem; justify-content:center;" onclick="joinMembership('Standard Apostle')">Join Standard</button>
+
+      <div class="cool-modal-body">
+        <p style="text-align:center; color:#94A3B8; font-size:0.88rem; margin-bottom:1.5rem;">
+          Support Wenchi's Premier League club &bull; Choose your official annual fan membership tier.
+        </p>
+
+        <!-- Both cards neutral, neither pre-selected -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem;">
+          <!-- Standard Apostle Card -->
+          <div class="mem-card mem-card--standard">
+            <div>
+              <span style="display:inline-block; font-size:0.68rem; font-weight:800; color:#60A5FA; background:rgba(0,87,184,0.25); border:1px solid rgba(0,87,184,0.5); padding:3px 10px; border-radius:999px; text-transform:uppercase; letter-spacing:0.06em;">
+                <i class="fa-solid fa-star"></i> Official Fan
+              </span>
+              <h4 style="font-family:'Outfit',sans-serif; font-weight:800; font-size:1.25rem; color:#FFFFFF; margin:0.6rem 0 0.2rem;">Standard Apostle</h4>
+              <div style="font-family:'Outfit',sans-serif; font-size:1.6rem; font-weight:900; color:#60A5FA; margin:0.4rem 0 0.75rem;">
+                GHS 200 <span style="font-size:0.75rem; color:#94A3B8; font-weight:500;">/year</span>
+              </div>
+              <p style="font-size:0.8rem; color:#CBD5E1; line-height:1.45; margin-bottom:1.25rem;">
+                Official membership badge, 10% team shop discount on all Mayniak gear, exclusive club media dispatches.
+              </p>
+            </div>
+            <button type="button" class="mem-btn" onclick="joinMembership('Standard Apostle')">
+              <i class="fa-solid fa-star" style="color:#F1B434;"></i> Select Standard &bull; GHS 200
+            </button>
+          </div>
+
+          <!-- Gold VIP Apostle Card -->
+          <div class="mem-card mem-card--gold">
+            <div>
+              <span style="display:inline-block; font-size:0.68rem; font-weight:800; color:#F1B434; background:rgba(241,180,52,0.15); border:1px solid rgba(241,180,52,0.4); padding:3px 10px; border-radius:999px; text-transform:uppercase; letter-spacing:0.06em;">
+                <i class="fa-solid fa-crown"></i> VIP Access
+              </span>
+              <h4 style="font-family:'Outfit',sans-serif; font-weight:800; font-size:1.25rem; color:#FFFFFF; margin:0.6rem 0 0.2rem;">Gold VIP Apostle</h4>
+              <div style="font-family:'Outfit',sans-serif; font-size:1.6rem; font-weight:900; color:#F1B434; margin:0.4rem 0 0.75rem;">
+                GHS 500 <span style="font-size:0.75rem; color:#94A3B8; font-weight:500;">/year</span>
+              </div>
+              <p style="font-size:0.8rem; color:#CBD5E1; line-height:1.45; margin-bottom:1.25rem;">
+                Free 2026/27 official home jersey, 20% shop discount, VIP matchday hospitality pass at Wenchi Stadium.
+              </p>
+            </div>
+            <button type="button" class="mem-btn" onclick="joinMembership('Gold VIP Apostle')">
+              <i class="fa-solid fa-crown"></i> Select Gold VIP &bull; GHS 500
+            </button>
+          </div>
         </div>
-        <div style="border:2px solid var(--ya-gold); background:linear-gradient(180deg, rgba(255,184,0,0.08), rgba(255,184,0,0.02)); border-radius:var(--radius-md); padding:1.35rem 1.15rem; text-align:center; box-shadow:0 6px 20px rgba(241,180,52,0.15);">
-          <span style="font-size:0.68rem; font-weight:800; color:#92400E; background:#FEF3C7; border:1px solid #FCD34D; padding:2px 8px; border-radius:999px; text-transform:uppercase;"><i class="fa-solid fa-crown"></i> VIP ACCESS</span>
-          <h4 style="font-weight:800; font-size:1.1rem; color:var(--ya-blue-deep); margin-top:0.4rem;">Gold VIP Apostle</h4>
-          <div style="font-size:1.45rem; font-weight:900; color:var(--ya-blue); margin:0.5rem 0;">GHS 500 <span style="font-size:0.75rem; color:var(--text-muted); font-weight:500;">/yr</span></div>
-          <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1.1rem; line-height:1.45;">Free 2026/27 official home jersey, 20% shop discount, VIP match hospitality pass.</p>
-          <button class="btn-hero-primary" style="width:100%; font-size:0.82rem; padding:0.6rem; justify-content:center;" onclick="joinMembership('Gold VIP Apostle')">Join Gold VIP</button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -1189,6 +1661,6 @@
     <span id="toastText">Action completed successfully!</span>
   </div>
 
-  <script src="js/main.js?v=3.2"></script>
+  <script src="js/main.js?v=3.3"></script>
 </body>
 </html>
