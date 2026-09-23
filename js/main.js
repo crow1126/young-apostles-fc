@@ -1260,45 +1260,7 @@ const DEFAULT_APOSTLES_TV_VIDEOS = [
   }
 ];
 
-function getApostlesTvVideos() {
-  try {
-    const stored = localStorage.getItem('ya_apostles_tv_videos');
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-  } catch (e) {
-    console.warn('Could not read ya_apostles_tv_videos from localStorage', e);
-  }
-  return DEFAULT_APOSTLES_TV_VIDEOS;
-}
-
-function renderApostlesTv() {
-  const container = document.getElementById('apostleTvGrid');
-  if (!container) return;
-
-  const videos = getApostlesTvVideos();
-  container.innerHTML = videos.map(v => {
-    const thumbSrc = v.thumb ? v.thumb : `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
-    const tag = v.tag || 'WATCH IN PLAYER';
-    const escapedTitle = (v.title || 'Young Apostles FC Video').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-    return `
-      <article class="video-card" onclick="playApostleVideo('${v.id}', '${escapedTitle}')">
-        <div class="video-card__thumb">
-          <img src="${thumbSrc}" alt="${escapedTitle}" onerror="this.src='https://img.youtube.com/vi/${v.id}/hqdefault.jpg'">
-          <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
-          <div class="video-yt-badge"><i class="fa-brands fa-youtube"></i></div>
-        </div>
-        <div class="video-card__content">
-          <h3 class="video-card-title">${v.title || 'Young Apostles Video'}</h3>
-          <div class="video-card-divider"></div>
-          <div class="video-card-tag"><i class="fa-solid fa-circle-play"></i> ${tag}</div>
-        </div>
-      </article>
-    `;
-  }).join('');
-}
+// (Apostles TV rendering is defined in Section 14 below)
 
 // ==========================================
 // 15. CLUB NEWS & BLOG PORTAL (DYNAMIC & ADMIN SYNCED)
@@ -1988,6 +1950,21 @@ window.addEventListener('storage', (e) => {
   }
 });
 
+// BroadcastChannel for cross-tab communication (instant reflections without page refresh)
+if (window.BroadcastChannel) {
+  try {
+    const bc = new BroadcastChannel('ya_channel');
+    bc.onmessage = (ev) => {
+      if (ev.data && (ev.data.type === 'TV_UPDATED' || ev.data.type === 'CMS_UPDATED')) {
+        renderApostlesTv();
+      }
+      if (ev.data && ev.data.type === 'MEMBER_SAVED') {
+        loadProfileData();
+      }
+    };
+  } catch(e) {}
+}
+
 // Cloud sync from central repository data/cms.json
 async function initCloudSync() {
   try {
@@ -2011,9 +1988,20 @@ async function initCloudSync() {
         applyHeroWriteup();
       }
 
-      // Sync Apostles TV
+      // Sync Apostles TV (merge safely without overwriting locally added admin videos)
       if (Array.isArray(data.apostlesTv) && data.apostlesTv.length > 0) {
-        localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(data.apostlesTv));
+        let currentVideos = [];
+        try { currentVideos = JSON.parse(localStorage.getItem('ya_apostles_tv_videos') || '[]'); } catch(e) {}
+        if (!Array.isArray(currentVideos) || currentVideos.length === 0) {
+          localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(data.apostlesTv));
+        } else {
+          // Keep locally added custom videos at top, append remote ones
+          const merged = [...currentVideos];
+          data.apostlesTv.forEach(rem => {
+            if (!merged.find(loc => loc.id === rem.id)) merged.push(rem);
+          });
+          localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(merged));
+        }
         renderApostlesTv();
       }
 

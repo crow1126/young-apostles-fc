@@ -367,7 +367,7 @@
       </nav>
 
       <div class="sidebar-footer">
-        <a class="btn-view-site" href="main.html" target="_blank">
+        <a class="btn-view-site" href="./" target="_blank">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> View Live Site
         </a>
         <button class="btn-logout" onclick="adminLogout()">
@@ -1169,7 +1169,15 @@ function getTvVideos() {
 }
 function saveTvVideos(arr) {
   localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(arr));
-  adminToast('Apostles TV updated locally...');
+  adminToast('Apostles TV updated! Reflects on site immediately.');
+  try {
+    if (window.BroadcastChannel) {
+      const bc = new BroadcastChannel('ya_channel');
+      bc.postMessage({ type: 'TV_UPDATED', videos: arr });
+      bc.close();
+    }
+    window.dispatchEvent(new Event('storage'));
+  } catch(e) {}
   pushCmsToGitHub('TV videos');
 }
 function getShopProducts() {
@@ -1598,14 +1606,18 @@ function renderTvPanel() {
 
 function saveTvVideo() {
   const rawId = document.getElementById('tvId').value.trim();
-  if (!rawId) { adminToast('Video ID required'); return; }
-  const idMatch = rawId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
-  const id = idMatch ? idMatch[1] : rawId;
+  if (!rawId) { adminToast('YouTube Link or Video ID required'); return; }
+  const idMatch = rawId.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|live\/|watch\?.+&v=))([\w-]{11})/);
+  const id = idMatch ? idMatch[1] : (rawId.length === 11 ? rawId : rawId);
+  const thumbInput = document.getElementById('tvThumb').value.trim();
+  const thumb = thumbInput || `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
   const videos = getTvVideos();
   videos.unshift({
-    id, title: document.getElementById('tvTitle').value.trim() || 'Young Apostles FC Video',
-    tag: document.getElementById('tvTag').value.trim() || 'WATCH IN PLAYER',
-    thumb: document.getElementById('tvThumb').value.trim() || ''
+    id,
+    title: document.getElementById('tvTitle').value.trim() || 'Young Apostles FC Video',
+    tag: document.getElementById('tvTag').value.trim() || 'APOSTLES TV',
+    thumb: thumb
   });
   saveTvVideos(videos);
   ['tvId','tvTitle','tvTag','tvThumb'].forEach(f => document.getElementById(f).value = '');
