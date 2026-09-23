@@ -1,0 +1,14 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "admin.youngapostlesfc.com"
+        }
+      ],
+      "destination": "/admin.html"
+    }
+  ]
+}
