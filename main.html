@@ -6,6 +6,32 @@
   <meta name="description" content="Official Young Apostles Football Club Website. First team squad, 2026/27 Ghana Premier League fixtures, match highlights, club heritage, and official Mayniak team shop.">
   <title>Young Apostles FC | Official Club Website | Agya Na Ɔwɔ Tumi</title>
 
+  <!-- ═══ Security Meta Headers ═══════════════════════════════════════════ -->
+  <!-- X-Content-Type-Options: prevents MIME-type sniffing attacks           -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <!-- X-Frame-Options: blocks clickjacking / iframe embedding               -->
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <!-- Referrer-Policy: limits referrer leakage on cross-origin navigation   -->
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <!-- Permissions-Policy: disables unused browser APIs to reduce attack surface -->
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=()">
+  <!-- Content-Security-Policy: whitelists trusted sources, blocks injections -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+    font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+    img-src 'self' data: blob: https:;
+    connect-src 'self' https://api.youngapostlesfcgh.com wss://api.youngapostlesfcgh.com;
+    media-src 'self' https://www.youtube.com https://player.vimeo.com;
+    frame-src https://www.youtube.com https://player.vimeo.com;
+    frame-ancestors 'self';
+    base-uri 'self';
+    form-action 'self';
+    upgrade-insecure-requests
+  ">
+  <!-- ════════════════════════════════════════════════════════════════════== -->
+
   <link rel="icon" type="image/png" href="assets/official-logo.png">
   <link rel="apple-touch-icon" href="assets/official-logo.png">
 
