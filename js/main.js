@@ -60,8 +60,7 @@ const PRODUCTS_DATA = [
     id: 'kit-home',
     name: 'Official 2026/27 Home Match Kit',
     category: 'kits',
-    price: 350,
-    oldPrice: 420,
+    price: 200,
     image: 'assets/kit-home-player-2026.jpg',
     tag: 'VIP PRE-ORDER',
     description: 'The authentic 2026/27 Young Apostles FC Home Jersey engineered by Mayniak. Modeled by Ramzy Abubakar #8. Features radiant golden yellow textured fabric with navy blue trims, Ghana Premier League sleeve badge, breathable moisture-wicking technology, and the iconic club crest.',
@@ -71,8 +70,7 @@ const PRODUCTS_DATA = [
     id: 'kit-away',
     name: 'Official 2026/27 Away Kit (Mayniak Ivory White)',
     category: 'kits',
-    price: 350,
-    oldPrice: 420,
+    price: 200,
     image: 'assets/kit-away-player-2026.jpg',
     tag: 'VIP PRE-ORDER',
     description: 'The authentic 2026/27 Young Apostles FC Away Jersey by Mayniak. Modeled by Mathias Van Amegbe #25. Designed with crisp ivory white, bronze-copper sleeve cuffs, breathable side panels, and dynamic checkered flank details.',
@@ -82,8 +80,6 @@ const PRODUCTS_DATA = [
     id: 'crest-cap',
     name: 'Official Young Apostles FC 3D Shield Snapback Cap',
     category: 'accessories',
-    price: 120,
-    oldPrice: 150,
     image: 'assets/ya-official-cap.jpg',
     tag: 'NEW ARRIVAL',
     description: 'Official structured 6-panel snapback cap in deep navy blue with radiant gold visor stitching and high-density 3D embroidered Young Apostles FC shield crest on the front crown. One size fits all with adjustable snap closure.',
@@ -93,8 +89,6 @@ const PRODUCTS_DATA = [
     id: 'fan-scarf',
     name: 'Official "Agya Na Ɔwɔ Tumi" Stadium Scarf',
     category: 'accessories',
-    price: 120,
-    oldPrice: 150,
     image: 'assets/ya-official-scarf.jpg',
     tag: 'CLUB HERITAGE',
     description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Ɔwɔ Tumi" in bold white lettering, radiant golden yellow and navy stripes, embroidered club shield crests on both ends, and classic gold and white fringe tassels.',
@@ -319,10 +313,11 @@ function renderProducts(filter = 'all') {
       </div>
       <div class="product-content">
         <h3 class="product-title">${product.name}</h3>
+        ${product.price != null ? `
         <div class="product-price-row">
           <span class="product-price">GHS ${product.price}.00</span>
           ${product.oldPrice ? `<span class="product-old-price">GHS ${product.oldPrice}.00</span>` : ''}
-        </div>
+        </div>` : `<div class="product-price-row"><span class="product-price" style="font-size:0.85rem;color:var(--ya-gold);font-weight:600;">Price available on enquiry</span></div>`}
         <div class="product-actions">
           <button class="btn-add-cart" onclick="addToCart('${product.id}')">
             <i class="fa-solid fa-list-check"></i> Join Waitlist
@@ -354,7 +349,10 @@ function openProductModal(productId) {
       <div>
         <span style="font-size:0.75rem; font-weight:700; color:var(--ya-green); text-transform:uppercase;">${product.tag}</span>
         <h3 style="font-family:var(--font-heading); font-size:1.35rem; font-weight:800; margin:0.25rem 0 0.5rem;">${product.name}</h3>
-        <div style="font-size:1.35rem; font-weight:800; color:var(--ya-green); margin-bottom:0.75rem;">GHS ${product.price}.00</div>
+        ${product.price != null
+          ? `<div style="font-size:1.35rem; font-weight:800; color:var(--ya-green); margin-bottom:0.75rem;">GHS ${product.price}.00</div>`
+          : `<div style="font-size:0.95rem; font-weight:600; color:var(--ya-gold); margin-bottom:0.75rem;">Price available on enquiry</div>`
+        }
         <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5; margin-bottom:1rem;">${product.description}</p>
         
         <div class="form-group" style="margin-bottom:0.75rem;">
@@ -2002,6 +2000,12 @@ async function initCloudSync() {
       if (data.standings) {
         localStorage.setItem('ya_standings_record', JSON.stringify(data.standings));
         updateStandingsUI();
+      }
+
+      // Sync Fixtures
+      if (Array.isArray(data.fixtures) && data.fixtures.length > 0) {
+        localStorage.setItem('ya_club_fixtures', JSON.stringify(data.fixtures));
+        renderMatches('all');
       }
     }
   } catch (e) {

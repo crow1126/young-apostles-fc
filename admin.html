@@ -491,8 +491,12 @@
                 <input type="text" class="admin-input" id="nDate" placeholder="Sep 20, 2026">
               </div>
               <div class="admin-form-group">
-                <label>Image URL / Path</label>
-                <input type="text" class="admin-input" id="nImage" placeholder="assets/md3-debibi-derby.jpg">
+                <label>Article Image</label>
+                <input type="text" class="admin-input" id="nImage" placeholder="assets/md3-debibi-derby.jpg" style="margin-bottom:0.4rem;">
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;background:rgba(255,255,255,0.05);border:1.5px dashed var(--aborder);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.8rem;color:var(--amuted);">
+                  <i class="fa-solid fa-image" style="color:var(--agold);"></i> Upload from PC
+                  <input type="file" accept="image/*" style="display:none;" onchange="handleImageUpload(this,'nImage')">
+                </label>
               </div>
             </div>
             <div class="admin-form-group">
@@ -603,7 +607,11 @@
             </div>
             <div class="admin-form-group">
               <label>Thumbnail (leave blank for YouTube auto)</label>
-              <input type="text" class="admin-input" id="tvThumb" placeholder="assets/apostle-tv-video1.jpg">
+              <input type="text" class="admin-input" id="tvThumb" placeholder="assets/apostle-tv-video1.jpg" style="margin-bottom:0.4rem;">
+              <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;background:rgba(255,255,255,0.05);border:1.5px dashed var(--aborder);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.8rem;color:var(--amuted);">
+                <i class="fa-solid fa-image" style="color:var(--agold);"></i> Upload from PC
+                <input type="file" accept="image/*" style="display:none;" onchange="handleImageUpload(this,'tvThumb')">
+              </label>
             </div>
             <div style="display:flex;gap:0.5rem;">
               <button class="btn-admin-primary" onclick="saveTvVideo()"><i class="fa-solid fa-floppy-disk"></i> Save Video</button>
@@ -652,8 +660,12 @@
             </div>
             <div class="form-row">
               <div class="admin-form-group">
-                <label>Image Path</label>
-                <input type="text" class="admin-input" id="spImage" placeholder="assets/kit-home-player-2026.jpg">
+                <label>Product Image</label>
+                <input type="text" class="admin-input" id="spImage" placeholder="assets/kit-home-player-2026.jpg" style="margin-bottom:0.4rem;">
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;background:rgba(255,255,255,0.05);border:1.5px dashed var(--aborder);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.8rem;color:var(--amuted);">
+                  <i class="fa-solid fa-image" style="color:var(--agold);"></i> Upload from PC
+                  <input type="file" accept="image/*" style="display:none;" onchange="handleImageUpload(this,'spImage')">
+                </label>
               </div>
               <div class="admin-form-group">
                 <label>Tag Label</label>
@@ -743,15 +755,24 @@
           </div>
 
           <div class="settings-card">
-            <h3><i class="fa-solid fa-info-circle" style="color:var(--agold);margin-right:0.5rem;"></i> How to Access Admin Separately</h3>
+            <h3><i class="fa-brands fa-github" style="color:var(--agold);margin-right:0.5rem;"></i> GitHub Sync — Push CMS to Live Site</h3>
+            <p class="settings-note" style="margin-bottom:0.75rem;">Enter your GitHub Personal Access Token so that when you save news, fixtures, standings or videos, the changes are automatically pushed to the live site for <strong style="color:#fff;">all visitors</strong>.<br><br>Steps to get a token: GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token → select <code>repo</code> scope.</p>
+            <div class="admin-form-group">
+              <label>GitHub Personal Access Token</label>
+              <input type="password" class="admin-input" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx">
+            </div>
+            <div id="ghSyncStatus" style="font-size:0.78rem;margin-bottom:0.5rem;color:var(--amuted);"></div>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="btn-admin-primary" onclick="saveGhToken()"><i class="fa-solid fa-key"></i> Save Token</button>
+              <button class="btn-admin-secondary" onclick="testGhSync()"><i class="fa-solid fa-wifi"></i> Test Connection</button>
+            </div>
+            <p class="settings-note" style="margin-top:0.6rem;">Token is stored only in this browser's localStorage. Repo: <code>crow1126/young-apostles-fc</code> · Branch: <code>main</code></p>
+          </div>
+
+          <div class="settings-card">
+            <h3><i class="fa-solid fa-info-circle" style="color:var(--agold);margin-right:0.5rem;"></i> Admin Access</h3>
             <p class="settings-note">
-              The admin portal is at <strong style="color:#fff;">your-domain.com/admin.html</strong>. To keep it private:
-              <br><br>
-              1. <strong style="color:#fff;">Rename the file</strong> to something non-obvious (e.g. <code>ops-portal.html</code>) and update your bookmark.
-              <br>
-              2. Remove the "Club Admin Portal" footer link from <code>main.html</code> (it's already very subtle).
-              <br>
-              3. On a real server, you can restrict it to specific IP addresses using <code>.htaccess</code>.
+              The admin portal is at <strong style="color:#fff;">your-domain.com/admin.html</strong>. The footer link has been removed from the public site. Bookmark this URL and keep it private.
             </p>
           </div>
         </div>
@@ -768,6 +789,123 @@
 <div id="adminToast"></div>
 
 <script>
+/* ==========================================
+   GITHUB SYNC — Push CMS to Live Site
+   ========================================== */
+const GH_OWNER = 'crow1126';
+const GH_REPO  = 'young-apostles-fc';
+const GH_BRANCH = 'main';
+const GH_FILE  = 'data/cms.json';
+
+function getGhToken() {
+  return localStorage.getItem('ya_gh_token') || '';
+}
+
+function saveGhToken() {
+  const t = document.getElementById('ghToken').value.trim();
+  if (!t) { adminToast('Paste your GitHub token first'); return; }
+  localStorage.setItem('ya_gh_token', t);
+  document.getElementById('ghToken').value = '';
+  adminToast('GitHub token saved!');
+  document.getElementById('ghSyncStatus').textContent = '✅ Token saved. Use "Test Connection" to verify.';
+}
+
+async function testGhSync() {
+  const token = getGhToken();
+  if (!token) { adminToast('No GitHub token saved yet'); return; }
+  const el = document.getElementById('ghSyncStatus');
+  el.textContent = '⏳ Testing connection...';
+  try {
+    const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (res.ok) {
+      el.textContent = '✅ Connected! GitHub token is working. Changes will push live.';
+      adminToast('GitHub connection successful!');
+    } else {
+      const d = await res.json();
+      el.textContent = `❌ Error ${res.status}: ${d.message}`;
+    }
+  } catch(e) {
+    el.textContent = '❌ Network error: ' + e.message;
+  }
+}
+
+function buildCmsPayload() {
+  // Assemble full cms.json payload from localStorage
+  const blogs = (() => { try { const r = localStorage.getItem('ya_club_unified_blogs'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
+  const apostlesTv = (() => { try { const r = localStorage.getItem('ya_apostles_tv_videos'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
+  const fixtures = (() => { try { const r = localStorage.getItem('ya_club_fixtures'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
+  const hero = (() => { try { const r = localStorage.getItem('ya_hero_custom'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
+  const standings = (() => { try { const r = localStorage.getItem('ya_standings_record'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
+  const payload = { lastUpdated: new Date().toISOString() };
+  if (hero)     payload.hero = hero;
+  if (blogs.length)     payload.blogs = blogs;
+  if (apostlesTv.length) payload.apostlesTv = apostlesTv;
+  if (standings) payload.standings = standings;
+  payload.fixtures = fixtures;
+  return payload;
+}
+
+async function pushCmsToGitHub(label) {
+  const token = getGhToken();
+  if (!token) {
+    adminToast('⚠️ Saved locally. Add a GitHub token in Settings to push live.');
+    return;
+  }
+  try {
+    // Get current file SHA
+    const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (!getRes.ok) { adminToast('⚠️ Saved locally. GitHub push failed — check token.'); return; }
+    const fileData = await getRes.json();
+    const sha = fileData.sha;
+
+    // Build new content
+    const newContent = JSON.stringify(buildCmsPayload(), null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(newContent)));
+
+    // Commit
+    const putRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`, {
+      method: 'PUT',
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `cms: update ${label || 'content'} via Admin Portal`,
+        content: encoded,
+        sha: sha,
+        branch: GH_BRANCH
+      })
+    });
+    if (putRes.ok) {
+      adminToast(`✅ Pushed live! ${label || 'Changes'} visible in ~30s.`);
+    } else {
+      const d = await putRes.json();
+      adminToast(`⚠️ Saved locally. GitHub error: ${d.message}`);
+    }
+  } catch(e) {
+    adminToast('⚠️ Saved locally. Network error pushing to GitHub.');
+  }
+}
+
+/* ==========================================
+   IMAGE UPLOAD HELPER
+   ========================================== */
+function handleImageUpload(input, targetFieldId) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 3 * 1024 * 1024) {
+    adminToast('Image too large — please use an image under 3MB');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById(targetFieldId).value = e.target.result;
+    adminToast('Image loaded! Save to publish.');
+  };
+  reader.readAsDataURL(file);
+}
+
 /* ==========================================
    ADMIN AUTHENTICATION
    ========================================== */
@@ -923,7 +1061,9 @@ function getBlogs() {
 }
 function saveBlogs(arr) {
   localStorage.setItem('ya_club_unified_blogs', JSON.stringify(arr));
-  adminToast('News saved and pushed to site!');
+  localStorage.setItem('ya_club_dispatches', JSON.stringify(arr));
+  adminToast('News saved locally...');
+  pushCmsToGitHub('news articles');
 }
 function getFixtures() {
   try {
@@ -932,7 +1072,10 @@ function getFixtures() {
   } catch(e) {}
   return [];
 }
-function saveFixtures(arr) { localStorage.setItem('ya_club_fixtures', JSON.stringify(arr)); }
+function saveFixtures(arr) {
+  localStorage.setItem('ya_club_fixtures', JSON.stringify(arr));
+  pushCmsToGitHub('fixtures');
+}
 function getTvVideos() {
   try {
     const raw = localStorage.getItem('ya_apostles_tv_videos');
@@ -940,7 +1083,11 @@ function getTvVideos() {
   } catch(e) {}
   return [];
 }
-function saveTvVideos(arr) { localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(arr)); adminToast('Apostles TV updated!'); }
+function saveTvVideos(arr) {
+  localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(arr));
+  adminToast('Apostles TV updated locally...');
+  pushCmsToGitHub('TV videos');
+}
 function getShopProducts() {
   try {
     const raw = localStorage.getItem('ya_shop_products');
@@ -1386,7 +1533,8 @@ function saveHeroAndStandings() {
   if (rank || played || diff || points) {
     localStorage.setItem('ya_standings_record', JSON.stringify({ rank, played, diff, points }));
   }
-  adminToast('Hero & standings pushed to site!');
+  adminToast('Hero & standings saved locally...');
+  pushCmsToGitHub('hero & standings');
 }
 
 /* ==========================================
