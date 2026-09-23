@@ -90,6 +90,18 @@
     "diff": "-2",
     "points": "3"
   },
-  "fixtures": []
+  "fixtures": [],
+  "members": [
+    {
+      "id": "YA-MEM-2026-001",
+      "name": "Samuel Wobil",
+      "phone": "03303033",
+      "email": "samuelwobil11@gmail.com",
+      "tier": "Standard Apostle",
+      "subscription": "2026/27 GPL Season Pass",
+      "status": "Active",
+      "joinDate": "2026-09-23T11:00:00Z"
+    }
+  ]
 }
 

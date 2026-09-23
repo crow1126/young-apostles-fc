@@ -444,12 +444,66 @@
         <!-- ===== MEMBERS ===== -->
         <div class="admin-panel" id="panel-members">
           <div class="panel-intro">
-            <strong>Members</strong> — Fans who have self-registered with a profile on the site. Membership tier shows Standard or Gold VIP.
+            <strong>2026/27 Seasonal Subscriptions &amp; Member Directory</strong> — Fans registered on the live site with their official digital pass. Reflects all profile submissions and seasonal subscriptions in real time.
           </div>
-          <div class="section-hdr">
-            <div class="section-hdr-title">Member Registrations</div>
-            <button class="btn-admin-secondary" onclick="exportCSV('members')"><i class="fa-solid fa-download"></i> Export CSV</button>
+          <div class="section-hdr" style="flex-wrap:wrap; gap:0.6rem;">
+            <div class="section-hdr-title">Registered Seasonal Members</div>
+            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+              <button class="btn-admin-primary" onclick="toggleAddForm('memberAddForm')">
+                <i class="fa-solid fa-user-plus"></i> Add Member
+              </button>
+              <button class="btn-admin-secondary" onclick="exportCSV('members')">
+                <i class="fa-solid fa-download"></i> Export CSV
+              </button>
+            </div>
           </div>
+
+          <!-- Add Member Form -->
+          <div class="add-form-panel" id="memberAddForm">
+            <div class="add-form-title">Register Member / Seasonal Subscription</div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Full Name</label>
+                <input type="text" class="admin-input" id="newMemName" placeholder="e.g. Samuel Wobil">
+              </div>
+              <div class="admin-form-group">
+                <label>Phone / WhatsApp Number</label>
+                <input type="tel" class="admin-input" id="newMemPhone" placeholder="024 XXX XXXX">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Email Address</label>
+                <input type="email" class="admin-input" id="newMemEmail" placeholder="member@example.com">
+              </div>
+              <div class="admin-form-group">
+                <label>Seasonal Subscription Tier</label>
+                <select class="admin-select" id="newMemTier">
+                  <option value="Standard Apostle">Standard Apostle (GHS 200/season)</option>
+                  <option value="Gold VIP Apostle">Gold VIP Apostle (GHS 500/season)</option>
+                  <option value="Official Fan Pass">Official Fan Pass (Complimentary)</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1rem;">
+              <button type="button" class="btn-admin-secondary" onclick="toggleAddForm('memberAddForm')">Cancel</button>
+              <button type="button" class="btn-admin-primary" onclick="saveAdminMember()"><i class="fa-solid fa-check"></i> Register Member</button>
+            </div>
+          </div>
+
+          <!-- Search & Filter Bar -->
+          <div style="display:flex; gap:0.75rem; margin-bottom:1.15rem; flex-wrap:wrap; align-items:center;">
+            <div style="flex:1; min-width:200px; position:relative;">
+              <input type="text" id="memberSearchInput" class="admin-input" placeholder="Search by name, phone, email, or pass ID..." oninput="handleMemberSearch()" style="width:100%;">
+            </div>
+            <select id="memberTierFilter" class="admin-select" onchange="handleMemberSearch()" style="width:auto; min-width:180px;">
+              <option value="">All Membership Tiers</option>
+              <option value="Gold VIP">Gold VIP Apostle</option>
+              <option value="Standard">Standard Apostle</option>
+              <option value="Fan Pass">Official Fan Pass</option>
+            </select>
+          </div>
+
           <div class="admin-table-wrap" id="membersTable"></div>
         </div>
 
@@ -838,12 +892,15 @@ function buildCmsPayload() {
   const fixtures = (() => { try { const r = localStorage.getItem('ya_club_fixtures'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
   const hero = (() => { try { const r = localStorage.getItem('ya_hero_custom'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
   const standings = (() => { try { const r = localStorage.getItem('ya_standings_record'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
+  const members = getMembers();
+
   const payload = { lastUpdated: new Date().toISOString() };
   if (hero)     payload.hero = hero;
   if (blogs.length)     payload.blogs = blogs;
   if (apostlesTv.length) payload.apostlesTv = apostlesTv;
   if (standings) payload.standings = standings;
   payload.fixtures = fixtures;
+  payload.members = members;
   return payload;
 }
 
@@ -1044,10 +1101,37 @@ function getOrders() {
 }
 function getMembers() {
   const profile = (() => { try { return JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(e) { return {}; } })();
-  const list = (() => { try { return JSON.parse(localStorage.getItem('ya_members_list') || '[]'); } catch(e) { return []; } })();
-  // Add single profile if it has a name
-  if (profile.name && !list.find(m => m.phone === profile.phone)) {
-    list.unshift({ ...profile, joinDate: profile.updatedAt || new Date().toISOString() });
+  let list = (() => { try { return JSON.parse(localStorage.getItem('ya_members_list') || '[]'); } catch(e) { return []; } })();
+  if (!Array.isArray(list)) list = [];
+
+  // Also include cms.json members
+  const cmsMembers = (() => { try { return JSON.parse(localStorage.getItem('ya_cms_members') || '[]'); } catch(e) { return []; } })();
+  if (Array.isArray(cmsMembers)) {
+    cmsMembers.forEach(cm => {
+      if (!list.find(m => (m.phone && m.phone === cm.phone) || (m.id && m.id === cm.id))) {
+        list.push(cm);
+      }
+    });
+  }
+
+  // Merge active user profile if real name exists
+  if (profile.name && profile.name !== 'Official Fan') {
+    const idx = list.findIndex(m => (profile.phone && m.phone === profile.phone) || (profile.id && m.id === profile.id));
+    const normalized = {
+      id: profile.id || 'YAFC-26-8001',
+      name: profile.name,
+      phone: profile.phone || '',
+      email: profile.email || '',
+      tier: profile.tier || 'Standard Apostle',
+      subscription: profile.subscription || '2026/27 GPL Season Pass',
+      status: profile.status || 'Active',
+      joinDate: profile.joinDate || profile.updatedAt || new Date().toISOString()
+    };
+    if (idx >= 0) {
+      list[idx] = { ...list[idx], ...normalized };
+    } else {
+      list.unshift(normalized);
+    }
   }
   return list;
 }
@@ -1167,12 +1251,19 @@ function renderDashboard() {
   const recentM = members.slice(0, 5);
   document.getElementById('dashMembersTable').innerHTML = recentM.length ? `
     <table class="admin-table">
-      <thead><tr><th>Name</th><th>Tier</th><th>Phone</th></tr></thead>
+      <thead><tr><th>Pass ID</th><th>Name</th><th>Subscription / Tier</th><th>Phone</th><th>Action</th></tr></thead>
       <tbody>${recentM.map(m => `
         <tr>
-          <td>${m.name || '—'}</td>
-          <td><span class="badge ${m.tier==='Gold VIP'?'badge-gold':m.tier==='Standard'?'badge-blue':'badge-green'}">${m.tier||'Guest'}</span></td>
+          <td style="font-family:monospace;font-size:0.75rem;color:var(--agold);font-weight:700;">${m.id || 'YAFC-26'}</td>
+          <td><strong>${m.name || '—'}</strong></td>
+          <td>
+            <span class="badge ${m.tier && m.tier.includes('Gold') ? 'badge-gold' : m.tier && m.tier.includes('Standard') ? 'badge-blue' : 'badge-green'}">${m.tier || 'Fan Pass'}</span>
+            <span class="badge badge-blue" style="font-size:0.65rem;margin-left:3px;">2026/27</span>
+          </td>
           <td style="font-family:monospace;">${m.phone || '—'}</td>
+          <td>
+            ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn-admin-sm" title="WhatsApp Member" style="color:#25D366;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i></a>` : '—'}
+          </td>
         </tr>
       `).join('')}</tbody>
     </table>
@@ -1241,28 +1332,108 @@ function renderPreordersTable() {
   `;
 }
 
-/* ==========================================
-   MEMBERS TABLE
-   ========================================== */
-function renderMembersTable() {
-  const data = getMembers();
+function handleMemberSearch() {
+  const q = (document.getElementById('memberSearchInput')?.value || '').trim();
+  const tier = (document.getElementById('memberTierFilter')?.value || '').trim();
+  renderMembersTable(q, tier);
+}
+
+function renderMembersTable(filterText = '', filterTier = '') {
+  const allData = getMembers();
   const el = document.getElementById('membersTable');
   if (!el) return;
-  if (!data.length) { el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-users"></i><p>No member registrations yet.</p></div>`; return; }
+
+  const data = allData.filter(m => {
+    const matchText = !filterText || (
+      (m.name && m.name.toLowerCase().includes(filterText.toLowerCase())) ||
+      (m.phone && m.phone.includes(filterText)) ||
+      (m.email && m.email.toLowerCase().includes(filterText.toLowerCase())) ||
+      (m.id && m.id.toLowerCase().includes(filterText.toLowerCase()))
+    );
+    const matchTier = !filterTier || (m.tier && m.tier.toLowerCase().includes(filterTier.toLowerCase()));
+    return matchText && matchTier;
+  });
+
+  if (!data.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-users"></i><p>${allData.length ? 'No members matching search.' : 'No member registrations yet. Fans who register on the site will appear here.'}</p></div>`;
+    return;
+  }
+
   el.innerHTML = `
     <table class="admin-table">
-      <thead><tr><th>Name</th><th>Tier</th><th>Phone</th><th>Email</th><th>Joined</th></tr></thead>
-      <tbody>${data.map(m => `
+      <thead>
         <tr>
-          <td>${m.name||'—'}</td>
-          <td><span class="badge ${m.tier==='Gold VIP'?'badge-gold':m.tier==='Standard'?'badge-blue':'badge-green'}">${m.tier||'Guest'}</span></td>
-          <td style="font-family:monospace;">${m.phone||'—'}</td>
-          <td>${m.email||'—'}</td>
-          <td style="font-size:0.75rem;color:var(--amuted);">${m.updatedAt ? new Date(m.updatedAt).toLocaleDateString() : '—'}</td>
+          <th>Pass ID</th>
+          <th>Name</th>
+          <th>Seasonal Subscription</th>
+          <th>Tier</th>
+          <th>Phone / WhatsApp</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>${data.map((m, idx) => `
+        <tr>
+          <td style="font-family:monospace;font-size:0.75rem;color:var(--agold);font-weight:700;">${m.id || 'YAFC-26'}</td>
+          <td><strong>${m.name || '—'}</strong></td>
+          <td><span class="badge badge-blue"><i class="fa-solid fa-ticket" style="margin-right:3px;"></i>${m.subscription || '2026/27 GPL Season Pass'}</span></td>
+          <td><span class="badge ${m.tier && m.tier.includes('Gold') ? 'badge-gold' : m.tier && m.tier.includes('Standard') ? 'badge-blue' : 'badge-green'}">${m.tier || 'Fan Pass'}</span></td>
+          <td style="font-family:monospace;">
+            ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/[^0-9]/g, '')}" target="_blank" style="color:var(--agold);text-decoration:none;"><i class="fa-brands fa-whatsapp" style="color:#25D366;margin-right:4px;"></i>${m.phone}</a>` : '—'}
+          </td>
+          <td>${m.email || '—'}</td>
+          <td><span class="badge badge-green">${m.status || 'Active'}</span></td>
+          <td style="font-size:0.75rem;color:var(--amuted);">${m.joinDate || m.updatedAt ? new Date(m.joinDate || m.updatedAt).toLocaleDateString() : '—'}</td>
+          <td>
+            <div style="display:flex;gap:0.35rem;">
+              ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(m.name||'Apostle Fan')},%20greetings%20from%20Young%20Apostles%20FC!%20Regarding%20your%202026/27%20GPL%20Seasonal%20Subscription..." target="_blank" class="btn-admin-sm" title="Message on WhatsApp" style="color:#25D366;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i></a>` : ''}
+              <button class="btn-admin-danger" onclick="deleteMember(${idx})" title="Remove Member"><i class="fa-solid fa-trash"></i></button>
+            </div>
+          </td>
         </tr>
       `).join('')}</tbody>
     </table>
   `;
+}
+
+function saveAdminMember() {
+  const name = document.getElementById('newMemName').value.trim();
+  const phone = document.getElementById('newMemPhone').value.trim();
+  const email = document.getElementById('newMemEmail').value.trim();
+  const tier = document.getElementById('newMemTier').value;
+  if (!name || !phone) { adminToast('Name and Phone are required.'); return; }
+
+  const newMem = {
+    id: 'YAFC-26-' + Math.floor(1000 + Math.random() * 9000),
+    name: name,
+    phone: phone,
+    email: email,
+    tier: tier,
+    subscription: '2026/27 GPL Season Pass',
+    status: 'Active',
+    joinDate: new Date().toISOString()
+  };
+
+  const list = getMembers();
+  list.unshift(newMem);
+  localStorage.setItem('ya_members_list', JSON.stringify(list));
+  adminToast('Member registered successfully!');
+  toggleAddForm('memberAddForm');
+  ['newMemName','newMemPhone','newMemEmail'].forEach(id => document.getElementById(id).value = '');
+  renderDashboard();
+  renderMembersTable();
+}
+
+function deleteMember(idx) {
+  if (!confirm('Remove this member registration?')) return;
+  const list = getMembers();
+  list.splice(idx, 1);
+  localStorage.setItem('ya_members_list', JSON.stringify(list));
+  adminToast('Member removed.');
+  renderDashboard();
+  renderMembersTable();
 }
 
 /* ==========================================
@@ -1572,8 +1743,17 @@ function exportCSV(type) {
       });
     });
   } else if (type === 'members') {
-    headers = ['Name','Tier','Phone','Email','Joined'];
-    rows = getMembers().map(m => [m.name||'',m.tier||'Guest',m.phone||'',m.email||'',m.updatedAt||'']);
+    headers = ['Pass ID','Name','Seasonal Subscription','Tier','Phone','Email','Status','Joined'];
+    rows = getMembers().map(m => [
+      m.id||'YAFC-26',
+      m.name||'',
+      m.subscription||'2026/27 GPL Season Pass',
+      m.tier||'Fan Pass',
+      m.phone||'',
+      m.email||'',
+      m.status||'Active',
+      m.joinDate||m.updatedAt||''
+    ]);
   }
   const csv = [headers, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
   const a = document.createElement('a');
@@ -1582,6 +1762,46 @@ function exportCSV(type) {
   a.click();
   adminToast('CSV downloaded!');
 }
+
+/* ==========================================
+   REAL-TIME CROSS-TAB & BROADCAST SYNC
+   ========================================== */
+window.addEventListener('storage', () => {
+  renderDashboard();
+  if (currentPanel === 'members') renderMembersTable();
+  if (currentPanel === 'waitlist') renderWaitlistTable();
+  if (currentPanel === 'preorders') renderPreordersTable();
+});
+
+if (window.BroadcastChannel) {
+  try {
+    const bc = new BroadcastChannel('ya_channel');
+    bc.onmessage = (ev) => {
+      renderDashboard();
+      if (currentPanel === 'members') renderMembersTable();
+      if (currentPanel === 'waitlist') renderWaitlistTable();
+      if (currentPanel === 'preorders') renderPreordersTable();
+      if (ev.data && ev.data.type === 'MEMBER_SAVED') {
+        adminToast('🔔 New member registration received: ' + (ev.data.profile?.name || 'Fan Member'));
+      }
+    };
+  } catch(e) {}
+}
+
+// Hydrate CMS members on start
+(async function hydrateAdminCms() {
+  try {
+    const res = await fetch('data/cms.json?v=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.members) && data.members.length) {
+        localStorage.setItem('ya_cms_members', JSON.stringify(data.members));
+        if (currentPanel === 'dashboard') renderDashboard();
+        if (currentPanel === 'members') renderMembersTable();
+      }
+    }
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>

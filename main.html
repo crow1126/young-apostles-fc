@@ -371,8 +371,75 @@
       background: #16305E;
       transform: translateY(-1px);
     }
+    .btn-cool-save.saved {
+      background: #15803D !important;
+      color: #FFFFFF !important;
+    }
+
+    .btn-cool-whatsapp {
+      width: 100%;
+      background: #25D366;
+      color: #FFFFFF;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-cool-whatsapp:hover {
+      background: #1EBE5D;
+      transform: translateY(-1px);
+    }
+
+    .profile-save-status {
+      margin-top: 0.65rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .profile-save-status--success {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      color: #166534;
+    }
+
+    .cool-pass-id {
+      display: inline-block;
+      font-family: monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #1E3A6E;
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 0.4rem;
+    }
+
+    /* Toast must ALWAYS be on top of modals */
+    .toast-msg {
+      z-index: 100000 !important;
+    }
 
     /* Membership cards */
+    .mem-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
     .mem-card {
       background: #FFFFFF;
       border: 1.5px solid #E2E8F0;
@@ -434,6 +501,73 @@
       border: 1px solid #E2E8F0;
     }
     .cool-perk-item i { color: #16A34A; font-size: 0.8rem; flex-shrink: 0; }
+
+    /* =========================================================
+       MOBILE UI RESPONSIVE DESIGN (MODALS & PROFILE)
+       ========================================================= */
+    @media (max-width: 640px) {
+      #profileModal.modal-overlay, #membershipModal.modal-overlay {
+        padding: 0 !important;
+        align-items: flex-end !important;
+      }
+      .cool-modal-box {
+        max-height: 94dvh !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        border-radius: 20px 20px 0 0 !important;
+        border-bottom: none !important;
+      }
+      .cool-modal-hdr {
+        padding: 1rem 1.15rem !important;
+      }
+      .cool-modal-hdr__crest {
+        width: 36px !important;
+        height: 36px !important;
+      }
+      .cool-modal-hdr__title {
+        font-size: 1.05rem !important;
+      }
+      .cool-modal-body {
+        padding: 1rem 1.15rem 2rem !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      .cool-fan-card {
+        padding: 0.85rem !important;
+        gap: 0.85rem !important;
+        margin-bottom: 1.15rem !important;
+      }
+      .cool-fan-avatar {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1.1rem !important;
+      }
+      .cool-tier-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.65rem !important;
+        margin-bottom: 1.15rem !important;
+      }
+      .cool-tier-card {
+        padding: 0.85rem 0.9rem !important;
+        text-align: left !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+      .cool-tier-card__price {
+        font-size: 1.05rem !important;
+      }
+      .cool-input {
+        font-size: 16px !important; /* Prevents auto zoom on iOS */
+        padding: 0.75rem 0.85rem 0.75rem 2.3rem !important;
+      }
+      .mem-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.85rem !important;
+      }
+      .btn-cool-save {
+        padding: 0.9rem !important;
+        font-size: 0.95rem !important;
+      }
+    }
   </style>
 
   <!-- Live Site — No auth guard needed -->
@@ -1407,7 +1541,7 @@
     </div>
   </div>
 
-  <!-- Member Profile Modal (Cool Luxury Dark UI) -->
+  <!-- Member Profile Modal (Cool Luxury Clean UI) -->
   <div class="modal-overlay" id="profileModal" style="display:none;" onclick="if(event.target===this)closeProfileModal()">
     <div class="cool-modal-box">
       <!-- Header -->
@@ -1415,7 +1549,7 @@
         <div class="cool-modal-hdr__left">
           <img src="assets/official-logo.png" alt="Young Apostles FC" class="cool-modal-hdr__crest">
           <div>
-            <div class="cool-modal-hdr__tag">Official Fan Digital Pass</div>
+            <div class="cool-modal-hdr__tag">2026/27 GPL SEASONAL PASS</div>
             <div class="cool-modal-hdr__title">Club Member Profile</div>
           </div>
         </div>
@@ -1423,38 +1557,39 @@
       </div>
 
       <div class="cool-modal-body">
-        <!-- Fan ID Card -->
+        <!-- Fan Digital Pass Card -->
         <div class="cool-fan-card">
           <div class="cool-fan-avatar" id="profileAvatar">YA</div>
           <div style="flex:1; min-width:0;">
             <div class="cool-fan-name">
               <span id="profileDisplayName">Official Fan</span>
               <i class="fa-solid fa-circle-check" title="Official Club Fan"></i>
+              <span id="profilePassId" class="cool-pass-id">YAFC-PASS-2026</span>
             </div>
             <div id="profileTierBadge" class="cool-tier-pill cool-tier-pill--guest">
-              <i class="fa-solid fa-user"></i> Fan Member (No Tier Selected)
+              <i class="fa-solid fa-ticket"></i> Fan Member &bull; 2026/27 Season
             </div>
           </div>
         </div>
 
-        <!-- Tier Selection (None Pre-selected) -->
+        <!-- Tier Selection (Seasonal Subscription) -->
         <div class="cool-section-lbl">
-          <i class="fa-solid fa-crown"></i> Choose Your 2026/27 Membership Tier
+          <i class="fa-solid fa-ticket"></i> Choose Your 2026/27 Seasonal Subscription
         </div>
         <div class="cool-tier-grid">
           <div class="cool-tier-card" id="optTierStandard" onclick="selectTierInProfile('Standard')">
-            <div class="cool-tier-card__badge"><i class="fa-solid fa-star"></i> OFFICIAL TIER</div>
+            <div class="cool-tier-card__badge"><i class="fa-solid fa-star"></i> 2026/27 GPL SEASON</div>
             <div class="cool-tier-card__title">Standard Apostle</div>
-            <div class="cool-tier-card__price">GHS 200 <span>/year</span></div>
-            <div class="cool-tier-card__perks">10% Shop Discount &bull; Priority Match Alerts</div>
+            <div class="cool-tier-card__price">GHS 200 <span>/season</span></div>
+            <div class="cool-tier-card__perks">10% Shop Discount &bull; Priority Match Alerts &bull; Digital Season Pass</div>
             <div class="cool-tier-card__radio-btn"><i class="fa-solid fa-check"></i> Select Standard</div>
           </div>
 
           <div class="cool-tier-card" id="optTierGold" onclick="selectTierInProfile('Gold VIP')">
-            <div class="cool-tier-card__badge" style="color:#F1B434;"><i class="fa-solid fa-crown"></i> VIP ACCESS</div>
+            <div class="cool-tier-card__badge" style="color:#F1B434;"><i class="fa-solid fa-trophy"></i> VIP SEASON ACCESS</div>
             <div class="cool-tier-card__title">Gold VIP Apostle</div>
-            <div class="cool-tier-card__price">GHS 500 <span>/year</span></div>
-            <div class="cool-tier-card__perks">Free 2026/27 Jersey &bull; VIP Matchday Pass</div>
+            <div class="cool-tier-card__price">GHS 500 <span>/season</span></div>
+            <div class="cool-tier-card__perks">Free 2026/27 Jersey &bull; VIP Matchday Pass &bull; 20% Shop Discount</div>
             <div class="cool-tier-card__radio-btn"><i class="fa-solid fa-check"></i> Select Gold VIP</div>
           </div>
         </div>
@@ -1466,7 +1601,7 @@
             <label>Full Name</label>
             <div class="cool-input-wrap">
               <i class="fa-solid fa-user"></i>
-              <input type="text" id="profileName" placeholder="Your Full Name" class="cool-input" autocomplete="name">
+              <input type="text" id="profileName" placeholder="Your Full Name" class="cool-input" autocomplete="name" required>
             </div>
           </div>
 
@@ -1474,7 +1609,7 @@
             <label>Phone / WhatsApp Number</label>
             <div class="cool-input-wrap">
               <i class="fa-solid fa-phone"></i>
-              <input type="tel" id="profilePhone" placeholder="024 XXX XXXX" class="cool-input" autocomplete="tel">
+              <input type="tel" id="profilePhone" placeholder="024 XXX XXXX" class="cool-input" autocomplete="tel" required>
             </div>
           </div>
 
@@ -1486,8 +1621,16 @@
             </div>
           </div>
 
-          <button type="submit" class="btn-cool-save">
-            <i class="fa-solid fa-floppy-disk"></i> Save Profile Details
+          <button type="submit" id="btnProfileSave" class="btn-cool-save">
+            <i class="fa-solid fa-floppy-disk"></i> Save Seasonal Profile Details
+          </button>
+
+          <!-- In-modal feedback for immediate confirmation -->
+          <div id="profileSaveStatus" class="profile-save-status profile-save-status--success" style="display:none;"></div>
+
+          <!-- WhatsApp Club confirmation button -->
+          <button type="button" id="btnProfileWhatsApp" class="btn-cool-whatsapp" style="display:none;" onclick="sendProfileWhatsApp()">
+            <i class="fa-brands fa-whatsapp"></i> Confirm Pass via Club WhatsApp
           </button>
         </form>
 
@@ -1504,7 +1647,7 @@
 
         <!-- Member Perks Preview -->
         <div class="cool-section-lbl" style="margin-top:1.5rem;">
-          <i class="fa-solid fa-shield-halved"></i> Member Privileges
+          <i class="fa-solid fa-shield-halved"></i> 2026/27 Season Member Privileges
         </div>
         <div class="cool-perks-grid">
           <div class="cool-perk-item"><i class="fa-solid fa-check"></i> Official 2026/27 Ghana Premier League team news</div>
@@ -1516,7 +1659,7 @@
     </div>
   </div>
 
-  <!-- Official Club Membership Modal (Cool Luxury Dark UI) -->
+  <!-- Official Club Membership Modal (Cool Luxury Clean UI) -->
   <div class="modal-overlay" id="membershipModal" style="display:none;" onclick="if(event.target===this)closeMembershipModal()">
     <div class="cool-modal-box">
       <!-- Header -->
@@ -1525,7 +1668,7 @@
           <img src="assets/official-logo.png" alt="Young Apostles FC" class="cool-modal-hdr__crest">
           <div>
             <div class="cool-modal-hdr__tag">Ghana Premier League 2026/27</div>
-            <div class="cool-modal-hdr__title">Official Club Membership</div>
+            <div class="cool-modal-hdr__title">Official Seasonal Subscription</div>
           </div>
         </div>
         <button class="cool-modal-close" onclick="closeMembershipModal()">&times;</button>
@@ -1533,27 +1676,27 @@
 
       <div class="cool-modal-body">
         <p style="text-align:center; color:#64748B; font-size:0.85rem; margin-bottom:1.4rem; padding-bottom:1.1rem; border-bottom:1px solid #E2E8F0;">
-          Support Wenchi's Premier League club &bull; Choose your official annual fan membership tier.
+          Support Wenchi's Premier League club &bull; Choose your official 2026/27 Ghana Premier League seasonal fan pass.
         </p>
 
         <!-- Both cards neutral, neither pre-selected -->
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem;">
+        <div class="mem-cards-grid">
           <!-- Standard Apostle Card -->
           <div class="mem-card mem-card--standard">
             <div>
               <span style="display:inline-block; font-size:0.65rem; font-weight:700; color:#1D4ED8; background:#EFF6FF; border:1px solid #BFDBFE; padding:3px 10px; border-radius:999px; text-transform:uppercase; letter-spacing:0.07em;">
-                <i class="fa-solid fa-id-badge"></i> Official Fan
+                <i class="fa-solid fa-id-badge"></i> 2026/27 Season
               </span>
               <h4 style="font-family:'Outfit',sans-serif; font-weight:800; font-size:1.15rem; color:#0F172A; margin:0.6rem 0 0.2rem;">Standard Apostle</h4>
               <div style="font-family:'Outfit',sans-serif; font-size:1.45rem; font-weight:800; color:#1E3A6E; margin:0.4rem 0 0.65rem;">
-                GHS 200 <span style="font-size:0.72rem; color:#94A3B8; font-weight:500;">/year</span>
+                GHS 200 <span style="font-size:0.72rem; color:#94A3B8; font-weight:500;">/season</span>
               </div>
               <p style="font-size:0.78rem; color:#475569; line-height:1.5; margin-bottom:1.1rem;">
-                Official membership badge, 10% team shop discount on all Mayniak gear, exclusive club media dispatches.
+                Official digital season pass, 10% team shop discount on Mayniak matchwear, exclusive match dispatches for the 2026/27 season.
               </p>
             </div>
             <button type="button" class="mem-btn" onclick="joinMembership('Standard Apostle')">
-              <i class="fa-solid fa-id-badge"></i> Select Standard &bull; GHS 200
+              <i class="fa-solid fa-id-badge"></i> Select Standard &bull; GHS 200 / Season
             </button>
           </div>
 
@@ -1561,18 +1704,18 @@
           <div class="mem-card mem-card--gold">
             <div>
               <span style="display:inline-block; font-size:0.65rem; font-weight:700; color:#92400E; background:#FFFBEB; border:1px solid #FDE68A; padding:3px 10px; border-radius:999px; text-transform:uppercase; letter-spacing:0.07em;">
-                <i class="fa-solid fa-trophy"></i> VIP Access
+                <i class="fa-solid fa-trophy"></i> VIP Season Pass
               </span>
               <h4 style="font-family:'Outfit',sans-serif; font-weight:800; font-size:1.15rem; color:#0F172A; margin:0.6rem 0 0.2rem;">Gold VIP Apostle</h4>
               <div style="font-family:'Outfit',sans-serif; font-size:1.45rem; font-weight:800; color:#C9943A; margin:0.4rem 0 0.65rem;">
-                GHS 500 <span style="font-size:0.72rem; color:#94A3B8; font-weight:500;">/year</span>
+                GHS 500 <span style="font-size:0.72rem; color:#94A3B8; font-weight:500;">/season</span>
               </div>
               <p style="font-size:0.78rem; color:#475569; line-height:1.5; margin-bottom:1.1rem;">
-                Free 2026/27 official home jersey, 20% shop discount, VIP matchday hospitality pass at Wenchi Stadium.
+                Free official 2026/27 home jersey, 20% team shop discount, VIP matchday hospitality pass at Wenchi Sports Stadium for the full season.
               </p>
             </div>
             <button type="button" class="mem-btn" onclick="joinMembership('Gold VIP Apostle')">
-              <i class="fa-solid fa-trophy"></i> Select Gold VIP &bull; GHS 500
+              <i class="fa-solid fa-trophy"></i> Select Gold VIP &bull; GHS 500 / Season
             </button>
           </div>
         </div>

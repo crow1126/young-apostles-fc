@@ -895,17 +895,38 @@ function closeMembershipModal() {
 
 function joinMembership(tierName) {
   try {
-    const profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}');
+    let profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}');
     profile.tier = tierName;
-    if (!profile.name) profile.name = 'Official Fan';
+    profile.subscription = '2026/27 GPL Season Pass';
+    profile.status = 'Active';
+    if (!profile.id) profile.id = 'YAFC-26-' + Math.floor(1000 + Math.random() * 9000);
+    profile.updatedAt = new Date().toISOString();
     localStorage.setItem('ya_user_profile', JSON.stringify(profile));
+
+    // Also update ya_members_list
+    let list = JSON.parse(localStorage.getItem('ya_members_list') || '[]');
+    if (!Array.isArray(list)) list = [];
+    const idx = list.findIndex(m => (profile.phone && m.phone === profile.phone) || (m.id && m.id === profile.id));
+    if (idx >= 0) {
+      list[idx] = { ...list[idx], ...profile };
+    } else if (profile.name && profile.name !== 'Official Fan') {
+      list.unshift(profile);
+    }
+    localStorage.setItem('ya_members_list', JSON.stringify(list));
+
+    if (window.BroadcastChannel) {
+      const bc = new BroadcastChannel('ya_channel');
+      bc.postMessage({ type: 'MEMBER_SAVED', profile: profile });
+      bc.close();
+    }
+    window.dispatchEvent(new Event('storage'));
   } catch(e) {}
-  showToast(`Welcome to Young Apostles FC — ${tierName}!`);
+  showToast(`Selected 2026/27 Season: ${tierName}!`);
   closeMembershipModal();
   loadProfileData();
   setTimeout(() => {
     openProfileModal();
-  }, 400);
+  }, 350);
 }
 
 function openNewsModal() {
@@ -2100,27 +2121,45 @@ function loadProfileData() {
   let profile = {};
   try { profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(e) {}
 
+  // If name not set in ya_user_profile, check ya_members_list
+  if (!profile.name || profile.name === 'Official Fan') {
+    try {
+      const list = JSON.parse(localStorage.getItem('ya_members_list') || '[]');
+      if (Array.isArray(list) && list.length > 0 && list[0].name) {
+        profile = { ...list[0], ...profile, name: list[0].name };
+      }
+    } catch(e) {}
+  }
+
+  // Ensure unique permanent pass ID
+  if (!profile.id) {
+    profile.id = 'YAFC-26-' + Math.floor(1000 + Math.random() * 9000);
+    try { localStorage.setItem('ya_user_profile', JSON.stringify(profile)); } catch(e) {}
+  }
+
   const nameEl = document.getElementById('profileName');
   const phoneEl = document.getElementById('profilePhone');
   const emailEl = document.getElementById('profileEmail');
   const tierEl = document.getElementById('profileTier');
+  const passIdEl = document.getElementById('profilePassId');
 
-  if (nameEl) nameEl.value = profile.name || '';
+  if (nameEl) nameEl.value = (profile.name && profile.name !== 'Official Fan') ? profile.name : '';
   if (phoneEl) phoneEl.value = profile.phone || '';
   if (emailEl) emailEl.value = profile.email || '';
+  if (passIdEl) passIdEl.textContent = profile.id;
   
   const currentTier = profile.tier || '';
   if (tierEl) tierEl.value = currentTier;
 
-  // Highlight tier card only if explicitly selected (none preselected by default)
+  // Highlight tier card
   const optStd = document.getElementById('optTierStandard');
   const optGold = document.getElementById('optTierGold');
   if (optStd) optStd.classList.toggle('selected', currentTier.includes('Standard'));
   if (optGold) optGold.classList.toggle('selected', currentTier.includes('Gold VIP'));
 
   // Update display
-  const displayName = profile.name || 'Official Fan';
-  const initials = profile.name
+  const displayName = (profile.name && profile.name !== 'Official Fan') ? profile.name : 'Official Fan';
+  const initials = (profile.name && profile.name !== 'Official Fan')
     ? profile.name.trim().split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2)
     : 'YA';
 
@@ -2135,18 +2174,18 @@ function loadProfileData() {
   if (tierBadgeEl) {
     if (currentTier.includes('Gold VIP')) {
       tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--gold';
-      tierBadgeEl.innerHTML = '<i class="fa-solid fa-crown"></i> Gold VIP Apostle &bull; 2026/27';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-trophy"></i> Gold VIP &bull; 2026/27 Season Pass';
     } else if (currentTier.includes('Standard')) {
       tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--standard';
-      tierBadgeEl.innerHTML = '<i class="fa-solid fa-star"></i> Standard Apostle &bull; 2026/27';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-id-badge"></i> Standard Apostle &bull; 2026/27 Season Pass';
     } else {
       tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--guest';
-      tierBadgeEl.innerHTML = '<i class="fa-solid fa-user"></i> Fan Member (No Tier Selected)';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-ticket"></i> Fan Member &bull; 2026/27 Season';
     }
   }
 
   if (topNameEl) {
-    topNameEl.textContent = profile.name ? profile.name.trim().split(' ')[0] : 'My Profile';
+    topNameEl.textContent = (profile.name && profile.name !== 'Official Fan') ? profile.name.trim().split(' ')[0] : 'My Profile';
   }
 
   // Perks visibility
@@ -2176,28 +2215,129 @@ function selectTierInProfile(tier) {
   if (tierBadgeEl) {
     if (newTier.includes('Gold VIP')) {
       tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--gold';
-      tierBadgeEl.innerHTML = '<i class="fa-solid fa-crown"></i> Gold VIP Apostle &bull; 2026/27';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-trophy"></i> Gold VIP &bull; 2026/27 Season Pass';
     } else if (newTier.includes('Standard')) {
       tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--standard';
-      tierBadgeEl.innerHTML = '<i class="fa-solid fa-star"></i> Standard Apostle &bull; 2026/27';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-id-badge"></i> Standard Apostle &bull; 2026/27 Season Pass';
     } else {
       tierBadgeEl.className = 'cool-tier-pill cool-tier-pill--guest';
-      tierBadgeEl.innerHTML = '<i class="fa-solid fa-user"></i> Fan Member (No Tier Selected)';
+      tierBadgeEl.innerHTML = '<i class="fa-solid fa-ticket"></i> Fan Member &bull; 2026/27 Season';
     }
   }
 }
 
 function saveProfile(e) {
-  e.preventDefault();
+  if (e && e.preventDefault) e.preventDefault();
+
   const name = document.getElementById('profileName')?.value.trim();
   const phone = document.getElementById('profilePhone')?.value.trim();
   const email = document.getElementById('profileEmail')?.value.trim();
-  const tier = document.getElementById('profileTier')?.value || '';
+  const tier = document.getElementById('profileTier')?.value || 'Official Fan Pass';
 
-  const profile = { name, phone, email, tier, updatedAt: new Date().toISOString() };
-  localStorage.setItem('ya_user_profile', JSON.stringify(profile));
+  if (!name) {
+    showToast('⚠️ Please enter your Full Name.');
+    document.getElementById('profileName')?.focus();
+    return;
+  }
+  if (!phone) {
+    showToast('⚠️ Please enter your Phone/WhatsApp Number.');
+    document.getElementById('profilePhone')?.focus();
+    return;
+  }
+
+  // Preserve pass ID if existing
+  let existingProfile = {};
+  try { existingProfile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(err) {}
+
+  const passId = existingProfile.id || ('YAFC-26-' + Math.floor(1000 + Math.random() * 9000));
+  const now = new Date().toISOString();
+
+  const profile = {
+    id: passId,
+    name: name,
+    phone: phone,
+    email: email || '',
+    tier: tier,
+    subscription: '2026/27 GPL Season Pass',
+    status: 'Active',
+    joinDate: existingProfile.joinDate || now,
+    updatedAt: now
+  };
+
+  // 1. Save active user profile
+  try {
+    localStorage.setItem('ya_user_profile', JSON.stringify(profile));
+  } catch(err) {}
+
+  // 2. Save / Update in ya_members_list for admin and persistent storage
+  try {
+    let list = JSON.parse(localStorage.getItem('ya_members_list') || '[]');
+    if (!Array.isArray(list)) list = [];
+    const idx = list.findIndex(m => (phone && m.phone === phone) || (m.id && m.id === passId) || (email && m.email === email));
+    if (idx >= 0) {
+      list[idx] = { ...list[idx], ...profile };
+    } else {
+      list.unshift(profile);
+    }
+    localStorage.setItem('ya_members_list', JSON.stringify(list));
+  } catch(err) {}
+
+  // 3. Broadcast real-time storage event so open Admin tabs update immediately
+  try {
+    window.dispatchEvent(new Event('storage'));
+    if (window.BroadcastChannel) {
+      const bc = new BroadcastChannel('ya_channel');
+      bc.postMessage({ type: 'MEMBER_SAVED', profile: profile });
+      bc.close();
+    }
+  } catch(err) {}
+
+  // 4. Update display in profile modal
   loadProfileData();
-  showToast('Profile saved successfully! Welcome, ' + (name || 'Apostle Fan'));
+
+  // 5. Visual button feedback & status card
+  const saveBtn = document.getElementById('btnProfileSave');
+  if (saveBtn) {
+    saveBtn.classList.add('saved');
+    saveBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Profile &amp; 2026/27 Season Pass Saved!';
+    setTimeout(() => {
+      saveBtn.classList.remove('saved');
+      saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Seasonal Profile Details';
+    }, 4000);
+  }
+
+  const statusEl = document.getElementById('profileSaveStatus');
+  if (statusEl) {
+    statusEl.style.display = 'flex';
+    statusEl.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#16A34A;font-size:1.15rem;flex-shrink:0;"></i> <div><strong>Profile Saved Successfully!</strong><br><span style="font-size:0.78rem;">Pass ID: <code>${passId}</code> &bull; <strong>${profile.subscription}</strong> (${tier}). Synced to Admin Control Panel.</span></div>`;
+  }
+
+  const waBtn = document.getElementById('btnProfileWhatsApp');
+  if (waBtn) waBtn.style.display = 'flex';
+
+  showToast(`✅ Profile saved! Welcome to Young Apostles FC 2026/27 Season, ${name}!`);
+}
+
+function sendProfileWhatsApp() {
+  let profile = {};
+  try { profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(e) {}
+  const name = profile.name || document.getElementById('profileName')?.value.trim() || 'Apostle Fan';
+  const phone = profile.phone || document.getElementById('profilePhone')?.value.trim() || '—';
+  const email = profile.email || document.getElementById('profileEmail')?.value.trim() || '—';
+  const tier = profile.tier || 'Standard Apostle';
+  const passId = profile.id || 'YAFC-26-PASS';
+
+  const msg = `*OFFICIAL YOUNG APOSTLES FC — 2026/27 SEASONAL SUBSCRIPTION*%0A%0A` +
+              `*Pass ID:* ${passId}%0A` +
+              `*Member Name:* ${name}%0A` +
+              `*Phone / WhatsApp:* ${phone}%0A` +
+              `*Email:* ${email}%0A` +
+              `*Subscription:* 2026/27 Ghana Premier League Season Pass%0A` +
+              `*Tier:* ${tier}%0A` +
+              `*Status:* Active Member%0A%0A` +
+              `_Agya Na Ɔwɔ Tumi! Please confirm my 2026/27 official seasonal subscription._`;
+
+  window.open(`https://wa.me/233539779380?text=${msg}`, '_blank');
 }
 
 function renderProfileOrders() {
