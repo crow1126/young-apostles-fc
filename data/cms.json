@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-09-16T23:48:00Z",
+  "lastUpdated": "2026-09-23T12:42:08.776Z",
   "hero": {
     "headline": "Young Apostles FC: Fighting for Glory in Ghana's Premier League",
-    "subtitle": "<strong>\"AGYA NA \u0186W\u0186 TUMI\"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level."
+    "subtitle": "<strong>\"AGYA NA ƆWƆ TUMI\"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level."
   },
   "blogs": [
     {
@@ -60,6 +60,12 @@
   ],
   "apostlesTv": [
     {
+      "id": "5cfauoBmoHc",
+      "title": "Match Highlights: Debibi United 3-0 Young Apostles",
+      "tag": "Match Highlights",
+      "thumb": "https://img.youtube.com/vi/5cfauoBmoHc/hqdefault.jpg"
+    },
+    {
       "id": "fpleoX_sUIA",
       "title": "Match Highlights: Young Apostles 1 - 0 Basake Holy Stars",
       "tag": "MATCH HIGHLIGHTS",
@@ -104,4 +110,3 @@
     }
   ]
 }
-
