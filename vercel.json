@@ -1,14 +1,18 @@
-{
-  "rewrites": [
+﻿{
+  "routes": [
     {
-      "source": "/(.*)",
+      "src": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "admin.youngapostlesfcgh.com"
         }
       ],
-      "destination": "/admin.html"
+      "dest": "/admin.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
