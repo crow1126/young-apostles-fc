@@ -267,17 +267,94 @@
     .empty-state i { font-size:2.5rem; opacity:0.3; margin-bottom:0.75rem; display:block; }
     .empty-state p { font-size:0.88rem; }
 
-    /* ===== MOBILE SIDEBAR TOGGLE ===== */
+    /* ===== MOBILE SIDEBAR & DRAWER ===== */
+    .topbar-menu-btn {
+      display: none;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--aborder);
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .topbar-menu-btn:hover { background: rgba(255,255,255,0.16); }
+
+    .sidebar-close-btn {
+      display: none;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--aborder);
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-left: auto;
+    }
+    .sidebar-close-btn:hover { background: rgba(239,68,68,0.25); color: #f87171; }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 9, 20, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 99;
+    }
+    .sidebar-backdrop.open { display: block; }
+
     .mobile-sidebar-btn {
       display:none; position:fixed; bottom:1.25rem; left:1.25rem; z-index:200;
       background:var(--agold); color:var(--ab); width:48px; height:48px;
       border-radius:50%; font-size:1.2rem; border:none; box-shadow:0 4px 18px rgba(0,0,0,0.4);
     }
+
+    .dash-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
     @media (max-width:768px) {
-      .mobile-sidebar-btn { display:flex; align-items:center; justify-content:center; }
-      .admin-sidebar { transform:translateX(-100%); }
-      .admin-sidebar.open { transform:translateX(0); }
-      .admin-main { margin-left:0; }
+      .topbar-menu-btn { display: flex; }
+      .sidebar-close-btn { display: flex; }
+      .mobile-sidebar-btn { display: none; } /* Replaced by elegant topbar button */
+      .admin-sidebar {
+        transform: translateX(-100%);
+        width: 270px;
+        max-width: 84vw;
+        z-index: 1000;
+        box-shadow: 12px 0 36px rgba(0,0,0,0.65);
+      }
+      .admin-sidebar.open { transform: translateX(0); }
+      .admin-main { margin-left: 0; width: 100%; min-width: 0; }
+      .admin-panel { padding: 1rem 0.85rem; }
+      .admin-topbar { padding: 0.75rem 1rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0.65rem; }
+      .stat-card { padding: 0.9rem; }
+      .stat-card__value { font-size: 1.55rem; }
+      .stat-card__icon { width: 34px; height: 34px; font-size: 0.95rem; }
+      .dash-split-grid { grid-template-columns: 1fr !important; }
+      .admin-table { min-width: 580px; }
+      .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .cms-card { flex-direction: column; gap: 0.75rem; align-items: stretch; }
+      .cms-card__actions { width: 100%; justify-content: flex-end; border-top: 1px solid var(--aborder); padding-top: 0.5rem; }
+      .cms-card__title { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+      .form-row { grid-template-columns: 1fr; }
+      .add-form-panel { padding: 1.15rem 1rem; }
+      #adminToast { left: 1rem; right: 1rem; max-width: calc(100% - 2rem); bottom: 1rem; text-align: center; }
+      .section-hdr { flex-wrap: wrap; gap: 0.5rem; }
+    }
+    @media (max-width:480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .login-card { padding: 1.75rem 1.25rem; }
     }
 
     /* ===== PAGE-SPECIFIC ===== */
@@ -288,9 +365,197 @@
       font-size:0.83rem; color:var(--amuted); line-height:1.6;
     }
     .panel-intro strong { color:var(--agold); }
+
+    /* ═════════════════════════════════════════════════════════
+       SPLASH INTRO OVERLAY (4s loading on entry / refresh)
+       ═════════════════════════════════════════════════════════ */
+    #ya-splash-overlay {
+      position: fixed;
+      inset: 0;
+      background: #F4F1EC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Outfit', sans-serif;
+      z-index: 999999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #ya-splash-overlay.exit {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
+    #ya-splash-overlay::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(43,74,122,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(201,148,58,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    #splash-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #splash {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.75rem;
+      z-index: 2;
+      text-align: center;
+    }
+    .logo-wrap {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+      border-top-color: #C9943A;
+      border-bottom-color: rgba(201,148,58,0.25);
+      animation: ringSpin 3s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+    .ring:nth-child(2) {
+      inset: -14px;
+      border-top-color: transparent;
+      border-left-color: rgba(201,148,58,0.45);
+      border-right-color: rgba(201,148,58,0.15);
+      animation: ringSpinRev 4.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    }
+    .ring:nth-child(3) {
+      inset: -22px;
+      border-top-color: rgba(201,148,58,0.18);
+      border-bottom-color: transparent;
+      animation: ringSpin 6s linear infinite;
+    }
+    .ring-blue {
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      border: 1px dashed rgba(43,74,122,0.25);
+      animation: ringSpinRev 8s linear infinite;
+    }
+    @keyframes ringSpin { to { transform: rotate(360deg); } }
+    @keyframes ringSpinRev { to { transform: rotate(-360deg); } }
+    #club-logo {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      border-radius: 50%;
+      filter: drop-shadow(0 8px 24px rgba(43,74,122,0.18));
+      animation: logoPulse 2.8s ease-in-out infinite alternate;
+    }
+    @keyframes logoPulse {
+      0%   { transform: scale(0.97); }
+      100% { transform: scale(1.03); }
+    }
+    .club-name h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1E335A;
+      margin-bottom: 0.35rem;
+      animation: splashFadeUp 0.8s ease forwards 0.3s;
+      opacity: 0;
+    }
+    .club-name p {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #8C6A2A;
+      animation: splashFadeUp 0.8s ease forwards 0.5s;
+      opacity: 0;
+    }
+    @keyframes splashFadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .loading-bar-track {
+      width: 140px;
+      height: 2px;
+      background: rgba(43,74,122,0.10);
+      border-radius: 99px;
+      overflow: hidden;
+      opacity: 0;
+      animation: splashFadeUp 0.8s ease forwards 0.6s;
+    }
+    .loading-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2B4A7A, #C9943A);
+      border-radius: 99px;
+      animation: barGrow 3.0s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.8s;
+    }
+    @keyframes barGrow {
+      0%   { width: 0%; }
+      60%  { width: 72%; }
+      100% { width: 100%; }
+    }
+    .tagline {
+      font-size: 0.65rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(43,62,107,0.38);
+      opacity: 0;
+      animation: splashFadeUp 0.8s ease forwards 0.9s;
+    }
+    #splash.exit { animation: splashExit 0.5s ease forwards; }
+    @keyframes splashExit {
+      0%   { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.05); }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ═════════════════════════════════════════════════════════
+       SPLASH SCREEN INTRO OVERLAY (4s loading on entry / refresh)
+       ═════════════════════════════════════════════════════════ -->
+  <div id="ya-splash-overlay">
+    <canvas id="splash-canvas"></canvas>
+
+    <div id="splash">
+      <div class="logo-wrap">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring-blue"></div>
+        <img id="club-logo" src="assets/official-crest-transparent.png"
+             onerror="this.src='assets/official-logo.png'"
+             alt="Young Apostles FC Crest" draggable="false">
+      </div>
+
+      <div class="club-name">
+        <h1>Young Apostles FC</h1>
+        <p>Admin Portal &middot; Operations</p>
+      </div>
+
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill"></div>
+      </div>
+
+      <span class="tagline">Official Club Administration</span>
+    </div>
+  </div>
 
 <!-- ========== LOGIN GATE ========== -->
 <div id="loginGate">
@@ -324,6 +589,9 @@
           <div class="sidebar-brand-title">YAFC Admin</div>
           <div class="sidebar-brand-sub">CMS Portal</div>
         </div>
+        <button class="sidebar-close-btn" onclick="closeMobileSidebar()" aria-label="Close sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
 
       <nav class="sidebar-nav">
@@ -375,12 +643,18 @@
         </button>
       </div>
     </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
 
     <!-- MAIN -->
     <div class="admin-main">
       <!-- TOP BAR -->
       <div class="admin-topbar">
-        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <button class="topbar-menu-btn" onclick="toggleMobileSidebar()" aria-label="Toggle Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="topbar-title" id="topbarTitle">Dashboard</div>
+        </div>
         <div class="topbar-right">
           <div style="font-size:0.78rem;color:var(--amuted);" id="adminClockEl"></div>
           <div class="admin-avatar" id="adminAvatarEl">AD</div>
@@ -394,7 +668,7 @@
         <div class="admin-panel active" id="panel-dashboard">
           <div class="stats-grid" id="dashStats"></div>
 
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div class="dash-split-grid">
             <!-- Recent waitlist -->
             <div>
               <div class="section-hdr">
@@ -1049,8 +1323,8 @@ function showPanel(id) {
   currentPanel = id;
   renderPanel(id);
 
-  // Close mobile sidebar
-  document.getElementById('adminSidebar').classList.remove('open');
+  // Close mobile sidebar & backdrop
+  closeMobileSidebar();
 }
 
 function renderPanel(id) {
@@ -1160,12 +1434,19 @@ function saveFixtures(arr) {
   localStorage.setItem('ya_club_fixtures', JSON.stringify(arr));
   pushCmsToGitHub('fixtures');
 }
+const DEFAULT_TV_VIDEOS = [
+  { id: 'fpleoX_sUIA', title: 'Match Highlights: Young Apostles 1 - 0 Basake Holy Stars', tag: 'MATCH HIGHLIGHTS', thumb: 'assets/apostle-tv-video1.jpg' },
+  { id: 'ixgmCVIplsk', title: 'Pre-Match Interview | Young Apostles vs Basake Holy Stars | Assistant Coach Abubakar Fuseini', tag: 'PRE-MATCH INTERVIEW', thumb: 'assets/apostle-tv-video2.jpg' },
+  { id: '9SFZE0KVGak', title: 'Match Highlights: Vision FC 3 - 0 Young Apostles FC', tag: 'MATCH HIGHLIGHTS', thumb: 'assets/apostle-tv-video3.jpg' },
+  { id: '9AX0fmXUMU4', title: 'Season 2026/27 Training Camp: Behind The Scenes', tag: 'BEHIND THE SCENES', thumb: 'assets/apostle-tv-video4.jpg' }
+];
+
 function getTvVideos() {
   try {
     const raw = localStorage.getItem('ya_apostles_tv_videos');
     if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) return p; }
   } catch(e) {}
-  return [];
+  return DEFAULT_TV_VIDEOS;
 }
 function saveTvVideos(arr) {
   localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(arr));
@@ -1613,13 +1894,15 @@ function saveTvVideo() {
   const thumb = thumbInput || `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 
   const videos = getTvVideos();
-  videos.unshift({
+  // Remove existing entry if re-adding so it jumps straight to the top (beginning)
+  const filtered = videos.filter(v => v.id !== id);
+  filtered.unshift({
     id,
     title: document.getElementById('tvTitle').value.trim() || 'Young Apostles FC Video',
     tag: document.getElementById('tvTag').value.trim() || 'APOSTLES TV',
     thumb: thumb
   });
-  saveTvVideos(videos);
+  saveTvVideos(filtered);
   ['tvId','tvTitle','tvTag','tvThumb'].forEach(f => document.getElementById(f).value = '');
   toggleAddForm('tvAddForm');
   renderTvPanel();
@@ -1729,7 +2012,17 @@ function toggleAddForm(id) {
 }
 
 function toggleMobileSidebar() {
-  document.getElementById('adminSidebar').classList.toggle('open');
+  const sb = document.getElementById('adminSidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  if (sb) sb.classList.toggle('open');
+  if (bd) bd.classList.toggle('open');
+}
+
+function closeMobileSidebar() {
+  const sb = document.getElementById('adminSidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  if (sb) sb.classList.remove('open');
+  if (bd) bd.classList.remove('open');
 }
 
 function clearDataConfirm(key, label) {
@@ -1813,6 +2106,59 @@ if (window.BroadcastChannel) {
       }
     }
   } catch(e) {}
+})();
+
+// ═════════════════════════════════════════════
+// 4-SECOND ADMIN SPLASH CONTROLLER
+// ═════════════════════════════════════════════
+(function initAdminSplash() {
+  const canvas = document.getElementById('splash-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random(), y: Math.random(),
+        r: Math.random() * 1.3 + 0.5,
+        speed: Math.random() * 0.00012 + 0.00006,
+        alpha: Math.random() * 0.14 + 0.04,
+        color: Math.random() > 0.5 ? '43,74,122' : '201,148,58'
+      });
+    }
+    let animRunning = true;
+    function draw() {
+      if (!animRunning) return;
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.y -= p.speed;
+        if (p.y < -0.02) { p.y = 1.02; p.x = Math.random(); }
+        ctx.beginPath();
+        ctx.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + p.color + ',' + p.alpha + ')';
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // Reveal admin portal after 4.0s animation
+    setTimeout(function () {
+      const splash = document.getElementById('splash');
+      const overlay = document.getElementById('ya-splash-overlay');
+      if (splash) splash.classList.add('exit');
+      if (overlay) overlay.classList.add('exit');
+      setTimeout(function () {
+        animRunning = false;
+        if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 700);
+    }, 4000);
+  }
 })();
 </script>
 </body>

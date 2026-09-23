@@ -1605,22 +1605,31 @@ function renderApostlesTv() {
   if (!videos || videos.length === 0) return;
 
   container.innerHTML = videos.map((v) => {
-    const thumbUrl = v.thumb ? v.thumb : `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
-    const fallbackThumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+    const cleanId = extractYouTubeId(v.id);
+    const thumbUrl = v.thumb ? v.thumb : `https://img.youtube.com/vi/${cleanId}/hqdefault.jpg`;
+    const fallbackThumb = `https://img.youtube.com/vi/${cleanId}/hqdefault.jpg`;
     const safeTitle = (v.title || 'Young Apostles FC Video').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     const tag = v.tag || 'WATCH IN PLAYER';
+    const ytUrl = `https://www.youtube.com/watch?v=${cleanId}`;
 
     return `
-      <article class="video-card" onclick="playApostleVideo('${v.id}', '${safeTitle}')">
-        <div class="video-card__thumb">
-          <img src="${thumbUrl}" alt="${safeTitle}" onerror="this.src='${fallbackThumb}'">
-          <div class="video-play-btn"><i class="fa-solid fa-play"></i></div>
-          <div class="video-yt-badge"><i class="fa-brands fa-youtube"></i></div>
+      <article class="video-card">
+        <div class="video-card__thumb" onclick="playApostleVideo('${cleanId}', '${safeTitle}')" title="Play Video on Site">
+          <img src="${thumbUrl}" alt="${safeTitle}" onerror="this.src='${fallbackThumb}'" loading="lazy">
+          <div class="video-play-btn" title="Play Video"><i class="fa-solid fa-play"></i></div>
+          <a class="video-yt-quick-badge" href="${ytUrl}" target="_blank" rel="noopener noreferrer" title="Open directly in YouTube" onclick="event.stopPropagation()">
+            <i class="fa-brands fa-youtube"></i> YouTube
+          </a>
         </div>
         <div class="video-card__content">
-          <h3 class="video-card-title">${v.title}</h3>
+          <h3 class="video-card-title" onclick="playApostleVideo('${cleanId}', '${safeTitle}')" style="cursor:pointer;">${v.title}</h3>
           <div class="video-card-divider"></div>
-          <div class="video-card-tag"><i class="fa-solid fa-circle-play"></i> ${tag}</div>
+          <div class="video-card-footer">
+            <span class="video-card-tag" onclick="playApostleVideo('${cleanId}', '${safeTitle}')" style="cursor:pointer;"><i class="fa-solid fa-circle-play"></i> ${tag}</span>
+            <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="video-card-yt-link" title="Open directly on YouTube" onclick="event.stopPropagation()">
+              <i class="fa-brands fa-youtube"></i> YouTube &rarr;
+            </a>
+          </div>
         </div>
       </article>
     `;
@@ -1630,7 +1639,7 @@ function renderApostlesTv() {
 function extractYouTubeId(urlOrId) {
   if (!urlOrId) return 'fpleoX_sUIA';
   const clean = String(urlOrId).trim();
-  const match = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  const match = clean.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|live\/|watch\?.+&v=))([\w-]{11})/);
   if (match) return match[1];
   if (/^[\w-]{11}$/.test(clean)) return clean;
   if (clean === 'gpl-opener-vision') return '9SFZE0KVGak';
@@ -1642,13 +1651,19 @@ function playApostleVideo(videoId, title) {
   const frame = document.getElementById('videoPlayerFrame');
   const titleEl = document.getElementById('videoPlayerTitle');
   const directLink = document.getElementById('videoPlayerDirectLink');
+  const modalDirectBtn = document.getElementById('videoPlayerModalDirectBtn');
   
   const cleanId = extractYouTubeId(videoId);
+  const ytUrl = `https://www.youtube.com/watch?v=${cleanId}`;
+
   if (frame) {
-    frame.src = `https://www.youtube-nocookie.com/embed/${cleanId}?autoplay=1&rel=0&enablejsapi=1`;
+    frame.src = `https://www.youtube.com/embed/${cleanId}?autoplay=1&rel=0&playsinline=1&modestbranding=1`;
   }
   if (directLink) {
-    directLink.href = `https://www.youtube.com/watch?v=${cleanId}`;
+    directLink.href = ytUrl;
+  }
+  if (modalDirectBtn) {
+    modalDirectBtn.href = ytUrl;
   }
   if (titleEl) titleEl.textContent = title || 'Apostles TV · Young Apostles FC';
   if (modal) modal.classList.add('open');
