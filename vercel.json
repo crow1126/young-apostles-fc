@@ -1,18 +1,1 @@
-﻿{
-  "routes": [
-    {
-      "src": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "admin.youngapostlesfcgh.com"
-        }
-      ],
-      "dest": "/admin.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ]
-}
+﻿{}

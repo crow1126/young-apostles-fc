@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0;url=main.html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Young Apostles FC | Official Website</title>
   <link rel="icon" type="image/png" href="assets/official-logo.png">
   <style>
@@ -12,6 +12,13 @@
 </head>
 <body>
   <p>Redirecting…</p>
-  <script>window.location.replace('main.html');</script>
+  <script>
+    // Route admin subdomain to admin portal, all other domains to main site
+    if (window.location.hostname === 'admin.youngapostlesfcgh.com') {
+      window.location.replace('admin.html');
+    } else {
+      window.location.replace('main.html');
+    }
+  </script>
 </body>
 </html>
