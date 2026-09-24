@@ -2032,8 +2032,10 @@
 
   <!-- ═══ Splash Screen Controller ═══ -->
   <script>
-    /* Admin subdomain routing check */
-    if (window.location.hostname === 'admin.youngapostlesfcgh.com') {
+    /* Admin routing check */
+    if (window.location.hostname === 'admin.youngapostlesfcgh.com' ||
+        window.location.hash === '#admin' ||
+        window.location.search.includes('admin=1')) {
       window.location.replace('admin.html');
     }
 

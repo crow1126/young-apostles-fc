@@ -32,12 +32,20 @@
       background-image: radial-gradient(circle at 20% 30%, rgba(0,87,184,0.18) 0%, transparent 50%),
                         radial-gradient(circle at 80% 80%, rgba(241,180,52,0.1) 0%, transparent 40%);
       display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+      overflow-y: auto; -webkit-overflow-scrolling: touch;
     }
     .login-card {
       background: var(--as); border: 1px solid var(--aborder);
       border-radius: 20px; padding: 2.5rem 2rem; max-width: 420px; width: 100%;
       box-shadow: 0 32px 64px rgba(0,0,0,0.7);
       animation: loginFadeIn 0.5s ease;
+      margin: auto;
+    }
+    @media (max-width: 480px) {
+      #loginGate { padding: 1rem 0.75rem; }
+      .login-card { padding: 1.75rem 1.25rem; border-radius: 16px; }
+      .login-title { font-size: 1.3rem; }
+      .login-input { font-size: 16px; }
     }
     @keyframes loginFadeIn {
       from { opacity:0; transform:translateY(24px); }
@@ -380,7 +388,13 @@
       overflow: hidden;
       font-family: 'Outfit', sans-serif;
       z-index: 999999;
-      transition: opacity 0.6s ease, visibility 0.6s ease;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      animation: yaSplashAutoFade 0.6s ease 3.8s forwards;
+    }
+    @keyframes yaSplashAutoFade {
+      to { opacity: 0; visibility: hidden; pointer-events: none; }
     }
     #ya-splash-overlay.exit {
       opacity: 0 !important;
@@ -528,9 +542,9 @@
 <body>
 
   <!-- ═════════════════════════════════════════════════════════
-       SPLASH SCREEN INTRO OVERLAY (4s loading on entry / refresh)
+       SPLASH SCREEN INTRO OVERLAY (Loading on entry / tap to skip)
        ═════════════════════════════════════════════════════════ -->
-  <div id="ya-splash-overlay">
+  <div id="ya-splash-overlay" onclick="dismissAdminSplash()" title="Tap to enter immediately">
     <canvas id="splash-canvas"></canvas>
 
     <div id="splash">
@@ -553,7 +567,7 @@
         <div class="loading-bar-fill"></div>
       </div>
 
-      <span class="tagline">Official Club Administration</span>
+      <span class="tagline">Official Club Administration &bull; <small style="opacity:0.75; text-decoration:underline;">Tap to skip</small></span>
     </div>
   </div>
 
@@ -1259,12 +1273,29 @@ function getAdminCreds() {
   } catch(e) { return { user: DEFAULT_USER, pass: DEFAULT_PASS }; }
 }
 
+function checkAdminSession() {
+  try {
+    const isAuth = sessionStorage.getItem('ya_admin_logged_in') === '1' || localStorage.getItem('ya_admin_remember') === '1';
+    if (isAuth) {
+      const gate = document.getElementById('loginGate');
+      const app = document.getElementById('adminApp');
+      if (gate) gate.style.display = 'none';
+      if (app) app.style.display = 'block';
+      initAdmin();
+    }
+  } catch(e) {}
+}
+
 function handleAdminLogin(e) {
   e.preventDefault();
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
   const creds = getAdminCreds();
   if (u === creds.user && p === creds.pass) {
+    try {
+      sessionStorage.setItem('ya_admin_logged_in', '1');
+      localStorage.setItem('ya_admin_remember', '1');
+    } catch(err) {}
     document.getElementById('loginGate').style.display = 'none';
     document.getElementById('adminApp').style.display = 'block';
     initAdmin();
@@ -1276,6 +1307,10 @@ function handleAdminLogin(e) {
 }
 
 function adminLogout() {
+  try {
+    sessionStorage.removeItem('ya_admin_logged_in');
+    localStorage.removeItem('ya_admin_remember');
+  } catch(err) {}
   document.getElementById('loginGate').style.display = 'flex';
   document.getElementById('adminApp').style.display = 'none';
   document.getElementById('loginUser').value = '';
@@ -1611,6 +1646,8 @@ function renderDashboard() {
         </tr>
       `).join('')}</tbody>
     </table>
+  ` : `<div class="empty-state"><i class="fa-solid fa-users"></i><p>No members registered yet.</p></div>`;
+
   // Fixtures overview on dashboard
   const fixturesEl = document.getElementById('dashFixturesTable');
   if (fixturesEl) {
@@ -2245,8 +2282,21 @@ if (window.BroadcastChannel) {
 })();
 
 // ═════════════════════════════════════════════
-// 4-SECOND ADMIN SPLASH CONTROLLER
+// ADMIN SPLASH CONTROLLER & SESSION INIT
 // ═════════════════════════════════════════════
+let splashDismissed = false;
+function dismissAdminSplash() {
+  if (splashDismissed) return;
+  splashDismissed = true;
+  const splash = document.getElementById('splash');
+  const overlay = document.getElementById('ya-splash-overlay');
+  if (splash) splash.classList.add('exit');
+  if (overlay) overlay.classList.add('exit');
+  setTimeout(function () {
+    if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+  }, 600);
+}
+
 (function initAdminSplash() {
   const canvas = document.getElementById('splash-canvas');
   if (canvas) {
@@ -2269,7 +2319,7 @@ if (window.BroadcastChannel) {
     }
     let animRunning = true;
     function draw() {
-      if (!animRunning) return;
+      if (!animRunning || splashDismissed) return;
       ctx.clearRect(0, 0, W, H);
       particles.forEach(p => {
         p.y -= p.speed;
@@ -2282,19 +2332,13 @@ if (window.BroadcastChannel) {
       requestAnimationFrame(draw);
     }
     draw();
-
-    // Reveal admin portal after 4.0s animation
-    setTimeout(function () {
-      const splash = document.getElementById('splash');
-      const overlay = document.getElementById('ya-splash-overlay');
-      if (splash) splash.classList.add('exit');
-      if (overlay) overlay.classList.add('exit');
-      setTimeout(function () {
-        animRunning = false;
-        if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
-      }, 700);
-    }, 4000);
   }
+
+  // Automatically dismiss splash after 2.5 seconds
+  setTimeout(dismissAdminSplash, 2500);
+
+  // Restore authenticated session if previously logged in
+  checkAdminSession();
 })();
 </script>
 </body>
