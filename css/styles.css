@@ -2217,12 +2217,15 @@ button {
   border-radius: 50%;
   padding: 1.5rem;
   border: 2px solid rgba(255, 184, 0, 0.3);
+  overflow: hidden;
+  position: relative;
 }
 
 .about-crest-img {
-  width: 100%;
-  height: 100%;
+  width: 82%;
+  height: 82%;
   object-fit: contain;
+  display: block;
 }
 
 .about-content {

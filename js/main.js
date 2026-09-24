@@ -1059,7 +1059,7 @@ function renderMatches(typeFilter = 'all') {
   // Show next 6 upcoming matches in calendar order
   const upcomingSlice = applyFilter(upcomingFixtures).slice(0, 6);
 
-  const renderCard = f => {
+  const renderCard = (f, isNextMatch = false) => {
     const isYAHome  = f.home === 'Young Apostles';
     const opponent  = isYAHome ? f.away : f.home;
 
@@ -1086,7 +1086,9 @@ function renderMatches(typeFilter = 'all') {
     const oppLogo = LOGO_MAP[opponent] || 'assets/opponents/gpl-official.png';
 
     const dateObj   = parseFixtureDate(f.date);
-    const dayStr    = dateObj.toLocaleString('en', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+    const dayStr    = isNaN(dateObj.getTime())
+      ? (f.date || 'TBC').toUpperCase()
+      : dateObj.toLocaleString('en', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
     const isCompleted = Boolean(f.score);
     const cardClass = `match-card ${isCompleted ? 'match-card--past' : ''} ${f.type === 'Home' ? 'match-card--home' : 'match-card--away'}`;
 
@@ -1098,7 +1100,7 @@ function renderMatches(typeFilter = 'all') {
     // Time/score center box
     const isWin = f.result === 'W';
     const isLoss = f.result === 'L';
-    const resultTag = isWin ? 'WIN Â· FT' : isLoss ? 'LOSS Â· FT' : 'DRAW Â· FT';
+    const resultTag = isWin ? 'WIN • FT' : isLoss ? 'LOSS • FT' : 'DRAW • FT';
     const resultColor = isWin ? '#15803D' : isLoss ? '#B91C1C' : '#475569';
     const resultBg = isWin ? '#DCFCE7' : isLoss ? '#FEE2E2' : '#F1F5F9';
     const resultBorder = isWin ? '#86EFAC' : isLoss ? '#FCA5A5' : '#CBD5E1';
@@ -1107,7 +1109,7 @@ function renderMatches(typeFilter = 'all') {
       ? `<div class="match-score-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:${resultBg}; border:1px solid ${resultBorder}; min-width:74px;">
            <span style="font-size:0.62rem; font-weight:800; color:${resultColor}; letter-spacing:0.08em; text-transform:uppercase;">${resultTag}</span>
            <span style="font-size:1.25rem; font-weight:900; color:${resultColor}; line-height:1.2; letter-spacing:0.02em;">${f.score}</span>
-           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;">âš½ ${f.scorer}</span>` : ''}
+           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;">⚽ ${f.scorer}</span>` : ''}
          </div>`
       : `<div class="match-time-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:#F8FAFC; border:1px solid #E2E8F0; min-width:74px;">
            <span style="font-size:0.62rem; font-weight:800; color:#034694; letter-spacing:0.08em; text-transform:uppercase;">KICKOFF</span>

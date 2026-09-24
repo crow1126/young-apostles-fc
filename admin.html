@@ -686,6 +686,15 @@
               <div class="admin-table-wrap" id="dashMembersTable"></div>
             </div>
           </div>
+
+          <!-- Fixtures & Results Overview on Dashboard -->
+          <div style="margin-top:1.5rem;">
+            <div class="section-hdr">
+              <div class="section-hdr-title"><i class="fa-solid fa-calendar-days" style="color:var(--agold);margin-right:0.4rem;"></i> Upcoming GPL Fixtures &amp; Recent Results</div>
+              <button class="btn-admin-sm" onclick="showPanel('fixtures')">Manage All 34 Rounds &rarr;</button>
+            </div>
+            <div class="admin-table-wrap" id="dashFixturesTable"></div>
+          </div>
         </div>
 
         <!-- ===== WAITING LIST ===== -->
@@ -1602,7 +1611,37 @@ function renderDashboard() {
         </tr>
       `).join('')}</tbody>
     </table>
-  ` : `<div class="empty-state"><i class="fa-solid fa-users"></i><p>No members registered yet.</p></div>`;
+  // Fixtures overview on dashboard
+  const fixturesEl = document.getElementById('dashFixturesTable');
+  if (fixturesEl) {
+    const allFix = getFixtures();
+    // Show next upcoming fixtures and recent played fixtures (first 6)
+    const upcomingFix = allFix.filter(f => !f.score).slice(0, 4);
+    const playedFix = allFix.filter(f => Boolean(f.score)).slice(-2);
+    const displayFix = [...playedFix, ...upcomingFix];
+
+    fixturesEl.innerHTML = displayFix.length ? `
+      <table class="admin-table">
+        <thead><tr><th>WK</th><th>Home</th><th>Away</th><th>Venue</th><th>Date</th><th>Score</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>${displayFix.map(f => `
+          <tr>
+            <td><strong style="color:var(--agold);">#${f.week}</strong></td>
+            <td style="font-weight:700; ${f.home==='Young Apostles'?'color:var(--agold);':''}">${f.home}</td>
+            <td style="${f.away==='Young Apostles'?'color:var(--agold);font-weight:700;':''}">${f.away}</td>
+            <td style="font-size:0.75rem;color:var(--amuted);">${f.venue}</td>
+            <td style="font-size:0.78rem;">${f.date}</td>
+            <td style="font-family:monospace;font-weight:800; font-size:0.95rem; ${f.score?'color:#10B981;':''}">${f.score || '—'}</td>
+            <td>${f.score ? `<span class="badge ${f.result==='W'?'badge-green':f.result==='L'?'badge-red':'badge-gold'}">${f.result||'FT'}</span>` : '<span class="badge badge-blue">UPCOMING</span>'}</td>
+            <td>
+              <button class="btn-admin-sm" onclick="showPanel('fixtures'); setTimeout(() => editFixtureByWeek(${f.week}), 100);" style="padding:3px 8px; font-size:0.75rem;">
+                <i class="fa-solid fa-pen-to-square"></i> Update
+              </button>
+            </td>
+          </tr>
+        `).join('')}</tbody>
+      </table>
+    ` : `<div class="empty-state"><i class="fa-solid fa-calendar-days"></i><p>No fixtures found.</p></div>`;
+  }
 }
 
 /* ==========================================

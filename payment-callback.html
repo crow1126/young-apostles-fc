@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Confirmation | Young Apostles FC</title>
+  <link rel="icon" type="image/png" href="assets/official-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--ya-blue:#0E1E5B;--ya-gold:#FFB800;--ya-green:#16A34A;--ya-red:#DC2626}
+    body{font-family:"Plus Jakarta Sans",sans-serif;background:linear-gradient(135deg,#F0F4FF 0%,#FFF8E7 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem}
+    .card{background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(14,30,91,0.12);padding:2.5rem 2rem;max-width:500px;width:100%;text-align:center;position:relative;overflow:hidden}
+    .card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--ya-blue),var(--ya-gold))}
+    .brand-logo{width:70px;height:70px;object-fit:contain;margin:0 auto 1.25rem;display:block}
+    .sicon{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1.25rem}
+    .si-ok{background:rgba(22,163,74,0.1);color:var(--ya-green)}
+    .si-fail{background:rgba(220,38,38,0.1);color:var(--ya-red)}
+    .si-wait{background:rgba(255,184,0,0.12);color:var(--ya-gold)}
+    .ttl{font-family:"Outfit",sans-serif;font-size:1.6rem;font-weight:800;color:var(--ya-blue);margin-bottom:.5rem}
+    .sub{font-size:.9rem;color:#64748B;margin-bottom:1.5rem;line-height:1.55}
+    .rb{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:1rem;margin-bottom:1.5rem}
+    .rr{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid #F1F5F9;font-size:.875rem}
+    .rr:last-child{border-bottom:none}
+    .rl{color:#94A3B8;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+    .rv{font-weight:700;color:var(--ya-blue);font-family:monospace}
+    .btn-b{display:flex;align-items:center;justify-content:center;gap:.5rem;background:var(--ya-blue);color:#fff;font-weight:700;font-size:.95rem;padding:.85rem 2rem;border-radius:9999px;border:none;cursor:pointer;text-decoration:none;width:100%;margin-bottom:.65rem}
+    .btn-w{display:flex;align-items:center;justify-content:center;gap:.5rem;background:#25D366;color:#fff;font-weight:700;font-size:.9rem;padding:.75rem 2rem;border-radius:9999px;border:none;cursor:pointer;text-decoration:none;width:100%;margin-bottom:.65rem}
+    .mbadge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,184,0,0.1);color:#92620A;border:1px solid rgba(255,184,0,0.3);padding:4px 12px;border-radius:9999px;font-size:.75rem;font-weight:700;margin-bottom:1.25rem}
+    .spin{width:40px;height:40px;border:3px solid #E2E8F0;border-top-color:var(--ya-blue);border-radius:50%;animation:sp .8s linear infinite}
+    @keyframes sp{to{transform:rotate(360deg)}}
+    #ls{display:flex;flex-direction:column;align-items:center;gap:1rem}
+    #ss,#fs,#ps{display:none}
+  </style>
+</head>
+<body>
+  <div class="card" id="c">
+    <img src="assets/official-logo.png" alt="Young Apostles FC" class="brand-logo" onerror="this.src='assets/official-crest-transparent.png'">
+    <div id="ls"><div class="spin"></div><p style="color:#64748B;font-size:.9rem">Verifying your payment...</p></div>
+    <div id="ss">
+      <div class="sicon si-ok"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="mbadge"><i class="fa-solid fa-crown"></i> <span id="tl">Membership Activated</span></div>
+      <h1 class="ttl">Payment Confirmed!</h1>
+      <p class="sub">Your Young Apostles FC membership is now active for the 2026/27 season. Welcome to the Apostles Family!</p>
+      <div class="rb">
+        <div class="rr"><span class="rl">Transaction Ref</span><span class="rv" id="tr">-</span></div>
+        <div class="rr"><span class="rl">Amount Paid</span><span class="rv" id="ap">-</span></div>
+        <div class="rr"><span class="rl">Status</span><span class="rv" style="color:#16A34A">SUCCESSFUL</span></div>
+        <div class="rr"><span class="rl">Date</span><span class="rv" id="pd">-</span></div>
+      </div>
+      <a href="#" class="btn-w" id="wa" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" style="font-size:1.1rem"></i> Send Confirmation to Club</a>
+      <a href="index.html" class="btn-b"><i class="fa-solid fa-house"></i> Return to Club Home</a>
+    </div>
+    <div id="fs">
+      <div class="sicon si-fail"><i class="fa-solid fa-circle-xmark"></i></div>
+      <h1 class="ttl">Payment Failed</h1>
+      <p class="sub">We could not process your payment. No charge was made. Please try again or contact the club.</p>
+      <div class="rb">
+        <div class="rr"><span class="rl">Transaction Ref</span><span class="rv" id="trf">-</span></div>
+        <div class="rr"><span class="rl">Status</span><span class="rv" style="color:#DC2626">FAILED</span></div>
+      </div>
+      <a href="index.html" class="btn-b"><i class="fa-solid fa-rotate-left"></i> Try Again</a>
+      <a href="https://wa.me/233539779380?text=My%20Moolre%20payment%20failed.%20Please%20assist." class="btn-w" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Contact Club for Help</a>
+    </div>
+    <div id="ps">
+      <div class="sicon si-wait"><i class="fa-solid fa-clock"></i></div>
+      <h1 class="ttl">Payment Pending</h1>
+      <p class="sub">Your payment is being processed. You will receive WhatsApp confirmation once approved.</p>
+      <div class="rb">
+        <div class="rr"><span class="rl">Transaction Ref</span><span class="rv" id="trp">-</span></div>
+        <div class="rr"><span class="rl">Status</span><span class="rv" style="color:#D97706">PENDING</span></div>
+      </div>
+      <a href="index.html" class="btn-b"><i class="fa-solid fa-house"></i> Return to Club Home</a>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var p=new URLSearchParams(window.location.search);
+      var st=(p.get("status")||p.get("payment_status")||"").toLowerCase();
+      var tx=p.get("transaction_id")||p.get("reference")||p.get("ref")||p.get("tx_ref")||"-";
+      var am=p.get("amount")||p.get("total")||"-";
+      var cu=p.get("currency")||"GHS";
+      var nm=p.get("customer_name")||p.get("name")||"";
+      var ti=p.get("plan")||p.get("tier")||p.get("product")||"Season Membership";
+      var dt=new Date().toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"});
+      setTimeout(function(){
+        document.getElementById("ls").style.display="none";
+        var ok=/^(success|successful|completed|paid)$/.test(st);
+        var fail=/^(failed|cancelled|canceled|error)$/.test(st);
+        if(ok){
+          document.getElementById("ss").style.display="block";
+          document.getElementById("tr").textContent=tx;
+          document.getElementById("ap").textContent=cu+" "+am;
+          document.getElementById("pd").textContent=dt;
+          document.getElementById("tl").textContent=ti;
+          var msg="YOUNG APOSTLES FC - PAYMENT CONFIRMED\n\nRef: "+tx+"\nCustomer: "+(nm||"Fan Member")+"\nPlan: "+ti+"\nAmount: "+cu+" "+am+"\nDate: "+dt+"\nStatus: SUCCESSFUL\n\nAgya Na Owuo Tumi! Please confirm my membership.";
+          document.getElementById("wa").href="https://wa.me/233539779380?text="+encodeURIComponent(msg);
+          try{var pr=JSON.parse(localStorage.getItem("ya_user_profile")||"{}")||{};if(nm)pr.name=nm;pr.tier=ti;pr.subscription="2026/27 GPL Season Pass";pr.status="Active";pr.moolreTxId=tx;pr.memberSince=dt;if(!pr.id)pr.id="YAFC-26-"+Math.floor(1000+Math.random()*9000);localStorage.setItem("ya_user_profile",JSON.stringify(pr));}catch(e){}
+        }else if(fail){
+          document.getElementById("fs").style.display="block";
+          document.getElementById("trf").textContent=tx;
+        }else{
+          document.getElementById("ps").style.display="block";
+          document.getElementById("trp").textContent=tx;
+        }
+      },1200);
+    })();
+  </script>
+</body>
+</html>
