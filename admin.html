@@ -1169,11 +1169,11 @@ function buildCmsPayload() {
   const members = getMembers();
 
   const payload = { lastUpdated: new Date().toISOString() };
-  if (hero)     payload.hero = hero;
-  if (blogs.length)     payload.blogs = blogs;
-  if (apostlesTv.length) payload.apostlesTv = apostlesTv;
+  if (hero) payload.hero = hero;
+  if (blogs.length) payload.blogs = blogs;
+  payload.apostlesTv = apostlesTv;
   if (standings) payload.standings = standings;
-  payload.fixtures = fixtures;
+  payload.fixtures = fixtures.length ? fixtures : (typeof DEFAULT_FIXTURES !== 'undefined' ? DEFAULT_FIXTURES : []);
   payload.members = members;
   return payload;
 }
@@ -1423,15 +1423,61 @@ function saveBlogs(arr) {
   adminToast('News saved locally...');
   pushCmsToGitHub('news articles');
 }
+const DEFAULT_FIXTURES = [
+  { week: 1, home: 'Vision FC', away: 'Young Apostles', venue: 'Nii Adjei Kraku Stadium', date: 'Sep 5, 2026', type: 'Away', score: '3 - 0', result: 'L' },
+  { week: 2, home: 'Young Apostles', away: 'Basake Holy Stars', venue: 'Wenchi Sports Stadium', date: 'Sep 13, 2026', type: 'Home', score: '1 - 0', result: 'W', scorer: 'Samuel Prempeh 7\'' },
+  { week: 3, home: 'Debibi United', away: 'Young Apostles', venue: 'Debibi Park', date: 'Sep 20, 2026', type: 'Away' },
+  { week: 4, home: 'Young Apostles', away: 'Heart of Lions', venue: 'Wenchi Sports Stadium', date: 'Sep 27, 2026', type: 'Home' },
+  { week: 5, home: 'Samartex', away: 'Young Apostles', venue: 'Nsenkyire Sports Complex', date: 'Oct 4, 2026', type: 'Away' },
+  { week: 6, home: 'Young Apostles', away: 'Aduana Stars', venue: 'Wenchi Sports Stadium', date: 'Oct 11, 2026', type: 'Home' },
+  { week: 7, home: 'Asante Kotoko', away: 'Young Apostles', venue: 'Baba Yara Sports Stadium', date: 'Oct 18, 2026', type: 'Away' },
+  { week: 8, home: 'Young Apostles', away: 'Hearts of Oak', venue: 'Wenchi Sports Stadium', date: 'Oct 25, 2026', type: 'Home' },
+  { week: 9, home: 'Berekum Chelsea', away: 'Young Apostles', venue: 'Golden City Park', date: 'Nov 1, 2026', type: 'Away' },
+  { week: 10, home: 'Young Apostles', away: 'Medeama SC', venue: 'Wenchi Sports Stadium', date: 'Nov 8, 2026', type: 'Home' },
+  { week: 11, home: 'Ashgold', away: 'Young Apostles', venue: 'Len Clay Stadium', date: 'Nov 15, 2026', type: 'Away' },
+  { week: 12, home: 'Young Apostles', away: 'Swedru All Blacks', venue: 'Wenchi Sports Stadium', date: 'Nov 22, 2026', type: 'Home' },
+  { week: 13, home: 'Bechem United', away: 'Young Apostles', venue: 'Nana Fosu Gyeabour Park', date: 'Nov 29, 2026', type: 'Away' },
+  { week: 14, home: 'Young Apostles', away: 'Karela United', venue: 'Wenchi Sports Stadium', date: 'Dec 6, 2026', type: 'Home' },
+  { week: 15, home: 'Port City', away: 'Young Apostles', venue: 'Port City Arena', date: 'Dec 13, 2026', type: 'Away' },
+  { week: 16, home: 'Young Apostles', away: 'Gold Stars FC', venue: 'Wenchi Sports Stadium', date: 'Dec 20, 2026', type: 'Home' },
+  { week: 17, home: 'Dreams FC', away: 'Young Apostles', venue: 'Theatre of Dreams, Dawu', date: 'Jan 3, 2027', type: 'Away' },
+  { week: 18, home: 'Young Apostles', away: 'Vision FC', venue: 'Wenchi Sports Stadium', date: 'Jan 17, 2027', type: 'Home' },
+  { week: 19, home: 'Basake Holy Stars', away: 'Young Apostles', venue: 'Aiyinase Arena', date: 'Jan 24, 2027', type: 'Away' },
+  { week: 20, home: 'Young Apostles', away: 'Debibi United', venue: 'Wenchi Sports Stadium', date: 'Jan 31, 2027', type: 'Home' },
+  { week: 21, home: 'Heart of Lions', away: 'Young Apostles', venue: 'Kpando Stadium', date: 'Feb 7, 2027', type: 'Away' },
+  { week: 22, home: 'Young Apostles', away: 'Samartex', venue: 'Wenchi Sports Stadium', date: 'Feb 14, 2027', type: 'Home' },
+  { week: 23, home: 'Aduana Stars', away: 'Young Apostles', venue: 'Nana Agyemang Badu I Park', date: 'Feb 21, 2027', type: 'Away' },
+  { week: 24, home: 'Young Apostles', away: 'Asante Kotoko', venue: 'Wenchi Sports Stadium', date: 'Feb 28, 2027', type: 'Home' },
+  { week: 25, home: 'Hearts of Oak', away: 'Young Apostles', venue: 'Accra Sports Stadium', date: 'Mar 7, 2027', type: 'Away' },
+  { week: 26, home: 'Young Apostles', away: 'Berekum Chelsea', venue: 'Wenchi Sports Stadium', date: 'Mar 14, 2027', type: 'Home' },
+  { week: 27, home: 'Medeama SC', away: 'Young Apostles', venue: 'T&A Stadium, Tarkwa', date: 'Mar 21, 2027', type: 'Away' },
+  { week: 28, home: 'Young Apostles', away: 'Ashgold', venue: 'Wenchi Sports Stadium', date: 'Apr 4, 2027', type: 'Home' },
+  { week: 29, home: 'Swedru All Blacks', away: 'Young Apostles', venue: 'Swedru Park', date: 'Apr 11, 2027', type: 'Away' },
+  { week: 30, home: 'Young Apostles', away: 'Bechem United', venue: 'Wenchi Sports Stadium', date: 'Apr 18, 2027', type: 'Home' },
+  { week: 31, home: 'Karela United', away: 'Young Apostles', venue: 'Naa Sheriga Sports Complex', date: 'Apr 25, 2027', type: 'Away' },
+  { week: 32, home: 'Young Apostles', away: 'Port City', venue: 'Wenchi Sports Stadium', date: 'May 2, 2027', type: 'Home' },
+  { week: 33, home: 'Gold Stars FC', away: 'Young Apostles', venue: 'DUN\'s Park, Bibiani', date: 'May 9, 2027', type: 'Away' },
+  { week: 34, home: 'Young Apostles', away: 'Dreams FC', venue: 'Wenchi Sports Stadium', date: 'May 16, 2027', type: 'Home' }
+];
+
 function getFixtures() {
   try {
     const raw = localStorage.getItem('ya_club_fixtures');
     if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) return p; }
   } catch(e) {}
-  return [];
+  return DEFAULT_FIXTURES;
 }
 function saveFixtures(arr) {
   localStorage.setItem('ya_club_fixtures', JSON.stringify(arr));
+  try {
+    if (window.BroadcastChannel) {
+      const bc = new BroadcastChannel('ya_channel');
+      bc.postMessage({ type: 'FIXTURES_UPDATED', fixtures: arr });
+      bc.close();
+    }
+    window.dispatchEvent(new Event('storage'));
+  } catch(e) {}
+  adminToast('Fixtures & scoreline saved! Reflects on site immediately.');
   pushCmsToGitHub('fixtures');
 }
 const DEFAULT_TV_VIDEOS = [
@@ -1797,32 +1843,82 @@ function deleteNewsArticle(index) {
 /* ==========================================
    FIXTURES CMS
    ========================================== */
+let currentFixturesFilter = 'all';
+
+function setFixturesFilter(filter) {
+  currentFixturesFilter = filter;
+  renderFixturesPanel();
+}
+
 function renderFixturesPanel() {
   const data = getFixtures();
   const el = document.getElementById('fixturesList');
   if (!el) return;
   if (!data.length) {
-    el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-calendar-days"></i><p>No custom fixtures. Default 34-week schedule showing on site.</p></div>`;
+    el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-calendar-days"></i><p>No fixtures found.</p></div>`;
     return;
   }
+
+  let filtered = [...data];
+  if (currentFixturesFilter === 'r1') {
+    filtered = filtered.filter(f => f.week <= 17);
+  } else if (currentFixturesFilter === 'r2') {
+    filtered = filtered.filter(f => f.week >= 18);
+  } else if (currentFixturesFilter === 'played') {
+    filtered = filtered.filter(f => Boolean(f.score));
+  } else if (currentFixturesFilter === 'upcoming') {
+    filtered = filtered.filter(f => !f.score);
+  }
+
   el.innerHTML = `
+    <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
+      <button class="btn-admin-sm ${currentFixturesFilter==='all'?'btn-admin-primary':''}" onclick="setFixturesFilter('all')">All 34 Rounds (${data.length})</button>
+      <button class="btn-admin-sm ${currentFixturesFilter==='played'?'btn-admin-primary':''}" onclick="setFixturesFilter('played')">Played / Scores (${data.filter(f=>f.score).length})</button>
+      <button class="btn-admin-sm ${currentFixturesFilter==='upcoming'?'btn-admin-primary':''}" onclick="setFixturesFilter('upcoming')">Upcoming (${data.filter(f=>!f.score).length})</button>
+      <button class="btn-admin-sm ${currentFixturesFilter==='r1'?'btn-admin-primary':''}" onclick="setFixturesFilter('r1')">Round 1 (Wks 1-17)</button>
+      <button class="btn-admin-sm ${currentFixturesFilter==='r2'?'btn-admin-primary':''}" onclick="setFixturesFilter('r2')">Round 2 (Wks 18-34)</button>
+    </div>
     <table class="admin-table">
-      <thead><tr><th>WK</th><th>Home</th><th>Away</th><th>Venue</th><th>Date</th><th>Score</th><th>Result</th><th>Scorer</th><th></th></tr></thead>
-      <tbody>${data.map((f,i) => `
+      <thead><tr><th>WK</th><th>Home</th><th>Away</th><th>Venue</th><th>Date</th><th>Score</th><th>Result</th><th>Scorer</th><th>Actions</th></tr></thead>
+      <tbody>${filtered.map(f => {
+        const fullIdx = data.findIndex(x => x.week === f.week);
+        return `
         <tr>
-          <td>${f.week}</td>
-          <td style="font-weight:700;">${f.home}</td>
-          <td>${f.away}</td>
+          <td><strong style="color:var(--agold);">#${f.week}</strong></td>
+          <td style="font-weight:700; ${f.home==='Young Apostles'?'color:var(--agold);':''}">${f.home}</td>
+          <td style="${f.away==='Young Apostles'?'color:var(--agold);font-weight:700;':''}">${f.away}</td>
           <td style="font-size:0.75rem;color:var(--amuted);">${f.venue}</td>
           <td style="font-size:0.78rem;">${f.date}</td>
-          <td style="font-family:monospace;font-weight:700;">${f.score||'TBD'}</td>
+          <td style="font-family:monospace;font-weight:800; font-size:0.95rem; ${f.score?'color:#10B981;':''}">${f.score||'—'}</td>
           <td>${f.result ? `<span class="badge ${f.result==='W'?'badge-green':f.result==='L'?'badge-red':'badge-gold'}">${f.result}</span>` : '—'}</td>
           <td style="font-size:0.75rem;color:var(--amuted);">${f.scorer||'—'}</td>
-          <td><button class="btn-admin-danger" onclick="deleteFixture(${i})"><i class="fa-solid fa-trash"></i></button></td>
+          <td style="display:flex; gap:4px; align-items:center;">
+            <button class="btn-admin-sm" onclick="editFixtureByWeek(${f.week})" title="Edit score & details" style="padding:4px 8px; font-size:0.75rem;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+            <button class="btn-admin-danger" onclick="deleteFixture(${fullIdx})" title="Delete" style="padding:4px 7px;"><i class="fa-solid fa-trash"></i></button>
+          </td>
         </tr>
-      `).join('')}</tbody>
+      `}).join('')}</tbody>
     </table>
   `;
+}
+
+function editFixtureByWeek(week) {
+  const data = getFixtures();
+  const f = data.find(item => item.week === Number(week));
+  if (!f) return;
+  document.getElementById('fxWeek').value = f.week || '';
+  document.getElementById('fxHome').value = f.home || '';
+  document.getElementById('fxAway').value = f.away || '';
+  document.getElementById('fxVenue').value = f.venue || '';
+  document.getElementById('fxDate').value = f.date || '';
+  document.getElementById('fxScore').value = f.score || '';
+  document.getElementById('fxResult').value = f.result || '';
+  document.getElementById('fxScorer').value = f.scorer || '';
+
+  const form = document.getElementById('fixtureAddForm');
+  if (form && !form.classList.contains('open')) toggleAddForm('fixtureAddForm');
+  form?.scrollIntoView({ behavior: 'smooth' });
+  adminToast(`Loaded Week ${f.week}: ${f.home} vs ${f.away}. Enter score & hit Save.`);
 }
 
 function saveFixture() {
@@ -1830,10 +1926,11 @@ function saveFixture() {
   if (!week) { adminToast('Week number required'); return; }
   const data = getFixtures();
   const fix = {
-    week, home: document.getElementById('fxHome').value.trim(),
-    away: document.getElementById('fxAway').value.trim(),
-    venue: document.getElementById('fxVenue').value.trim(),
-    date: document.getElementById('fxDate').value.trim(),
+    week,
+    home: document.getElementById('fxHome').value.trim() || 'Young Apostles',
+    away: document.getElementById('fxAway').value.trim() || 'Opponent',
+    venue: document.getElementById('fxVenue').value.trim() || 'Wenchi Sports Stadium',
+    date: document.getElementById('fxDate').value.trim() || 'TBD',
     score: document.getElementById('fxScore').value.trim(),
     result: document.getElementById('fxResult').value,
     scorer: document.getElementById('fxScorer').value.trim(),
@@ -1843,7 +1940,7 @@ function saveFixture() {
   const existing = data.findIndex(d => d.week === week);
   if (existing >= 0) { data[existing] = fix; } else { data.push(fix); data.sort((a,b)=>a.week-b.week); }
   saveFixtures(data);
-  adminToast('Fixture saved and pushed to site!');
+  adminToast(`Week ${week} saved & pushed live!`);
   ['fxWeek','fxHome','fxAway','fxVenue','fxDate','fxScore','fxScorer'].forEach(f => document.getElementById(f).value = '');
   document.getElementById('fxResult').value = '';
   toggleAddForm('fixtureAddForm');

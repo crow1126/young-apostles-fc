@@ -592,6 +592,13 @@
     opacity: 0 !important;
     pointer-events: none !important;
     visibility: hidden !important;
+    transition: opacity 0.55s ease, visibility 0.55s ease !important;
+  }
+  #splash {
+    will-change: opacity, transform;
+  }
+  #club-logo {
+    will-change: transform;
   }
   #ya-splash-overlay::before {
     content: '';
@@ -614,6 +621,7 @@
   #splash {
     position: relative;
     display: flex;
+    will-change: opacity, transform;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -713,7 +721,7 @@
     width: 0%;
     background: linear-gradient(90deg, #2B4A7A, #C9943A);
     border-radius: 99px;
-    animation: barGrow 3.0s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.8s;
+    animation: barGrow 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s;
   }
   @keyframes barGrow {
     0%   { width: 0%; }
@@ -829,13 +837,17 @@
       <nav class="nav-links" aria-label="Main Navigation">
         <a href="#home" class="nav-link"><i class="fa-solid fa-house" style="margin-right:3px;"></i> Home</a>
         <a href="#news" class="nav-link active">News</a>
-        <a href="#matches" class="nav-link">Schedule / Fixtures</a>
+        <a href="#matches" class="nav-link">Fixtures</a>
         <a href="#apostles-tv" class="nav-link">Apostles TV</a>
         <a href="#squad" class="nav-link">Squad</a>
-        <a href="#store" class="nav-link">Team Shop <span class="nav-badge-pill">NEW KITS</span></a>
+        <a href="#store" class="nav-link">Team Shop <span class="nav-badge-pill">NEW</span></a>
       </nav>
 
       <div class="nav-actions">
+        <button class="mobile-vip-nav-btn" onclick="openMembershipModal()" aria-label="Official Membership">
+          <i class="fa-solid fa-crown"></i> <span>VIP Pass</span>
+        </button>
+
         <button class="nav-btn-icon" id="openSearchBtn" aria-label="Search" onclick="openFixturesModal()">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -844,7 +856,7 @@
           <i class="fa-solid fa-calendar-days"></i> 34-Round Fixtures
         </button>
 
-        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle Menu" onclick="toggleMobileNav()">
           <i class="fa-solid fa-bars"></i>
         </button>
       </div>
@@ -859,6 +871,17 @@
         <li><a href="#squad" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-users"></i> Squad</a></li>
         <li><a href="#store" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-shirt"></i> Team Shop</a></li>
       </ul>
+      <!-- Mobile Action Buttons -->
+      <div class="mobile-nav-actions">
+        <button class="mobile-nav-action-btn" onclick="toggleMobileNav(); openProfileModal();" id="mobileProfileBtn">
+          <i class="fa-solid fa-circle-user"></i>
+          <span id="mobileProfileName">My Profile</span>
+        </button>
+        <button class="mobile-nav-action-btn mobile-nav-action-btn--gold" onclick="toggleMobileNav(); openMembershipModal();" id="mobileMembershipBtn">
+          <i class="fa-solid fa-crown"></i>
+          Official Membership
+        </button>
+      </div>
     </div>
   </header>
 
@@ -2057,8 +2080,8 @@
         }
         draw();
 
-        // Reveal site after animation completes (4.0s)
-        setTimeout(function () {
+        function dismissSplash() {
+          if (!animRunning) return;
           const splash = document.getElementById('splash');
           const overlay = document.getElementById('ya-splash-overlay');
           if (splash) splash.classList.add('exit');
@@ -2066,8 +2089,18 @@
           setTimeout(function () {
             animRunning = false;
             if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
-          }, 700);
-        }, 4000);
+          }, 550);
+        }
+
+        // Tap or click anywhere to skip/dismiss splash immediately
+        const overlay = document.getElementById('ya-splash-overlay');
+        if (overlay) {
+          overlay.addEventListener('click', dismissSplash, { once: true });
+          overlay.addEventListener('touchstart', dismissSplash, { passive: true, once: true });
+        }
+
+        // Reveal site smoothly after 2.2s (eliminates long 4s wait & glitch)
+        setTimeout(dismissSplash, 2200);
       }
     })();
   </script>

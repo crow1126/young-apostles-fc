@@ -1117,6 +1117,7 @@ function renderMatches(typeFilter = 'all') {
 
     return `
       <div class="${cardClass}">
+        ${isNextMatch ? '<div class="match-next-tag"><i class="fa-solid fa-bolt"></i> NEXT FIXTURE</div>' : ''}
         <div class="match-card-header">
           <div class="match-card-date">${dayStr}</div>
           <div class="match-card-comp">GHANA PREMIER LEAGUE &bull; MD ${f.week}</div>
@@ -1140,22 +1141,19 @@ function renderMatches(typeFilter = 'all') {
     `;
   };
 
-  let html = '';
-  if (pastSlice.length > 0) {
-    html += `<div class="match-section-label"><i class="fa-solid fa-flag-checkered"></i> Latest Results</div>`;
-    html += pastSlice.map(renderCard).join('');
-    html += `<div class="match-section-divider"></div>`;
+  const combined = [...pastSlice, ...upcomingSlice];
+  if (combined.length === 0) {
+    grid.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--text-muted);width:100%;">No matches found for this filter.</div>';
+    return;
   }
-  html += `<div class="match-section-label match-section-label--upcoming"><i class="fa-solid fa-calendar-days"></i> Upcoming Fixtures</div>`;
-  html += upcomingSlice.length > 0 ? upcomingSlice.map(renderCard).join('') : `<div class="match-section-label">Season Complete</div>`;
-  grid.innerHTML = html;
+  grid.innerHTML = combined.map((f, i) => renderCard(f, i === pastSlice.length)).join('');
 }
 
 // ==========================================
 // 13. REAL-TIME MATCHDAY COUNTDOWN
 // ==========================================
 function updateCountdown() {
-  const allFixtures = [...FIXTURES_ROUND_1, ...FIXTURES_ROUND_2];
+  const allFixtures = getAllFixtures();
   const now = new Date();
 
   // Find next upcoming fixture
@@ -1590,12 +1588,12 @@ const INITIAL_APOSTLES_TV = [
 function getApostlesTvVideos() {
   try {
     const raw = localStorage.getItem('ya_apostles_tv_videos');
-    if (raw) {
+    if (raw !== null) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      if (Array.isArray(parsed)) return parsed;
     }
   } catch(e) {}
-  return INITIAL_APOSTLES_TV;
+  return (typeof DEFAULT_APOSTLES_TV_VIDEOS !== 'undefined') ? DEFAULT_APOSTLES_TV_VIDEOS : INITIAL_APOSTLES_TV;
 }
 
 function renderApostlesTv() {
@@ -1971,7 +1969,20 @@ if (window.BroadcastChannel) {
     const bc = new BroadcastChannel('ya_channel');
     bc.onmessage = (ev) => {
       if (ev.data && (ev.data.type === 'TV_UPDATED' || ev.data.type === 'CMS_UPDATED')) {
+        if (ev.data.videos) {
+          localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(ev.data.videos));
+        }
         renderApostlesTv();
+      }
+      if (ev.data && ev.data.type === 'FIXTURES_UPDATED') {
+        if (ev.data.fixtures) {
+          localStorage.setItem('ya_club_fixtures', JSON.stringify(ev.data.fixtures));
+        }
+        renderMatches();
+        if (document.getElementById('fixturesModal')?.classList.contains('open')) {
+          renderFixturesModal(currentFixturesRound);
+        }
+        updateCountdown();
       }
       if (ev.data && ev.data.type === 'MEMBER_SAVED') {
         loadProfileData();
@@ -2003,20 +2014,9 @@ async function initCloudSync() {
         applyHeroWriteup();
       }
 
-      // Sync Apostles TV (merge safely without overwriting locally added admin videos)
-      if (Array.isArray(data.apostlesTv) && data.apostlesTv.length > 0) {
-        let currentVideos = [];
-        try { currentVideos = JSON.parse(localStorage.getItem('ya_apostles_tv_videos') || '[]'); } catch(e) {}
-        if (!Array.isArray(currentVideos) || currentVideos.length === 0) {
-          localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(data.apostlesTv));
-        } else {
-          // Keep locally added custom videos at top, append remote ones
-          const merged = [...currentVideos];
-          data.apostlesTv.forEach(rem => {
-            if (!merged.find(loc => loc.id === rem.id)) merged.push(rem);
-          });
-          localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(merged));
-        }
+      // Sync Apostles TV - direct authoritative sync so deletions reflect immediately
+      if (Array.isArray(data.apostlesTv)) {
+        localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(data.apostlesTv));
         renderApostlesTv();
       }
 
@@ -2030,6 +2030,10 @@ async function initCloudSync() {
       if (Array.isArray(data.fixtures) && data.fixtures.length > 0) {
         localStorage.setItem('ya_club_fixtures', JSON.stringify(data.fixtures));
         renderMatches('all');
+        if (document.getElementById('fixturesModal')?.classList.contains('open')) {
+          renderFixturesModal(currentFixturesRound);
+        }
+        updateCountdown();
       }
     }
   } catch (e) {
