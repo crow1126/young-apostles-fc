@@ -553,11 +553,12 @@
       width: 0%;
       background: linear-gradient(90deg, #2B4A7A, #C9943A);
       border-radius: 99px;
-      animation: barGrow 3.0s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.8s;
+      animation: barGrow 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s;
     }
     @keyframes barGrow {
       0%   { width: 0%; }
-      60%  { width: 72%; }
+      40%  { width: 48%; }
+      75%  { width: 85%; }
       100% { width: 100%; }
     }
     .tagline {
@@ -1074,35 +1075,76 @@
         <!-- ===== HERO CMS ===== -->
         <div class="admin-panel" id="panel-hero">
           <div class="section-hdr">
-            <div class="section-hdr-title">Hero Section Writeup</div>
+            <div class="section-hdr-title"><i class="fa-solid fa-image" style="color:var(--agold);margin-right:0.4rem;"></i> Hero Header &amp; Standings Management</div>
           </div>
           <div class="add-form-panel open" style="margin-bottom:0;">
+            <p style="font-size:0.83rem;color:var(--amuted);margin-bottom:1.2rem;line-height:1.5;">
+              Customize the public website's hero banner header. Update the headline, description text, background picture, and action buttons. Changes sync to the live site.
+            </p>
+
             <div class="admin-form-group">
-              <label>Headline</label>
-              <input type="text" class="admin-input" id="heroHeadline" placeholder="Young Apostles FC: Fighting for Glory...">
+              <label>Hero Headline (Main Title)</label>
+              <input type="text" class="admin-input" id="heroHeadline" placeholder="Young Apostles FC: Fighting for Glory in Ghana's Premier League">
             </div>
+
             <div class="admin-form-group">
-              <label>Subtitle / Subtext (HTML allowed)</label>
-              <textarea class="admin-textarea" id="heroSubtitle" placeholder="<strong>AGYA NA ƆWƆ TUMI</strong> &middot; ..."></textarea>
+              <label>Hero Subtitle / Description (HTML allowed)</label>
+              <textarea class="admin-textarea" id="heroSubtitle" style="min-height:95px;" placeholder="<strong>AGYA NA ƆWƆ TUMI</strong> &middot; Wenchi's pride takes on Ghana's top flight..."></textarea>
             </div>
-            <div class="admin-form-group">
-              <label>Young Apostles Standings — Rank</label>
-              <input type="number" class="admin-input" id="standRank" placeholder="8" style="width:80px;display:inline;">
-            </div>
-            <div class="form-row" style="margin-top:0.75rem;">
+
+            <div class="form-row">
               <div class="admin-form-group">
-                <label>Played</label><input type="number" class="admin-input" id="standPlayed" placeholder="2">
+                <label>Hero Background Picture</label>
+                <input type="text" class="admin-input" id="heroImage" placeholder="assets/home-hero.jpg" style="margin-bottom:0.4rem;" oninput="updateHeroPreview(this.value)">
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;background:rgba(255,255,255,0.05);border:1.5px dashed var(--aborder);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.8rem;color:var(--amuted);">
+                  <i class="fa-solid fa-upload" style="color:var(--agold);"></i> Upload Picture from PC
+                  <input type="file" accept="image/*" style="display:none;" onchange="handleHeroImageUpload(this)">
+                </label>
               </div>
               <div class="admin-form-group">
-                <label>Goal Diff</label><input type="number" class="admin-input" id="standDiff" placeholder="-2">
-              </div>
-              <div class="admin-form-group">
-                <label>Points</label><input type="number" class="admin-input" id="standPts" placeholder="3">
+                <label>Picture Preview</label>
+                <div id="heroPreviewWrap" style="height:90px; border-radius:8px; overflow:hidden; border:1px solid var(--aborder); background:#0c1736; display:flex; align-items:center; justify-content:center;">
+                  <img id="heroImagePreview" src="assets/home-hero.jpg" alt="Hero Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='assets/home-hero.jpg'">
+                </div>
               </div>
             </div>
-            <button class="btn-admin-primary" onclick="saveHeroAndStandings()">
-              <i class="fa-solid fa-floppy-disk"></i> Save &amp; Push to Site
-            </button>
+
+            <div class="form-row">
+              <div class="admin-form-group">
+                <label>Action Button Text</label>
+                <input type="text" class="admin-input" id="heroCtaText" placeholder="View GPL Fixtures">
+              </div>
+              <div class="admin-form-group">
+                <label>Action Button Link</label>
+                <input type="text" class="admin-input" id="heroCtaLink" placeholder="#matches">
+              </div>
+            </div>
+
+            <div style="margin-top:1.25rem; padding-top:1rem; border-top:1px solid var(--aborder);">
+              <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.4rem;">
+                <i class="fa-solid fa-trophy" style="color:var(--agold);"></i> League Standings Ribbon Data
+              </div>
+              <div class="form-row">
+                <div class="admin-form-group">
+                  <label>Rank</label><input type="number" class="admin-input" id="standRank" placeholder="8">
+                </div>
+                <div class="admin-form-group">
+                  <label>Played</label><input type="number" class="admin-input" id="standPlayed" placeholder="2">
+                </div>
+                <div class="admin-form-group">
+                  <label>Goal Diff</label><input type="number" class="admin-input" id="standDiff" placeholder="-2">
+                </div>
+                <div class="admin-form-group">
+                  <label>Points</label><input type="number" class="admin-input" id="standPts" placeholder="3">
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:0.6rem; margin-top:1.25rem;">
+              <button class="btn-admin-primary" onclick="saveHeroAndStandings()">
+                <i class="fa-solid fa-floppy-disk"></i> Save &amp; Push to Live Site
+              </button>
+            </div>
           </div>
         </div>
 
@@ -2424,11 +2466,41 @@ function deleteShopProduct(i) {
 /* ==========================================
    HERO & STANDINGS
    ========================================== */
+function handleHeroImageUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 4 * 1024 * 1024) {
+    adminToast('Image too large — please use an image under 4MB');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    document.getElementById('heroImage').value = dataUrl;
+    updateHeroPreview(dataUrl);
+    adminToast('Hero picture loaded! Click Save to publish.');
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateHeroPreview(src) {
+  const prev = document.getElementById('heroImagePreview');
+  if (prev && src) {
+    prev.src = src;
+  }
+}
+
 function loadHeroFields() {
   try {
     const h = JSON.parse(localStorage.getItem('ya_hero_custom') || '{}');
     if (h.headline) document.getElementById('heroHeadline').value = h.headline;
     if (h.subtitle) document.getElementById('heroSubtitle').value = h.subtitle;
+    if (h.image) {
+      document.getElementById('heroImage').value = h.image;
+      updateHeroPreview(h.image);
+    }
+    if (h.ctaText) document.getElementById('heroCtaText').value = h.ctaText;
+    if (h.ctaLink) document.getElementById('heroCtaLink').value = h.ctaLink;
   } catch(e) {}
   try {
     const s = JSON.parse(localStorage.getItem('ya_standings_record') || '{}');
@@ -2442,16 +2514,47 @@ function loadHeroFields() {
 function saveHeroAndStandings() {
   const headline = document.getElementById('heroHeadline').value.trim();
   const subtitle = document.getElementById('heroSubtitle').value.trim();
-  if (headline) localStorage.setItem('ya_hero_custom', JSON.stringify({ headline, subtitle }));
+  const image = document.getElementById('heroImage').value.trim();
+  const ctaText = document.getElementById('heroCtaText').value.trim();
+  const ctaLink = document.getElementById('heroCtaLink').value.trim();
+
+  const heroData = {};
+  if (headline) heroData.headline = headline;
+  if (subtitle) heroData.subtitle = subtitle;
+  if (image) heroData.image = image;
+  if (ctaText) heroData.ctaText = ctaText;
+  if (ctaLink) heroData.ctaLink = ctaLink;
+
+  if (Object.keys(heroData).length > 0) {
+    localStorage.setItem('ya_hero_custom', JSON.stringify(heroData));
+    try {
+      if (window.BroadcastChannel) {
+        const bc = new BroadcastChannel('ya_channel');
+        bc.postMessage({ type: 'HERO_UPDATED', hero: heroData });
+        bc.close();
+      }
+      window.dispatchEvent(new Event('storage'));
+    } catch(e) {}
+  }
 
   const rank = document.getElementById('standRank').value;
   const played = document.getElementById('standPlayed').value;
   const diff = document.getElementById('standDiff').value;
   const points = document.getElementById('standPts').value;
   if (rank || played || diff || points) {
-    localStorage.setItem('ya_standings_record', JSON.stringify({ rank, played, diff, points }));
+    const standingsData = { rank, played, diff, points };
+    localStorage.setItem('ya_standings_record', JSON.stringify(standingsData));
+    try {
+      if (window.BroadcastChannel) {
+        const bc = new BroadcastChannel('ya_channel');
+        bc.postMessage({ type: 'STANDINGS_UPDATED', standings: standingsData });
+        bc.close();
+      }
+      window.dispatchEvent(new Event('storage'));
+    } catch(e) {}
   }
-  adminToast('Hero & standings saved locally...');
+
+  adminToast('Hero section & standings saved! Reflects immediately on site.');
   pushCmsToGitHub('hero & standings');
 }
 
@@ -2661,8 +2764,8 @@ function dismissAdminSplash() {
     draw();
   }
 
-  // Automatically dismiss splash after 2.5 seconds
-  setTimeout(dismissAdminSplash, 2500);
+  // Automatically dismiss splash after 4.0 seconds loading animation
+  setTimeout(dismissAdminSplash, 4000);
 
   // Restore authenticated session if previously logged in
   checkAdminSession();

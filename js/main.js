@@ -893,23 +893,82 @@ function closeMembershipModal() {
   document.body.style.overflow = '';
 }
 
+let pendingMembershipTier = 'Gold VIP Apostle';
+
 function joinMembership(tierName) {
+  pendingMembershipTier = tierName || 'Gold VIP Apostle';
+  closeMembershipModal();
+  openMembershipPaymentModal(tierName);
+}
+
+function openMembershipPaymentModal(tierName) {
+  pendingMembershipTier = tierName || 'Gold VIP Apostle';
+  const modal = document.getElementById('membershipPaymentModal');
+  const titleEl = document.getElementById('memPayTitle');
+  const tierEl = document.getElementById('memPayTierName');
+  const amtEl = document.getElementById('memPayAmount');
+  const refEl = document.getElementById('memPayRef');
+
+  const isVip = pendingMembershipTier.includes('Gold') || pendingMembershipTier.includes('VIP');
+  const amountStr = isVip ? 'GHS 500' : 'GHS 200';
+  const randomRef = 'YAFC-' + (isVip ? 'VIP-' : 'STD-') + Math.floor(1000 + Math.random() * 9000);
+
+  if (titleEl) titleEl.textContent = isVip ? 'Activate Gold VIP Pass' : 'Activate Standard Pass';
+  if (tierEl) tierEl.textContent = pendingMembershipTier;
+  if (amtEl) amtEl.textContent = amountStr;
+  if (refEl) refEl.textContent = randomRef;
+
+  const txInput = document.getElementById('memTxIdInput');
+  if (txInput) txInput.value = '';
+
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('open');
+  }
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMembershipPaymentModal() {
+  const modal = document.getElementById('membershipPaymentModal');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('open');
+  }
+  document.body.style.overflow = '';
+}
+
+function handleMembershipPaymentSubmit(e) {
+  e.preventDefault();
+  const txId = (document.getElementById('memTxIdInput')?.value || '').trim();
+  if (!txId) {
+    showToast('⚠️ Please enter your MoMo Transaction ID.');
+    return;
+  }
+
+  const isVip = pendingMembershipTier.includes('Gold') || pendingMembershipTier.includes('VIP');
+  let profile = {};
+  try { profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(err) {}
+
+  if (!profile.id) profile.id = 'YAFC-26-' + Math.floor(1000 + Math.random() * 9000);
+  profile.tier = pendingMembershipTier;
+  profile.subscription = '2026/27 GPL Season Pass';
+  profile.status = 'Active';
+  profile.hasPaid = true;
+  profile.momoTxId = txId;
+  profile.paidRef = document.getElementById('memPayRef')?.textContent || ('YAFC-' + Date.now());
+  profile.paidAmount = isVip ? 500 : 200;
+  profile.updatedAt = new Date().toISOString();
+
   try {
-    let profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}');
-    profile.tier = tierName;
-    profile.subscription = '2026/27 GPL Season Pass';
-    profile.status = 'Active';
-    if (!profile.id) profile.id = 'YAFC-26-' + Math.floor(1000 + Math.random() * 9000);
-    profile.updatedAt = new Date().toISOString();
     localStorage.setItem('ya_user_profile', JSON.stringify(profile));
 
-    // Also update ya_members_list
+    // Update ya_members_list
     let list = JSON.parse(localStorage.getItem('ya_members_list') || '[]');
     if (!Array.isArray(list)) list = [];
     const idx = list.findIndex(m => (profile.phone && m.phone === profile.phone) || (m.id && m.id === profile.id));
     if (idx >= 0) {
       list[idx] = { ...list[idx], ...profile };
-    } else if (profile.name && profile.name !== 'Official Fan') {
+    } else {
       list.unshift(profile);
     }
     localStorage.setItem('ya_members_list', JSON.stringify(list));
@@ -920,13 +979,15 @@ function joinMembership(tierName) {
       bc.close();
     }
     window.dispatchEvent(new Event('storage'));
-  } catch(e) {}
-  showToast(`Selected 2026/27 Season: ${tierName}!`);
-  closeMembershipModal();
+  } catch(err) {}
+
+  closeMembershipPaymentModal();
   loadProfileData();
+  updateVipPassVisibility();
+  showToast('🎉 MoMo Payment confirmed! Your VIP Pass is now activated.');
   setTimeout(() => {
     openProfileModal();
-  }, 350);
+  }, 400);
 }
 
 function openNewsModal() {
@@ -934,16 +995,75 @@ function openNewsModal() {
 }
 
 function openAboutModal() {
-  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012â€“2026)');
+  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012–2026)');
 }
 
 function openYouTubeLink(url) {
   window.open(url, '_blank');
 }
 
-function toggleMobileNav() {
+function openMobileNav() {
   const drawer = document.getElementById('mobileDrawer');
-  if (drawer) drawer.classList.toggle('open');
+  const backdrop = document.getElementById('mobileDrawerBackdrop');
+  const icon = document.getElementById('mobileToggleIcon');
+  if (drawer) drawer.classList.add('open');
+  if (backdrop) backdrop.classList.add('open');
+  if (icon) {
+    icon.classList.remove('fa-bars');
+    icon.classList.add('fa-xmark');
+  }
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileNav() {
+  const drawer = document.getElementById('mobileDrawer');
+  const backdrop = document.getElementById('mobileDrawerBackdrop');
+  const icon = document.getElementById('mobileToggleIcon');
+  if (drawer) drawer.classList.remove('open');
+  if (backdrop) backdrop.classList.remove('open');
+  if (icon) {
+    icon.classList.remove('fa-xmark');
+    icon.classList.add('fa-bars');
+  }
+  document.body.style.overflow = '';
+}
+
+function toggleMobileNav(e) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  const drawer = document.getElementById('mobileDrawer');
+  if (drawer && drawer.classList.contains('open')) {
+    closeMobileNav();
+  } else {
+    openMobileNav();
+  }
+}
+
+function initDrawerPullGesture() {
+  const drawer = document.getElementById('mobileDrawer');
+  if (!drawer) return;
+  let startY = 0;
+  let isDragging = false;
+
+  drawer.addEventListener('touchstart', (e) => {
+    if (drawer.scrollTop <= 5) {
+      startY = e.touches[0].clientY;
+      isDragging = true;
+    }
+  }, { passive: true });
+
+  drawer.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const currentY = e.touches[0].clientY;
+    const diff = currentY - startY;
+    if (diff < -45) {
+      isDragging = false;
+      closeMobileNav();
+    }
+  }, { passive: true });
+
+  drawer.addEventListener('touchend', () => {
+    isDragging = false;
+  }, { passive: true });
 }
 
 // ==========================================
@@ -1986,10 +2106,90 @@ if (window.BroadcastChannel) {
         }
         updateCountdown();
       }
+      if (ev.data && ev.data.type === 'HERO_UPDATED') {
+        if (ev.data.hero) {
+          localStorage.setItem('ya_hero_custom', JSON.stringify(ev.data.hero));
+        }
+        applyHeroWriteup();
+      }
+      if (ev.data && ev.data.type === 'STANDINGS_UPDATED') {
+        if (ev.data.standings) {
+          localStorage.setItem('ya_standings_record', JSON.stringify(ev.data.standings));
+        }
+        updateStandingsUI();
+      }
       if (ev.data && ev.data.type === 'MEMBER_SAVED') {
         loadProfileData();
+        updateVipPassVisibility();
       }
     };
+  } catch(e) {}
+}
+
+function applyHeroWriteup() {
+  let heroData = null;
+  try {
+    const raw = localStorage.getItem('ya_hero_custom');
+    if (raw) heroData = JSON.parse(raw);
+  } catch(e) {}
+
+  if (!heroData) return;
+
+  const headlineEl = document.getElementById('heroHeadlineDisplay') || document.querySelector('.hero-headline');
+  const subtitleEl = document.getElementById('heroSubtitleDisplay') || document.querySelector('.hero-subtitle');
+  const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
+  const ctaBtn = document.getElementById('heroCtaBtn') || document.querySelector('.hero-cta-row .btn-hero-primary');
+
+  if (headlineEl && heroData.headline) {
+    headlineEl.textContent = heroData.headline;
+  }
+  if (subtitleEl && heroData.subtitle) {
+    subtitleEl.innerHTML = heroData.subtitle;
+  }
+  if (bgImgEl && heroData.image) {
+    bgImgEl.src = heroData.image;
+  }
+  if (ctaBtn) {
+    if (heroData.ctaText) {
+      ctaBtn.innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${heroData.ctaText}`;
+    }
+    if (heroData.ctaLink) {
+      ctaBtn.setAttribute('href', heroData.ctaLink);
+    }
+  }
+}
+
+function updateVipPassVisibility() {
+  let profile = {};
+  try { profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(e) {}
+
+  // The VIP pass button should be present ONLY after paying
+  const isPaid = Boolean(
+    profile.hasPaid === true ||
+    profile.paymentStatus === 'paid' ||
+    profile.moolreTxId ||
+    profile.momoTxId ||
+    profile.paidRef
+  );
+
+  const vipBtn = document.getElementById('mobileVipPassBtn');
+  if (vipBtn) {
+    if (isPaid) {
+      vipBtn.style.display = 'inline-flex';
+      vipBtn.classList.add('is-active-paid');
+      vipBtn.title = `${profile.tier || 'VIP'} Member Pass Active`;
+    } else {
+      vipBtn.style.display = 'none';
+      vipBtn.classList.remove('is-active-paid');
+    }
+  }
+}
+
+function checkStorageUpdates() {
+  try {
+    applyHeroWriteup();
+    updateStandingsUI();
+    updateVipPassVisibility();
   } catch(e) {}
 }
 
@@ -2058,8 +2258,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(updateCountdown, 1000);
   setInterval(checkStorageUpdates, 2000); // Poll for Admin live updates
 
-  // Mobile Toggle
+  // Mobile Toggle & gestures
   document.getElementById('mobileToggle')?.addEventListener('click', toggleMobileNav);
+  initDrawerPullGesture();
 
   // Squad Tabs
   document.querySelectorAll('#squadPositionTabs .tab-btn').forEach(btn => {
@@ -2088,8 +2289,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Init profile
+  // Init profile & VIP pass visibility
   loadProfileData();
+  updateVipPassVisibility();
   updateWaitlistCount();
 });
 
@@ -2205,6 +2407,7 @@ function loadProfileData() {
 
   // Load waitlist orders
   renderProfileOrders();
+  updateVipPassVisibility();
 }
 
 function selectTierInProfile(tier) {
@@ -2254,7 +2457,7 @@ function saveProfile(e) {
     return;
   }
 
-  // Preserve pass ID if existing
+  // Preserve pass ID and payment status if existing
   let existingProfile = {};
   try { existingProfile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(err) {}
 
@@ -2268,7 +2471,12 @@ function saveProfile(e) {
     email: email || '',
     tier: tier,
     subscription: '2026/27 GPL Season Pass',
-    status: 'Active',
+    status: existingProfile.status || 'Active',
+    hasPaid: Boolean(existingProfile.hasPaid),
+    momoTxId: existingProfile.momoTxId || '',
+    moolreTxId: existingProfile.moolreTxId || '',
+    paidRef: existingProfile.paidRef || '',
+    paidAmount: existingProfile.paidAmount || null,
     joinDate: existingProfile.joinDate || now,
     updatedAt: now
   };

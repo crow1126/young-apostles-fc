@@ -721,11 +721,12 @@
     width: 0%;
     background: linear-gradient(90deg, #2B4A7A, #C9943A);
     border-radius: 99px;
-    animation: barGrow 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s;
+    animation: barGrow 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.2s;
   }
   @keyframes barGrow {
     0%   { width: 0%; }
-    60%  { width: 72%; }
+    40%  { width: 48%; }
+    75%  { width: 85%; }
     100% { width: 100%; }
   }
   .tagline {
@@ -822,6 +823,10 @@
         <a href="#store" class="partner-logo-link" aria-label="Mayniak">
           <img src="assets/mayniak-partner.png" alt="Mayniak" class="partner-logo-img partner-logo-img--mayniak">
         </a>
+        <span class="partner-strip-divider"></span>
+        <div class="partner-logo-link" title="AJ Building & Construction" aria-label="AJ Building & Construction">
+          <img src="assets/aj-partner.png" alt="AJ Building & Construction" class="partner-logo-img partner-logo-img--aj">
+        </div>
       </div>
     </div>
 
@@ -844,7 +849,8 @@
       </nav>
 
       <div class="nav-actions">
-        <button class="mobile-vip-nav-btn" onclick="openMembershipModal()" aria-label="Official Membership">
+        <!-- VIP Pass button: Only present/visible after user has paid! -->
+        <button class="mobile-vip-nav-btn" id="mobileVipPassBtn" style="display:none;" onclick="openProfileModal()" aria-label="VIP Pass">
           <i class="fa-solid fa-crown"></i> <span>VIP Pass</span>
         </button>
 
@@ -856,28 +862,35 @@
           <i class="fa-solid fa-calendar-days"></i> 34-Round Fixtures
         </button>
 
-        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle Menu" onclick="toggleMobileNav()">
-          <i class="fa-solid fa-bars"></i>
+        <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars" id="mobileToggleIcon"></i>
         </button>
       </div>
     </div>
 
+    <!-- Mobile Navigation Drawer Backdrop -->
+    <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop" onclick="closeMobileNav()"></div>
+
     <!-- Mobile Navigation Drawer -->
     <div class="mobile-nav-drawer" id="mobileDrawer">
+      <div class="drawer-pull-handle" id="drawerPullHandle" aria-hidden="true">
+        <span class="drawer-pull-pill"></span>
+      </div>
       <ul class="mobile-nav-list">
-        <li><a href="#news" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-newspaper"></i> News</a></li>
-        <li><a href="#matches" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-calendar-days"></i> Schedule / Fixtures</a></li>
-        <li><a href="#apostles-tv" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Apostles TV</a></li>
-        <li><a href="#squad" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-users"></i> Squad</a></li>
-        <li><a href="#store" class="mobile-nav-link" onclick="toggleMobileNav()"><i class="fa-solid fa-shirt"></i> Team Shop</a></li>
+        <li><a href="#home" class="mobile-nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="#news" class="mobile-nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-newspaper"></i> News</a></li>
+        <li><a href="#matches" class="mobile-nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-calendar-days"></i> Schedule / Fixtures</a></li>
+        <li><a href="#apostles-tv" class="mobile-nav-link" onclick="closeMobileNav()"><i class="fa-brands fa-youtube" style="color:#EF4444;"></i> Apostles TV</a></li>
+        <li><a href="#squad" class="mobile-nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-users"></i> Squad</a></li>
+        <li><a href="#store" class="mobile-nav-link" onclick="closeMobileNav()"><i class="fa-solid fa-shirt"></i> Team Shop</a></li>
       </ul>
       <!-- Mobile Action Buttons -->
       <div class="mobile-nav-actions">
-        <button class="mobile-nav-action-btn" onclick="toggleMobileNav(); openProfileModal();" id="mobileProfileBtn">
+        <button class="mobile-nav-action-btn" onclick="closeMobileNav(); openProfileModal();" id="mobileProfileBtn">
           <i class="fa-solid fa-circle-user"></i>
           <span id="mobileProfileName">My Profile</span>
         </button>
-        <button class="mobile-nav-action-btn mobile-nav-action-btn--gold" onclick="toggleMobileNav(); openMembershipModal();" id="mobileMembershipBtn">
+        <button class="mobile-nav-action-btn mobile-nav-action-btn--gold" onclick="closeMobileNav(); openMembershipModal();" id="mobileMembershipBtn">
           <i class="fa-solid fa-crown"></i>
           Official Membership
         </button>
@@ -890,21 +903,21 @@
        ========================================================= -->
   <section class="hero-section" id="home">
     <div class="hero-bg">
-      <img src="assets/home-hero.jpg" alt="Young Apostles FC First Team Lineup" class="hero-bg-image">
+      <img src="assets/home-hero.jpg" alt="Young Apostles FC First Team Lineup" class="hero-bg-image" id="heroBgImage">
       <div class="hero-overlay"></div>
     </div>
 
     <div class="container hero-content">
       <div class="hero-content__inner">
         <div class="hero-left">
-          <h1 class="hero-headline">
+          <h1 class="hero-headline" id="heroHeadlineDisplay">
             Young Apostles FC: Fighting for Glory in Ghana's Premier League
           </h1>
-          <p class="hero-subtitle">
+          <p class="hero-subtitle" id="heroSubtitleDisplay">
             <strong>"AGYA NA ƆWƆ TUMI"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.
           </p>
           <div class="hero-cta-row">
-            <a href="#matches" class="btn-hero-primary"><i class="fa-solid fa-calendar-check"></i> View GPL Fixtures</a>
+            <a href="#matches" class="btn-hero-primary" id="heroCtaBtn"><i class="fa-solid fa-calendar-check"></i> View GPL Fixtures</a>
           </div>
         </div>
       </div>
@@ -1936,6 +1949,63 @@
     </div>
   </div>
 
+  <!-- Membership Payment Modal (To activate VIP Pass) -->
+  <div class="modal-overlay" id="membershipPaymentModal" style="display:none;" onclick="if(event.target===this)closeMembershipPaymentModal()">
+    <div class="cool-modal-box" style="max-width:480px;">
+      <div class="cool-modal-hdr">
+        <div class="cool-modal-hdr__left">
+          <img src="assets/official-logo.png" alt="Young Apostles FC" class="cool-modal-hdr__crest">
+          <div>
+            <div class="cool-modal-hdr__tag"><i class="fa-solid fa-lock"></i> Official Club Gateway</div>
+            <div class="cool-modal-hdr__title" id="memPayTitle">Activate VIP Pass</div>
+          </div>
+        </div>
+        <button class="cool-modal-close" onclick="closeMembershipPaymentModal()">&times;</button>
+      </div>
+
+      <div class="cool-modal-body">
+        <div style="background:linear-gradient(135deg,#FFFDF5,#FFF8E7);border:1px solid #FDE68A;border-radius:12px;padding:1rem;margin-bottom:1.25rem;text-align:center;">
+          <div style="font-size:0.75rem;font-weight:700;color:#92400E;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.25rem;" id="memPayTierName">Gold VIP Apostle</div>
+          <div style="font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:900;color:#C9943A;" id="memPayAmount">GHS 500</div>
+          <p style="font-size:0.78rem;color:#78350F;margin-top:0.25rem;">Complete payment below to activate and display your Official Digital VIP Pass.</p>
+        </div>
+
+        <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:1rem;margin-bottom:1.25rem;font-size:0.85rem;">
+          <div style="font-weight:700;color:#0F172A;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.4rem;">
+            <i class="fa-solid fa-mobile-screen-button" style="color:#0E1E5B;"></i> Official MTN MoMo Instructions
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:0.35rem 0;border-bottom:1px solid #EDF2F7;font-size:0.82rem;">
+            <span style="color:#64748B;">MoMo Number:</span>
+            <strong style="color:#0E1E5B;font-family:monospace;font-size:0.95rem;">0539779380</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:0.35rem 0;border-bottom:1px solid #EDF2F7;font-size:0.82rem;">
+            <span style="color:#64748B;">Account Name:</span>
+            <strong style="color:#0E1E5B;">Gerald Damoah Domfeh</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:0.35rem 0;font-size:0.82rem;">
+            <span style="color:#64748B;">Reference:</span>
+            <strong style="color:#C9943A;font-family:monospace;" id="memPayRef">YAFC-VIP</strong>
+          </div>
+        </div>
+
+        <form onsubmit="handleMembershipPaymentSubmit(event)">
+          <div class="cool-field-row">
+            <label>MoMo Transaction ID / Reference <span style="color:#EF4444;">*</span></label>
+            <div class="cool-input-wrap">
+              <i class="fa-solid fa-receipt"></i>
+              <input type="text" id="memTxIdInput" placeholder="e.g. 26092518451" class="cool-input" required>
+            </div>
+            <small style="font-size:0.72rem;color:#64748B;margin-top:0.25rem;display:block;">Sent in your MoMo SMS after dialing *170# or sending funds.</small>
+          </div>
+
+          <button type="submit" class="btn-hero-primary" style="width:100%;margin-top:1rem;justify-content:center;padding:0.85rem;font-size:0.95rem;background:linear-gradient(135deg,#C9943A,#F5C800);color:#0F1B2E;border:none;border-radius:99px;font-weight:800;cursor:pointer;">
+            <i class="fa-solid fa-circle-check"></i> Confirm Payment &amp; Activate VIP Pass
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Player Details Modal -->
   <div class="modal-overlay" id="playerModal">
     <div class="modal-box">
@@ -2094,8 +2164,8 @@
           overlay.addEventListener('touchstart', dismissSplash, { passive: true, once: true });
         }
 
-        // Reveal site smoothly after 2.2s (eliminates long 4s wait & glitch)
-        setTimeout(dismissSplash, 2200);
+        // Reveal site smoothly after 4.0s loading animation
+        setTimeout(dismissSplash, 4000);
       }
     })();
   </script>

@@ -2,7 +2,10 @@
   "lastUpdated": "2026-09-25T17:44:05.268Z",
   "hero": {
     "headline": "Young Apostles FC: Fighting for Glory in Ghana's Premier League",
-    "subtitle": "<strong>\"AGYA NA ƆWƆ TUMI\"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level."
+    "subtitle": "<strong>\"AGYA NA ƆWƆ TUMI\"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.",
+    "image": "assets/home-hero.jpg",
+    "ctaText": "View GPL Fixtures",
+    "ctaLink": "#matches"
   },
   "blogs": [
     {

@@ -433,9 +433,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.15rem;
   height: 36px;
-  padding: 0 1rem;
+  padding: 0 0.75rem;
 }
 
 .partner-logo-link {
@@ -461,6 +461,13 @@ button {
   filter: contrast(1.05);
 }
 
+.partner-logo-img--aj {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 3px rgba(0, 20, 137, 0.12));
+}
+
 .partner-strip-divider {
   width: 1px;
   height: 18px;
@@ -468,21 +475,67 @@ button {
   flex-shrink: 0;
 }
 
-/* Mobile Drawer */
-.mobile-nav-drawer {
+/* Mobile Drawer Backdrop */
+.mobile-drawer-backdrop {
   display: none;
   position: fixed;
-  top: 112px;
+  inset: 0;
+  background: rgba(4, 13, 33, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+.mobile-drawer-backdrop.open {
+  display: block;
+  opacity: 1;
+}
+
+/* Mobile Drawer */
+.mobile-nav-drawer {
+  position: fixed;
+  top: 94px;
   left: 0;
   right: 0;
-  background: var(--ya-blue-dark);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
+  background: linear-gradient(180deg, #091738 0%, #061129 100%);
+  border-bottom: 2px solid rgba(201, 148, 58, 0.3);
+  padding: 1rem 1.25rem 1.75rem;
   z-index: 999;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  transform: translateY(-16px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  max-height: calc(100vh - 94px);
+  overflow-y: auto;
 }
 
 .mobile-nav-drawer.open {
-  display: block;
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer Pull Handle Indicator */
+.drawer-pull-handle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 0.85rem;
+  cursor: grab;
+  touch-action: pan-y;
+}
+.drawer-pull-pill {
+  width: 44px;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.25);
+  transition: background 0.2s ease, width 0.2s ease;
+}
+.drawer-pull-handle:active .drawer-pull-pill {
+  background: var(--ya-gold);
+  width: 56px;
 }
 
 .mobile-nav-list {
@@ -3243,7 +3296,10 @@ button {
     display: none;
   }
   .mobile-vip-nav-btn {
-    display: flex;
+    display: none; /* Hidden by default; only displayed after paying */
+  }
+  .mobile-vip-nav-btn.is-active-paid {
+    display: inline-flex !important;
   }
   .nav-mobile-toggle {
     display: flex;
@@ -3272,8 +3328,7 @@ button {
   /* Mobile Drawer — offset below partner strip + nav bar */
   .mobile-nav-drawer {
     top: 94px;
-    padding: 1.25rem 1rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 16px 36px rgba(0,0,0,0.55);
   }
 
   /* Hero Section */
