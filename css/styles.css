@@ -494,6 +494,7 @@ button {
 
 /* Mobile Drawer */
 .mobile-nav-drawer {
+  display: none;
   position: fixed;
   top: 94px;
   left: 0;
@@ -512,6 +513,7 @@ button {
 }
 
 .mobile-nav-drawer.open {
+  display: block;
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
@@ -4660,6 +4662,8 @@ button {
   .news-blog-sidebar {
     position: static;
   }
+}
+
 /* =========================================================
    MODERN OLDER STORIES & ARCHIVE UI
    ========================================================= */

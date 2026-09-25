@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, shrink-to-fit=no">
+  <meta name="theme-color" content="#F4F1EC" id="themeColorMeta">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="Official Young Apostles Football Club Website. First team squad, 2026/27 Ghana Premier League fixtures, match highlights, club heritage, and official Mayniak team shop.">
   <title>Young Apostles FC | Official Club Website | Agya Na Ɔwɔ Tumi</title>
 
@@ -575,18 +578,44 @@
   /* ═════════════════════════════════════════════════════════
      SPLASH INTRO OVERLAY (Plays smoothly on every refresh / entry)
      ═════════════════════════════════════════════════════════ */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  body.splash-active {
+    background-color: #F4F1EC !important;
+    overflow: hidden !important;
+  }
+  @media (max-width: 768px) {
+    .top-bar {
+      display: none !important;
+    }
+  }
   #ya-splash-overlay {
-    position: fixed;
-    inset: 0;
-    background: #F4F1EC;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    overflow: hidden;
-    font-family: 'Outfit', sans-serif;
-    z-index: 999999;
-    transition: opacity 0.6s ease, visibility 0.6s ease;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    width: 100% !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    min-height: -webkit-fill-available !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #F4F1EC !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    font-family: 'Outfit', sans-serif !important;
+    z-index: 9999999 !important;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    transition: opacity 0.6s ease, visibility 0.6s ease !important;
   }
   #ya-splash-overlay.exit {
     opacity: 0 !important;
@@ -602,8 +631,13 @@
   }
   #ya-splash-overlay::before {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
     background:
       radial-gradient(ellipse 80% 60% at 50% 0%, rgba(43,74,122,0.07) 0%, transparent 70%),
       radial-gradient(ellipse 60% 40% at 50% 100%, rgba(201,148,58,0.06) 0%, transparent 70%);
@@ -611,10 +645,11 @@
     z-index: 0;
   }
   #splash-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
     pointer-events: none;
     z-index: 1;
   }
@@ -746,7 +781,7 @@
   }
   </style>
 </head>
-<body>
+<body class="splash-active">
 
   <!-- =========================================================
        SPLASH SCREEN INTRO OVERLAY (Plays smoothly on every refresh)
@@ -2147,6 +2182,9 @@
 
         function dismissSplash() {
           if (!animRunning) return;
+          document.body.classList.remove('splash-active');
+          const themeMeta = document.getElementById('themeColorMeta');
+          if (themeMeta) themeMeta.setAttribute('content', '#070E29');
           const splash = document.getElementById('splash');
           const overlay = document.getElementById('ya-splash-overlay');
           if (splash) splash.classList.add('exit');
