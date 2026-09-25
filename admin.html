@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     /* ===== BASE ===== */
     :root {
@@ -259,6 +260,41 @@
       opacity:0; transition:all 0.3s ease; max-width:320px;
     }
     #adminToast.show { transform:translateY(0); opacity:1; }
+
+    /* ===== ADMIN MODAL OVERLAYS ===== */
+    .admin-modal-overlay {
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(9, 14, 26, 0.85);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .admin-modal-box {
+      background: var(--as); border: 1px solid var(--aborder);
+      border-radius: 18px; width: 100%; max-width: 480px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(241,180,52,0.18);
+      animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .admin-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem 1rem; border-bottom: 1px solid var(--aborder);
+    }
+    .admin-modal-title {
+      font-family: var(--fh); font-size: 1.12rem; font-weight: 800; color: #fff;
+      display: flex; align-items: center;
+    }
+    .admin-modal-close {
+      background: rgba(255,255,255,0.06); border: none; color: var(--amuted);
+      width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    .admin-modal-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    .admin-modal-body { padding: 1.25rem 1.5rem; }
 
     /* ===== SETTINGS ===== */
     .settings-card {
@@ -1107,17 +1143,22 @@
 
           <div class="settings-card">
             <h3><i class="fa-brands fa-github" style="color:var(--agold);margin-right:0.5rem;"></i> GitHub Sync — Push CMS to Live Site</h3>
-            <p class="settings-note" style="margin-bottom:0.75rem;">Enter your GitHub Personal Access Token so that when you save news, fixtures, standings or videos, the changes are automatically pushed to the live site for <strong style="color:#fff;">all visitors</strong>.<br><br>Steps to get a token: GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token → select <code>repo</code> scope.</p>
+            <p class="settings-note" style="margin-bottom:0.75rem;">
+              Enter your GitHub Personal Access Token so that when you save news, fixtures, standings or videos, the changes are automatically pushed to the live site for <strong style="color:#fff;">all visitors</strong>.<br><br>
+              <strong>Multi-Device Notice:</strong> Browser security isolates saved tokens to each device. If you use both a laptop and a mobile phone, save the token on each device or use <strong>"Pair Mobile Phone"</strong> below to connect in seconds.
+            </p>
+            <div id="ghSyncStatus" style="font-size:0.78rem;margin-bottom:0.85rem;"></div>
             <div class="admin-form-group">
               <label>GitHub Personal Access Token</label>
               <input type="password" class="admin-input" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx">
             </div>
-            <div id="ghSyncStatus" style="font-size:0.78rem;margin-bottom:0.5rem;color:var(--amuted);"></div>
-            <div style="display:flex;gap:0.5rem;">
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
               <button class="btn-admin-primary" onclick="saveGhToken()"><i class="fa-solid fa-key"></i> Save Token</button>
               <button class="btn-admin-secondary" onclick="testGhSync()"><i class="fa-solid fa-wifi"></i> Test Connection</button>
+              <button class="btn-admin-secondary" id="btnPairPhone" style="display:none;background:rgba(241,180,52,0.12);color:var(--agold);border-color:rgba(241,180,52,0.3);" onclick="pairMobileDevice()"><i class="fa-solid fa-mobile-screen"></i> Pair Mobile Phone</button>
+              <button class="btn-admin-secondary" id="btnClearGhToken" style="display:none;color:var(--adanger);border-color:rgba(239,68,68,0.3);" onclick="clearGhToken()"><i class="fa-solid fa-trash"></i> Remove</button>
             </div>
-            <p class="settings-note" style="margin-top:0.6rem;">Token is stored only in this browser's localStorage. Repo: <code>crow1126/young-apostles-fc</code> · Branch: <code>main</code></p>
+            <p class="settings-note" style="margin-top:0.75rem;">Token is stored safely in this browser's localStorage. Repo: <code>crow1126/young-apostles-fc</code> · Branch: <code>main</code></p>
           </div>
 
           <div class="settings-card">
@@ -1139,6 +1180,64 @@
 
 <div id="adminToast"></div>
 
+<!-- TOKEN REQUIRED POPUP MODAL (MOBILE OR NEW DEVICE) -->
+<div class="admin-modal-overlay" id="tokenRequiredModal" style="display:none;">
+  <div class="admin-modal-box">
+    <div class="admin-modal-header">
+      <div class="admin-modal-title"><i class="fa-solid fa-key" style="color:var(--agold);margin-right:0.5rem;"></i> Live Publishing Token</div>
+      <button class="admin-modal-close" onclick="closeTokenModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="admin-modal-body">
+      <p id="tokenModalDesc" style="font-size:0.85rem;color:var(--amuted);line-height:1.55;margin-bottom:1rem;">
+        Your changes are saved in this browser, but need your <strong>GitHub Personal Access Token</strong> to push to the live website for all visitors.<br><br>Because web browsers keep saved data separate on each device, your mobile phone needs this token entered once.
+      </p>
+      <div class="admin-form-group">
+        <label>Paste GitHub Personal Access Token</label>
+        <input type="password" class="admin-input" id="modalGhToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:1.2rem;">
+        <button class="btn-admin-primary" style="width:100%;justify-content:center;padding:0.8rem;" onclick="saveTokenAndPushFromModal()">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Save Token & Push to Live Site
+        </button>
+        <button class="btn-admin-secondary" style="width:100%;justify-content:center;" onclick="closeTokenModal()">
+          Keep Saved on This Device Only
+        </button>
+      </div>
+      <div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid var(--aborder);font-size:0.78rem;color:var(--amuted);text-align:center;">
+        💡 Tip: You can also open Admin on your laptop, go to <strong>Settings</strong>, and click <strong>"Pair Mobile Phone"</strong> to connect your phone instantly without typing!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAIR MOBILE PHONE MODAL (FOR LAPTOP) -->
+<div class="admin-modal-overlay" id="pairPhoneModal" style="display:none;">
+  <div class="admin-modal-box" style="max-width:440px;text-align:center;">
+    <div class="admin-modal-header" style="text-align:left;">
+      <div class="admin-modal-title"><i class="fa-solid fa-mobile-screen" style="color:var(--agold);margin-right:0.5rem;"></i> Pair with Mobile Phone</div>
+      <button class="admin-modal-close" onclick="closePairModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="admin-modal-body" style="padding-top:0.5rem;">
+      <p style="font-size:0.84rem;color:var(--amuted);line-height:1.5;margin-bottom:1.2rem;">
+        Scan this QR code with your phone's camera to instantly connect this admin setup to your mobile browser:
+      </p>
+      <div id="pairQrContainer" style="display:flex;justify-content:center;align-items:center;min-height:190px;margin-bottom:1.2rem;">
+        <div id="pairQr"></div>
+      </div>
+      <div style="text-align:left;margin-bottom:0.75rem;">
+        <label style="font-size:0.75rem;font-weight:700;color:var(--amuted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.35rem;">Or Copy Mobile Setup Link:</label>
+        <div style="display:flex;gap:0.4rem;">
+          <input type="text" class="admin-input" id="pairUrlInput" readonly style="font-size:0.78rem;color:var(--amuted);">
+          <button class="btn-admin-secondary" style="white-space:nowrap;" onclick="copyPairUrl()"><i class="fa-solid fa-copy"></i> Copy</button>
+        </div>
+      </div>
+      <p style="font-size:0.75rem;color:var(--amuted);line-height:1.4;">
+        🔒 Security: When opened on your phone, the token is saved into your phone's private storage and removed from the address bar immediately.
+      </p>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ==========================================
    GITHUB SYNC — Push CMS to Live Site
@@ -1147,6 +1246,27 @@ const GH_OWNER = 'crow1126';
 const GH_REPO  = 'young-apostles-fc';
 const GH_BRANCH = 'main';
 const GH_FILE  = 'data/cms.json';
+
+// Detect pairing link on startup (#connect_token=ghp_...)
+(function checkPairingHash() {
+  try {
+    const hash = window.location.hash;
+    if (hash && hash.includes('connect_token=')) {
+      const match = hash.match(/connect_token=([^&]+)/);
+      if (match && match[1]) {
+        const token = decodeURIComponent(match[1]).trim();
+        if (token.startsWith('ghp_') || token.startsWith('github_pat_') || token.length >= 20) {
+          localStorage.setItem('ya_gh_token', token);
+          history.replaceState(null, '', window.location.pathname + window.location.search);
+          setTimeout(() => {
+            adminToast('✅ GitHub Sync successfully connected to this device!');
+            if (typeof renderSettingsPanel === 'function') renderSettingsPanel();
+          }, 600);
+        }
+      }
+    }
+  } catch(e) {}
+})();
 
 function getGhToken() {
   return localStorage.getItem('ya_gh_token') || '';
@@ -1158,32 +1278,166 @@ function saveGhToken() {
   localStorage.setItem('ya_gh_token', t);
   document.getElementById('ghToken').value = '';
   adminToast('GitHub token saved!');
-  document.getElementById('ghSyncStatus').textContent = '✅ Token saved. Use "Test Connection" to verify.';
+  renderSettingsPanel();
+}
+
+function clearGhToken() {
+  if (!confirm('Remove GitHub token from this browser? Changes will not push live until a token is re-entered.')) return;
+  localStorage.removeItem('ya_gh_token');
+  adminToast('GitHub token removed from this device');
+  renderSettingsPanel();
+}
+
+function renderSettingsPanel() {
+  const token = getGhToken();
+  const statusEl = document.getElementById('ghSyncStatus');
+  const pairBtn = document.getElementById('btnPairPhone');
+  const clearBtn = document.getElementById('btnClearGhToken');
+  if (!statusEl) return;
+  if (token) {
+    const masked = token.length > 8 ? `...${token.slice(-6)}` : '••••••••';
+    statusEl.innerHTML = `
+      <div style="background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:0.6rem 0.85rem;color:#4ade80;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+        <div style="display:flex;align-items:center;gap:0.5rem;font-weight:600;">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>GitHub token is active on this device (<code>${masked}</code>)</span>
+        </div>
+      </div>
+    `;
+    if (pairBtn) pairBtn.style.display = 'inline-flex';
+    if (clearBtn) clearBtn.style.display = 'inline-flex';
+  } else {
+    statusEl.innerHTML = `
+      <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:0.6rem 0.85rem;color:#fbbf24;display:flex;align-items:center;gap:0.5rem;font-weight:500;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>No GitHub token saved on this device. Paste your token below or pair from your laptop.</span>
+      </div>
+    `;
+    if (pairBtn) pairBtn.style.display = 'none';
+    if (clearBtn) clearBtn.style.display = 'none';
+  }
 }
 
 async function testGhSync() {
   const token = getGhToken();
   if (!token) { adminToast('No GitHub token saved yet'); return; }
   const el = document.getElementById('ghSyncStatus');
-  el.textContent = '⏳ Testing connection...';
+  el.innerHTML = '<span style="color:var(--amuted);"><i class="fa-solid fa-spinner fa-spin"></i> Testing connection...</span>';
   try {
     const res = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
       headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
     });
     if (res.ok) {
-      el.textContent = '✅ Connected! GitHub token is working. Changes will push live.';
-      adminToast('GitHub connection successful!');
+      renderSettingsPanel();
+      adminToast('✅ GitHub connection successful!');
     } else {
-      const d = await res.json();
-      el.textContent = `❌ Error ${res.status}: ${d.message}`;
+      const d = await res.json().catch(() => ({}));
+      el.innerHTML = `<span style="color:var(--adanger);"><i class="fa-solid fa-circle-xmark"></i> Error ${res.status}: ${d.message || 'Check your token permissions (repo scope required)'}</span>`;
     }
   } catch(e) {
-    el.textContent = '❌ Network error: ' + e.message;
+    el.innerHTML = `<span style="color:var(--adanger);"><i class="fa-solid fa-circle-xmark"></i> Network error: ${e.message}</span>`;
   }
 }
 
-function buildCmsPayload() {
-  // Assemble full cms.json payload from localStorage
+// Phone Pairing Modals
+function pairMobileDevice() {
+  const token = getGhToken();
+  if (!token) {
+    adminToast('Save a GitHub token on this device first');
+    return;
+  }
+  const modal = document.getElementById('pairPhoneModal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+
+  const pairUrl = `${window.location.origin}${window.location.pathname}#connect_token=${encodeURIComponent(token)}`;
+  const input = document.getElementById('pairUrlInput');
+  if (input) input.value = pairUrl;
+
+  const qrContainer = document.getElementById('pairQr');
+  if (qrContainer) {
+    qrContainer.innerHTML = '';
+    if (typeof QRCode !== 'undefined') {
+      try {
+        new QRCode(qrContainer, {
+          text: pairUrl,
+          width: 180,
+          height: 180,
+          colorDark: "#090E1A",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      } catch(err) {
+        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(pairUrl)}" style="border-radius:10px;background:#fff;padding:6px;width:180px;height:180px;" alt="QR Code">`;
+      }
+    } else {
+      qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(pairUrl)}" style="border-radius:10px;background:#fff;padding:6px;width:180px;height:180px;" alt="QR Code">`;
+    }
+  }
+}
+
+function closePairModal() {
+  const modal = document.getElementById('pairPhoneModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function copyPairUrl() {
+  const input = document.getElementById('pairUrlInput');
+  if (!input) return;
+  input.select();
+  input.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(input.value).then(() => {
+    adminToast('✅ Link copied! Send it to your phone.');
+  }).catch(() => {
+    document.execCommand('copy');
+    adminToast('✅ Link copied!');
+  });
+}
+
+// Token Missing on Device Modal
+let pendingPushLabel = null;
+
+function showMissingTokenModal(label, customMsg) {
+  pendingPushLabel = label || 'changes';
+  const modal = document.getElementById('tokenRequiredModal');
+  const desc = document.getElementById('tokenModalDesc');
+  if (customMsg && desc) {
+    desc.innerHTML = customMsg;
+  } else if (desc) {
+    desc.innerHTML = `Your changes to <strong>${pendingPushLabel}</strong> are saved in this browser, but need your <strong>GitHub Personal Access Token</strong> to push to the live website for all visitors.<br><br>Because web browsers keep saved data separate on each device, your mobile phone needs this token entered once.`;
+  }
+  if (modal) modal.style.display = 'flex';
+  const input = document.getElementById('modalGhToken');
+  if (input) {
+    input.value = '';
+    setTimeout(() => input.focus(), 200);
+  }
+}
+
+function closeTokenModal() {
+  const modal = document.getElementById('tokenRequiredModal');
+  if (modal) modal.style.display = 'none';
+  pendingPushLabel = null;
+}
+
+async function saveTokenAndPushFromModal() {
+  const input = document.getElementById('modalGhToken');
+  const t = input ? input.value.trim() : '';
+  if (!t) {
+    adminToast('Please paste your GitHub token first');
+    return;
+  }
+  localStorage.setItem('ya_gh_token', t);
+  closeTokenModal();
+  adminToast('Token saved! Pushing to live site...');
+  if (typeof renderSettingsPanel === 'function') renderSettingsPanel();
+  const labelToPush = pendingPushLabel || 'changes';
+  pendingPushLabel = null;
+  await pushCmsToGitHub(labelToPush);
+}
+
+function buildCmsPayload(remoteCms = null) {
+  // Assemble full cms.json payload from localStorage safely merging with remote
   const blogs = (() => { try { const r = localStorage.getItem('ya_club_unified_blogs'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
   const apostlesTv = (() => { try { const r = localStorage.getItem('ya_apostles_tv_videos'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
   const fixtures = (() => { try { const r = localStorage.getItem('ya_club_fixtures'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
@@ -1192,32 +1446,55 @@ function buildCmsPayload() {
   const members = getMembers();
 
   const payload = { lastUpdated: new Date().toISOString() };
+
   if (hero) payload.hero = hero;
+  else if (remoteCms && remoteCms.hero) payload.hero = remoteCms.hero;
+
   if (blogs.length) payload.blogs = blogs;
-  payload.apostlesTv = apostlesTv;
+  else if (remoteCms && Array.isArray(remoteCms.blogs) && remoteCms.blogs.length) payload.blogs = remoteCms.blogs;
+
+  if (apostlesTv.length) payload.apostlesTv = apostlesTv;
+  else if (remoteCms && Array.isArray(remoteCms.apostlesTv) && remoteCms.apostlesTv.length) payload.apostlesTv = remoteCms.apostlesTv;
+  else payload.apostlesTv = [];
+
   if (standings) payload.standings = standings;
-  payload.fixtures = fixtures.length ? fixtures : (typeof DEFAULT_FIXTURES !== 'undefined' ? DEFAULT_FIXTURES : []);
-  payload.members = members;
+  else if (remoteCms && remoteCms.standings) payload.standings = remoteCms.standings;
+
+  payload.fixtures = fixtures.length ? fixtures : (remoteCms && Array.isArray(remoteCms.fixtures) && remoteCms.fixtures.length ? remoteCms.fixtures : (typeof DEFAULT_FIXTURES !== 'undefined' ? DEFAULT_FIXTURES : []));
+  payload.members = members.length ? members : (remoteCms && Array.isArray(remoteCms.members) ? remoteCms.members : []);
   return payload;
 }
 
 async function pushCmsToGitHub(label) {
   const token = getGhToken();
   if (!token) {
-    adminToast('⚠️ Saved locally. Add a GitHub token in Settings to push live.');
+    showMissingTokenModal(label);
     return;
   }
   try {
-    // Get current file SHA
+    // Get current file SHA and content
     const getRes = await fetch(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}`, {
       headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
     });
-    if (!getRes.ok) { adminToast('⚠️ Saved locally. GitHub push failed — check token.'); return; }
+    if (!getRes.ok) {
+      if (getRes.status === 401 || getRes.status === 403) {
+        showMissingTokenModal(label, 'GitHub token is invalid or has expired. Please check or replace your token:');
+      } else {
+        adminToast('⚠️ Saved locally. GitHub push failed — check token.');
+      }
+      return;
+    }
     const fileData = await getRes.json();
     const sha = fileData.sha;
+    let remoteCms = null;
+    try {
+      if (fileData.content) {
+        remoteCms = JSON.parse(decodeURIComponent(escape(atob(fileData.content.replace(/\s/g, '')))));
+      }
+    } catch(e) {}
 
-    // Build new content
-    const newContent = JSON.stringify(buildCmsPayload(), null, 2);
+    // Build new content safely merged
+    const newContent = JSON.stringify(buildCmsPayload(remoteCms), null, 2);
     const encoded = btoa(unescape(encodeURIComponent(newContent)));
 
     // Commit
@@ -1234,8 +1511,8 @@ async function pushCmsToGitHub(label) {
     if (putRes.ok) {
       adminToast(`✅ Pushed live! ${label || 'Changes'} visible in ~30s.`);
     } else {
-      const d = await putRes.json();
-      adminToast(`⚠️ Saved locally. GitHub error: ${d.message}`);
+      const d = await putRes.json().catch(() => ({}));
+      adminToast(`⚠️ Saved locally. GitHub error: ${d.message || 'Could not commit'}`);
     }
   } catch(e) {
     adminToast('⚠️ Saved locally. Network error pushing to GitHub.');
@@ -1337,6 +1614,7 @@ function initAdmin() {
   showPanel('dashboard');
   startClock();
   loadHeroFields();
+  renderSettingsPanel();
 }
 
 let currentPanel = 'dashboard';
@@ -1382,6 +1660,7 @@ function renderPanel(id) {
     case 'apostlestv':  renderTvPanel(); break;
     case 'shop':        renderShopPanel(); break;
     case 'hero':        loadHeroFields(); break;
+    case 'settings':    renderSettingsPanel(); break;
   }
 }
 
@@ -2266,12 +2545,60 @@ if (window.BroadcastChannel) {
   } catch(e) {}
 }
 
-// Hydrate CMS members on start
+// Hydrate CMS data on start across devices
 (async function hydrateAdminCms() {
   try {
     const res = await fetch('data/cms.json?v=' + Date.now());
     if (res.ok) {
       const data = await res.json();
+      if (!data) return;
+
+      // Hydrate blogs if not in localStorage or if localStorage is empty
+      if (Array.isArray(data.blogs) && data.blogs.length) {
+        const localBlogs = localStorage.getItem('ya_club_unified_blogs');
+        if (!localBlogs || localBlogs === '[]') {
+          localStorage.setItem('ya_club_unified_blogs', JSON.stringify(data.blogs));
+          localStorage.setItem('ya_club_dispatches', JSON.stringify(data.blogs));
+          if (currentPanel === 'news') renderNewsPanel();
+        }
+      }
+
+      // Hydrate TV videos
+      if (Array.isArray(data.apostlesTv) && data.apostlesTv.length) {
+        const localTv = localStorage.getItem('ya_apostles_tv_videos');
+        if (!localTv || localTv === '[]') {
+          localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(data.apostlesTv));
+          if (currentPanel === 'apostlestv') renderTvPanel();
+        }
+      }
+
+      // Hydrate Fixtures
+      if (Array.isArray(data.fixtures) && data.fixtures.length) {
+        const localFix = localStorage.getItem('ya_club_fixtures');
+        if (!localFix || localFix === '[]') {
+          localStorage.setItem('ya_club_fixtures', JSON.stringify(data.fixtures));
+          if (currentPanel === 'fixtures') renderFixturesPanel();
+        }
+      }
+
+      // Hydrate Hero
+      if (data.hero) {
+        const localHero = localStorage.getItem('ya_hero_custom');
+        if (!localHero) {
+          localStorage.setItem('ya_hero_custom', JSON.stringify(data.hero));
+          if (currentPanel === 'hero') loadHeroFields();
+        }
+      }
+
+      // Hydrate Standings
+      if (data.standings) {
+        const localStandings = localStorage.getItem('ya_standings_record');
+        if (!localStandings) {
+          localStorage.setItem('ya_standings_record', JSON.stringify(data.standings));
+        }
+      }
+
+      // Hydrate Members
       if (Array.isArray(data.members) && data.members.length) {
         localStorage.setItem('ya_cms_members', JSON.stringify(data.members));
         if (currentPanel === 'dashboard') renderDashboard();
