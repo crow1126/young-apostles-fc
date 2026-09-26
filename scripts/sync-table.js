@@ -1,9 +1,14 @@
 // scripts/sync-table.js
 // Standings updater for Ghana Premier League (GPL)
-// Can be run via:
-// 1. GitHub Actions scheduled cron (e.g. every Sunday & Monday night)
-// 2. Node CLI: node scripts/sync-table.js
-// 3. Admin portal 1-click trigger
+// Source priority:
+//   1. FREE: ESPN/AZHarimm scrape (api-football-standings.azharimm.site) — no key needed
+//   2. FALLBACK: API-Football v3 (paid, requires API_FOOTBALL_KEY secret)
+//   3. SAFETY NET: Hardcoded baseline table
+//
+// Schedule: every 6 hours via GitHub Actions (free on public repos)
+// Can also be run via:
+//   - Node CLI: node scripts/sync-table.js
+//   - Admin portal 1-click trigger
 
 const fs = require('fs');
 const path = require('path');
@@ -85,10 +90,63 @@ const DEFAULT_TABLE = [
   isClub: team.name.toLowerCase().includes('young apostles')
 }));
 
+// ─────────────────────────────────────────────────────────
+// SOURCE 1 (FREE, no key): ESPN via AZHarimm open-source proxy
+// Endpoint: https://api-football-standings.azharimm.site/leagues/gha.1/standings
+// Note: unofficial scraper — can break if ESPN changes their structure
+// ─────────────────────────────────────────────────────────
+async function fetchFromESPN() {
+  try {
+    console.log('Fetching GPL standings from ESPN/AZHarimm (free, no key)...');
+    const currentYear = new Date().getFullYear();
+    const url = `https://api-football-standings.azharimm.site/leagues/gha.1/standings?season=${currentYear}&sort=asc`;
+    const res = await fetch(url, {
+      headers: { 'User-Agent': 'YAFC-Bot/1.0 (youngapostlesfcgh.com)' }
+    });
+    if (!res.ok) throw new Error(`ESPN proxy returned ${res.status}: ${res.statusText}`);
+    const json = await res.json();
+
+    // AZHarimm response shape: { data: { standings: [ { team, stats } ] } }
+    const rows = json?.data?.standings;
+    if (!Array.isArray(rows) || rows.length === 0) {
+      throw new Error('ESPN proxy returned empty standings array');
+    }
+
+    return rows.map((item, idx) => {
+      const teamName = item.team?.displayName || item.team?.name || '';
+      const isClub = teamName.toLowerCase().includes('young apostles');
+
+      // Stats are an array of { name, value } objects
+      const stat = (name) => {
+        const s = (item.stats || []).find(s => s.name === name || s.abbreviation === name);
+        return s ? Number(s.value) : 0;
+      };
+      const gd = stat('pointDifferential') || stat('gd') || 0;
+      const diffStr = gd > 0 ? `+${gd}` : `${gd}`;
+
+      return {
+        pos: idx + 1,
+        name: isClub ? 'Young Apostles FC' : teamName,
+        crest: resolveCrest(teamName),
+        played: stat('gamesPlayed') || stat('played') || 0,
+        diff: diffStr,
+        points: stat('points') || 0,
+        isClub
+      };
+    });
+  } catch (err) {
+    console.warn(`ESPN/AZHarimm fetch failed: ${err.message}`);
+    return null;
+  }
+}
+
+// ─────────────────────────────────────────────────────────
+// SOURCE 2 (PAID fallback): API-Football v3 (requires API_FOOTBALL_KEY secret)
+// ─────────────────────────────────────────────────────────
 async function fetchFromApiFootball(apiKey) {
   if (!apiKey) return null;
   try {
-    console.log('Fetching live GPL standings from API-Football...');
+    console.log('Fetching live GPL standings from API-Football (paid fallback)...');
     const currentYear = new Date().getFullYear();
     // League ID 570 = Premier League (Ghana)
     const res = await fetch(`https://v3.football.api-sports.io/standings?league=570&season=${currentYear}`, {
@@ -128,10 +186,17 @@ async function fetchFromApiFootball(apiKey) {
 
 async function updateStandingsData() {
   const apiKey = process.env.API_FOOTBALL_KEY || process.env.FOOTBALL_API_KEY;
-  let table = await fetchFromApiFootball(apiKey);
+
+  // Try sources in priority order
+  let table = await fetchFromESPN();
 
   if (!table) {
-    console.log('Using verified GPL table baseline with full club crests.');
+    console.log('ESPN source failed, trying API-Football fallback...');
+    table = await fetchFromApiFootball(apiKey);
+  }
+
+  if (!table) {
+    console.log('All live sources failed. Using hardcoded GPL baseline table.');
     table = DEFAULT_TABLE;
   }
 

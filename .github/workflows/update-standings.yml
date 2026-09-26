@@ -2,8 +2,8 @@ name: Update GPL Standings Table
 
 on:
   schedule:
-    # Runs Sunday and Monday at 21:00 UTC (after GPL weekend matchdays)
-    - cron: '0 21 * * 0,1'
+    # Runs every 6 hours — free on GitHub Actions (public repo = unlimited minutes)
+    - cron: '0 */6 * * *'
   workflow_dispatch: # Allows 1-click manual trigger from GitHub Actions tab
 
 jobs:

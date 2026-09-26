@@ -597,7 +597,7 @@ button {
   position: relative;
   background: var(--ya-blue-dark);
   color: var(--text-white);
-  min-height: 560px;
+  min-height: 680px;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -615,7 +615,9 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: center 30%;
-  filter: brightness(0.85);
+  filter: brightness(1.0) contrast(1.05);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .hero-overlay {
@@ -623,9 +625,9 @@ button {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(7, 14, 41, 0.35) 0%,
-    rgba(7, 14, 41, 0.65) 45%,
-    rgba(7, 14, 41, 0.96) 100%
+    rgba(7, 14, 41, 0.15) 0%,
+    rgba(7, 14, 41, 0.45) 45%,
+    rgba(7, 14, 41, 0.90) 100%
   );
 }
 
@@ -3335,7 +3337,7 @@ button {
 
   /* Hero Section */
   .hero-section {
-    min-height: 460px;
+    min-height: 570px;
     padding: 2.25rem 0 2.5rem;
   }
   .hero-bg-image {
