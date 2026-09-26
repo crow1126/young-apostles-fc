@@ -641,6 +641,10 @@
       <label class="login-label">Password</label>
       <input type="password" id="loginPass" class="login-input" placeholder="••••••••" autocomplete="current-password">
       <div class="login-err" id="loginErr">Incorrect credentials. Try again.</div>
+      <div style="display:flex;align-items:center;gap:0.55rem;margin-bottom:1.1rem;font-size:0.82rem;color:var(--amuted);">
+        <input type="checkbox" id="loginRemember" checked style="accent-color:var(--agold);width:16px;height:16px;cursor:pointer;">
+        <label for="loginRemember" style="cursor:pointer;user-select:none;text-transform:none;letter-spacing:normal;font-weight:500;margin-bottom:0;">Remember me on this phone / browser</label>
+      </div>
       <button type="submit" class="btn-login"><i class="fa-solid fa-unlock-keyhole"></i> Access Portal</button>
     </form>
     <p style="text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:1.25rem;">
@@ -1113,20 +1117,44 @@
               <textarea class="admin-textarea" id="heroSubtitle" style="min-height:95px;" placeholder="<strong>AGYA NA ƆWƆ TUMI</strong> &middot; Wenchi's pride takes on Ghana's top flight..."></textarea>
             </div>
 
-            <div class="form-row">
-              <div class="admin-form-group">
-                <label>Hero Background Picture</label>
-                <input type="text" class="admin-input" id="heroImage" placeholder="assets/home-hero.jpg" style="margin-bottom:0.4rem;" oninput="updateHeroPreview(this.value)">
-                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;background:rgba(255,255,255,0.05);border:1.5px dashed var(--aborder);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.8rem;color:var(--amuted);">
-                  <i class="fa-solid fa-upload" style="color:var(--agold);"></i> Upload Picture from PC
-                  <input type="file" accept="image/*" style="display:none;" onchange="handleHeroImageUpload(this)">
+            <!-- HERO PICTURE UPLOAD & PREVIEW CARD -->
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--aborder); border-radius:12px; padding:1.25rem; margin-bottom:1.25rem;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.75rem; flex-wrap:wrap; gap:0.5rem;">
+                <label style="font-size:0.78rem; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0; display:flex; align-items:center; gap:0.4rem;">
+                  <i class="fa-solid fa-camera-retro" style="color:var(--agold);"></i> Hero Banner Background Picture
                 </label>
-              </div>
-              <div class="admin-form-group">
-                <label>Picture Preview</label>
-                <div id="heroPreviewWrap" style="height:90px; border-radius:8px; overflow:hidden; border:1px solid var(--aborder); background:#0c1736; display:flex; align-items:center; justify-content:center;">
-                  <img id="heroImagePreview" src="assets/home-hero.jpg" alt="Hero Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='assets/home-hero.jpg'">
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                  <button type="button" class="btn-admin-sm" onclick="setHeroPreset('assets/home-hero.jpg')">Stadium Atmosphere</button>
+                  <button type="button" class="btn-admin-sm" onclick="setHeroPreset('assets/md3-debibi-derby.jpg')">Match Action</button>
+                  <button type="button" class="btn-admin-sm" onclick="setHeroPreset('assets/md2-prempeh-win.jpg')">Prempeh Win</button>
                 </div>
+              </div>
+
+              <!-- Banner Preview Box -->
+              <div id="heroPreviewWrap" style="position:relative; width:100%; height:180px; border-radius:10px; overflow:hidden; border:1px solid var(--aborder); background:#0c1736; margin-bottom:0.85rem; box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+                <img id="heroImagePreview" src="assets/home-hero.jpg" alt="Hero Preview" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='assets/home-hero.jpg'">
+                <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(9,14,26,0.3) 0%, rgba(9,14,26,0.85) 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:1rem; pointer-events:none;">
+                  <span id="heroPreviewBadge" style="display:inline-block; align-self:flex-start; background:var(--agold); color:var(--ab); font-size:0.62rem; font-weight:800; padding:2px 8px; border-radius:99px; text-transform:uppercase; margin-bottom:0.3rem;">Live Preview</span>
+                  <div id="heroPreviewTitle" style="color:#fff; font-family:var(--fh); font-weight:800; font-size:0.95rem; text-shadow:0 2px 4px rgba(0,0,0,0.6); max-width:90%;">Young Apostles FC: Fighting for Glory</div>
+                </div>
+              </div>
+
+              <!-- Upload Actions Row -->
+              <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
+                <label class="btn-admin-primary" style="cursor:pointer; padding:0.6rem 1.1rem; display:inline-flex; align-items:center; gap:0.5rem;">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>Upload / Take Photo</span>
+                  <input type="file" id="heroFileInput" accept="image/*" style="display:none;" onchange="handleHeroImageUpload(this)">
+                </label>
+                <button type="button" class="btn-admin-secondary" onclick="resetHeroImageDefault()">
+                  <i class="fa-solid fa-rotate-left"></i> Reset Default
+                </button>
+              </div>
+
+              <!-- Manual URL / Asset Path Option -->
+              <div style="margin-top:0.75rem;">
+                <label style="font-size:0.7rem; color:var(--amuted); text-transform:uppercase; font-weight:700; display:block; margin-bottom:0.3rem;">Or Custom Image URL / Path:</label>
+                <input type="text" class="admin-input" id="heroImage" placeholder="assets/home-hero.jpg" style="font-size:0.82rem;" oninput="updateHeroPreview(this.value)">
               </div>
             </div>
 
@@ -1141,23 +1169,59 @@
               </div>
             </div>
 
-            <div style="margin-top:1.25rem; padding-top:1rem; border-top:1px solid var(--aborder);">
-              <div style="font-weight:700; font-size:0.88rem; color:#fff; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.4rem;">
-                <i class="fa-solid fa-trophy" style="color:var(--agold);"></i> League Standings Ribbon Data
+            <!-- GHANA PREMIER LEAGUE STANDINGS & LARGE TABLE -->
+            <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--aborder);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem; flex-wrap:wrap; gap:0.5rem;">
+                <div style="font-weight:700; font-size:0.92rem; color:#fff; display:flex; align-items:center; gap:0.45rem;">
+                  <i class="fa-solid fa-trophy" style="color:var(--agold);"></i> Ghana Premier League Standings
+                </div>
+                <div style="display:flex; gap:0.4rem;">
+                  <button type="button" class="btn-admin-secondary" style="font-size:0.75rem; padding:0.35rem 0.75rem;" onclick="syncLiveGplTable()">
+                    <i class="fa-solid fa-rotate"></i> Sync Live Table
+                  </button>
+                </div>
               </div>
-              <div class="form-row">
+
+              <!-- Young Apostles Quick Ribbon Data -->
+              <label style="font-size:0.7rem; color:var(--amuted); text-transform:uppercase; font-weight:700; display:block; margin-bottom:0.4rem;">Young Apostles FC Ribbon Stats:</label>
+              <div class="form-row" style="margin-bottom:1rem;">
                 <div class="admin-form-group">
-                  <label>Rank</label><input type="number" class="admin-input" id="standRank" placeholder="8">
+                  <label>Rank / Pos</label><input type="number" class="admin-input" id="standRank" placeholder="8" oninput="syncRibbonToTable()">
                 </div>
                 <div class="admin-form-group">
-                  <label>Played</label><input type="number" class="admin-input" id="standPlayed" placeholder="2">
+                  <label>Played (P)</label><input type="number" class="admin-input" id="standPlayed" placeholder="2" oninput="syncRibbonToTable()">
                 </div>
                 <div class="admin-form-group">
-                  <label>Goal Diff</label><input type="number" class="admin-input" id="standDiff" placeholder="-2">
+                  <label>Goal Diff</label><input type="number" class="admin-input" id="standDiff" placeholder="-2" oninput="syncRibbonToTable()">
                 </div>
                 <div class="admin-form-group">
-                  <label>Points</label><input type="number" class="admin-input" id="standPts" placeholder="3">
+                  <label>Points (PTS)</label><input type="number" class="admin-input" id="standPts" placeholder="3" oninput="syncRibbonToTable()">
                 </div>
+              </div>
+
+              <!-- 18-Team Table Collapsible Preview / Editor -->
+              <div style="background:rgba(255,255,255,0.02); border:1px solid var(--aborder); border-radius:10px; padding:0.9rem; margin-bottom:1.2rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span style="font-size:0.76rem; font-weight:700; color:var(--amuted); text-transform:uppercase; letter-spacing:0.06em;">Full 18-Club League Table:</span>
+                  <span id="tableSyncNotice" style="font-size:0.72rem; color:#4ade80;"><i class="fa-solid fa-circle-check"></i> Auto-Sync Ready</span>
+                </div>
+                <div style="max-height:280px; overflow-y:auto; border:1px solid rgba(255,255,255,0.07); border-radius:8px;">
+                  <table style="width:100%; border-collapse:collapse; font-size:0.78rem;">
+                    <thead>
+                      <tr style="background:rgba(255,255,255,0.05); color:var(--amuted); text-align:left; border-bottom:1px solid var(--aborder);">
+                        <th style="padding:6px 10px; width:45px;">Pos</th>
+                        <th style="padding:6px 10px;">Club</th>
+                        <th style="padding:6px 10px; width:55px; text-align:center;">P</th>
+                        <th style="padding:6px 10px; width:65px; text-align:center;">Diff</th>
+                        <th style="padding:6px 10px; width:60px; text-align:right;">PTS</th>
+                      </tr>
+                    </thead>
+                    <tbody id="adminTableRows"></tbody>
+                  </table>
+                </div>
+                <p style="font-size:0.72rem; color:var(--amuted); margin-top:0.6rem; line-height:1.4;">
+                  ⚡ <strong>Auto-Update Scheduled:</strong> A GitHub Action runs automatically after every matchday to pull live updates from API-Football. You can also click <strong>"Sync Live Table"</strong> above or edit stats manually anytime.
+                </p>
               </div>
             </div>
 
@@ -1218,7 +1282,8 @@
             <div style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
               <button class="btn-admin-primary" onclick="saveGhToken()"><i class="fa-solid fa-key"></i> Save Token</button>
               <button class="btn-admin-secondary" onclick="testGhSync()"><i class="fa-solid fa-wifi"></i> Test Connection</button>
-              <button class="btn-admin-secondary" id="btnPairPhone" style="display:none;background:rgba(241,180,52,0.12);color:var(--agold);border-color:rgba(241,180,52,0.3);" onclick="pairMobileDevice()"><i class="fa-solid fa-mobile-screen"></i> Pair Mobile Phone</button>
+              <button class="btn-admin-secondary" id="btnPairPhone" style="display:none;background:rgba(241,180,52,0.12);color:var(--agold);border-color:rgba(241,180,52,0.3);" onclick="pairMobileDevice()"><i class="fa-solid fa-mobile-screen"></i> One-Time Mobile Link</button>
+              <button class="btn-admin-secondary" id="btnShareWhatsApp" style="display:none;background:rgba(37,211,102,0.12);color:#25D366;border-color:rgba(37,211,102,0.3);" onclick="sharePairUrlWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Send to WhatsApp</button>
               <button class="btn-admin-secondary" id="btnClearGhToken" style="display:none;color:var(--adanger);border-color:rgba(239,68,68,0.3);" onclick="clearGhToken()"><i class="fa-solid fa-trash"></i> Remove</button>
             </div>
             <p class="settings-note" style="margin-top:0.75rem;">Token is stored safely in this browser's localStorage. Repo: <code>crow1126/young-apostles-fc</code> · Branch: <code>main</code></p>
@@ -1245,58 +1310,76 @@
 
 <!-- TOKEN REQUIRED POPUP MODAL (MOBILE OR NEW DEVICE) -->
 <div class="admin-modal-overlay" id="tokenRequiredModal" style="display:none;">
-  <div class="admin-modal-box">
+  <div class="admin-modal-box" style="max-width:440px;">
     <div class="admin-modal-header">
-      <div class="admin-modal-title"><i class="fa-solid fa-key" style="color:var(--agold);margin-right:0.5rem;"></i> Live Publishing Token</div>
+      <div class="admin-modal-title"><i class="fa-solid fa-key" style="color:var(--agold);margin-right:0.5rem;"></i> Live Publishing Setup</div>
       <button class="admin-modal-close" onclick="closeTokenModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="admin-modal-body">
       <p id="tokenModalDesc" style="font-size:0.85rem;color:var(--amuted);line-height:1.55;margin-bottom:1rem;">
-        Your changes are saved in this browser, but need your <strong>GitHub Personal Access Token</strong> to push to the live website for all visitors.<br><br>Because web browsers keep saved data separate on each device, your mobile phone needs this token entered once.
+        Your changes are saved in this browser. To push live for all visitors, enter your <strong>GitHub Personal Access Token</strong> once. This device will remember it permanently.
       </p>
       <div class="admin-form-group">
-        <label>Paste GitHub Personal Access Token</label>
+        <label>GitHub Personal Access Token</label>
         <input type="password" class="admin-input" id="modalGhToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx">
       </div>
       <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:1.2rem;">
         <button class="btn-admin-primary" style="width:100%;justify-content:center;padding:0.8rem;" onclick="saveTokenAndPushFromModal()">
-          <i class="fa-solid fa-cloud-arrow-up"></i> Save Token & Push to Live Site
+          <i class="fa-solid fa-cloud-arrow-up"></i> Save &amp; Push to Live Site
         </button>
         <button class="btn-admin-secondary" style="width:100%;justify-content:center;" onclick="closeTokenModal()">
           Keep Saved on This Device Only
         </button>
       </div>
-      <div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid var(--aborder);font-size:0.78rem;color:var(--amuted);text-align:center;">
-        💡 Tip: You can also open Admin on your laptop, go to <strong>Settings</strong>, and click <strong>"Pair Mobile Phone"</strong> to connect your phone instantly without typing!
+      <div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid var(--aborder);font-size:0.78rem;color:var(--amuted);text-align:center;line-height:1.4;">
+        💡 <strong>No Need to Type?</strong> Open Admin on your laptop, go to <strong>Settings</strong>, and click <strong>"One-Time Mobile Link"</strong> to send the setup directly to your WhatsApp!
       </div>
     </div>
   </div>
 </div>
 
-<!-- PAIR MOBILE PHONE MODAL (FOR LAPTOP) -->
+<!-- PAIR MOBILE PHONE MODAL (PERMANENT ONE-TIME CONNECT) -->
 <div class="admin-modal-overlay" id="pairPhoneModal" style="display:none;">
-  <div class="admin-modal-box" style="max-width:440px;text-align:center;">
+  <div class="admin-modal-box" style="max-width:460px;text-align:center;">
     <div class="admin-modal-header" style="text-align:left;">
-      <div class="admin-modal-title"><i class="fa-solid fa-mobile-screen" style="color:var(--agold);margin-right:0.5rem;"></i> Pair with Mobile Phone</div>
+      <div class="admin-modal-title"><i class="fa-solid fa-mobile-screen" style="color:var(--agold);margin-right:0.5rem;"></i> One-Time Mobile Setup</div>
       <button class="admin-modal-close" onclick="closePairModal()"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <div class="admin-modal-body" style="padding-top:0.5rem;">
-      <p style="font-size:0.84rem;color:var(--amuted);line-height:1.5;margin-bottom:1.2rem;">
-        Scan this QR code with your phone's camera to instantly connect this admin setup to your mobile browser:
+      <p style="font-size:0.84rem;color:var(--amuted);line-height:1.5;margin-bottom:1rem;">
+        Connect your mobile phone <strong style="color:#fff;">once</strong>. Once opened, your phone remembers the connection forever without needing to scan QR codes again.
       </p>
-      <div id="pairQrContainer" style="display:flex;justify-content:center;align-items:center;min-height:190px;margin-bottom:1.2rem;">
-        <div id="pairQr"></div>
-      </div>
-      <div style="text-align:left;margin-bottom:0.75rem;">
-        <label style="font-size:0.75rem;font-weight:700;color:var(--amuted);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:0.35rem;">Or Copy Mobile Setup Link:</label>
+
+      <!-- 1-Click WhatsApp Send & Copy -->
+      <div style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.2rem;">
+        <button class="btn-admin-primary" style="width:100%;justify-content:center;background:#25D366;color:#fff;border-color:#25D366;padding:0.75rem;" onclick="sharePairUrlWhatsApp()">
+          <i class="fa-brands fa-whatsapp" style="font-size:1.1rem;"></i> Send Setup Link to My WhatsApp
+        </button>
         <div style="display:flex;gap:0.4rem;">
           <input type="text" class="admin-input" id="pairUrlInput" readonly style="font-size:0.78rem;color:var(--amuted);">
-          <button class="btn-admin-secondary" style="white-space:nowrap;" onclick="copyPairUrl()"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button class="btn-admin-secondary" style="white-space:nowrap;" onclick="copyPairUrl()"><i class="fa-solid fa-copy"></i> Copy Link</button>
         </div>
       </div>
-      <p style="font-size:0.75rem;color:var(--amuted);line-height:1.4;">
-        🔒 Security: When opened on your phone, the token is saved into your phone's private storage and removed from the address bar immediately.
-      </p>
+
+      <!-- Optional QR Code -->
+      <details style="text-align:left;background:rgba(255,255,255,0.03);border:1px solid var(--aborder);border-radius:8px;padding:0.6rem 0.8rem;margin-bottom:1rem;">
+        <summary style="font-size:0.76rem;color:var(--amuted);font-weight:700;cursor:pointer;user-select:none;">
+          <i class="fa-solid fa-qrcode" style="color:var(--agold);margin-right:0.3rem;"></i> Or show QR Code (optional)
+        </summary>
+        <div id="pairQrContainer" style="display:flex;justify-content:center;align-items:center;min-height:160px;margin-top:0.8rem;">
+          <div id="pairQr"></div>
+        </div>
+      </details>
+
+      <!-- PWA Permanent Guide -->
+      <div style="text-align:left;background:rgba(241,180,52,0.08);border:1px solid rgba(241,180,52,0.22);border-radius:10px;padding:0.85rem;font-size:0.77rem;line-height:1.45;color:#fcd34d;">
+        <div style="font-weight:800;margin-bottom:0.35rem;display:flex;align-items:center;gap:0.4rem;">
+          <i class="fa-solid fa-circle-check"></i> How to Keep Connected Permanently:
+        </div>
+        1. Open the link on your phone in <strong>Safari (iPhone)</strong> or <strong>Chrome (Android)</strong>.<br>
+        2. Tap Share ⎋ / Menu ⋮ &rarr; Tap <strong>"Add to Home Screen"</strong> ➕.<br>
+        3. This installs a dedicated <strong>YAFC Admin App</strong> icon that keeps your session and token permanently!
+      </div>
     </div>
   </div>
 </div>
@@ -1310,43 +1393,77 @@ const GH_REPO  = 'young-apostles-fc';
 const GH_BRANCH = 'main';
 const GH_FILE  = 'data/cms.json';
 
-// Detect pairing link on startup (#connect_token=ghp_...)
+// Detect pairing link on startup (#connect_token=ghp_... or ?connect_token=...)
 (function checkPairingHash() {
   try {
-    const hash = window.location.hash;
-    if (hash && hash.includes('connect_token=')) {
+    let token = null;
+    const hash = window.location.hash || '';
+    const search = window.location.search || '';
+
+    // Check hash
+    if (hash.includes('connect_token=')) {
       const match = hash.match(/connect_token=([^&]+)/);
-      if (match && match[1]) {
-        const token = decodeURIComponent(match[1]).trim();
-        if (token.startsWith('ghp_') || token.startsWith('github_pat_') || token.length >= 20) {
-          localStorage.setItem('ya_gh_token', token);
-          history.replaceState(null, '', window.location.pathname + window.location.search);
-          setTimeout(() => {
-            adminToast('✅ GitHub Sync successfully connected to this device!');
-            if (typeof renderSettingsPanel === 'function') renderSettingsPanel();
-          }, 600);
-        }
-      }
+      if (match && match[1]) token = decodeURIComponent(match[1]).trim();
+    } else if (hash.includes('token=')) {
+      const match = hash.match(/token=([^&]+)/);
+      if (match && match[1]) token = decodeURIComponent(match[1]).trim();
+    }
+
+    // Check query params
+    if (!token && search.includes('connect_token=')) {
+      const match = search.match(/connect_token=([^&]+)/);
+      if (match && match[1]) token = decodeURIComponent(match[1]).trim();
+    } else if (!token && search.includes('token=')) {
+      const match = search.match(/token=([^&]+)/);
+      if (match && match[1]) token = decodeURIComponent(match[1]).trim();
+    }
+
+    if (token && (token.startsWith('ghp_') || token.startsWith('github_pat_') || token.length >= 20)) {
+      // Save across localStorage, sessionStorage, and permanent 1-year cookie
+      localStorage.setItem('ya_gh_token', token);
+      sessionStorage.setItem('ya_gh_token', token);
+      document.cookie = `ya_gh_token=${encodeURIComponent(token)}; path=/; max-age=31536000; SameSite=Lax`;
+
+      // Clean URL bar
+      history.replaceState(null, '', window.location.pathname);
+      setTimeout(() => {
+        adminToast('✅ GitHub Sync permanently connected to this device! You are ready.');
+        if (typeof renderSettingsPanel === 'function') renderSettingsPanel();
+      }, 600);
     }
   } catch(e) {}
 })();
 
 function getGhToken() {
-  return localStorage.getItem('ya_gh_token') || '';
+  let t = localStorage.getItem('ya_gh_token') || sessionStorage.getItem('ya_gh_token');
+  if (!t) {
+    try {
+      const match = document.cookie.match(/(?:^|;\s*)ya_gh_token=([^;]+)/);
+      if (match && match[1]) {
+        t = decodeURIComponent(match[1]).trim();
+        if (t) localStorage.setItem('ya_gh_token', t);
+      }
+    } catch(e) {}
+  }
+  return t || '';
 }
 
 function saveGhToken() {
   const t = document.getElementById('ghToken').value.trim();
   if (!t) { adminToast('Paste your GitHub token first'); return; }
   localStorage.setItem('ya_gh_token', t);
+  sessionStorage.setItem('ya_gh_token', t);
+  document.cookie = `ya_gh_token=${encodeURIComponent(t)}; path=/; max-age=31536000; SameSite=Lax`;
   document.getElementById('ghToken').value = '';
-  adminToast('GitHub token saved!');
+  adminToast('✅ GitHub token saved permanently to this device!');
   renderSettingsPanel();
 }
 
 function clearGhToken() {
-  if (!confirm('Remove GitHub token from this browser? Changes will not push live until a token is re-entered.')) return;
+  if (!confirm('Remove GitHub token from this device? Changes will not push live until a token is re-entered.')) return;
   localStorage.removeItem('ya_gh_token');
+  sessionStorage.removeItem('ya_gh_token');
+  document.cookie = 'ya_gh_token=; path=/; max-age=0; SameSite=Lax';
   adminToast('GitHub token removed from this device');
   renderSettingsPanel();
 }
@@ -1355,6 +1472,7 @@ function renderSettingsPanel() {
   const token = getGhToken();
   const statusEl = document.getElementById('ghSyncStatus');
   const pairBtn = document.getElementById('btnPairPhone');
+  const whatsAppBtn = document.getElementById('btnShareWhatsApp');
   const clearBtn = document.getElementById('btnClearGhToken');
   if (!statusEl) return;
   if (token) {
@@ -1363,20 +1481,22 @@ function renderSettingsPanel() {
       <div style="background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:0.6rem 0.85rem;color:#4ade80;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
         <div style="display:flex;align-items:center;gap:0.5rem;font-weight:600;">
           <i class="fa-solid fa-circle-check"></i>
-          <span>GitHub token is active on this device (<code>${masked}</code>)</span>
+          <span>GitHub token is active &amp; remembered on this device (<code>${masked}</code>)</span>
         </div>
       </div>
     `;
     if (pairBtn) pairBtn.style.display = 'inline-flex';
+    if (whatsAppBtn) whatsAppBtn.style.display = 'inline-flex';
     if (clearBtn) clearBtn.style.display = 'inline-flex';
   } else {
     statusEl.innerHTML = `
       <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:0.6rem 0.85rem;color:#fbbf24;display:flex;align-items:center;gap:0.5rem;font-weight:500;">
         <i class="fa-solid fa-triangle-exclamation"></i>
-        <span>No GitHub token saved on this device. Paste your token below or pair from your laptop.</span>
+        <span>No GitHub token saved on this device. Paste your token below or use your setup link.</span>
       </div>
     `;
     if (pairBtn) pairBtn.style.display = 'none';
+    if (whatsAppBtn) whatsAppBtn.style.display = 'none';
     if (clearBtn) clearBtn.style.display = 'none';
   }
 }
@@ -1402,7 +1522,12 @@ async function testGhSync() {
   }
 }
 
-// Phone Pairing Modals
+// Phone Pairing Modals & WhatsApp Link
+function getMobileSetupUrl() {
+  const token = getGhToken();
+  return `${window.location.origin}${window.location.pathname}#connect_token=${encodeURIComponent(token)}`;
+}
+
 function pairMobileDevice() {
   const token = getGhToken();
   if (!token) {
@@ -1413,7 +1538,7 @@ function pairMobileDevice() {
   if (!modal) return;
   modal.style.display = 'flex';
 
-  const pairUrl = `${window.location.origin}${window.location.pathname}#connect_token=${encodeURIComponent(token)}`;
+  const pairUrl = getMobileSetupUrl();
   const input = document.getElementById('pairUrlInput');
   if (input) input.value = pairUrl;
 
@@ -1424,19 +1549,25 @@ function pairMobileDevice() {
       try {
         new QRCode(qrContainer, {
           text: pairUrl,
-          width: 180,
-          height: 180,
+          width: 160,
+          height: 160,
           colorDark: "#090E1A",
           colorLight: "#ffffff",
           correctLevel: QRCode.CorrectLevel.M
         });
       } catch(err) {
-        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(pairUrl)}" style="border-radius:10px;background:#fff;padding:6px;width:180px;height:180px;" alt="QR Code">`;
+        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(pairUrl)}" style="border-radius:10px;background:#fff;padding:6px;width:160px;height:160px;" alt="QR Code">`;
       }
     } else {
-      qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(pairUrl)}" style="border-radius:10px;background:#fff;padding:6px;width:180px;height:180px;" alt="QR Code">`;
+      qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(pairUrl)}" style="border-radius:10px;background:#fff;padding:6px;width:160px;height:160px;" alt="QR Code">`;
     }
   }
+}
+
+function sharePairUrlWhatsApp() {
+  const url = getMobileSetupUrl();
+  const text = `Young Apostles FC Admin Access Link:\n${url}\n\nOpen this link on your phone once to activate live publishing permanently!`;
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 function closePairModal() {
@@ -1450,7 +1581,7 @@ function copyPairUrl() {
   input.select();
   input.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(input.value).then(() => {
-    adminToast('✅ Link copied! Send it to your phone.');
+    adminToast('✅ Link copied! Paste into WhatsApp or your phone browser.');
   }).catch(() => {
     document.execCommand('copy');
     adminToast('✅ Link copied!');
@@ -1467,7 +1598,7 @@ function showMissingTokenModal(label, customMsg) {
   if (customMsg && desc) {
     desc.innerHTML = customMsg;
   } else if (desc) {
-    desc.innerHTML = `Your changes to <strong>${pendingPushLabel}</strong> are saved in this browser, but need your <strong>GitHub Personal Access Token</strong> to push to the live website for all visitors.<br><br>Because web browsers keep saved data separate on each device, your mobile phone needs this token entered once.`;
+    desc.innerHTML = `Your changes to <strong>${pendingPushLabel}</strong> are saved in this browser, but need your <strong>GitHub Personal Access Token</strong> to push to the live website for all visitors.<br><br>Enter your token once below, and this mobile device will remember it permanently!`;
   }
   if (modal) modal.style.display = 'flex';
   const input = document.getElementById('modalGhToken');
@@ -1491,8 +1622,10 @@ async function saveTokenAndPushFromModal() {
     return;
   }
   localStorage.setItem('ya_gh_token', t);
+  sessionStorage.setItem('ya_gh_token', t);
+  document.cookie = `ya_gh_token=${encodeURIComponent(t)}; path=/; max-age=31536000; SameSite=Lax`;
   closeTokenModal();
-  adminToast('Token saved! Pushing to live site...');
+  adminToast('✅ Token permanently saved! Pushing to live site...');
   if (typeof renderSettingsPanel === 'function') renderSettingsPanel();
   const labelToPush = pendingPushLabel || 'changes';
   pendingPushLabel = null;
@@ -1506,6 +1639,7 @@ function buildCmsPayload(remoteCms = null) {
   const fixtures = (() => { try { const r = localStorage.getItem('ya_club_fixtures'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
   const hero = (() => { try { const r = localStorage.getItem('ya_hero_custom'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
   const standings = (() => { try { const r = localStorage.getItem('ya_standings_record'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
+  const leagueTable = (() => { try { const r = localStorage.getItem('ya_league_table'); return r ? JSON.parse(r) : null; } catch(e) { return null; } })();
   const members = getMembers();
 
   const payload = { lastUpdated: new Date().toISOString() };
@@ -1523,12 +1657,40 @@ function buildCmsPayload(remoteCms = null) {
   if (standings) payload.standings = standings;
   else if (remoteCms && remoteCms.standings) payload.standings = remoteCms.standings;
 
+  if (leagueTable && Array.isArray(leagueTable) && leagueTable.length) payload.leagueTable = leagueTable;
+  else if (remoteCms && Array.isArray(remoteCms.leagueTable) && remoteCms.leagueTable.length) payload.leagueTable = remoteCms.leagueTable;
+
   payload.fixtures = fixtures.length ? fixtures : (remoteCms && Array.isArray(remoteCms.fixtures) && remoteCms.fixtures.length ? remoteCms.fixtures : (typeof DEFAULT_FIXTURES !== 'undefined' ? DEFAULT_FIXTURES : []));
   payload.members = members.length ? members : (remoteCms && Array.isArray(remoteCms.members) ? remoteCms.members : []);
   return payload;
 }
 
 async function pushCmsToGitHub(label) {
+  // 1. First attempt to push through zero-token serverless function /api/sync
+  try {
+    const payload = buildCmsPayload();
+    const token = getGhToken();
+    const syncRes = await fetch('/api/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ payload, label, token: token || undefined })
+    });
+    if (syncRes.ok) {
+      adminToast(`✅ Pushed live! ${label || 'Changes'} will be visible in ~30s.`);
+      return;
+    } else {
+      const errData = await syncRes.json().catch(() => ({}));
+      // If serverless is not configured with environment token and client has no token, prompt
+      if (errData && errData.needsClientToken && !token) {
+        showMissingTokenModal(label);
+        return;
+      }
+    }
+  } catch(e) {
+    // If running offline or without serverless proxy, fallback to direct GitHub API
+  }
+
+  // 2. Direct GitHub REST API fallback
   const token = getGhToken();
   if (!token) {
     showMissingTokenModal(label);
@@ -1615,7 +1777,8 @@ function getAdminCreds() {
 
 function checkAdminSession() {
   try {
-    const isAuth = sessionStorage.getItem('ya_admin_logged_in') === '1' || localStorage.getItem('ya_admin_remember') === '1';
+    const hasCookie = document.cookie.includes('ya_admin_logged=1');
+    const isAuth = sessionStorage.getItem('ya_admin_logged_in') === '1' || localStorage.getItem('ya_admin_remember') === '1' || hasCookie;
     if (isAuth) {
       const gate = document.getElementById('loginGate');
       const app = document.getElementById('adminApp');
@@ -1632,9 +1795,13 @@ function handleAdminLogin(e) {
   const p = document.getElementById('loginPass').value;
   const creds = getAdminCreds();
   if (u === creds.user && p === creds.pass) {
+    const remember = document.getElementById('loginRemember')?.checked !== false;
     try {
       sessionStorage.setItem('ya_admin_logged_in', '1');
-      localStorage.setItem('ya_admin_remember', '1');
+      if (remember) {
+        localStorage.setItem('ya_admin_remember', '1');
+        document.cookie = 'ya_admin_logged=1; path=/; max-age=31536000; SameSite=Lax';
+      }
     } catch(err) {}
     document.getElementById('loginGate').style.display = 'none';
     document.getElementById('adminApp').style.display = 'block';
@@ -1650,6 +1817,7 @@ function adminLogout() {
   try {
     sessionStorage.removeItem('ya_admin_logged_in');
     localStorage.removeItem('ya_admin_remember');
+    document.cookie = 'ya_admin_logged=; path=/; max-age=0; SameSite=Lax';
   } catch(err) {}
   document.getElementById('loginGate').style.display = 'flex';
   document.getElementById('adminApp').style.display = 'none';
@@ -2487,21 +2655,73 @@ function deleteShopProduct(i) {
 /* ==========================================
    HERO & STANDINGS
    ========================================== */
-function handleHeroImageUpload(input) {
+function compressImage(file, maxWidth = 1920, maxHeight = 1080, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+
+        let dataUrl = canvas.toDataURL('image/webp', quality);
+        if (!dataUrl.startsWith('data:image/webp')) {
+          dataUrl = canvas.toDataURL('image/jpeg', quality);
+        }
+        resolve(dataUrl);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleHeroImageUpload(input) {
   const file = input.files[0];
   if (!file) return;
-  if (file.size > 4 * 1024 * 1024) {
-    adminToast('Image too large — please use an image under 4MB');
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const dataUrl = e.target.result;
+  adminToast('Optimizing picture for fast loading...');
+  try {
+    const dataUrl = await compressImage(file, 1920, 1080, 0.82);
     document.getElementById('heroImage').value = dataUrl;
     updateHeroPreview(dataUrl);
-    adminToast('Hero picture loaded! Click Save to publish.');
-  };
-  reader.readAsDataURL(file);
+    adminToast('✅ Picture loaded & optimized! Click "Save & Push" to publish.');
+  } catch(err) {
+    // Fallback uncompressed if canvas fails
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('heroImage').value = e.target.result;
+      updateHeroPreview(e.target.result);
+      adminToast('Picture loaded! Click Save to publish.');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function setHeroPreset(src) {
+  document.getElementById('heroImage').value = src;
+  updateHeroPreview(src);
+  adminToast('Preset picture selected: ' + src.split('/').pop());
+}
+
+function resetHeroImageDefault() {
+  const def = 'assets/home-hero.jpg';
+  document.getElementById('heroImage').value = def;
+  updateHeroPreview(def);
+  adminToast('Hero picture reset to default stadium atmosphere.');
 }
 
 function updateHeroPreview(src) {
@@ -2509,6 +2729,128 @@ function updateHeroPreview(src) {
   if (prev && src) {
     prev.src = src;
   }
+  const titleEl = document.getElementById('heroPreviewTitle');
+  const headlineInput = document.getElementById('heroHeadline');
+  if (titleEl && headlineInput && headlineInput.value.trim()) {
+    titleEl.textContent = headlineInput.value.trim();
+  }
+}
+
+// Full GPL 18-Club Table in Admin
+let currentAdminTable = [];
+
+const DEFAULT_GPL_TABLE = [
+  { pos: 1, name: "Hearts of Oak", crest: "assets/opponents/heartsofoak.png", played: 2, diff: "+5", points: 6 },
+  { pos: 2, name: "Samartex", crest: "assets/opponents/samartex.png", played: 2, diff: "+3", points: 6 },
+  { pos: 3, name: "Ashgold", crest: "assets/opponents/ashgold.png", played: 2, diff: "+2", points: 4 },
+  { pos: 4, name: "Kotoko", crest: "assets/opponents/asantekotoko.png", played: 2, diff: "+1", points: 4 },
+  { pos: 5, name: "Vision FC", crest: "assets/opponents/visionfc.png", played: 2, diff: "+1", points: 3 },
+  { pos: 6, name: "Karela Utd", crest: "assets/opponents/karelaunited.png", played: 2, diff: "0", points: 3 },
+  { pos: 7, name: "Basake Holy Stars", crest: "assets/opponents/basakeholystars.png", played: 2, diff: "0", points: 3 },
+  { pos: 8, name: "Young Apostles FC", crest: "assets/official-logo.png", played: 2, diff: "-2", points: 3, isClub: true },
+  { pos: 9, name: "Berekum Chelsea", crest: "assets/opponents/berekumchelsea.png", played: 2, diff: "-2", points: 3 },
+  { pos: 10, name: "Swedru All Blacks", crest: "assets/opponents/swedruallblacks.png", played: 2, diff: "0", points: 3 },
+  { pos: 11, name: "Bechem Utd", crest: "assets/opponents/bechemunited.png", played: 2, diff: "-1", points: 3 },
+  { pos: 12, name: "Heart of Lions", crest: "assets/opponents/heartoflions.png", played: 2, diff: "-1", points: 1 },
+  { pos: 13, name: "Aduana Stars", crest: "assets/opponents/aduanastars.png", played: 2, diff: "-1", points: 1 },
+  { pos: 14, name: "Port City", crest: "assets/opponents/portcity.png", played: 1, diff: "0", points: 1 },
+  { pos: 15, name: "Debibi United", crest: "assets/opponents/debibiunited.png", played: 2, diff: "-1", points: 1 },
+  { pos: 16, name: "Nsoatreman FC", crest: "assets/opponents/nsoatremanfc.png", played: 2, diff: "-2", points: 1 },
+  { pos: 17, name: "Bibiani Gold Stars", crest: "assets/opponents/goldstarsfc.png", played: 2, diff: "-2", points: 1 },
+  { pos: 18, name: "Accra Lions", crest: "assets/opponents/accralions.png", played: 2, diff: "-3", points: 0 }
+];
+
+function renderAdminLeagueTable(tableData) {
+  const table = Array.isArray(tableData) && tableData.length ? tableData : DEFAULT_GPL_TABLE;
+  currentAdminTable = JSON.parse(JSON.stringify(table));
+  const tbody = document.getElementById('adminTableRows');
+  if (!tbody) return;
+
+  tbody.innerHTML = currentAdminTable.map((t, idx) => {
+    const isYA = t.isClub || (t.name && t.name.toLowerCase().includes('young apostles'));
+    const rowBg = isYA ? 'background:rgba(0,87,184,0.18); font-weight:700;' : '';
+    const nameColor = isYA ? 'color:var(--agold); font-weight:800;' : 'color:#fff;';
+
+    return `
+      <tr style="${rowBg} border-bottom:1px solid rgba(255,255,255,0.05);">
+        <td style="padding:6px 10px; color:var(--amuted); font-weight:700;">${t.pos || idx + 1}</td>
+        <td style="padding:6px 10px;">
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <img src="${t.crest || 'assets/opponents/gpl-official.png'}" style="width:20px; height:20px; object-fit:contain; border-radius:3px;" onerror="this.src='assets/opponents/gpl-official.png'">
+            <span style="${nameColor}">${t.name}</span>
+          </div>
+        </td>
+        <td style="padding:4px 6px; text-align:center;">
+          <input type="number" class="admin-input" style="padding:2px 4px; font-size:0.75rem; text-align:center; width:45px; height:26px;" value="${t.played !== undefined ? t.played : 0}" onchange="updateAdminTableRow(${idx}, 'played', this.value)">
+        </td>
+        <td style="padding:4px 6px; text-align:center;">
+          <input type="text" class="admin-input" style="padding:2px 4px; font-size:0.75rem; text-align:center; width:50px; height:26px;" value="${t.diff || '0'}" onchange="updateAdminTableRow(${idx}, 'diff', this.value)">
+        </td>
+        <td style="padding:4px 6px; text-align:right;">
+          <input type="number" class="admin-input" style="padding:2px 4px; font-size:0.75rem; text-align:center; width:45px; height:26px;" value="${t.points !== undefined ? t.points : 0}" onchange="updateAdminTableRow(${idx}, 'points', this.value)">
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function updateAdminTableRow(index, field, value) {
+  if (!currentAdminTable[index]) return;
+  currentAdminTable[index][field] = field === 'played' || field === 'points' ? Number(value) : value;
+
+  // If Young Apostles was modified, sync ribbon inputs
+  const team = currentAdminTable[index];
+  if (team.isClub || (team.name && team.name.toLowerCase().includes('young apostles'))) {
+    if (field === 'played') document.getElementById('standPlayed').value = value;
+    if (field === 'diff') document.getElementById('standDiff').value = value;
+    if (field === 'points') document.getElementById('standPts').value = value;
+  }
+}
+
+function syncRibbonToTable() {
+  const rank = document.getElementById('standRank').value;
+  const played = document.getElementById('standPlayed').value;
+  const diff = document.getElementById('standDiff').value;
+  const points = document.getElementById('standPts').value;
+
+  const yaIndex = currentAdminTable.findIndex(t => t.isClub || (t.name && t.name.toLowerCase().includes('young apostles')));
+  if (yaIndex !== -1) {
+    if (rank) currentAdminTable[yaIndex].pos = Number(rank);
+    if (played) currentAdminTable[yaIndex].played = Number(played);
+    if (diff) currentAdminTable[yaIndex].diff = diff;
+    if (points) currentAdminTable[yaIndex].points = Number(points);
+    renderAdminLeagueTable(currentAdminTable);
+  }
+}
+
+async function syncLiveGplTable() {
+  const notice = document.getElementById('tableSyncNotice');
+  if (notice) notice.innerHTML = '<span style="color:var(--agold);"><i class="fa-solid fa-spinner fa-spin"></i> Fetching live GPL table...</span>';
+
+  try {
+    const res = await fetch('data/cms.json?v=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data.leagueTable) && data.leagueTable.length) {
+        renderAdminLeagueTable(data.leagueTable);
+        // Sync Young Apostles stats
+        const ya = data.leagueTable.find(t => t.isClub || (t.name && t.name.toLowerCase().includes('young apostles')));
+        if (ya) {
+          if (ya.pos !== undefined) document.getElementById('standRank').value = ya.pos;
+          if (ya.played !== undefined) document.getElementById('standPlayed').value = ya.played;
+          if (ya.diff !== undefined) document.getElementById('standDiff').value = ya.diff;
+          if (ya.points !== undefined) document.getElementById('standPts').value = ya.points;
+        }
+        if (notice) notice.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> Live Table Loaded (' + (data.standingsLastSynced ? new Date(data.standingsLastSynced).toLocaleTimeString() : 'Fresh') + ')</span>';
+        adminToast('✅ Live GPL table synced!');
+        return;
+      }
+    }
+  } catch(e) {}
+
+  renderAdminLeagueTable(DEFAULT_GPL_TABLE);
+  if (notice) notice.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> Ready</span>';
+  adminToast('Table baseline loaded.');
 }
 
 function loadHeroFields() {
@@ -2523,6 +2865,7 @@ function loadHeroFields() {
     if (h.ctaText) document.getElementById('heroCtaText').value = h.ctaText;
     if (h.ctaLink) document.getElementById('heroCtaLink').value = h.ctaLink;
   } catch(e) {}
+
   try {
     const s = JSON.parse(localStorage.getItem('ya_standings_record') || '{}');
     if (s.rank !== undefined) document.getElementById('standRank').value = s.rank;
@@ -2530,6 +2873,17 @@ function loadHeroFields() {
     if (s.diff !== undefined) document.getElementById('standDiff').value = s.diff;
     if (s.points !== undefined) document.getElementById('standPts').value = s.points;
   } catch(e) {}
+
+  try {
+    const tRaw = localStorage.getItem('ya_league_table');
+    if (tRaw) {
+      renderAdminLeagueTable(JSON.parse(tRaw));
+    } else {
+      syncLiveGplTable();
+    }
+  } catch(e) {
+    renderAdminLeagueTable(DEFAULT_GPL_TABLE);
+  }
 }
 
 function saveHeroAndStandings() {
@@ -2569,6 +2923,19 @@ function saveHeroAndStandings() {
       if (window.BroadcastChannel) {
         const bc = new BroadcastChannel('ya_channel');
         bc.postMessage({ type: 'STANDINGS_UPDATED', standings: standingsData });
+        bc.close();
+      }
+      window.dispatchEvent(new Event('storage'));
+    } catch(e) {}
+  }
+
+  // Save 18-team League Table
+  if (currentAdminTable && currentAdminTable.length) {
+    localStorage.setItem('ya_league_table', JSON.stringify(currentAdminTable));
+    try {
+      if (window.BroadcastChannel) {
+        const bc = new BroadcastChannel('ya_channel');
+        bc.postMessage({ type: 'TABLE_UPDATED', table: currentAdminTable });
         bc.close();
       }
       window.dispatchEvent(new Event('storage'));
@@ -2719,6 +3086,14 @@ if (window.BroadcastChannel) {
         const localStandings = localStorage.getItem('ya_standings_record');
         if (!localStandings) {
           localStorage.setItem('ya_standings_record', JSON.stringify(data.standings));
+        }
+      }
+
+      // Hydrate Full League Table
+      if (Array.isArray(data.leagueTable) && data.leagueTable.length) {
+        localStorage.setItem('ya_league_table', JSON.stringify(data.leagueTable));
+        if (currentPanel === 'hero' && typeof renderAdminLeagueTable === 'function') {
+          renderAdminLeagueTable(data.leagueTable);
         }
       }
 

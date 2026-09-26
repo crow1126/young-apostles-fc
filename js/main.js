@@ -1820,10 +1820,72 @@ function handleOlderStorySelect(articleId) {
 }
 
 // ==========================================
-// 18. STANDINGS QUICK SYNC
+// 18. STANDINGS QUICK SYNC & DYNAMIC TABLE
 // ==========================================
+function renderStandingsTable(tableData) {
+  if (!Array.isArray(tableData) || tableData.length === 0) return;
+  const tbody = document.getElementById('gplStandingsBody');
+  if (!tbody) return;
+
+  tbody.innerHTML = tableData.map((team, idx) => {
+    const pos = team.pos || idx + 1;
+    const isYA = team.isClub || (team.name && team.name.toLowerCase().includes('young apostles'));
+    const crest = team.crest || 'assets/opponents/gpl-official.png';
+    const played = team.played !== undefined ? team.played : 0;
+    const diffNum = Number(team.diff);
+    const diffStr = !isNaN(diffNum) && diffNum > 0 ? `+${diffNum}` : `${team.diff || 0}`;
+    const diffColor = !isNaN(diffNum) ? (diffNum >= 0 ? '#16a34a' : '#dc2626') : '#16a34a';
+    const pts = team.points !== undefined ? team.points : 0;
+
+    if (isYA) {
+      return `
+        <tr class="standings-row--ya" id="standingsRowYA" style="background:#EFF6FF; border-left:4px solid #001489;">
+          <td><span class="pos-pill pos-pill--ya" id="yaRankPill" style="background:#001489; color:#fff; font-weight:800;">${pos}</span></td>
+          <td>
+            <div class="tbl-club-cell">
+              <img src="assets/official-logo.png" alt="Young Apostles FC" class="tbl-crest" style="box-shadow:0 0 0 2px #F5C800;">
+              <strong style="color:#001489;">Young Apostles FC</strong>
+            </div>
+          </td>
+          <td class="text-center" id="yaPlayed" style="font-weight:700;">${played}</td>
+          <td class="text-center" id="yaGoalDiff" style="color:${diffColor}; font-weight:700;">${diffStr}</td>
+          <td class="text-right pts-badge" id="yaPoints" style="background:#001489; color:#F5C800; font-weight:900;">${pts}</td>
+        </tr>
+      `;
+    }
+
+    const topBorder = pos === 1 ? ' style="border-left: 4px solid var(--ya-blue-deep);"' : '';
+    const topPosPill = pos === 1 ? ' style="background:#EFF6FF; color:var(--ya-blue-deep); font-weight:800;"' : '';
+
+    return `
+      <tr${topBorder}>
+        <td><span class="pos-pill"${topPosPill}>${pos}</span></td>
+        <td>
+          <div class="tbl-club-cell">
+            <img src="${crest}" alt="${team.name}" class="tbl-crest" onerror="this.src='assets/opponents/gpl-official.png'">
+            <span>${pos === 1 ? `<strong>${team.name}</strong>` : team.name}</span>
+          </div>
+        </td>
+        <td class="text-center">${played}</td>
+        <td class="text-center" style="color:${diffColor}; font-weight:700;">${diffStr}</td>
+        <td class="text-right pts-badge">${pts}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
 function updateStandingsUI() {
   try {
+    // 1. Render dynamic 18-team table if saved in storage
+    const tableRaw = localStorage.getItem('ya_league_table');
+    if (tableRaw) {
+      try {
+        const table = JSON.parse(tableRaw);
+        renderStandingsTable(table);
+      } catch(err) {}
+    }
+
+    // 2. Update Young Apostles specific row & top standings ribbon
     const stored = localStorage.getItem('ya_standings_record');
     if (!stored) return;
     const data = JSON.parse(stored);
@@ -2077,6 +2139,11 @@ window.addEventListener('storage', (e) => {
   if (e.key === 'ya_standings_record') {
     updateStandingsUI();
   }
+  if (e.key === 'ya_league_table') {
+    try {
+      renderStandingsTable(JSON.parse(e.newValue));
+    } catch(err) {}
+  }
   if (e.key === 'ya_apostles_tv_videos') {
     renderApostlesTv();
   }
@@ -2117,6 +2184,12 @@ if (window.BroadcastChannel) {
           localStorage.setItem('ya_standings_record', JSON.stringify(ev.data.standings));
         }
         updateStandingsUI();
+      }
+      if (ev.data && ev.data.type === 'TABLE_UPDATED') {
+        if (ev.data.table) {
+          localStorage.setItem('ya_league_table', JSON.stringify(ev.data.table));
+          renderStandingsTable(ev.data.table);
+        }
       }
       if (ev.data && ev.data.type === 'MEMBER_SAVED') {
         loadProfileData();
@@ -2222,10 +2295,16 @@ async function initCloudSync() {
         renderApostlesTv();
       }
 
-      // Sync Standings
+      // Sync Standings Ribbon
       if (data.standings) {
         localStorage.setItem('ya_standings_record', JSON.stringify(data.standings));
         updateStandingsUI();
+      }
+
+      // Sync Full League Table (18 Teams)
+      if (Array.isArray(data.leagueTable) && data.leagueTable.length > 0) {
+        localStorage.setItem('ya_league_table', JSON.stringify(data.leagueTable));
+        renderStandingsTable(data.leagueTable);
       }
 
       // Sync Fixtures

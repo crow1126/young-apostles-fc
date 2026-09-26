@@ -389,5 +389,170 @@
       "status": "Active",
       "joinDate": "2026-09-23T11:00:00Z"
     }
-  ]
+  ],
+  "leagueTable": [
+    {
+      "pos": 1,
+      "name": "Hearts of Oak",
+      "played": 2,
+      "diff": "+5",
+      "points": 6,
+      "crest": "assets/opponents/heartsofoak.png",
+      "isClub": false
+    },
+    {
+      "pos": 2,
+      "name": "Samartex",
+      "played": 2,
+      "diff": "+3",
+      "points": 6,
+      "crest": "assets/opponents/samartex.png",
+      "isClub": false
+    },
+    {
+      "pos": 3,
+      "name": "Ashgold",
+      "played": 2,
+      "diff": "+2",
+      "points": 4,
+      "crest": "assets/opponents/ashgold.png",
+      "isClub": false
+    },
+    {
+      "pos": 4,
+      "name": "Kotoko",
+      "played": 2,
+      "diff": "+1",
+      "points": 4,
+      "crest": "assets/opponents/asantekotoko.png",
+      "isClub": false
+    },
+    {
+      "pos": 5,
+      "name": "Vision FC",
+      "played": 2,
+      "diff": "+1",
+      "points": 3,
+      "crest": "assets/opponents/visionfc.png",
+      "isClub": false
+    },
+    {
+      "pos": 6,
+      "name": "Karela Utd",
+      "played": 2,
+      "diff": "0",
+      "points": 3,
+      "crest": "assets/opponents/karelaunited.png",
+      "isClub": false
+    },
+    {
+      "pos": 7,
+      "name": "Basake Holy Stars",
+      "played": 2,
+      "diff": "0",
+      "points": 3,
+      "crest": "assets/opponents/basakeholystars.png",
+      "isClub": false
+    },
+    {
+      "pos": 8,
+      "name": "Young Apostles FC",
+      "played": 2,
+      "diff": "-2",
+      "points": 3,
+      "isClub": true,
+      "crest": "assets/official-logo.png"
+    },
+    {
+      "pos": 9,
+      "name": "Berekum Chelsea",
+      "played": 2,
+      "diff": "-2",
+      "points": 3,
+      "crest": "assets/opponents/berekumchelsea.png",
+      "isClub": false
+    },
+    {
+      "pos": 10,
+      "name": "Swedru All Blacks",
+      "played": 2,
+      "diff": "0",
+      "points": 3,
+      "crest": "assets/opponents/swedruallblacks.png",
+      "isClub": false
+    },
+    {
+      "pos": 11,
+      "name": "Bechem Utd",
+      "played": 2,
+      "diff": "-1",
+      "points": 3,
+      "crest": "assets/opponents/bechemunited.png",
+      "isClub": false
+    },
+    {
+      "pos": 12,
+      "name": "Heart of Lions",
+      "played": 2,
+      "diff": "-1",
+      "points": 1,
+      "crest": "assets/opponents/heartoflions.png",
+      "isClub": false
+    },
+    {
+      "pos": 13,
+      "name": "Aduana Stars",
+      "played": 2,
+      "diff": "-1",
+      "points": 1,
+      "crest": "assets/opponents/aduanastars.png",
+      "isClub": false
+    },
+    {
+      "pos": 14,
+      "name": "Port City",
+      "played": 1,
+      "diff": "0",
+      "points": 1,
+      "crest": "assets/opponents/portcity.png",
+      "isClub": false
+    },
+    {
+      "pos": 15,
+      "name": "Debibi United",
+      "played": 2,
+      "diff": "-1",
+      "points": 1,
+      "crest": "assets/opponents/debibiunited.png",
+      "isClub": false
+    },
+    {
+      "pos": 16,
+      "name": "Nsoatreman FC",
+      "played": 2,
+      "diff": "-2",
+      "points": 1,
+      "crest": "assets/opponents/nsoatremanfc.png",
+      "isClub": false
+    },
+    {
+      "pos": 17,
+      "name": "Bibiani Gold Stars",
+      "played": 2,
+      "diff": "-2",
+      "points": 1,
+      "crest": "assets/opponents/goldstarsfc.png",
+      "isClub": false
+    },
+    {
+      "pos": 18,
+      "name": "Accra Lions",
+      "played": 2,
+      "diff": "-3",
+      "points": 0,
+      "crest": "assets/opponents/accralions.png",
+      "isClub": false
+    }
+  ],
+  "standingsLastSynced": "2026-09-26T08:57:54.773Z"
 }
