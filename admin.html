@@ -2747,14 +2747,14 @@ const DEFAULT_GPL_TABLE = [
   { pos: 5, name: "Vision FC", crest: "assets/opponents/visionfc.png", played: 2, diff: "+1", points: 3 },
   { pos: 6, name: "Karela Utd", crest: "assets/opponents/karelaunited.png", played: 2, diff: "0", points: 3 },
   { pos: 7, name: "Basake Holy Stars", crest: "assets/opponents/basakeholystars.png", played: 2, diff: "0", points: 3 },
-  { pos: 8, name: "Young Apostles FC", crest: "assets/official-logo.png", played: 2, diff: "-2", points: 3, isClub: true },
-  { pos: 9, name: "Berekum Chelsea", crest: "assets/opponents/berekumchelsea.png", played: 2, diff: "-2", points: 3 },
-  { pos: 10, name: "Swedru All Blacks", crest: "assets/opponents/swedruallblacks.png", played: 2, diff: "0", points: 3 },
-  { pos: 11, name: "Bechem Utd", crest: "assets/opponents/bechemunited.png", played: 2, diff: "-1", points: 3 },
-  { pos: 12, name: "Heart of Lions", crest: "assets/opponents/heartoflions.png", played: 2, diff: "-1", points: 1 },
-  { pos: 13, name: "Aduana Stars", crest: "assets/opponents/aduanastars.png", played: 2, diff: "-1", points: 1 },
-  { pos: 14, name: "Port City", crest: "assets/opponents/portcity.png", played: 1, diff: "0", points: 1 },
-  { pos: 15, name: "Debibi United", crest: "assets/opponents/debibiunited.png", played: 2, diff: "-1", points: 1 },
+  { pos: 8, name: "Berekum Chelsea", crest: "assets/opponents/berekumchelsea.png", played: 2, diff: "-2", points: 3 },
+  { pos: 9, name: "Swedru All Blacks", crest: "assets/opponents/swedruallblacks.png", played: 2, diff: "0", points: 3 },
+  { pos: 10, name: "Bechem Utd", crest: "assets/opponents/bechemunited.png", played: 2, diff: "-1", points: 3 },
+  { pos: 11, name: "Heart of Lions", crest: "assets/opponents/heartoflions.png", played: 2, diff: "-1", points: 1 },
+  { pos: 12, name: "Aduana Stars", crest: "assets/opponents/aduanastars.png", played: 2, diff: "-1", points: 1 },
+  { pos: 13, name: "Port City", crest: "assets/opponents/portcity.png", played: 1, diff: "0", points: 1 },
+  { pos: 14, name: "Debibi United", crest: "assets/opponents/debibiunited.png", played: 2, diff: "-1", points: 1 },
+  { pos: 15, name: "Young Apostles FC", crest: "assets/official-logo.png", played: 3, diff: "-5", points: 3, isClub: true },
   { pos: 16, name: "Nsoatreman FC", crest: "assets/opponents/nsoatremanfc.png", played: 2, diff: "-2", points: 1 },
   { pos: 17, name: "Bibiani Gold Stars", crest: "assets/opponents/goldstarsfc.png", played: 2, diff: "-2", points: 1 },
   { pos: 18, name: "Accra Lions", crest: "assets/opponents/accralions.png", played: 2, diff: "-3", points: 0 }
@@ -2819,6 +2819,7 @@ function syncRibbonToTable() {
     if (played) currentAdminTable[yaIndex].played = Number(played);
     if (diff) currentAdminTable[yaIndex].diff = diff;
     if (points) currentAdminTable[yaIndex].points = Number(points);
+    currentAdminTable.sort((a, b) => (Number(a.pos) || 0) - (Number(b.pos) || 0));
     renderAdminLeagueTable(currentAdminTable);
   }
 }

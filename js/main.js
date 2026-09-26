@@ -1827,7 +1827,9 @@ function renderStandingsTable(tableData) {
   const tbody = document.getElementById('gplStandingsBody');
   if (!tbody) return;
 
-  tbody.innerHTML = tableData.map((team, idx) => {
+  const sorted = [...tableData].sort((a, b) => (Number(a.pos) || 0) - (Number(b.pos) || 0));
+
+  tbody.innerHTML = sorted.map((team, idx) => {
     const pos = team.pos || idx + 1;
     const isYA = team.isClub || (team.name && team.name.toLowerCase().includes('young apostles'));
     const crest = team.crest || 'assets/opponents/gpl-official.png';
@@ -2221,6 +2223,7 @@ function applyHeroWriteup() {
   }
   if (bgImgEl && heroData.image) {
     bgImgEl.src = heroData.image;
+    bgImgEl.style.objectPosition = 'center top';
   }
   if (ctaBtn) {
     if (heroData.ctaText) {
@@ -2319,77 +2322,6 @@ async function initCloudSync() {
     }
   } catch (e) {
     console.warn('Cloud sync fallback to local cache', e);
-  }
-
-  // ── Live GPL standings: fetch ESPN/AZHarimm directly in the browser ──
-  // This updates the table for every visitor in real-time, no Actions needed.
-  try {
-    const year = new Date().getFullYear();
-    const espnRes = await fetch(
-      `https://api-football-standings.azharimm.site/leagues/gha.1/standings?season=${year}&sort=asc`,
-      { headers: { 'User-Agent': 'YAFC-Site/1.0' } }
-    );
-    if (espnRes.ok) {
-      const espnJson = await espnRes.json();
-      const rows = espnJson?.data?.standings;
-      if (Array.isArray(rows) && rows.length > 0) {
-        // Crest map (mirrors sync-table.js)
-        const CREST = {
-          'hearts of oak': 'assets/opponents/heartsofoak.png',
-          'samartex': 'assets/opponents/samartex.png',
-          'ashgold': 'assets/opponents/ashgold.png', 'ashanti gold': 'assets/opponents/ashgold.png',
-          'kotoko': 'assets/opponents/asantekotoko.png', 'asante kotoko': 'assets/opponents/asantekotoko.png',
-          'vision fc': 'assets/opponents/visionfc.png', 'vision': 'assets/opponents/visionfc.png',
-          'karela united': 'assets/opponents/karelaunited.png', 'karela': 'assets/opponents/karelaunited.png',
-          'basake holy stars': 'assets/opponents/basakeholystars.png', 'holy stars': 'assets/opponents/basakeholystars.png',
-          'young apostles fc': 'assets/official-logo.png', 'young apostles': 'assets/official-logo.png',
-          'berekum chelsea': 'assets/opponents/berekumchelsea.png',
-          'swedru all blacks': 'assets/opponents/swedruallblacks.png',
-          'bechem united': 'assets/opponents/bechemunited.png', 'bechem': 'assets/opponents/bechemunited.png',
-          'heart of lions': 'assets/opponents/heartoflions.png',
-          'aduana stars': 'assets/opponents/aduanastars.png', 'aduana': 'assets/opponents/aduanastars.png',
-          'port city fc': 'assets/opponents/portcity.png', 'port city': 'assets/opponents/portcity.png',
-          'debibi united': 'assets/opponents/debibiunited.png', 'debibi': 'assets/opponents/debibiunited.png',
-          'legon cities': 'assets/opponents/legoncities.png',
-          'nsoatreman fc': 'assets/opponents/nsoatremanfc.png', 'nsoatreman': 'assets/opponents/nsoatremanfc.png',
-          'bibiani gold stars': 'assets/opponents/goldstarsfc.png', 'goldstars': 'assets/opponents/goldstarsfc.png',
-          'dreams fc': 'assets/opponents/dreamsfc.png',
-          'accra lions': 'assets/opponents/accralions.png',
-          'medeama sc': 'assets/opponents/medeamasc.png', 'medeama': 'assets/opponents/medeamasc.png'
-        };
-        const resolveCrest = name => {
-          const n = (name || '').toLowerCase().trim();
-          if (CREST[n]) return CREST[n];
-          for (const [k, v] of Object.entries(CREST)) { if (n.includes(k) || k.includes(n)) return v; }
-          return 'assets/opponents/gpl-official.png';
-        };
-        const stat = (statsArr, name) => {
-          const s = (statsArr || []).find(s => s.name === name || s.abbreviation === name);
-          return s ? Number(s.value) : 0;
-        };
-
-        const liveTable = rows.map((item, idx) => {
-          const teamName = item.team?.displayName || item.team?.name || '';
-          const isClub = teamName.toLowerCase().includes('young apostles');
-          const gd = stat(item.stats, 'pointDifferential') || stat(item.stats, 'gd') || 0;
-          return {
-            pos: idx + 1,
-            name: isClub ? 'Young Apostles FC' : teamName,
-            crest: resolveCrest(teamName),
-            played: stat(item.stats, 'gamesPlayed') || stat(item.stats, 'played') || 0,
-            diff: gd > 0 ? `+${gd}` : `${gd}`,
-            points: stat(item.stats, 'points') || 0,
-            isClub
-          };
-        });
-
-        renderStandingsTable(liveTable);
-        localStorage.setItem('ya_league_table', JSON.stringify(liveTable));
-        console.log(`✅ GPL standings live from ESPN (${liveTable.length} clubs, ${new Date().toLocaleTimeString()})`);
-      }
-    }
-  } catch (espnErr) {
-    console.warn('Live ESPN standings fetch failed (using cached/hardcoded table):', espnErr.message);
   }
 }
 

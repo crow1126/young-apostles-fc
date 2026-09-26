@@ -25,7 +25,7 @@
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
     font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
     img-src 'self' data: blob: https:;
-    connect-src 'self' https://api.youngapostlesfcgh.com wss://api.youngapostlesfcgh.com https://api-football-standings.azharimm.site;
+    connect-src 'self' https://api.youngapostlesfcgh.com wss://api.youngapostlesfcgh.com;
     media-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://*.youtube.com https://*.googlevideo.com https://player.vimeo.com;
     frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://*.youtube.com https://player.vimeo.com;
     frame-ancestors 'self';
@@ -45,7 +45,7 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=3.4">
+  <link rel="stylesheet" href="css/styles.css?v=3.5">
 
   <style id="ya-cool-modals-css">
     /* ─────────────────────────────────────────────────────
@@ -1207,23 +1207,9 @@
               <td class="text-right pts-badge">3</td>
             </tr>
 
-            <!-- 8. Young Apostles FC (Highlighted) -->
-            <tr class="standings-row--ya" id="standingsRowYA" style="background:#EFF6FF; border-left:4px solid #001489;">
-              <td><span class="pos-pill pos-pill--ya" id="yaRankPill" style="background:#001489; color:#fff; font-weight:800;">8</span></td>
-              <td>
-                <div class="tbl-club-cell">
-                  <img src="assets/official-logo.png" alt="Young Apostles FC" class="tbl-crest" style="box-shadow:0 0 0 2px #F5C800;">
-                  <strong style="color:#001489;">Young Apostles FC</strong>
-                </div>
-              </td>
-              <td class="text-center" id="yaPlayed" style="font-weight:700;">2</td>
-              <td class="text-center" id="yaGoalDiff" style="color:#dc2626; font-weight:700;">-2</td>
-              <td class="text-right pts-badge" id="yaPoints" style="background:#001489; color:#F5C800; font-weight:900;">3</td>
-            </tr>
-
-            <!-- 9. Berekum Chelsea -->
+            <!-- 8. Berekum Chelsea -->
             <tr>
-              <td><span class="pos-pill">9</span></td>
+              <td><span class="pos-pill">8</span></td>
               <td>
                 <div class="tbl-club-cell">
                   <img src="assets/opponents/berekumchelsea.png" alt="Berekum Chelsea" class="tbl-crest">
@@ -1235,9 +1221,9 @@
               <td class="text-right pts-badge">3</td>
             </tr>
 
-            <!-- 10. Swedru All Blacks -->
+            <!-- 9. Swedru All Blacks -->
             <tr>
-              <td><span class="pos-pill">10</span></td>
+              <td><span class="pos-pill">9</span></td>
               <td>
                 <div class="tbl-club-cell">
                   <img src="assets/opponents/swedruallblacks.png" alt="Swedru All Blacks" class="tbl-crest">
@@ -1249,9 +1235,9 @@
               <td class="text-right pts-badge">3</td>
             </tr>
 
-            <!-- 11. Bechem Utd -->
+            <!-- 10. Bechem Utd -->
             <tr>
-              <td><span class="pos-pill">11</span></td>
+              <td><span class="pos-pill">10</span></td>
               <td>
                 <div class="tbl-club-cell">
                   <img src="assets/opponents/bechemunited.png" alt="Bechem Utd" class="tbl-crest">
@@ -1263,9 +1249,9 @@
               <td class="text-right pts-badge">3</td>
             </tr>
 
-            <!-- 12. Heart of Lions -->
+            <!-- 11. Heart of Lions -->
             <tr>
-              <td><span class="pos-pill">12</span></td>
+              <td><span class="pos-pill">11</span></td>
               <td>
                 <div class="tbl-club-cell">
                   <img src="assets/opponents/heartoflions.png" alt="Heart of Lions" class="tbl-crest">
@@ -1277,9 +1263,9 @@
               <td class="text-right pts-badge">1</td>
             </tr>
 
-            <!-- 13. Aduana Stars -->
+            <!-- 12. Aduana Stars -->
             <tr>
-              <td><span class="pos-pill">13</span></td>
+              <td><span class="pos-pill">12</span></td>
               <td>
                 <div class="tbl-club-cell">
                   <img src="assets/opponents/aduanastars.png" alt="Aduana Stars" class="tbl-crest">
@@ -1291,9 +1277,9 @@
               <td class="text-right pts-badge">1</td>
             </tr>
 
-            <!-- 14. Port City -->
+            <!-- 13. Port City -->
             <tr>
-              <td><span class="pos-pill">14</span></td>
+              <td><span class="pos-pill">13</span></td>
               <td>
                 <div class="tbl-club-cell">
                   <img src="assets/opponents/portcity.png" alt="Port City" class="tbl-crest">
@@ -1305,9 +1291,9 @@
               <td class="text-right pts-badge">1</td>
             </tr>
 
-            <!-- 15. Debibi United -->
+            <!-- 14. Debibi United -->
             <tr>
-              <td><span class="pos-pill">15</span></td>
+              <td><span class="pos-pill">14</span></td>
               <td>
                 <div class="tbl-club-cell">
                   <img src="assets/opponents/debibiunited.png" alt="Debibi United" class="tbl-crest">
@@ -1319,45 +1305,59 @@
               <td class="text-right pts-badge">1</td>
             </tr>
 
-            <!-- 16. Medeama -->
+            <!-- 15. Young Apostles FC (Highlighted) -->
+            <tr class="standings-row--ya" id="standingsRowYA" style="background:#EFF6FF; border-left:4px solid #001489;">
+              <td><span class="pos-pill pos-pill--ya" id="yaRankPill" style="background:#001489; color:#fff; font-weight:800;">15</span></td>
+              <td>
+                <div class="tbl-club-cell">
+                  <img src="assets/official-logo.png" alt="Young Apostles FC" class="tbl-crest" style="box-shadow:0 0 0 2px #F5C800;">
+                  <strong style="color:#001489;">Young Apostles FC</strong>
+                </div>
+              </td>
+              <td class="text-center" id="yaPlayed" style="font-weight:700;">3</td>
+              <td class="text-center" id="yaGoalDiff" style="color:#dc2626; font-weight:700;">-5</td>
+              <td class="text-right pts-badge" id="yaPoints" style="background:#001489; color:#F5C800; font-weight:900;">3</td>
+            </tr>
+
+            <!-- 16. Nsoatreman FC -->
             <tr>
               <td><span class="pos-pill">16</span></td>
               <td>
                 <div class="tbl-club-cell">
-                  <img src="assets/opponents/medeamasc.png" alt="Medeama" class="tbl-crest">
-                  <span>Medeama</span>
-                </div>
-              </td>
-              <td class="text-center">0</td>
-              <td class="text-center">0</td>
-              <td class="text-right pts-badge">0</td>
-            </tr>
-
-            <!-- 17. Gold Stars -->
-            <tr>
-              <td><span class="pos-pill">17</span></td>
-              <td>
-                <div class="tbl-club-cell">
-                  <img src="assets/opponents/goldstarsfc.png" alt="Gold Stars" class="tbl-crest">
-                  <span>Gold Stars</span>
+                  <img src="assets/opponents/nsoatremanfc.png" alt="Nsoatreman FC" class="tbl-crest">
+                  <span>Nsoatreman FC</span>
                 </div>
               </td>
               <td class="text-center">2</td>
               <td class="text-center" style="color:#dc2626; font-weight:700;">-2</td>
-              <td class="text-right pts-badge">0</td>
+              <td class="text-right pts-badge">1</td>
             </tr>
 
-            <!-- 18. Dreams -->
+            <!-- 17. Bibiani Gold Stars -->
+            <tr>
+              <td><span class="pos-pill">17</span></td>
+              <td>
+                <div class="tbl-club-cell">
+                  <img src="assets/opponents/goldstarsfc.png" alt="Bibiani Gold Stars" class="tbl-crest">
+                  <span>Bibiani Gold Stars</span>
+                </div>
+              </td>
+              <td class="text-center">2</td>
+              <td class="text-center" style="color:#dc2626; font-weight:700;">-2</td>
+              <td class="text-right pts-badge">1</td>
+            </tr>
+
+            <!-- 18. Accra Lions -->
             <tr>
               <td><span class="pos-pill">18</span></td>
               <td>
                 <div class="tbl-club-cell">
-                  <img src="assets/opponents/dreamsfc.png" alt="Dreams" class="tbl-crest">
-                  <span>Dreams</span>
+                  <img src="assets/opponents/accralions.png" alt="Accra Lions" class="tbl-crest">
+                  <span>Accra Lions</span>
                 </div>
               </td>
-              <td class="text-center">1</td>
-              <td class="text-center" style="color:#dc2626; font-weight:700;">-2</td>
+              <td class="text-center">2</td>
+              <td class="text-center" style="color:#dc2626; font-weight:700;">-3</td>
               <td class="text-right pts-badge">0</td>
             </tr>
           </tbody>
@@ -2133,7 +2133,7 @@
     <span id="toastText">Action completed successfully!</span>
   </div>
 
-  <script src="js/main.js?v=3.3"></script>
+  <script src="js/main.js?v=3.5"></script>
 
   <!-- ═══ Splash Screen Controller ═══ -->
   <script>
