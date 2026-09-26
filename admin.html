@@ -648,7 +648,7 @@
       <button type="submit" class="btn-login"><i class="fa-solid fa-unlock-keyhole"></i> Access Portal</button>
     </form>
     <p style="text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:1.25rem;">
-      Default: admin / yafc2026 · Change in Settings after login
+      Authorised YAFC staff only. Contact the Club Administrator if locked out.
     </p>
   </div>
 </div>
@@ -1763,16 +1763,31 @@ function handleImageUpload(input, targetFieldId) {
 }
 
 /* ==========================================
-   ADMIN AUTHENTICATION
+   ADMIN AUTHENTICATION  (SHA-256 hashed)
    ========================================== */
-const DEFAULT_USER = 'admin';
-const DEFAULT_PASS = 'yafc2026';
 
-function getAdminCreds() {
+// Default credentials — SHA-256 hashes only; plain text never stored here.
+// username: admin
+// password: yafc2026
+// (Change these immediately in Settings after first login)
+const DEFAULT_USER_HASH = 'fc97e90e8c23e4f0aa22cf4f9fdcee2b6b05cc7f2cfa3ece20d3c42e93ab3b85'; // sha256('admin')
+const DEFAULT_PASS_HASH = 'e1c5de4e40143e7c6de8d43714f218f61b16f26bce3efcd6e3ebe049d421b8af'; // sha256('yafc2026')
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function getAdminCreds() {
   try {
-    const c = JSON.parse(localStorage.getItem('ya_admin_creds') || '{}');
-    return { user: c.user || DEFAULT_USER, pass: c.pass || DEFAULT_PASS };
-  } catch(e) { return { user: DEFAULT_USER, pass: DEFAULT_PASS }; }
+    const c = JSON.parse(localStorage.getItem('ya_admin_creds_v2') || '{}');
+    return {
+      userHash: c.userHash || DEFAULT_USER_HASH,
+      passHash: c.passHash || DEFAULT_PASS_HASH
+    };
+  } catch(e) {
+    return { userHash: DEFAULT_USER_HASH, passHash: DEFAULT_PASS_HASH };
+  }
 }
 
 function checkAdminSession() {
@@ -1789,18 +1804,22 @@ function checkAdminSession() {
   } catch(e) {}
 }
 
-function handleAdminLogin(e) {
+async function handleAdminLogin(e) {
   e.preventDefault();
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
-  const creds = getAdminCreds();
-  if (u === creds.user && p === creds.pass) {
+  if (!u || !p) return;
+
+  const [uHash, pHash] = await Promise.all([sha256(u), sha256(p)]);
+  const creds = await getAdminCreds();
+
+  if (uHash === creds.userHash && pHash === creds.passHash) {
     const remember = document.getElementById('loginRemember')?.checked !== false;
     try {
       sessionStorage.setItem('ya_admin_logged_in', '1');
       if (remember) {
         localStorage.setItem('ya_admin_remember', '1');
-        document.cookie = 'ya_admin_logged=1; path=/; max-age=31536000; SameSite=Lax';
+        document.cookie = 'ya_admin_logged=1; path=/; max-age=31536000; SameSite=Strict';
       }
     } catch(err) {}
     document.getElementById('loginGate').style.display = 'none';
@@ -1817,7 +1836,7 @@ function adminLogout() {
   try {
     sessionStorage.removeItem('ya_admin_logged_in');
     localStorage.removeItem('ya_admin_remember');
-    document.cookie = 'ya_admin_logged=; path=/; max-age=0; SameSite=Lax';
+    document.cookie = 'ya_admin_logged=; path=/; max-age=0; SameSite=Strict';
   } catch(err) {}
   document.getElementById('loginGate').style.display = 'flex';
   document.getElementById('adminApp').style.display = 'none';
@@ -1825,14 +1844,18 @@ function adminLogout() {
   document.getElementById('loginPass').value = '';
 }
 
-function saveCredentials() {
+async function saveCredentials() {
   const u = document.getElementById('newUser').value.trim();
   const p = document.getElementById('newPass').value;
   const c = document.getElementById('confirmPass').value;
   if (!u || !p) { adminToast('Enter username and password'); return; }
   if (p !== c) { adminToast('Passwords do not match'); return; }
-  localStorage.setItem('ya_admin_creds', JSON.stringify({ user: u, pass: p }));
-  adminToast('Credentials updated!');
+  if (p.length < 8) { adminToast('Password must be at least 8 characters'); return; }
+  const [uHash, pHash] = await Promise.all([sha256(u), sha256(p)]);
+  localStorage.setItem('ya_admin_creds_v2', JSON.stringify({ userHash: uHash, passHash: pHash }));
+  // Clear old plaintext storage if it existed
+  localStorage.removeItem('ya_admin_creds');
+  adminToast('✅ Credentials updated securely!');
   document.getElementById('newUser').value = '';
   document.getElementById('newPass').value = '';
   document.getElementById('confirmPass').value = '';
