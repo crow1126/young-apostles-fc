@@ -597,7 +597,7 @@ button {
   position: relative;
   background: var(--ya-blue-dark);
   color: var(--text-white);
-  min-height: 720px;
+  min-height: 750px;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
@@ -615,9 +615,11 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: center top !important;
-  filter: contrast(1.05) saturate(1.06);
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: high-quality;
+  filter: contrast(1.04) saturate(1.05);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  image-rendering: auto;
 }
 
 .hero-overlay {
@@ -626,9 +628,9 @@ button {
   background: linear-gradient(
     180deg,
     rgba(7, 14, 41, 0.0) 0%,
-    rgba(7, 14, 41, 0.10) 35%,
-    rgba(7, 14, 41, 0.65) 75%,
-    rgba(7, 14, 41, 0.92) 100%
+    rgba(7, 14, 41, 0.06) 35%,
+    rgba(7, 14, 41, 0.50) 75%,
+    rgba(7, 14, 41, 0.88) 100%
   );
   pointer-events: none;
 }

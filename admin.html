@@ -2740,24 +2740,24 @@ function updateHeroPreview(src) {
 let currentAdminTable = [];
 
 const DEFAULT_GPL_TABLE = [
-  { pos: 1, name: "Hearts of Oak", crest: "assets/opponents/heartsofoak.png", played: 2, diff: "+5", points: 6 },
-  { pos: 2, name: "Samartex", crest: "assets/opponents/samartex.png", played: 2, diff: "+3", points: 6 },
-  { pos: 3, name: "Ashgold", crest: "assets/opponents/ashgold.png", played: 2, diff: "+2", points: 4 },
-  { pos: 4, name: "Kotoko", crest: "assets/opponents/asantekotoko.png", played: 2, diff: "+1", points: 4 },
-  { pos: 5, name: "Vision FC", crest: "assets/opponents/visionfc.png", played: 2, diff: "+1", points: 3 },
-  { pos: 6, name: "Karela Utd", crest: "assets/opponents/karelaunited.png", played: 2, diff: "0", points: 3 },
-  { pos: 7, name: "Basake Holy Stars", crest: "assets/opponents/basakeholystars.png", played: 2, diff: "0", points: 3 },
-  { pos: 8, name: "Berekum Chelsea", crest: "assets/opponents/berekumchelsea.png", played: 2, diff: "-2", points: 3 },
-  { pos: 9, name: "Swedru All Blacks", crest: "assets/opponents/swedruallblacks.png", played: 2, diff: "0", points: 3 },
-  { pos: 10, name: "Bechem Utd", crest: "assets/opponents/bechemunited.png", played: 2, diff: "-1", points: 3 },
-  { pos: 11, name: "Heart of Lions", crest: "assets/opponents/heartoflions.png", played: 2, diff: "-1", points: 1 },
-  { pos: 12, name: "Aduana Stars", crest: "assets/opponents/aduanastars.png", played: 2, diff: "-1", points: 1 },
-  { pos: 13, name: "Port City", crest: "assets/opponents/portcity.png", played: 1, diff: "0", points: 1 },
-  { pos: 14, name: "Debibi United", crest: "assets/opponents/debibiunited.png", played: 2, diff: "-1", points: 1 },
+  { pos: 1, name: "Hearts of Oak", crest: "assets/opponents/heartsofoak.png", played: 3, diff: "+5", points: 7 },
+  { pos: 2, name: "Samartex", crest: "assets/opponents/samartex.png", played: 3, diff: "+3", points: 7 },
+  { pos: 3, name: "Holy Stars", crest: "assets/opponents/basakeholystars.png", played: 3, diff: "+1", points: 6 },
+  { pos: 4, name: "Asante Kotoko SC", crest: "assets/opponents/asantekotoko.png", played: 3, diff: "+1", points: 5 },
+  { pos: 5, name: "Debibi", crest: "assets/opponents/debibiunited.png", played: 3, diff: "+2", points: 4 },
+  { pos: 6, name: "Vision FC", crest: "assets/opponents/visionfc.png", played: 3, diff: "+1", points: 4 },
+  { pos: 7, name: "Ashanti Gold", crest: "assets/opponents/ashgold.png", played: 3, diff: "+1", points: 4 },
+  { pos: 8, name: "Port City", crest: "assets/opponents/portcity.png", played: 2, diff: "+1", points: 4 },
+  { pos: 9, name: "Aduana Stars", crest: "assets/opponents/aduanastars.png", played: 3, diff: "0", points: 4 },
+  { pos: 10, name: "All Blacks", crest: "assets/opponents/swedruallblacks.png", played: 3, diff: "0", points: 4 },
+  { pos: 11, name: "Bechem United", crest: "assets/opponents/bechemunited.png", played: 3, diff: "-1", points: 4 },
+  { pos: 12, name: "Karela United", crest: "assets/opponents/karelaunited.png", played: 3, diff: "-1", points: 3 },
+  { pos: 13, name: "Bibiani Gold Stars", crest: "assets/opponents/goldstarsfc.png", played: 3, diff: "-1", points: 3 },
+  { pos: 14, name: "Berekum Chelsea", crest: "assets/opponents/berekumchelsea.png", played: 3, diff: "-3", points: 3 },
   { pos: 15, name: "Young Apostles FC", crest: "assets/official-logo.png", played: 3, diff: "-5", points: 3, isClub: true },
-  { pos: 16, name: "Nsoatreman FC", crest: "assets/opponents/nsoatremanfc.png", played: 2, diff: "-2", points: 1 },
-  { pos: 17, name: "Bibiani Gold Stars", crest: "assets/opponents/goldstarsfc.png", played: 2, diff: "-2", points: 1 },
-  { pos: 18, name: "Accra Lions", crest: "assets/opponents/accralions.png", played: 2, diff: "-3", points: 0 }
+  { pos: 16, name: "Medeama SC", crest: "assets/opponents/medeamasc.png", played: 2, diff: "0", points: 2 },
+  { pos: 17, name: "Heart of Lions", crest: "assets/opponents/heartoflions.png", played: 3, diff: "-1", points: 2 },
+  { pos: 18, name: "Dreams FC", crest: "assets/opponents/dreamsfc.png", played: 3, diff: "-3", points: 1 }
 ];
 
 function renderAdminLeagueTable(tableData) {
