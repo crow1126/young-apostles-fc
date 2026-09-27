@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-26T19:58:01.736Z",
+  "lastUpdated": "2026-09-27T19:08:13.559Z",
   "hero": {
     "headline": "Rep the badge in style!💛💙",
     "subtitle": "Get your Young Apostles home & away replica jerseys this Sunday at the stadium and selected sales outlets now!\n\n• GH₵200\n\n#YAFC #AgyaNaƆwɔTumi",
@@ -318,6 +318,9 @@
       "away": "Heart of Lions",
       "venue": "Wenchi Sports Stadium",
       "date": "Sep 27, 2026",
+      "score": "1 - 2",
+      "result": "L",
+      "scorer": "Prempeh",
       "type": "Home"
     },
     {
@@ -572,6 +575,5 @@
       "status": "Active",
       "joinDate": "2026-09-23T11:00:00Z"
     }
-  ],
-  "standingsLastSynced": "2026-09-27T16:45:24.231Z"
+  ]
 }
