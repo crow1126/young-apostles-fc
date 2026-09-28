@@ -24,4 +24,4 @@ Official web platform for **Young Apostles Football Club (Young Apostles FC)** �
 ## 📍 Club Info
 - **Motto**: *... agya na ƆwƆ tumi*
 - **Base**: Sunyani / Wenchi, Bono Region, Ghana
-- **Official Website**: [youngapostlesfc.com](https://www.youngapostlesfc.com/)
+- **Official Website**: [youngapostlesfcgh.com](https://www.youngapostlesfc.com/)
