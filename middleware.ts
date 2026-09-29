@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt';
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Protect all /admin routes except /admin/login
@@ -11,12 +10,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    const token = await getToken({
-      req: request,
-      secret: process.env.NEXTAUTH_SECRET || 'yafc-fallback-secret-at-least-32-chars-long',
-    });
+    const hasSessionCookie =
+      request.cookies.has('__Secure-next-auth.session-token') ||
+      request.cookies.has('next-auth.session-token');
 
-    if (!token) {
+    if (!hasSessionCookie) {
       const loginUrl = new URL('/admin/login', request.url);
       loginUrl.searchParams.set('callbackUrl', pathname);
       return NextResponse.redirect(loginUrl);
