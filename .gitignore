@@ -11,11 +11,25 @@ Thumbs.db
 *.sln
 *.sw?
 
-# Node modules / build output (if applicable later)
+# Node modules / build output
 node_modules/
 dist/
 build/
+.next/
+
+# Environment files (never commit secrets)
 .env
 .env.local
+.env*.local
 
+# Vercel
 .vercel
+
+# Local KV store (dev-only data, not source of truth)
+.data/
+
+# Next.js type declarations (auto-generated)
+next-env.d.ts
+
+# Public mirror of static assets (generated from source, not the source itself)
+public/
