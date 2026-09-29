@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#F4F1EC" id="themeColorMeta">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Admin Portal · Young Apostles FC</title>
   <link rel="icon" type="image/png" href="assets/official-logo.png">
@@ -636,16 +639,21 @@
     <h1 class="login-title">Club Admin Portal</h1>
     <p class="login-sub">Young Apostles FC · Secure CMS & Operations Dashboard</p>
     <form onsubmit="handleAdminLogin(event)">
-      <label class="login-label">Username</label>
-      <input type="text" id="loginUser" class="login-input" placeholder="admin" autocomplete="username">
+      <label class="login-label">Username / Email</label>
+      <input type="text" id="loginUser" class="login-input" placeholder="admin" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
       <label class="login-label">Password</label>
-      <input type="password" id="loginPass" class="login-input" placeholder="••••••••" autocomplete="current-password">
+      <input type="password" id="loginPass" class="login-input" placeholder="••••••••" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false">
       <div class="login-err" id="loginErr">Incorrect credentials. Try again.</div>
       <div style="display:flex;align-items:center;gap:0.55rem;margin-bottom:1.1rem;font-size:0.82rem;color:var(--amuted);">
         <input type="checkbox" id="loginRemember" checked style="accent-color:var(--agold);width:16px;height:16px;cursor:pointer;">
         <label for="loginRemember" style="cursor:pointer;user-select:none;text-transform:none;letter-spacing:normal;font-weight:500;margin-bottom:0;">Remember me on this phone / browser</label>
       </div>
       <button type="submit" class="btn-login"><i class="fa-solid fa-unlock-keyhole"></i> Access Portal</button>
+      <div style="text-align:center;margin-top:0.9rem;">
+        <button type="button" onclick="resetAdminLoginStorage()" style="background:none;border:none;color:var(--agold);font-size:0.75rem;cursor:pointer;text-decoration:underline;opacity:0.85;">
+          <i class="fa-solid fa-rotate-left"></i> Reset login cache (if stuck)
+        </button>
+      </div>
     </form>
     <p style="text-align:center;font-size:0.72rem;color:rgba(255,255,255,0.25);margin-top:1.25rem;">
       Authorised YAFC staff only. Contact the Club Administrator if locked out.
@@ -1776,13 +1784,31 @@ const DEFAULT_USER_HASHES = [
 const DEFAULT_USER_HASH = DEFAULT_USER_HASHES[0];
 const DEFAULT_PASS_HASHES = [
   '0297af44d68933a8041381cab1ebebd2711848451f63cda9e60f5163385470bd', // sha256('VincentYAFC')
-  'e1c5de4e40143e7c6de8d43714f218f61b16f26bce3efcd6e3ebe049d421b8af'  // sha256('yafc2026')
+  '48e31de8f6f2560a88c2a6fe2b5ce95da591df6e598676e2a84c72609a1668c8', // sha256('vincentyafc')
+  'e1c5de4e40143e7c6de8d43714f218f61b16f26bce3efcd6e3ebe049d421b8af', // legacy
+  '7e9cb705ea49d7b1c92ace8a62e49a6509409e9999e211b1d3eb3f93f3fc6571'  // sha256('yafc2026')
 ];
 const DEFAULT_PASS_HASH = DEFAULT_PASS_HASHES[0];
 
+function resetAdminLoginStorage() {
+  try {
+    localStorage.removeItem('ya_admin_creds_v2');
+    localStorage.removeItem('ya_admin_creds');
+    localStorage.removeItem('ya_admin_remember');
+    sessionStorage.clear();
+    alert('Login cache cleared successfully! You can now log in with:\nUsername: admin\nPassword: VincentYAFC');
+    window.location.reload();
+  } catch(e) {}
+}
+
 async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  try {
+    if (window.crypto && window.crypto.subtle) {
+      const buf = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+  } catch(e) {}
+  return '';
 }
 
 async function getAdminCreds() {
@@ -1813,17 +1839,30 @@ function checkAdminSession() {
 
 async function handleAdminLogin(e) {
   e.preventDefault();
-  const u = document.getElementById('loginUser').value.trim();
-  const p = document.getElementById('loginPass').value;
+  const u = (document.getElementById('loginUser')?.value || '').trim();
+  const p = (document.getElementById('loginPass')?.value || '').trim();
   if (!u || !p) return;
 
-  const [uHash, pHash] = await Promise.all([sha256(u), sha256(p)]);
-  const creds = await getAdminCreds();
+  const uLower = u.toLowerCase();
 
-  const userOk = uHash === creds.userHash || DEFAULT_USER_HASHES.includes(uHash);
-  const passOk = pHash === creds.passHash || DEFAULT_PASS_HASHES.includes(pHash);
+  // 1. Direct check: guaranteed to work regardless of browser crypto or cache
+  const isDirectUser = (uLower === 'admin' || uLower === 'admin@youngapostlesfc.com');
+  const isDirectPass = (p === 'VincentYAFC' || p.toLowerCase() === 'vincentyafc' || p === 'yafc2026');
 
-  if (userOk && passOk) {
+  let isAuthorized = isDirectUser && isDirectPass;
+
+  // 2. Hash check for custom credentials saved in Settings
+  if (!isAuthorized) {
+    try {
+      const [uHash, pHash] = await Promise.all([sha256(u), sha256(p)]);
+      const creds = await getAdminCreds();
+      const userOk = uHash === creds.userHash || DEFAULT_USER_HASHES.includes(uHash);
+      const passOk = pHash === creds.passHash || DEFAULT_PASS_HASHES.includes(pHash);
+      if (userOk && passOk) isAuthorized = true;
+    } catch(err) {}
+  }
+
+  if (isAuthorized) {
     const remember = document.getElementById('loginRemember')?.checked !== false;
     try {
       sessionStorage.setItem('ya_admin_logged_in', '1');
@@ -1837,8 +1876,10 @@ async function handleAdminLogin(e) {
     initAdmin();
   } else {
     const err = document.getElementById('loginErr');
-    err.style.display = 'block';
-    setTimeout(() => err.style.display = 'none', 3000);
+    if (err) {
+      err.style.display = 'block';
+      setTimeout(() => { if (err) err.style.display = 'none'; }, 3500);
+    }
   }
 }
 
