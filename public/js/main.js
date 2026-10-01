@@ -2317,6 +2317,42 @@ async function initCloudSync() {
 }
 
 
+// ==========================================
+// STANDINGS: Fetch latest from cms.json on load
+// ==========================================
+async function fetchCmsStandings() {
+  try {
+    const res = await fetch('data/cms.json?v=' + Date.now());
+    if (!res.ok) return;
+    const cms = await res.json();
+
+    // Render full 18-team table if present in cms
+    if (Array.isArray(cms.leagueTable) && cms.leagueTable.length) {
+      renderStandingsTable(cms.leagueTable);
+      localStorage.setItem('ya_league_table', JSON.stringify(cms.leagueTable));
+    }
+
+    // Update YA-specific stats from cms.standings
+    if (cms.standings) {
+      const s = cms.standings;
+      const rankEl = document.getElementById('yaRankPill');
+      const playedEl = document.getElementById('yaPlayed');
+      const diffEl = document.getElementById('yaGoalDiff');
+      const ptsEl = document.getElementById('yaPoints');
+      if (rankEl && s.rank !== undefined) rankEl.textContent = s.rank;
+      if (playedEl && s.played !== undefined) playedEl.textContent = s.played;
+      if (diffEl && s.diff !== undefined) {
+        diffEl.textContent = (Number(s.diff) > 0 ? '+' : '') + s.diff;
+        diffEl.style.color = Number(s.diff) >= 0 ? '#16a34a' : '#dc2626';
+      }
+      if (ptsEl && s.points !== undefined) ptsEl.textContent = s.points;
+      localStorage.setItem('ya_standings_record', JSON.stringify(s));
+    }
+  } catch (e) {
+    // Silently fail — hardcoded HTML will show as fallback
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
   renderSquad('all');
@@ -2326,6 +2362,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderApostlesTv();
   renderDispatches();
   updateStandingsUI();
+  fetchCmsStandings(); // Always fetch latest standings from server on load
   applyHeroWriteup();
   initCloudSync(); // Fetch latest centralized cloud data for all devices
   updateCountdown(); // Call immediately so numbers show right away

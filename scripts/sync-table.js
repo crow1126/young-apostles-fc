@@ -65,25 +65,26 @@ function resolveCrest(teamName) {
 }
 
 // Current default 18-club standings
+// Current default 18-club standings (2026/27 Matchday 4)
 const DEFAULT_TABLE = [
-  { pos: 1, name: "Hearts of Oak", played: 3, diff: "+5", points: 7 },
-  { pos: 2, name: "Samartex", played: 3, diff: "+3", points: 7 },
-  { pos: 3, name: "Holy Stars", played: 3, diff: "+1", points: 6 },
-  { pos: 4, name: "Asante Kotoko SC", played: 3, diff: "+1", points: 5 },
-  { pos: 5, name: "Debibi", played: 3, diff: "+2", points: 4 },
-  { pos: 6, name: "Vision FC", played: 3, diff: "+1", points: 4 },
-  { pos: 7, name: "Ashanti Gold", played: 3, diff: "+1", points: 4 },
-  { pos: 8, name: "Port City", played: 2, diff: "+1", points: 4 },
-  { pos: 9, name: "Aduana Stars", played: 3, diff: "0", points: 4 },
-  { pos: 10, name: "All Blacks", played: 3, diff: "0", points: 4 },
-  { pos: 11, name: "Bechem United", played: 3, diff: "-1", points: 4 },
-  { pos: 12, name: "Karela United", played: 3, diff: "-1", points: 3 },
-  { pos: 13, name: "Bibiani Gold Stars", played: 3, diff: "-1", points: 3 },
-  { pos: 14, name: "Berekum Chelsea", played: 3, diff: "-3", points: 3 },
-  { pos: 15, name: "Young Apostles FC", played: 3, diff: "-5", points: 3, isClub: true },
-  { pos: 16, name: "Medeama SC", played: 2, diff: "0", points: 2 },
-  { pos: 17, name: "Heart of Lions", played: 3, diff: "-1", points: 2 },
-  { pos: 18, name: "Dreams FC", played: 3, diff: "-3", points: 1 }
+  { pos: 1, name: "Medeama", played: 4, diff: "+4", points: 8 },
+  { pos: 2, name: "Samartex", played: 4, diff: "+3", points: 8 },
+  { pos: 3, name: "Ashgold", played: 4, diff: "+2", points: 7 },
+  { pos: 4, name: "Port City", played: 4, diff: "+2", points: 7 },
+  { pos: 5, name: "Hearts of Oak", played: 4, diff: "+4", points: 7 },
+  { pos: 6, name: "Bechem Utd", played: 4, diff: "0", points: 7 },
+  { pos: 7, name: "Aduana Stars", played: 4, diff: "+2", points: 7 },
+  { pos: 8, name: "Karela Utd", played: 4, diff: "0", points: 6 },
+  { pos: 9, name: "Basake Holy Stars", played: 4, diff: "-2", points: 6 },
+  { pos: 10, name: "Kotoko", played: 4, diff: "-1", points: 5 },
+  { pos: 11, name: "Swedru All Blacks", played: 4, diff: "0", points: 5 },
+  { pos: 12, name: "Heart of Lions", played: 4, diff: "0", points: 5 },
+  { pos: 13, name: "Vision", played: 4, diff: "+1", points: 5 },
+  { pos: 14, name: "Debibi United", played: 4, diff: "+1", points: 4 },
+  { pos: 15, name: "Berekum Chelsea", played: 4, diff: "-3", points: 4 },
+  { pos: 16, name: "Gold Stars", played: 4, diff: "-3", points: 3 },
+  { pos: 17, name: "Young Apostles", played: 4, diff: "-6", points: 3, isClub: true },
+  { pos: 18, name: "Dreams", played: 4, diff: "-4", points: 1 }
 ].map(team => ({
   ...team,
   crest: resolveCrest(team.name),

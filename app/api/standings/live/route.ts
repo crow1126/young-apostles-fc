@@ -1,56 +1,29 @@
 import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
-const CREST_MAP: Record<string, string> = {
-  'hearts of oak': 'assets/opponents/heartsofoak.png',
-  'samartex': 'assets/opponents/samartex.png',
-  'ashgold': 'assets/opponents/ashgold.png',
-  'ashanti gold': 'assets/opponents/ashgold.png',
-  'kotoko': 'assets/opponents/asantekotoko.png',
-  'asante kotoko': 'assets/opponents/asantekotoko.png',
-  'vision': 'assets/opponents/visionfc.png',
-  'vision fc': 'assets/opponents/visionfc.png',
-  'karela': 'assets/opponents/karelaunited.png',
-  'karela united': 'assets/opponents/karelaunited.png',
-  'basake holy stars': 'assets/opponents/basakeholystars.png',
-  'holy stars': 'assets/opponents/basakeholystars.png',
-  'young apostles': 'assets/official-logo.png',
-  'young apostles fc': 'assets/official-logo.png',
-  'berekum chelsea': 'assets/opponents/berekumchelsea.png',
-  'chelsea': 'assets/opponents/berekumchelsea.png',
-  'swedru all blacks': 'assets/opponents/swedruallblacks.png',
-  'all blacks': 'assets/opponents/swedruallblacks.png',
-  'bechem': 'assets/opponents/bechemunited.png',
-  'bechem united': 'assets/opponents/bechemunited.png',
-  'heart of lions': 'assets/opponents/heartoflions.png',
-  'lions': 'assets/opponents/heartoflions.png',
-  'aduana': 'assets/opponents/aduanastars.png',
-  'aduana stars': 'assets/opponents/aduanastars.png',
-  'port city': 'assets/opponents/portcity.png',
-  'port city fc': 'assets/opponents/portcity.png',
-  'debibi united': 'assets/opponents/debibiunited.png',
-  'debibi': 'assets/opponents/debibiunited.png',
-  'legon cities': 'assets/opponents/legoncities.png',
-  'nsoatreman': 'assets/opponents/nsoatremanfc.png',
-  'nsoatreman fc': 'assets/opponents/nsoatremanfc.png',
-  'goldstars': 'assets/opponents/goldstarsfc.png',
-  'bibiani gold stars': 'assets/opponents/goldstarsfc.png',
-  'dreams fc': 'assets/opponents/dreamsfc.png',
-  'dreams': 'assets/opponents/dreamsfc.png',
-  'accra lions': 'assets/opponents/accralions.png',
-  'medeama': 'assets/opponents/medeamasc.png',
-  'medeama sc': 'assets/opponents/medeamasc.png'
-};
-
-function resolveCrest(teamName: string): string {
-  const norm = (teamName || '').toLowerCase().trim();
-  if (CREST_MAP[norm]) return CREST_MAP[norm];
-  for (const [key, val] of Object.entries(CREST_MAP)) {
-    if (norm.includes(key) || key.includes(norm)) return val;
-  }
-  return 'assets/opponents/gpl-official.png';
-}
+const OFFICIAL_2026_TABLE = [
+  { pos: 1, name: 'Medeama', crest: 'assets/opponents/medeamasc.png', played: 4, diff: '+4', points: 8, isClub: false },
+  { pos: 2, name: 'Samartex', crest: 'assets/opponents/samartex.png', played: 4, diff: '+3', points: 8, isClub: false },
+  { pos: 3, name: 'Ashgold', crest: 'assets/opponents/ashgold.png', played: 4, diff: '+2', points: 7, isClub: false },
+  { pos: 4, name: 'Port City', crest: 'assets/opponents/portcity.png', played: 4, diff: '+2', points: 7, isClub: false },
+  { pos: 5, name: 'Hearts of Oak', crest: 'assets/opponents/heartsofoak.png', played: 4, diff: '+4', points: 7, isClub: false },
+  { pos: 6, name: 'Bechem Utd', crest: 'assets/opponents/bechemunited.png', played: 4, diff: '0', points: 7, isClub: false },
+  { pos: 7, name: 'Aduana Stars', crest: 'assets/opponents/aduanastars.png', played: 4, diff: '+2', points: 7, isClub: false },
+  { pos: 8, name: 'Karela Utd', crest: 'assets/opponents/karelaunited.png', played: 4, diff: '0', points: 6, isClub: false },
+  { pos: 9, name: 'Basake Holy Stars', crest: 'assets/opponents/basakeholystars.png', played: 4, diff: '-2', points: 6, isClub: false },
+  { pos: 10, name: 'Kotoko', crest: 'assets/opponents/asantekotoko.png', played: 4, diff: '-1', points: 5, isClub: false },
+  { pos: 11, name: 'Swedru All Blacks', crest: 'assets/opponents/swedruallblacks.png', played: 4, diff: '0', points: 5, isClub: false },
+  { pos: 12, name: 'Heart of Lions', crest: 'assets/opponents/heartoflions.png', played: 4, diff: '0', points: 5, isClub: false },
+  { pos: 13, name: 'Vision', crest: 'assets/opponents/visionfc.png', played: 4, diff: '+1', points: 5, isClub: false },
+  { pos: 14, name: 'Debibi United', crest: 'assets/opponents/debibiunited.png', played: 4, diff: '+1', points: 4, isClub: false },
+  { pos: 15, name: 'Berekum Chelsea', crest: 'assets/opponents/berekumchelsea.png', played: 4, diff: '-3', points: 4, isClub: false },
+  { pos: 16, name: 'Gold Stars', crest: 'assets/opponents/goldstarsfc.png', played: 4, diff: '-3', points: 3, isClub: false },
+  { pos: 17, name: 'Young Apostles', crest: 'assets/official-logo.png', played: 4, diff: '-6', points: 3, isClub: true },
+  { pos: 18, name: 'Dreams', crest: 'assets/opponents/dreamsfc.png', played: 4, diff: '-4', points: 1, isClub: false }
+];
 
 export async function OPTIONS() {
   return new NextResponse(null, {
@@ -65,70 +38,59 @@ export async function OPTIONS() {
 
 export async function GET() {
   try {
-    const res = await fetch(
-      'https://site.api.espn.com/apis/v2/sports/soccer/gha.1/standings',
-      {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          Accept: 'application/json',
-        },
-        cache: 'no-store',
+    // Read from data/cms.json if available
+    const cmsPath = path.join(process.cwd(), 'data', 'cms.json');
+    if (fs.existsSync(cmsPath)) {
+      try {
+        const raw = fs.readFileSync(cmsPath, 'utf8');
+        const json = JSON.parse(raw);
+        if (Array.isArray(json.leagueTable) && json.leagueTable.length > 0) {
+          const yaClub = json.leagueTable.find((t: any) => t.isClub || (t.name && t.name.toLowerCase().includes('young apostles'))) || {
+            pos: 17,
+            played: 4,
+            diff: '-6',
+            points: 3,
+            name: 'Young Apostles',
+          };
+
+          return NextResponse.json(
+            {
+              success: true,
+              source: 'GPL 2026/27 Official Table',
+              table: json.leagueTable,
+              clubStats: json.standings || {
+                rank: String(yaClub.pos),
+                played: String(yaClub.played),
+                diff: String(yaClub.diff),
+                points: String(yaClub.points),
+              },
+              lastSynced: json.standingsLastSynced || new Date().toISOString(),
+            },
+            {
+              status: 200,
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+              },
+            }
+          );
+        }
+      } catch (readErr) {
+        console.warn('Error reading cms.json in live route:', readErr);
       }
-    );
-
-    if (!res.ok) {
-      throw new Error(`ESPN API returned ${res.status}: ${res.statusText}`);
     }
 
-    const data = await res.json();
-    const entries = data?.children?.[0]?.standings?.entries;
-
-    if (!Array.isArray(entries) || entries.length === 0) {
-      throw new Error('ESPN API returned empty standings entries');
-    }
-
-    const table = entries.map((entry: any, idx: number) => {
-      const teamName = entry.team?.displayName || entry.team?.name || `Team ${idx + 1}`;
-      const isClub = teamName.toLowerCase().includes('young apostles');
-
-      const stat = (name: string): number => {
-        const s = (entry.stats || []).find((st: any) => st.name === name || st.abbreviation === name);
-        return s ? Number(s.value) : 0;
-      };
-
-      const diff = stat('pointDifferential') || stat('gd') || 0;
-      const diffStr = diff > 0 ? `+${diff}` : `${diff}`;
-      const pos = stat('rank') || idx + 1;
-
-      return {
-        pos,
-        name: isClub ? 'Young Apostles FC' : teamName,
-        played: stat('gamesPlayed') || 0,
-        diff: diffStr,
-        points: stat('points') || 0,
-        crest: resolveCrest(teamName),
-        isClub,
-      };
-    });
-
-    const yaClub = table.find((t) => t.isClub) || {
-      pos: 13,
-      played: 34,
-      diff: '0',
-      points: 45,
-      name: 'Young Apostles FC',
-    };
-
+    // Default to the official 26/27 Matchday 4 table
     return NextResponse.json(
       {
         success: true,
-        source: 'ESPN Live Ghana Premier League',
-        table,
+        source: 'GPL 2026/27 Official Table',
+        table: OFFICIAL_2026_TABLE,
         clubStats: {
-          rank: String(yaClub.pos),
-          played: String(yaClub.played),
-          diff: String(yaClub.diff),
-          points: String(yaClub.points),
+          rank: '17',
+          played: '4',
+          diff: '-6',
+          points: '3',
         },
         lastSynced: new Date().toISOString(),
       },
@@ -141,11 +103,11 @@ export async function GET() {
       }
     );
   } catch (error: any) {
-    console.error('Live standings fetch error:', error);
+    console.error('Standings route error:', error);
     return NextResponse.json(
       {
         success: false,
-        error: error.message || 'Failed to fetch live standings',
+        error: error.message || 'Failed to retrieve standings',
       },
       {
         status: 500,
