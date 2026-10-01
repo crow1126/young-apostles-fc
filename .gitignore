@@ -30,6 +30,3 @@ build/
 
 # Next.js type declarations (auto-generated)
 next-env.d.ts
-
-# Public mirror of static assets (generated from source, not the source itself)
-public/

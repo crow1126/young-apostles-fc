@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 100" fill="none" width="100%" height="100%">
+  <!-- Stylized Geometric 3D 'C' Emblem -->
+  <g transform="translate(10, 12)">
+    <!-- Back/Left vertical wall -->
+    <path d="M 0 16 L 24 0 L 24 56 L 0 72 Z" fill="#00B884" />
+    <!-- Top arm face -->
+    <path d="M 24 0 L 74 14 L 66 38 L 24 24 Z" fill="#10B981" />
+    <!-- Inner fold/depth -->
+    <path d="M 24 24 L 66 38 L 24 48 Z" fill="#059669" opacity="0.35" />
+    <!-- Bottom arm face -->
+    <path d="M 24 48 L 74 62 L 66 86 L 24 72 Z" fill="#00D294" />
+    <!-- Bottom front facet -->
+    <path d="M 24 72 L 40 76 L 36 96 L 24 92 Z" fill="#059669" />
+  </g>
+  
+  <!-- "oreva" text in clean geometric bold type -->
+  <text x="96" y="66" font-family="'Outfit', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="800" letter-spacing="-1.5px" fill="currentColor">oreva</text>
+</svg>
