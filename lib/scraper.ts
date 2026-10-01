@@ -99,20 +99,22 @@ export function areStandingsIdentical(a: StandingsData, b: StandingsData): boole
 // Fetch from ESPN / AZHarimm (Free source)
 async function fetchFromESPN(): Promise<StandingRow[] | null> {
   try {
-    const currentYear = new Date().getFullYear();
-    const url = `https://api-football-standings.azharimm.site/leagues/gha.1/standings?season=${currentYear}&sort=asc`;
+    const url = 'https://site.api.espn.com/apis/v2/sports/soccer/gha.1/standings';
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 6000);
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     const res = await fetch(url, {
       signal: controller.signal,
-      headers: { 'User-Agent': 'YAFC-Admin-Bot/1.0' },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        Accept: 'application/json',
+      },
     });
     clearTimeout(timeoutId);
 
     if (!res.ok) return null;
     const json = await res.json();
-    const rows = json?.data?.standings;
+    const rows = json?.children?.[0]?.standings?.entries;
     if (!Array.isArray(rows) || rows.length === 0) return null;
 
     return rows.map((item: any, idx: number) => {

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node -e \"const fs=require('fs'); if(fs.existsSync('data/cms.json')){fs.mkdirSync('public/data',{recursive:true});fs.copyFileSync('data/cms.json','public/data/cms.json');} if(fs.existsSync('admin.html')){fs.copyFileSync('admin.html','public/admin.html');}\" && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run"

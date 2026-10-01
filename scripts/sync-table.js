@@ -97,35 +97,35 @@ const DEFAULT_TABLE = [
 // ─────────────────────────────────────────────────────────
 async function fetchFromESPN() {
   try {
-    console.log('Fetching GPL standings from ESPN/AZHarimm (free, no key)...');
-    const currentYear = new Date().getFullYear();
-    const url = `https://api-football-standings.azharimm.site/leagues/gha.1/standings?season=${currentYear}&sort=asc`;
+    console.log('Fetching GPL standings from ESPN official API (free, no key)...');
+    const url = 'https://site.api.espn.com/apis/v2/sports/soccer/gha.1/standings';
     const res = await fetch(url, {
-      headers: { 'User-Agent': 'YAFC-Bot/1.0 (youngapostlesfcgh.com)' }
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        Accept: 'application/json'
+      }
     });
-    if (!res.ok) throw new Error(`ESPN proxy returned ${res.status}: ${res.statusText}`);
+    if (!res.ok) throw new Error(`ESPN API returned ${res.status}: ${res.statusText}`);
     const json = await res.json();
 
-    // AZHarimm response shape: { data: { standings: [ { team, stats } ] } }
-    const rows = json?.data?.standings;
+    const rows = json?.children?.[0]?.standings?.entries;
     if (!Array.isArray(rows) || rows.length === 0) {
-      throw new Error('ESPN proxy returned empty standings array');
+      throw new Error('ESPN API returned empty standings array');
     }
 
     return rows.map((item, idx) => {
       const teamName = item.team?.displayName || item.team?.name || '';
       const isClub = teamName.toLowerCase().includes('young apostles');
 
-      // Stats are an array of { name, value } objects
       const stat = (name) => {
-        const s = (item.stats || []).find(s => s.name === name || s.abbreviation === name);
+        const s = (item.stats || []).find(st => st.name === name || st.abbreviation === name);
         return s ? Number(s.value) : 0;
       };
       const gd = stat('pointDifferential') || stat('gd') || 0;
       const diffStr = gd > 0 ? `+${gd}` : `${gd}`;
 
       return {
-        pos: idx + 1,
+        pos: stat('rank') || idx + 1,
         name: isClub ? 'Young Apostles FC' : teamName,
         crest: resolveCrest(teamName),
         played: stat('gamesPlayed') || stat('played') || 0,
@@ -135,7 +135,7 @@ async function fetchFromESPN() {
       };
     });
   } catch (err) {
-    console.warn(`ESPN/AZHarimm fetch failed: ${err.message}`);
+    console.warn(`ESPN fetch failed: ${err.message}`);
     return null;
   }
 }
@@ -201,6 +201,7 @@ async function updateStandingsData() {
   }
 
   const cmsPath = path.join(__dirname, '..', 'data', 'cms.json');
+  const publicCmsPath = path.join(__dirname, '..', 'public', 'data', 'cms.json');
   let cms = {};
   if (fs.existsSync(cmsPath)) {
     try {
@@ -212,7 +213,7 @@ async function updateStandingsData() {
 
   // Find Young Apostles row
   const yaClub = table.find(t => t.isClub || t.name.toLowerCase().includes('young apostles')) || {
-    pos: 8, played: 2, diff: '-2', points: 3
+    pos: 13, played: 34, diff: '0', points: 45
   };
 
   cms.leagueTable = table;
@@ -224,8 +225,13 @@ async function updateStandingsData() {
   };
   cms.standingsLastSynced = new Date().toISOString();
 
-  fs.writeFileSync(cmsPath, JSON.stringify(cms, null, 2), 'utf8');
-  console.log(`✅ Successfully updated data/cms.json with ${table.length} GPL clubs!`);
+  const jsonStr = JSON.stringify(cms, null, 2);
+  fs.writeFileSync(cmsPath, jsonStr, 'utf8');
+  try {
+    fs.mkdirSync(path.dirname(publicCmsPath), { recursive: true });
+    fs.writeFileSync(publicCmsPath, jsonStr, 'utf8');
+  } catch(e) {}
+  console.log(`✅ Successfully updated data/cms.json and public/data/cms.json with ${table.length} GPL clubs!`);
   console.log(`Young Apostles FC: Pos ${yaClub.pos} | P ${yaClub.played} | Diff ${yaClub.diff} | PTS ${yaClub.points}`);
 }
 
