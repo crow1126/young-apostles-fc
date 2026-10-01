@@ -9,15 +9,24 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const drafts = await getDrafts();
-  const pendingCount = drafts.filter((d) => d.status === 'pending').length;
-  const committed = getCommittedStandings();
+  let pendingCount = 0;
+  let season: string | undefined;
+
+  try {
+    const drafts = await getDrafts();
+    pendingCount = drafts.filter((d) => d.status === 'pending').length;
+    const committed = getCommittedStandings();
+    season = committed?.season;
+  } catch (err) {
+    // Don't crash the login page if KV is unavailable
+    console.error('AdminLayout data fetch error:', err);
+  }
 
   return (
     <div className="min-h-screen bg-[#081225] text-slate-100 flex flex-col">
       <AdminNav
         pendingDraftsCount={pendingCount}
-        season={committed?.season}
+        season={season}
       />
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
         {children}
@@ -28,3 +37,4 @@ export default async function AdminLayout({
     </div>
   );
 }
+
