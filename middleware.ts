@@ -2,7 +2,16 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, hostname } = request.nextUrl;
+
+  // If on the admin subdomain and hitting root or /admin.html, redirect to /admin
+  const isAdminSubdomain =
+    hostname === 'admin.youngapostlesfcgh.com' ||
+    hostname.startsWith('admin.');
+
+  if (isAdminSubdomain && (pathname === '/' || pathname === '/admin.html')) {
+    return NextResponse.redirect(new URL('/admin', request.url));
+  }
 
   // Protect all /admin routes except /admin/login
   if (pathname.startsWith('/admin')) {
@@ -25,5 +34,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/', '/admin.html', '/admin/:path*'],
 };
