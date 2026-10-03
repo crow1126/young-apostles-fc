@@ -99,44 +99,50 @@ const PRODUCTS_DATA = [
 // ==========================================
 // 3. DATA: 34-WEEK GPL FIXTURES (2026/27 OFFICIAL SEASON)
 // ==========================================
+// ─────────────────────────────────────────────────────────
+// NOTE: This list is the canonical fallback only. The live
+// fixture list is always fetched from data/cms.json via
+// initCloudSync() on page load and stored in localStorage.
+// Any admin-entered scores/results will always take priority.
+// ─────────────────────────────────────────────────────────
 const FIXTURES_ROUND_1 = [
-  { week: 1,  home: 'Young Apostles', away: 'Vision FC',         venue: 'Wenchi Sports Stadium',        date: 'Sep 27, 2026', type: 'Home' },
-  { week: 2,  home: 'Samartex',       away: 'Young Apostles',    venue: 'Nsenkyire Sports Complex',     date: 'Oct 4, 2026',  type: 'Away' },
-  { week: 3,  home: 'Young Apostles', away: 'Aduana Stars',      venue: 'Wenchi Sports Stadium',        date: 'Oct 11, 2026', type: 'Home' },
-  { week: 4,  home: 'Asante Kotoko',  away: 'Young Apostles',    venue: 'Baba Yara Sports Stadium',     date: 'Oct 18, 2026', type: 'Away' },
-  { week: 5,  home: 'Young Apostles', away: 'Swedru All Blacks',  venue: 'Wenchi Sports Stadium',        date: 'Oct 25, 2026', type: 'Home' },
-  { week: 6,  home: 'Young Apostles', away: 'Karela United',     venue: 'Wenchi Sports Stadium',        date: 'Nov 1, 2026',  type: 'Home' },
-  { week: 7,  home: 'Ashgold',        away: 'Young Apostles',    venue: 'Len Clay Stadium',             date: 'Nov 8, 2026',  type: 'Away' },
-  { week: 8,  home: 'Young Apostles', away: 'Medeama SC',        venue: 'Wenchi Sports Stadium',        date: 'Nov 15, 2026', type: 'Home' },
-  { week: 9,  home: 'Berekum Chelsea',away: 'Young Apostles',    venue: 'Golden City Park',             date: 'Nov 22, 2026', type: 'Away' },
-  { week: 10, home: 'Young Apostles', away: 'Gold Stars FC',     venue: 'Wenchi Sports Stadium',        date: 'Nov 29, 2026', type: 'Home' },
-  { week: 11, home: 'Bechem United',  away: 'Young Apostles',    venue: 'Nana Fosu Gyeabour Park',      date: 'Dec 6, 2026',  type: 'Away' },
-  { week: 12, home: 'Young Apostles', away: 'Hearts of Oak',     venue: 'Wenchi Sports Stadium',        date: 'Dec 13, 2026', type: 'Home' },
-  { week: 13, home: 'Dreams FC',      away: 'Young Apostles',    venue: 'Theatre of Dreams, Dawu',      date: 'Dec 20, 2026', type: 'Away' },
-  { week: 14, home: 'Young Apostles', away: 'Port City',         venue: 'Wenchi Sports Stadium',        date: 'Dec 27, 2026', type: 'Home' },
-  { week: 15, home: 'Young Apostles', away: 'Vision FC',         venue: 'Wenchi Sports Stadium',        date: 'Jan 3, 2027',  type: 'Home' },
-  { week: 16, home: 'Basake Holy Stars', away: 'Young Apostles', venue: 'Aiyinase Arena',               date: 'Jan 10, 2027', type: 'Away' },
-  { week: 17, home: 'Young Apostles', away: 'Debibi United',     venue: 'Wenchi Sports Stadium',        date: 'Jan 17, 2027', type: 'Home' }
+  { week: 1,  home: 'Vision FC',         away: 'Young Apostles',    venue: 'Nii Adjei Kraku Stadium',      date: 'Sep 5, 2026',  type: 'Away',  score: '3 - 0', result: 'L' },
+  { week: 2,  home: 'Young Apostles',    away: 'Basake Holy Stars',  venue: 'Wenchi Sports Stadium',        date: 'Sep 13, 2026', type: 'Home',  score: '1 - 0', result: 'W', scorer: "Samuel Prempeh 7'" },
+  { week: 3,  home: 'Debibi United',     away: 'Young Apostles',    venue: 'Debibi Park',                  date: 'Sep 20, 2026', type: 'Away',  score: '3 - 0', result: 'L' },
+  { week: 4,  home: 'Young Apostles',    away: 'Heart of Lions',    venue: 'Wenchi Sports Stadium',        date: 'Sep 27, 2026', type: 'Home',  score: '1 - 2', result: 'L' },
+  { week: 5,  home: 'Samartex',          away: 'Young Apostles',    venue: 'Nsenkyire Sports Complex',     date: 'Oct 4, 2026',  type: 'Away' },
+  { week: 6,  home: 'Young Apostles',    away: 'Aduana Stars',      venue: 'Wenchi Sports Stadium',        date: 'Oct 11, 2026', type: 'Home' },
+  { week: 7,  home: 'Asante Kotoko',     away: 'Young Apostles',    venue: 'Baba Yara Sports Stadium',     date: 'Oct 18, 2026', type: 'Away' },
+  { week: 8,  home: 'Young Apostles',    away: 'Hearts of Oak',     venue: 'Wenchi Sports Stadium',        date: 'Oct 25, 2026', type: 'Home' },
+  { week: 9,  home: 'Berekum Chelsea',   away: 'Young Apostles',    venue: 'Golden City Park',             date: 'Nov 1, 2026',  type: 'Away' },
+  { week: 10, home: 'Young Apostles',    away: 'Medeama SC',        venue: 'Wenchi Sports Stadium',        date: 'Nov 8, 2026',  type: 'Home' },
+  { week: 11, home: 'Ashgold',           away: 'Young Apostles',    venue: 'Len Clay Stadium',             date: 'Nov 15, 2026', type: 'Away' },
+  { week: 12, home: 'Young Apostles',    away: 'Swedru All Blacks', venue: 'Wenchi Sports Stadium',        date: 'Nov 22, 2026', type: 'Home' },
+  { week: 13, home: 'Bechem United',     away: 'Young Apostles',    venue: 'Nana Fosu Gyeabour Park',      date: 'Nov 29, 2026', type: 'Away' },
+  { week: 14, home: 'Young Apostles',    away: 'Karela United',     venue: 'Wenchi Sports Stadium',        date: 'Dec 6, 2026',  type: 'Home' },
+  { week: 15, home: 'Port City',         away: 'Young Apostles',    venue: 'Port City Arena',              date: 'Dec 13, 2026', type: 'Away' },
+  { week: 16, home: 'Young Apostles',    away: 'Gold Stars FC',     venue: 'Wenchi Sports Stadium',        date: 'Dec 20, 2026', type: 'Home' },
+  { week: 17, home: 'Dreams FC',         away: 'Young Apostles',    venue: 'Theatre of Dreams, Dawu',      date: 'Jan 3, 2027',  type: 'Away' }
 ];
 
 const FIXTURES_ROUND_2 = [
-  { week: 18, home: 'Heart of Lions',  away: 'Young Apostles',   venue: 'Kpando Stadium',               date: 'Jan 24, 2027', type: 'Away' },
-  { week: 19, home: 'Young Apostles',  away: 'Samartex',         venue: 'Wenchi Sports Stadium',        date: 'Jan 31, 2027', type: 'Home' },
-  { week: 20, home: 'Aduana Stars',    away: 'Young Apostles',   venue: 'Nana Agyemang Badu I Park',    date: 'Feb 7, 2027',  type: 'Away' },
-  { week: 21, home: 'Young Apostles',  away: 'Asante Kotoko',    venue: 'Wenchi Sports Stadium',        date: 'Feb 14, 2027', type: 'Home' },
-  { week: 22, home: 'Swedru All Blacks', away: 'Young Apostles', venue: 'Swedru Park',                  date: 'Feb 21, 2027', type: 'Away' },
-  { week: 23, home: 'Karela United',   away: 'Young Apostles',   venue: 'Naa Sheriga Sports Complex',   date: 'Feb 28, 2027', type: 'Away' },
-  { week: 24, home: 'Young Apostles',  away: 'Ashgold',          venue: 'Wenchi Sports Stadium',        date: 'Mar 7, 2027',  type: 'Home' },
-  { week: 25, home: 'Medeama SC',      away: 'Young Apostles',   venue: 'T&A Stadium, Tarkwa',          date: 'Mar 14, 2027', type: 'Away' },
-  { week: 26, home: 'Young Apostles',  away: 'Berekum Chelsea',  venue: 'Wenchi Sports Stadium',        date: 'Mar 21, 2027', type: 'Home' },
-  { week: 27, home: 'Gold Stars FC',   away: 'Young Apostles',   venue: "Dun's Park, Bibiani",          date: 'Mar 28, 2027', type: 'Away' },
-  { week: 28, home: 'Young Apostles',  away: 'Bechem United',    venue: 'Wenchi Sports Stadium',        date: 'Apr 4, 2027',  type: 'Home' },
-  { week: 29, home: 'Hearts of Oak',   away: 'Young Apostles',   venue: 'Accra Sports Stadium',         date: 'Apr 11, 2027', type: 'Away' },
-  { week: 30, home: 'Young Apostles',  away: 'Dreams FC',        venue: 'Wenchi Sports Stadium',        date: 'Apr 18, 2027', type: 'Home' },
-  { week: 31, home: 'Port City',       away: 'Young Apostles',   venue: 'Port City Arena',              date: 'Apr 25, 2027', type: 'Away' },
-  { week: 32, home: 'Young Apostles',  away: 'Heart of Lions',   venue: 'Wenchi Sports Stadium',        date: 'May 2, 2027',  type: 'Home' },
-  { week: 33, home: 'Debibi United',   away: 'Young Apostles',   venue: 'Debibi Park',                  date: 'May 9, 2027',  type: 'Away' },
-  { week: 34, home: 'Young Apostles',  away: 'Basake Holy Stars', venue: 'Wenchi Sports Stadium',        date: 'May 16, 2027', type: 'Home' }
+  { week: 18, home: 'Young Apostles',    away: 'Vision FC',          venue: 'Wenchi Sports Stadium',        date: 'Jan 17, 2027', type: 'Home' },
+  { week: 19, home: 'Basake Holy Stars', away: 'Young Apostles',     venue: 'Aiyinase Arena',               date: 'Jan 24, 2027', type: 'Away' },
+  { week: 20, home: 'Young Apostles',    away: 'Debibi United',      venue: 'Wenchi Sports Stadium',        date: 'Jan 31, 2027', type: 'Home' },
+  { week: 21, home: 'Heart of Lions',    away: 'Young Apostles',     venue: 'Kpando Stadium',               date: 'Feb 7, 2027',  type: 'Away' },
+  { week: 22, home: 'Young Apostles',    away: 'Samartex',           venue: 'Wenchi Sports Stadium',        date: 'Feb 14, 2027', type: 'Home' },
+  { week: 23, home: 'Aduana Stars',      away: 'Young Apostles',     venue: 'Nana Agyemang Badu I Park',    date: 'Feb 21, 2027', type: 'Away' },
+  { week: 24, home: 'Young Apostles',    away: 'Asante Kotoko',      venue: 'Wenchi Sports Stadium',        date: 'Feb 28, 2027', type: 'Home' },
+  { week: 25, home: 'Hearts of Oak',     away: 'Young Apostles',     venue: 'Accra Sports Stadium',         date: 'Mar 7, 2027',  type: 'Away' },
+  { week: 26, home: 'Young Apostles',    away: 'Berekum Chelsea',    venue: 'Wenchi Sports Stadium',        date: 'Mar 14, 2027', type: 'Home' },
+  { week: 27, home: 'Medeama SC',        away: 'Young Apostles',     venue: 'T&A Stadium, Tarkwa',          date: 'Mar 21, 2027', type: 'Away' },
+  { week: 28, home: 'Young Apostles',    away: 'Ashgold',            venue: 'Wenchi Sports Stadium',        date: 'Apr 4, 2027',  type: 'Home' },
+  { week: 29, home: 'Swedru All Blacks', away: 'Young Apostles',     venue: 'Swedru Park',                  date: 'Apr 11, 2027', type: 'Away' },
+  { week: 30, home: 'Young Apostles',    away: 'Bechem United',      venue: 'Wenchi Sports Stadium',        date: 'Apr 18, 2027', type: 'Home' },
+  { week: 31, home: 'Karela United',     away: 'Young Apostles',     venue: 'Naa Sheriga Sports Complex',   date: 'Apr 25, 2027', type: 'Away' },
+  { week: 32, home: 'Young Apostles',    away: 'Port City',          venue: 'Wenchi Sports Stadium',        date: 'May 2, 2027',  type: 'Home' },
+  { week: 33, home: 'Gold Stars FC',     away: 'Young Apostles',     venue: "Dun's Park, Bibiani",          date: 'May 9, 2027',  type: 'Away' },
+  { week: 34, home: 'Young Apostles',    away: 'Dreams FC',          venue: 'Wenchi Sports Stadium',        date: 'May 16, 2027', type: 'Home' }
 ];
 
 // ==========================================
@@ -2052,18 +2058,7 @@ let lastArticlesHash = '';
 let lastApostlesTvHash = '';
 let lastHeroHash = '';
 
-// Apply hero write-up from admin localStorage
-function applyHeroWriteup() {
-  try {
-    const stored = localStorage.getItem('ya_hero_custom');
-    if (!stored) return;
-    const data = JSON.parse(stored);
-    const headlineEl = document.querySelector('.hero-headline');
-    const subtitleEl = document.querySelector('.hero-subtitle');
-    if (headlineEl && data.headline) headlineEl.textContent = data.headline;
-    if (subtitleEl && data.subtitle) subtitleEl.innerHTML = data.subtitle;
-  } catch (e) {}
-}
+// Apply hero write-up from admin localStorage — full version defined below at applyHeroWriteup()
 
 function checkStorageUpdates() {
   try {
@@ -2261,6 +2256,7 @@ function checkStorageUpdates() {
 }
 
 // Cloud sync from central repository data/cms.json
+// Always force-applies the server's authoritative data, bypassing stale localStorage cache.
 async function initCloudSync() {
   try {
     const res = await fetch('data/cms.json?v=' + Date.now());
@@ -2277,8 +2273,9 @@ async function initCloudSync() {
         renderDispatches();
       }
 
-      // Sync Hero
+      // Sync Hero — always overwrite so admin changes always reflect for all users
       if (data.hero) {
+        localStorage.removeItem('ya_hero_custom'); // clear stale cache first
         localStorage.setItem('ya_hero_custom', JSON.stringify(data.hero));
         applyHeroWriteup();
       }
@@ -2301,8 +2298,9 @@ async function initCloudSync() {
         renderStandingsTable(data.leagueTable);
       }
 
-      // Sync Fixtures
+      // Sync Fixtures — always overwrite so admin score updates always reflect for all users
       if (Array.isArray(data.fixtures) && data.fixtures.length > 0) {
+        localStorage.removeItem('ya_club_fixtures'); // clear stale cache first
         localStorage.setItem('ya_club_fixtures', JSON.stringify(data.fixtures));
         renderMatches('all');
         if (document.getElementById('fixturesModal')?.classList.contains('open')) {
@@ -2317,6 +2315,42 @@ async function initCloudSync() {
 }
 
 
+// ==========================================
+// STANDINGS: Fetch latest from cms.json on load
+// ==========================================
+async function fetchCmsStandings() {
+  try {
+    const res = await fetch('data/cms.json?v=' + Date.now());
+    if (!res.ok) return;
+    const cms = await res.json();
+
+    // Render full 18-team table if present in cms
+    if (Array.isArray(cms.leagueTable) && cms.leagueTable.length) {
+      renderStandingsTable(cms.leagueTable);
+      localStorage.setItem('ya_league_table', JSON.stringify(cms.leagueTable));
+    }
+
+    // Update YA-specific stats from cms.standings
+    if (cms.standings) {
+      const s = cms.standings;
+      const rankEl = document.getElementById('yaRankPill');
+      const playedEl = document.getElementById('yaPlayed');
+      const diffEl = document.getElementById('yaGoalDiff');
+      const ptsEl = document.getElementById('yaPoints');
+      if (rankEl && s.rank !== undefined) rankEl.textContent = s.rank;
+      if (playedEl && s.played !== undefined) playedEl.textContent = s.played;
+      if (diffEl && s.diff !== undefined) {
+        diffEl.textContent = (Number(s.diff) > 0 ? '+' : '') + s.diff;
+        diffEl.style.color = Number(s.diff) >= 0 ? '#16a34a' : '#dc2626';
+      }
+      if (ptsEl && s.points !== undefined) ptsEl.textContent = s.points;
+      localStorage.setItem('ya_standings_record', JSON.stringify(s));
+    }
+  } catch (e) {
+    // Silently fail — hardcoded HTML will show as fallback
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadCart();
   renderSquad('all');
@@ -2326,6 +2360,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderApostlesTv();
   renderDispatches();
   updateStandingsUI();
+  fetchCmsStandings(); // Always fetch latest standings from server on load
   applyHeroWriteup();
   initCloudSync(); // Fetch latest centralized cloud data for all devices
   updateCountdown(); // Call immediately so numbers show right away
