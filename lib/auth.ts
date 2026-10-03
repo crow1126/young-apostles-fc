@@ -31,7 +31,7 @@ export const authOptions: NextAuthOptions = {
         const adminEmail = process.env.ADMIN_EMAIL || 'admin@youngapostlesfc.com';
         const adminHash =
           process.env.ADMIN_PASSWORD_HASH ||
-          '$2a$10$j5qePBCwtPF1KAojpfj8Fu.g/7Rn3BS0LLo6gGJuPRSekUto1Ac4.'; // default: VincentYAFC
+          '$2a$10$j5qePBCwtPF1KAojpfj8Fu.g/7Rn3BS0LLo6gGJuPRSekUto1Ac4.';
 
         const inputUser = credentials.email.trim().toLowerCase();
         const emailMatch =
@@ -42,8 +42,6 @@ export const authOptions: NextAuthOptions = {
         try {
           passwordMatch =
             bcrypt.compareSync(credentials.password, adminHash) ||
-            credentials.password === 'VincentYAFC' ||
-            bcrypt.compareSync(credentials.password, '$2a$10$j5qePBCwtPF1KAojpfj8Fu.g/7Rn3BS0LLo6gGJuPRSekUto1Ac4.') ||
             bcrypt.compareSync(credentials.password, '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa');
         } catch (e) {
           passwordMatch = false;

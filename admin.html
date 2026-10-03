@@ -651,7 +651,7 @@
       <button type="submit" class="btn-login"><i class="fa-solid fa-unlock-keyhole"></i> Access Portal</button>
       <div style="text-align:center;margin-top:0.9rem;">
         <button type="button" onclick="resetAdminLoginStorage()" style="background:none;border:none;color:var(--agold);font-size:0.75rem;cursor:pointer;text-decoration:underline;opacity:0.85;">
-          <i class="fa-solid fa-rotate-left"></i> Reset login cache (if stuck)
+          <i class="fa-solid fa-rotate-left"></i> Reset login cache
         </button>
       </div>
     </form>
@@ -1674,20 +1674,28 @@ function buildCmsPayload(remoteCms = null) {
 }
 
 async function pushCmsToGitHub(label) {
-  // 1. First attempt to push through zero-token serverless function /api/sync
+  // 1. First attempt to push through secure serverless function /api/sync
   try {
     const payload = buildCmsPayload();
     const token = getGhToken();
+    const adminToken = sessionStorage.getItem('ya_admin_token') || localStorage.getItem('ya_admin_token') || '';
+    const headers = { 'Content-Type': 'application/json' };
+    if (adminToken) headers['x-admin-token'] = adminToken;
+
     const syncRes = await fetch('/api/sync', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ payload, label, token: token || undefined })
+      headers: headers,
+      body: JSON.stringify({ payload, label, token: token || undefined, adminToken })
     });
     if (syncRes.ok) {
       adminToast(`✅ Pushed live! ${label || 'Changes'} will be visible in ~30s.`);
       return;
     } else {
       const errData = await syncRes.json().catch(() => ({}));
+      if (syncRes.status === 401) {
+        adminToast('⚠️ Session expired or unauthorized. Please re-login.');
+        return;
+      }
       // If serverless is not configured with environment token and client has no token, prompt
       if (errData && errData.needsClientToken && !token) {
         showMissingTokenModal(label);
@@ -1771,22 +1779,19 @@ function handleImageUpload(input, targetFieldId) {
 }
 
 /* ==========================================
-   ADMIN AUTHENTICATION  (SHA-256 hashed)
+   ADMIN AUTHENTICATION  (Secure Server + SHA-256 Fallback)
    ========================================== */
 
-// Default credentials — SHA-256 hashes only; plain text never stored here.
-// username: admin or admin@youngapostlesfc.com
-// password: VincentYAFC (fallback: yafc2026)
 const DEFAULT_USER_HASHES = [
-  'fc97e90e8c23e4f0aa22cf4f9fdcee2b6b05cc7f2cfa3ece20d3c42e93ab3b85', // sha256('admin')
-  '135d0216d89a7969fc9ce3882d55561dc0d8f94b130dedd807e7f24e8a98d6b2'  // sha256('admin@youngapostlesfc.com')
+  'fc97e90e8c23e4f0aa22cf4f9fdcee2b6b05cc7f2cfa3ece20d3c42e93ab3b85',
+  '135d0216d89a7969fc9ce3882d55561dc0d8f94b130dedd807e7f24e8a98d6b2'
 ];
 const DEFAULT_USER_HASH = DEFAULT_USER_HASHES[0];
 const DEFAULT_PASS_HASHES = [
-  '0297af44d68933a8041381cab1ebebd2711848451f63cda9e60f5163385470bd', // sha256('VincentYAFC')
-  '48e31de8f6f2560a88c2a6fe2b5ce95da591df6e598676e2a84c72609a1668c8', // sha256('vincentyafc')
-  'e1c5de4e40143e7c6de8d43714f218f61b16f26bce3efcd6e3ebe049d421b8af', // legacy
-  '7e9cb705ea49d7b1c92ace8a62e49a6509409e9999e211b1d3eb3f93f3fc6571'  // sha256('yafc2026')
+  '0297af44d68933a8041381cab1ebebd2711848451f63cda9e60f5163385470bd',
+  '48e31de8f6f2560a88c2a6fe2b5ce95da591df6e598676e2a84c72609a1668c8',
+  'e1c5de4e40143e7c6de8d43714f218f61b16f26bce3efcd6e3ebe049d421b8af',
+  '7e9cb705ea49d7b1c92ace8a62e49a6509409e9999e211b1d3eb3f93f3fc6571'
 ];
 const DEFAULT_PASS_HASH = DEFAULT_PASS_HASHES[0];
 
@@ -1795,8 +1800,11 @@ function resetAdminLoginStorage() {
     localStorage.removeItem('ya_admin_creds_v2');
     localStorage.removeItem('ya_admin_creds');
     localStorage.removeItem('ya_admin_remember');
+    localStorage.removeItem('ya_admin_token');
     sessionStorage.clear();
-    alert('Login cache cleared successfully! You can now log in with:\nUsername: admin\nPassword: VincentYAFC');
+    document.cookie = 'ya_admin_logged=; path=/; max-age=0; SameSite=Strict';
+    document.cookie = 'ya_admin_token=; path=/; max-age=0; SameSite=Strict';
+    alert('Login cache cleared. Please enter your administrator credentials.');
     window.location.reload();
   } catch(e) {}
 }
@@ -1837,22 +1845,58 @@ function checkAdminSession() {
   } catch(e) {}
 }
 
+function showLoginError(msg) {
+  const err = document.getElementById('loginErr');
+  if (err) {
+    err.textContent = msg || 'Incorrect credentials. Try again.';
+    err.style.display = 'block';
+    setTimeout(() => { if (err) err.style.display = 'none'; }, 4500);
+  }
+}
+
 async function handleAdminLogin(e) {
   e.preventDefault();
   const u = (document.getElementById('loginUser')?.value || '').trim();
   const p = (document.getElementById('loginPass')?.value || '').trim();
   if (!u || !p) return;
 
-  const uLower = u.toLowerCase();
+  const btn = document.querySelector('.btn-login');
+  const origBtnContent = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+  }
 
-  // 1. Direct check: guaranteed to work regardless of browser crypto or cache
-  const isDirectUser = (uLower === 'admin' || uLower === 'admin@youngapostlesfc.com');
-  const isDirectPass = (p === 'VincentYAFC' || p.toLowerCase() === 'vincentyafc' || p === 'yafc2026');
+  let isAuthorized = false;
+  let serverToken = '';
 
-  let isAuthorized = isDirectUser && isDirectPass;
+  // 1. Primary: Secure server-side authentication with rate limiting & bcrypt
+  try {
+    const res = await fetch('/api/auth/admin-login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: u, password: p })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success) {
+        isAuthorized = true;
+        serverToken = data.token || '';
+      }
+    } else {
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 429) {
+        showLoginError(data.error || 'Too many failed login attempts. Please wait 15 minutes.');
+        if (btn) { btn.disabled = false; btn.innerHTML = origBtnContent; }
+        return;
+      }
+    }
+  } catch (netErr) {
+    // Serverless endpoint unreachable (e.g. offline preview or file:// protocol)
+  }
 
-  // 2. Hash check for custom credentials saved in Settings
-  if (!isAuthorized) {
+  // 2. Offline fallback (only used if running offline without backend server)
+  if (!isAuthorized && window.location.protocol === 'file:') {
     try {
       const [uHash, pHash] = await Promise.all([sha256(u), sha256(p)]);
       const creds = await getAdminCreds();
@@ -1862,12 +1906,21 @@ async function handleAdminLogin(e) {
     } catch(err) {}
   }
 
+  if (btn) {
+    btn.disabled = false;
+    btn.innerHTML = origBtnContent;
+  }
+
   if (isAuthorized) {
     const remember = document.getElementById('loginRemember')?.checked !== false;
     try {
       sessionStorage.setItem('ya_admin_logged_in', '1');
+      if (serverToken) {
+        sessionStorage.setItem('ya_admin_token', serverToken);
+      }
       if (remember) {
         localStorage.setItem('ya_admin_remember', '1');
+        if (serverToken) localStorage.setItem('ya_admin_token', serverToken);
         document.cookie = 'ya_admin_logged=1; path=/; max-age=31536000; SameSite=Strict';
       }
     } catch(err) {}
@@ -1875,19 +1928,19 @@ async function handleAdminLogin(e) {
     document.getElementById('adminApp').style.display = 'block';
     initAdmin();
   } else {
-    const err = document.getElementById('loginErr');
-    if (err) {
-      err.style.display = 'block';
-      setTimeout(() => { if (err) err.style.display = 'none'; }, 3500);
-    }
+    showLoginError('Incorrect credentials. Try again.');
   }
 }
 
 function adminLogout() {
   try {
     sessionStorage.removeItem('ya_admin_logged_in');
+    sessionStorage.removeItem('ya_admin_token');
     localStorage.removeItem('ya_admin_remember');
+    localStorage.removeItem('ya_admin_token');
     document.cookie = 'ya_admin_logged=; path=/; max-age=0; SameSite=Strict';
+    document.cookie = 'ya_admin_token=; path=/; max-age=0; SameSite=Strict';
+    fetch('/api/auth/admin-logout', { method: 'POST' }).catch(() => {});
   } catch(err) {}
   document.getElementById('loginGate').style.display = 'flex';
   document.getElementById('adminApp').style.display = 'none';

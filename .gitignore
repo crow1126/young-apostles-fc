@@ -30,3 +30,4 @@ build/
 
 # Next.js type declarations (auto-generated)
 next-env.d.ts
+*.tsbuildinfo

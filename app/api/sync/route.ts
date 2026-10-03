@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { verifyAdminToken } from '@/lib/admin-token';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 
 const GH_OWNER = process.env.GITHUB_OWNER || 'crow1126';
 const GH_REPO = process.env.GITHUB_REPO || 'young-apostles-fc';
@@ -14,7 +17,7 @@ export async function OPTIONS() {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-admin-token',
     },
   });
 }
@@ -22,6 +25,36 @@ export async function OPTIONS() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}));
+
+    // Verify admin authentication
+    const cookieToken = request.cookies.get('ya_admin_token')?.value;
+    const headerToken = request.headers.get('x-admin-token');
+    const adminToken = body.adminToken || headerToken || cookieToken;
+
+    let isAuthenticated = verifyAdminToken(adminToken);
+
+    if (!isAuthenticated) {
+      const session = await getServerSession(authOptions).catch(() => null);
+      if (session && (session.user as any)?.role === 'admin') {
+        isAuthenticated = true;
+      }
+    }
+
+    // Direct personal GitHub PAT provided by caller is also accepted
+    if (!isAuthenticated && body.token && typeof body.token === 'string' && body.token.startsWith('ghp_')) {
+      isAuthenticated = true;
+    }
+
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Valid admin session required to publish changes.' },
+        {
+          status: 401,
+          headers: { 'Access-Control-Allow-Origin': '*' },
+        }
+      );
+    }
+
     const token =
       body.token ||
       process.env.GITHUB_TOKEN ||
