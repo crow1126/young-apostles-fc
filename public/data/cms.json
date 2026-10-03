@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-03T08:18:20.930Z",
+  "lastUpdated": "2026-10-03T08:48:02.669Z",
   "hero": {
     "headline": "Young Apostles FC: Fighting for Glory in Ghana's Premier League",
     "subtitle": "<strong>\"AGYA NA ƆWƆ TUMI\"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level."
@@ -103,9 +103,9 @@
     }
   ],
   "standings": {
-    "rank": "17",
-    "played": "4",
-    "diff": "-6",
+    "rank": "15",
+    "played": "3",
+    "diff": "-5",
     "points": "3"
   },
   "leagueTable": [
@@ -311,9 +311,10 @@
       "away": "Heart of Lions",
       "venue": "Wenchi Sports Stadium",
       "date": "Sep 27, 2026",
-      "type": "Home",
       "score": "1 - 2",
-      "result": "L"
+      "result": "L",
+      "scorer": "",
+      "type": "Home"
     },
     {
       "week": 5,
@@ -567,6 +568,5 @@
       "status": "Active",
       "joinDate": "2026-09-23T11:00:00Z"
     }
-  ],
-  "standingsLastSynced": "2026-10-01T13:44:41.078Z"
+  ]
 }
