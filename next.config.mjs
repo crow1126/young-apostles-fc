@@ -12,6 +12,19 @@ const nextConfig = {
       ]
     }
   },
+  async headers() {
+    return [
+      {
+        // Prevent Vercel CDN from caching CMS data files — ensures
+        // admin result pushes are immediately visible site-wide
+        source: '/data/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=0, s-maxage=0, must-revalidate' },
+          { key: 'Surrogate-Control', value: 'no-store' },
+        ],
+      },
+    ];
+  },
   async rewrites() {
     return [
       {

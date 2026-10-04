@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-04T19:09:02.992Z",
+  "lastUpdated": "2026-10-04T19:55:00.000Z",
   "hero": {
     "headline": "Rep the badge in style!💛💙",
     "subtitle": "Get your Young Apostles home & away replica jerseys this Sunday at the stadium and selected sales outlets now!\n\n• GH₵200\n\n#YAFC #AgyaNaƆwɔTumi",
@@ -110,27 +110,27 @@
     }
   ],
   "standings": {
-    "rank": "15",
-    "played": "3",
-    "diff": "-5",
+    "rank": "17",
+    "played": "5",
+    "diff": "-7",
     "points": "3"
   },
   "leagueTable": [
     {
       "pos": 1,
-      "name": "Medeama",
-      "crest": "assets/opponents/medeamasc.png",
-      "played": 4,
+      "name": "Samartex",
+      "crest": "assets/opponents/samartex.png",
+      "played": 5,
       "diff": "+4",
-      "points": 8,
+      "points": 11,
       "isClub": false
     },
     {
       "pos": 2,
-      "name": "Samartex",
-      "crest": "assets/opponents/samartex.png",
+      "name": "Medeama",
+      "crest": "assets/opponents/medeamasc.png",
       "played": 4,
-      "diff": "+3",
+      "diff": "+4",
       "points": 8,
       "isClub": false
     },
@@ -264,8 +264,8 @@
       "pos": 17,
       "name": "Young Apostles",
       "crest": "assets/official-logo.png",
-      "played": 4,
-      "diff": "-6",
+      "played": 5,
+      "diff": "-7",
       "points": 3,
       "isClub": true
     },

@@ -1641,6 +1641,7 @@ async function saveTokenAndPushFromModal() {
 }
 
 function buildCmsPayload(remoteCms = null) {
+  const remote = remoteCms || window.remoteCms || null;
   // Assemble full cms.json payload from localStorage safely merging with remote
   const blogs = (() => { try { const r = localStorage.getItem('ya_club_unified_blogs'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
   const apostlesTv = (() => { try { const r = localStorage.getItem('ya_apostles_tv_videos'); return r ? JSON.parse(r) : []; } catch(e) { return []; } })();
@@ -1653,23 +1654,23 @@ function buildCmsPayload(remoteCms = null) {
   const payload = { lastUpdated: new Date().toISOString() };
 
   if (hero) payload.hero = hero;
-  else if (remoteCms && remoteCms.hero) payload.hero = remoteCms.hero;
+  else if (remote && remote.hero) payload.hero = remote.hero;
 
   if (blogs.length) payload.blogs = blogs;
-  else if (remoteCms && Array.isArray(remoteCms.blogs) && remoteCms.blogs.length) payload.blogs = remoteCms.blogs;
+  else if (remote && Array.isArray(remote.blogs) && remote.blogs.length) payload.blogs = remote.blogs;
 
   if (apostlesTv.length) payload.apostlesTv = apostlesTv;
-  else if (remoteCms && Array.isArray(remoteCms.apostlesTv) && remoteCms.apostlesTv.length) payload.apostlesTv = remoteCms.apostlesTv;
+  else if (remote && Array.isArray(remote.apostlesTv) && remote.apostlesTv.length) payload.apostlesTv = remote.apostlesTv;
   else payload.apostlesTv = [];
 
   if (standings) payload.standings = standings;
-  else if (remoteCms && remoteCms.standings) payload.standings = remoteCms.standings;
+  else if (remote && remote.standings) payload.standings = remote.standings;
 
   if (leagueTable && Array.isArray(leagueTable) && leagueTable.length) payload.leagueTable = leagueTable;
-  else if (remoteCms && Array.isArray(remoteCms.leagueTable) && remoteCms.leagueTable.length) payload.leagueTable = remoteCms.leagueTable;
+  else if (remote && Array.isArray(remote.leagueTable) && remote.leagueTable.length) payload.leagueTable = remote.leagueTable;
 
-  payload.fixtures = fixtures.length ? fixtures : (remoteCms && Array.isArray(remoteCms.fixtures) && remoteCms.fixtures.length ? remoteCms.fixtures : (typeof DEFAULT_FIXTURES !== 'undefined' ? DEFAULT_FIXTURES : []));
-  payload.members = members.length ? members : (remoteCms && Array.isArray(remoteCms.members) ? remoteCms.members : []);
+  payload.fixtures = fixtures.length ? fixtures : (remote && Array.isArray(remote.fixtures) && remote.fixtures.length ? remote.fixtures : (typeof DEFAULT_FIXTURES !== 'undefined' ? DEFAULT_FIXTURES : []));
+  payload.members = members.length ? members : (remote && Array.isArray(remote.members) ? remote.members : []);
   return payload;
 }
 
@@ -2148,8 +2149,63 @@ function getFixtures() {
   } catch(e) {}
   return DEFAULT_FIXTURES;
 }
+function autoRecalculateStandingsFromFixtures(fixtures) {
+  if (!Array.isArray(fixtures)) return;
+  const yaMatches = fixtures.filter(f =>
+    Boolean(f && f.score && typeof f.score === 'string') &&
+    ((f.home && f.home.toLowerCase().includes('young apostles')) ||
+     (f.away && f.away.toLowerCase().includes('young apostles')))
+  );
+  if (!yaMatches.length) return;
+
+  let played = 0, wins = 0, draws = 0, losses = 0, goalsFor = 0, goalsAgainst = 0;
+  for (const m of yaMatches) {
+    const isHome = m.home && m.home.toLowerCase().includes('young apostles');
+    const parts = m.score.split('-').map(s => parseInt(s.trim(), 10));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      played += 1;
+      const hGoals = parts[0], aGoals = parts[1];
+      const yGoals = isHome ? hGoals : aGoals;
+      const oppGoals = isHome ? aGoals : hGoals;
+      goalsFor += yGoals;
+      goalsAgainst += oppGoals;
+      if (yGoals > oppGoals) wins += 1;
+      else if (yGoals === oppGoals) draws += 1;
+      else losses += 1;
+    }
+  }
+
+  const diff = goalsFor - goalsAgainst;
+  const points = (wins * 3) + draws;
+  const diffStr = diff > 0 ? `+${diff}` : String(diff);
+
+  const prevStandings = JSON.parse(localStorage.getItem('ya_standings_record') || '{}');
+  const standings = {
+    rank: prevStandings.rank || '17',
+    played: String(played),
+    diff: diffStr,
+    points: String(points)
+  };
+  localStorage.setItem('ya_standings_record', JSON.stringify(standings));
+
+  try {
+    const tRaw = localStorage.getItem('ya_league_table');
+    if (tRaw) {
+      const table = JSON.parse(tRaw);
+      const yaRow = table.find(t => t.isClub || (t.name && t.name.toLowerCase().includes('young apostles')));
+      if (yaRow) {
+        yaRow.played = played;
+        yaRow.diff = diffStr;
+        yaRow.points = points;
+        localStorage.setItem('ya_league_table', JSON.stringify(table));
+      }
+    }
+  } catch(e) {}
+}
+
 function saveFixtures(arr) {
   localStorage.setItem('ya_club_fixtures', JSON.stringify(arr));
+  autoRecalculateStandingsFromFixtures(arr);
   try {
     if (window.BroadcastChannel) {
       const bc = new BroadcastChannel('ya_channel');
@@ -2158,8 +2214,8 @@ function saveFixtures(arr) {
     }
     window.dispatchEvent(new Event('storage'));
   } catch(e) {}
-  adminToast('Fixtures & scoreline saved! Reflects on site immediately.');
-  pushCmsToGitHub('fixtures');
+  adminToast('Fixtures & scoreline saved! Standings updated & pushing live.');
+  pushCmsToGitHub('fixtures & standings');
 }
 const DEFAULT_TV_VIDEOS = [
   { id: 'fpleoX_sUIA', title: 'Match Highlights: Young Apostles 1 - 0 Basake Holy Stars', tag: 'MATCH HIGHLIGHTS', thumb: 'assets/apostle-tv-video1.jpg' },
@@ -3292,65 +3348,58 @@ if (window.BroadcastChannel) {
     if (res.ok) {
       const data = await res.json();
       if (!data) return;
+      window.remoteCms = data;
 
-      // Hydrate blogs if not in localStorage or if localStorage is empty
-      if (Array.isArray(data.blogs) && data.blogs.length) {
-        const localBlogs = localStorage.getItem('ya_club_unified_blogs');
-        if (!localBlogs || localBlogs === '[]') {
+      const localLastUpdated = localStorage.getItem('ya_cms_last_updated');
+      const isRemoteNewer = !localLastUpdated || !data.lastUpdated || new Date(data.lastUpdated) >= new Date(localLastUpdated);
+
+      if (isRemoteNewer) {
+        if (data.lastUpdated) localStorage.setItem('ya_cms_last_updated', data.lastUpdated);
+
+        // Hydrate blogs
+        if (Array.isArray(data.blogs) && data.blogs.length) {
           localStorage.setItem('ya_club_unified_blogs', JSON.stringify(data.blogs));
           localStorage.setItem('ya_club_dispatches', JSON.stringify(data.blogs));
           if (currentPanel === 'news') renderNewsPanel();
         }
-      }
 
-      // Hydrate TV videos
-      if (Array.isArray(data.apostlesTv) && data.apostlesTv.length) {
-        const localTv = localStorage.getItem('ya_apostles_tv_videos');
-        if (!localTv || localTv === '[]') {
+        // Hydrate TV videos
+        if (Array.isArray(data.apostlesTv) && data.apostlesTv.length) {
           localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(data.apostlesTv));
           if (currentPanel === 'apostlestv') renderTvPanel();
         }
-      }
 
-      // Hydrate Fixtures
-      if (Array.isArray(data.fixtures) && data.fixtures.length) {
-        const localFix = localStorage.getItem('ya_club_fixtures');
-        if (!localFix || localFix === '[]') {
+        // Hydrate Fixtures
+        if (Array.isArray(data.fixtures) && data.fixtures.length) {
           localStorage.setItem('ya_club_fixtures', JSON.stringify(data.fixtures));
           if (currentPanel === 'fixtures') renderFixturesPanel();
         }
-      }
 
-      // Hydrate Hero
-      if (data.hero) {
-        const localHero = localStorage.getItem('ya_hero_custom');
-        if (!localHero) {
+        // Hydrate Hero
+        if (data.hero) {
           localStorage.setItem('ya_hero_custom', JSON.stringify(data.hero));
           if (currentPanel === 'hero') loadHeroFields();
         }
-      }
 
-      // Hydrate Standings
-      if (data.standings) {
-        const localStandings = localStorage.getItem('ya_standings_record');
-        if (!localStandings) {
+        // Hydrate Standings
+        if (data.standings) {
           localStorage.setItem('ya_standings_record', JSON.stringify(data.standings));
         }
-      }
 
-      // Hydrate Full League Table
-      if (Array.isArray(data.leagueTable) && data.leagueTable.length) {
-        localStorage.setItem('ya_league_table', JSON.stringify(data.leagueTable));
-        if (currentPanel === 'hero' && typeof renderAdminLeagueTable === 'function') {
-          renderAdminLeagueTable(data.leagueTable);
+        // Hydrate Full League Table
+        if (Array.isArray(data.leagueTable) && data.leagueTable.length) {
+          localStorage.setItem('ya_league_table', JSON.stringify(data.leagueTable));
+          if (currentPanel === 'hero' && typeof renderAdminLeagueTable === 'function') {
+            renderAdminLeagueTable(data.leagueTable);
+          }
         }
-      }
 
-      // Hydrate Members
-      if (Array.isArray(data.members) && data.members.length) {
-        localStorage.setItem('ya_cms_members', JSON.stringify(data.members));
-        if (currentPanel === 'dashboard') renderDashboard();
-        if (currentPanel === 'members') renderMembersTable();
+        // Hydrate Members
+        if (Array.isArray(data.members) && data.members.length) {
+          localStorage.setItem('ya_cms_members', JSON.stringify(data.members));
+          if (currentPanel === 'dashboard') renderDashboard();
+          if (currentPanel === 'members') renderMembersTable();
+        }
       }
     }
   } catch(e) {}

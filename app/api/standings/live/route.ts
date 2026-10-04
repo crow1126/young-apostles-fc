@@ -5,8 +5,8 @@ import path from 'path';
 export const dynamic = 'force-dynamic';
 
 const OFFICIAL_2026_TABLE = [
-  { pos: 1, name: 'Medeama', crest: 'assets/opponents/medeamasc.png', played: 4, diff: '+4', points: 8, isClub: false },
-  { pos: 2, name: 'Samartex', crest: 'assets/opponents/samartex.png', played: 4, diff: '+3', points: 8, isClub: false },
+  { pos: 1, name: 'Samartex', crest: 'assets/opponents/samartex.png', played: 5, diff: '+4', points: 11, isClub: false },
+  { pos: 2, name: 'Medeama', crest: 'assets/opponents/medeamasc.png', played: 4, diff: '+4', points: 8, isClub: false },
   { pos: 3, name: 'Ashgold', crest: 'assets/opponents/ashgold.png', played: 4, diff: '+2', points: 7, isClub: false },
   { pos: 4, name: 'Port City', crest: 'assets/opponents/portcity.png', played: 4, diff: '+2', points: 7, isClub: false },
   { pos: 5, name: 'Hearts of Oak', crest: 'assets/opponents/heartsofoak.png', played: 4, diff: '+4', points: 7, isClub: false },
@@ -21,7 +21,7 @@ const OFFICIAL_2026_TABLE = [
   { pos: 14, name: 'Debibi United', crest: 'assets/opponents/debibiunited.png', played: 4, diff: '+1', points: 4, isClub: false },
   { pos: 15, name: 'Berekum Chelsea', crest: 'assets/opponents/berekumchelsea.png', played: 4, diff: '-3', points: 4, isClub: false },
   { pos: 16, name: 'Gold Stars', crest: 'assets/opponents/goldstarsfc.png', played: 4, diff: '-3', points: 3, isClub: false },
-  { pos: 17, name: 'Young Apostles', crest: 'assets/official-logo.png', played: 4, diff: '-6', points: 3, isClub: true },
+  { pos: 17, name: 'Young Apostles', crest: 'assets/official-logo.png', played: 5, diff: '-7', points: 3, isClub: true },
   { pos: 18, name: 'Dreams', crest: 'assets/opponents/dreamsfc.png', played: 4, diff: '-4', points: 1, isClub: false }
 ];
 
@@ -47,8 +47,8 @@ export async function GET() {
         if (Array.isArray(json.leagueTable) && json.leagueTable.length > 0) {
           const yaClub = json.leagueTable.find((t: any) => t.isClub || (t.name && t.name.toLowerCase().includes('young apostles'))) || {
             pos: 17,
-            played: 4,
-            diff: '-6',
+            played: 5,
+            diff: '-7',
             points: 3,
             name: 'Young Apostles',
           };
