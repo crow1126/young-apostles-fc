@@ -2,12 +2,6 @@
   "framework": "nextjs",
   "buildCommand": "next build",
   "outputDirectory": ".next",
-  "crons": [
-    {
-      "path": "/api/cron/scrape",
-      "schedule": "0 6 * * *"
-    }
-  ],
   "headers": [
     {
       "source": "/data/:path*",

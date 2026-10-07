@@ -1177,64 +1177,8 @@
               </div>
             </div>
 
-            <!-- GHANA PREMIER LEAGUE STANDINGS & LARGE TABLE -->
-            <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--aborder);">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.85rem; flex-wrap:wrap; gap:0.5rem;">
-                <div style="font-weight:700; font-size:0.92rem; color:#fff; display:flex; align-items:center; gap:0.45rem;">
-                  <i class="fa-solid fa-trophy" style="color:var(--agold);"></i> Ghana Premier League Standings
-                </div>
-                <div style="display:flex; gap:0.4rem;">
-                  <button type="button" class="btn-admin-secondary" style="font-size:0.75rem; padding:0.35rem 0.75rem;" onclick="syncLiveGplTable()">
-                    <i class="fa-solid fa-rotate"></i> Sync Live Table
-                  </button>
-                </div>
-              </div>
-
-              <!-- Young Apostles Quick Ribbon Data -->
-              <label style="font-size:0.7rem; color:var(--amuted); text-transform:uppercase; font-weight:700; display:block; margin-bottom:0.4rem;">Young Apostles FC Ribbon Stats:</label>
-              <div class="form-row" style="margin-bottom:1rem;">
-                <div class="admin-form-group">
-                  <label>Rank / Pos</label><input type="number" class="admin-input" id="standRank" placeholder="8" oninput="syncRibbonToTable()">
-                </div>
-                <div class="admin-form-group">
-                  <label>Played (P)</label><input type="number" class="admin-input" id="standPlayed" placeholder="2" oninput="syncRibbonToTable()">
-                </div>
-                <div class="admin-form-group">
-                  <label>Goal Diff</label><input type="number" class="admin-input" id="standDiff" placeholder="-2" oninput="syncRibbonToTable()">
-                </div>
-                <div class="admin-form-group">
-                  <label>Points (PTS)</label><input type="number" class="admin-input" id="standPts" placeholder="3" oninput="syncRibbonToTable()">
-                </div>
-              </div>
-
-              <!-- 18-Team Table Collapsible Preview / Editor -->
-              <div style="background:rgba(255,255,255,0.02); border:1px solid var(--aborder); border-radius:10px; padding:0.9rem; margin-bottom:1.2rem;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
-                  <span style="font-size:0.76rem; font-weight:700; color:var(--amuted); text-transform:uppercase; letter-spacing:0.06em;">Full 18-Club League Table:</span>
-                  <span id="tableSyncNotice" style="font-size:0.72rem; color:#4ade80;"><i class="fa-solid fa-circle-check"></i> Auto-Sync Ready</span>
-                </div>
-                <div style="max-height:280px; overflow-y:auto; border:1px solid rgba(255,255,255,0.07); border-radius:8px;">
-                  <table style="width:100%; border-collapse:collapse; font-size:0.78rem;">
-                    <thead>
-                      <tr style="background:rgba(255,255,255,0.05); color:var(--amuted); text-align:left; border-bottom:1px solid var(--aborder);">
-                        <th style="padding:6px 10px; width:45px;">Pos</th>
-                        <th style="padding:6px 10px;">Club</th>
-                        <th style="padding:6px 10px; width:55px; text-align:center;">P</th>
-                        <th style="padding:6px 10px; width:65px; text-align:center;">Diff</th>
-                        <th style="padding:6px 10px; width:60px; text-align:right;">PTS</th>
-                      </tr>
-                    </thead>
-                    <tbody id="adminTableRows"></tbody>
-                  </table>
-                </div>
-                <p style="font-size:0.72rem; color:var(--amuted); margin-top:0.6rem; line-height:1.4;">
-                  ⚡ <strong>Auto-Update Scheduled:</strong> A GitHub Action runs automatically after every matchday to pull live updates from API-Football. You can also click <strong>"Sync Live Table"</strong> above or edit stats manually anytime.
-                </p>
-              </div>
-            </div>
-
             <div style="display:flex; gap:0.6rem; margin-top:1.25rem;">
-              <button class="btn-admin-primary" onclick="saveHeroAndStandings()">
+              <button class="btn-admin-primary" onclick="saveHeroSection()">
                 <i class="fa-solid fa-floppy-disk"></i> Save &amp; Push to Live Site
               </button>
             </div>
@@ -3170,28 +3114,9 @@ function loadHeroFields() {
     if (h.ctaText) document.getElementById('heroCtaText').value = h.ctaText;
     if (h.ctaLink) document.getElementById('heroCtaLink').value = h.ctaLink;
   } catch(e) {}
-
-  try {
-    const s = JSON.parse(localStorage.getItem('ya_standings_record') || '{}');
-    if (s.rank !== undefined) document.getElementById('standRank').value = s.rank;
-    if (s.played !== undefined) document.getElementById('standPlayed').value = s.played;
-    if (s.diff !== undefined) document.getElementById('standDiff').value = s.diff;
-    if (s.points !== undefined) document.getElementById('standPts').value = s.points;
-  } catch(e) {}
-
-  try {
-    const tRaw = localStorage.getItem('ya_league_table');
-    if (tRaw) {
-      renderAdminLeagueTable(JSON.parse(tRaw));
-    } else {
-      syncLiveGplTable();
-    }
-  } catch(e) {
-    renderAdminLeagueTable(DEFAULT_GPL_TABLE);
-  }
 }
 
-function saveHeroAndStandings() {
+function saveHeroSection() {
   const headline = document.getElementById('heroHeadline').value.trim();
   const subtitle = document.getElementById('heroSubtitle').value.trim();
   const image = document.getElementById('heroImage').value.trim();
@@ -3217,39 +3142,10 @@ function saveHeroAndStandings() {
     } catch(e) {}
   }
 
-  const rank = document.getElementById('standRank').value;
-  const played = document.getElementById('standPlayed').value;
-  const diff = document.getElementById('standDiff').value;
-  const points = document.getElementById('standPts').value;
-  if (rank || played || diff || points) {
-    const standingsData = { rank, played, diff, points };
-    localStorage.setItem('ya_standings_record', JSON.stringify(standingsData));
-    try {
-      if (window.BroadcastChannel) {
-        const bc = new BroadcastChannel('ya_channel');
-        bc.postMessage({ type: 'STANDINGS_UPDATED', standings: standingsData });
-        bc.close();
-      }
-      window.dispatchEvent(new Event('storage'));
-    } catch(e) {}
-  }
-
-  // Save 18-team League Table
-  if (currentAdminTable && currentAdminTable.length) {
-    localStorage.setItem('ya_league_table', JSON.stringify(currentAdminTable));
-    try {
-      if (window.BroadcastChannel) {
-        const bc = new BroadcastChannel('ya_channel');
-        bc.postMessage({ type: 'TABLE_UPDATED', table: currentAdminTable });
-        bc.close();
-      }
-      window.dispatchEvent(new Event('storage'));
-    } catch(e) {}
-  }
-
-  adminToast('Hero section & standings saved! Reflects immediately on site.');
-  pushCmsToGitHub('hero & standings');
+  adminToast('Hero section saved! Reflects immediately on site.');
+  pushCmsToGitHub('hero section');
 }
+const saveHeroAndStandings = saveHeroSection;
 
 /* ==========================================
    UTILITIES

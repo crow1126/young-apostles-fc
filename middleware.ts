@@ -39,7 +39,7 @@ export function middleware(request: NextRequest) {
   }
 
   // NextAuth protection ONLY for /app/admin Next.js dashboard routes, never admin.html
-  if (pathname.startsWith('/admin/') && pathname !== '/admin.html') {
+  if ((pathname === '/admin' || pathname.startsWith('/admin/')) && pathname !== '/admin.html') {
     if (pathname === '/admin/login') {
       return NextResponse.next();
     }
