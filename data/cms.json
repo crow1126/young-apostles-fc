@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-07T08:33:44.492Z",
+  "lastUpdated": "2026-10-11T17:40:32.872Z",
   "hero": {
     "headline": "Rep the badge in style!💛💙",
     "subtitle": "Get your Young Apostles home & away replica jerseys this Sunday at the stadium and selected sales outlets now!\n\n• GH₵200\n\n#YAFC #AgyaNaƆwɔTumi",
@@ -117,9 +117,9 @@
   ],
   "standings": {
     "rank": "17",
-    "played": "5",
-    "diff": "-7",
-    "points": "3"
+    "played": "6",
+    "diff": "-6",
+    "points": "6"
   },
   "leagueTable": [
     {
@@ -270,9 +270,9 @@
       "pos": 17,
       "name": "Young Apostles",
       "crest": "assets/official-logo.png",
-      "played": 5,
-      "diff": "-7",
-      "points": 3,
+      "played": 6,
+      "diff": "-6",
+      "points": 6,
       "isClub": true
     },
     {
@@ -346,6 +346,9 @@
       "away": "Aduana Stars",
       "venue": "Wenchi Sports Stadium",
       "date": "Oct 11, 2026",
+      "score": "1 - 0",
+      "result": "L",
+      "scorer": "Prempeh",
       "type": "Home"
     },
     {
