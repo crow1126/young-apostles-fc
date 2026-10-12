@@ -1,5 +1,5 @@
-/**
- * YOUNG APOSTLES FOOTBALL CLUB â€” OFFICIAL JAVASCRIPT
+﻿/**
+ * YOUNG APOSTLES FOOTBALL CLUB Ã¢â‚¬â€ OFFICIAL JAVASCRIPT
  * Dribbble Premier UI/UX Design System
  * 38-Player Squad, Team Shop, Cart System, GPL 2026/27 Fixtures, Rankings & Highlights
  */
@@ -87,11 +87,11 @@ const PRODUCTS_DATA = [
   },
   {
     id: 'fan-scarf',
-    name: 'Official "Agya Na Ɔwɔ Tumi" Stadium Scarf',
+    name: 'Official "Agya Na Æ†wÉ” Tumi" Stadium Scarf',
     category: 'accessories',
     image: 'assets/ya-official-scarf.jpg',
     tag: 'CLUB HERITAGE',
-    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Ɔwɔ Tumi" in bold white lettering, radiant golden yellow and navy stripes, embroidered club shield crests on both ends, and classic gold and white fringe tassels.',
+    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Æ†wÉ” Tumi" in bold white lettering, radiant golden yellow and navy stripes, embroidered club shield crests on both ends, and classic gold and white fringe tassels.',
     customizable: false
   }
 ];
@@ -99,12 +99,12 @@ const PRODUCTS_DATA = [
 // ==========================================
 // 3. DATA: 34-WEEK GPL FIXTURES (2026/27 OFFICIAL SEASON)
 // ==========================================
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // NOTE: This list is the canonical fallback only. The live
 // fixture list is always fetched from data/cms.json via
 // initCloudSync() on page load and stored in localStorage.
 // Any admin-entered scores/results will always take priority.
-// ─────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const FIXTURES_ROUND_1 = [
   { week: 1,  home: 'Vision FC',         away: 'Young Apostles',    venue: 'Nii Adjei Kraku Stadium',      date: 'Sep 5, 2026',  type: 'Away',  score: '3 - 0', result: 'L' },
   { week: 2,  home: 'Young Apostles',    away: 'Basake Holy Stars',  venue: 'Wenchi Sports Stadium',        date: 'Sep 13, 2026', type: 'Home',  score: '1 - 0', result: 'W', scorer: "Samuel Prempeh 7'" },
@@ -581,8 +581,8 @@ function renderFixturesModal(roundNum) {
         <span style="font-weight:700; color:var(--ya-green); font-size:0.8rem; margin-right:0.5rem;">WK ${fx.week}</span>
         <strong>${fx.home}</strong> vs <strong>${fx.away}</strong>
         <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
-          ${fx.venue} Â· ${fx.date}
-          ${fx.scorer ? `<span style="color:#15803d; font-weight:700; margin-left:6px;">âš½ ${fx.scorer}</span>` : ''}
+          ${fx.venue} Ã‚Â· ${fx.date}
+          ${fx.scorer ? `<span style="color:#15803d; font-weight:700; margin-left:6px;">Ã¢Å¡Â½ ${fx.scorer}</span>` : ''}
         </div>
       </div>
       <span style="padding:4px 10px; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800; ${badgeColor}">
@@ -718,7 +718,7 @@ function handleDetailsSubmit(e) {
 
 function sendWaitlistWhatsApp() {
   if (!currentPendingOrder) return;
-  const itemsStr = (currentPendingOrder.items || []).map(i => `• ${i.name} (Size: ${i.size || 'L'}${i.customName ? ', Print: ' + i.customName + ' #' + i.customNum : ''}) x${i.qty}`).join('%0A');
+  const itemsStr = (currentPendingOrder.items || []).map(i => `â€¢ ${i.name} (Size: ${i.size || 'L'}${i.customName ? ', Print: ' + i.customName + ' #' + i.customNum : ''}) x${i.qty}`).join('%0A');
   const msg = `*OFFICIAL YOUNG APOSTLES FC PRE-ORDER WAITLIST*%0A%0A` +
               `*Queue No:* ${currentPendingOrder.ref}%0A` +
               `*Customer:* ${currentPendingOrder.name}%0A` +
@@ -726,7 +726,7 @@ function sendWaitlistWhatsApp() {
               `*Location:* ${currentPendingOrder.city} (${currentPendingOrder.address})%0A%0A` +
               `*Reserved Gear:*%0A${itemsStr}%0A%0A` +
               `*Total Value:* GHS ${currentPendingOrder.total.toFixed(2)} (Pay on delivery)%0A%0A` +
-              `_Agya Na Ɔwɔ Tumi! Please confirm my waitlist allocation._`;
+              `_Agya Na Æ†wÉ” Tumi! Please confirm my waitlist allocation._`;
 
   window.open(`https://wa.me/233539779380?text=${msg}`, '_blank');
 }
@@ -841,31 +841,31 @@ function sendOrderViaWhatsApp() {
 
   const order = currentPendingOrder;
   const itemsText = order.items.map(i => 
-    `• ${i.name} (Size: ${i.size}${i.customName ? `, ${i.customName} #${i.customNumber}` : ''}) x${i.qty} = GHS ${(i.price * i.qty).toFixed(2)}`
+    `â€¢ ${i.name} (Size: ${i.size}${i.customName ? `, ${i.customName} #${i.customNumber}` : ''}) x${i.qty} = GHS ${(i.price * i.qty).toFixed(2)}`
   ).join('\n');
 
   const message = 
-`⚽ *YOUNG APOSTLES FC — OFFICIAL STORE ORDER*
-━━━━━━━━━━━━━━━━━━━━
-📋 *Order Reference:* ${order.ref}
-👤 *Customer Name:* ${order.name}
-📞 *Customer Phone:* ${order.phone}
-📍 *Delivery City:* ${order.city}
-🏠 *Address / Landmark:* ${order.address}
+`âš½ *YOUNG APOSTLES FC â€” OFFICIAL STORE ORDER*
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
+ðŸ“‹ *Order Reference:* ${order.ref}
+ðŸ‘¤ *Customer Name:* ${order.name}
+ðŸ“ž *Customer Phone:* ${order.phone}
+ðŸ“ *Delivery City:* ${order.city}
+ðŸ  *Address / Landmark:* ${order.address}
 
-🛍️ *ORDERED ITEMS:*
+ðŸ›ï¸ *ORDERED ITEMS:*
 ${itemsText}
 
-💰 *Items Subtotal:* GHS ${order.subtotal.toFixed(2)}
-🚚 *Courier Delivery:* GHS 25.00
-💳 *TOTAL AMOUNT:* GHS ${order.total.toFixed(2)}
+ðŸ’° *Items Subtotal:* GHS ${order.subtotal.toFixed(2)}
+ðŸšš *Courier Delivery:* GHS 25.00
+ðŸ’³ *TOTAL AMOUNT:* GHS ${order.total.toFixed(2)}
 
-📱 *MOMO PAYMENT DETAILS:*
-• Paid to MoMo: *0539779380*
-• Recipient: *Gerald Damoah Domfeh* (Young Apostles FC)
-• Transaction ID: ${order.txId || document.getElementById('coTxId')?.value || 'Pending Verification'}
-• Date: ${order.date}
-━━━━━━━━━━━━━━━━━━━━
+ðŸ“± *MOMO PAYMENT DETAILS:*
+â€¢ Paid to MoMo: *0539779380*
+â€¢ Recipient: *Gerald Damoah Domfeh* (Young Apostles FC)
+â€¢ Transaction ID: ${order.txId || document.getElementById('coTxId')?.value || 'Pending Verification'}
+â€¢ Date: ${order.date}
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 _Submitted via Official Young Apostles FC Digital Portal_`;
 
   const url = `https://wa.me/233539779380?text=${encodeURIComponent(message)}`;
@@ -938,7 +938,7 @@ function handleMembershipPaymentSubmit(e) {
   e.preventDefault();
   const txId = (document.getElementById('memTxIdInput')?.value || '').trim();
   if (!txId) {
-    showToast('⚠️ Please enter your MoMo Transaction ID.');
+    showToast('âš ï¸ Please enter your MoMo Transaction ID.');
     return;
   }
 
@@ -981,7 +981,7 @@ function handleMembershipPaymentSubmit(e) {
   closeMembershipPaymentModal();
   loadProfileData();
   updateVipPassVisibility();
-  showToast('🎉 MoMo Payment confirmed! Your VIP Pass is now activated.');
+  showToast('ðŸŽ‰ MoMo Payment confirmed! Your VIP Pass is now activated.');
   setTimeout(() => {
     openProfileModal();
   }, 400);
@@ -992,7 +992,7 @@ function openNewsModal() {
 }
 
 function openAboutModal() {
-  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012–2026)');
+  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012â€“2026)');
 }
 
 function openYouTubeLink(url) {
@@ -1072,7 +1072,7 @@ const TOURNAMENTS_DATA = {
     title: 'Ghana Premier League',
     season: '2026/2027 Season',
     teams: '18 Clubs',
-    dates: '15 August 2026 â€“ 25 May 2027',
+    dates: '15 August 2026 Ã¢â‚¬â€œ 25 May 2027',
     targetDate: new Date(Date.now() + 48 * 24 * 60 * 60 * 1000)
   },
   facup: {
@@ -1080,7 +1080,7 @@ const TOURNAMENTS_DATA = {
     title: 'MTN FA Cup Ghana',
     season: '2026/2027 Knockout Tournament',
     teams: '64 Clubs Nationwide',
-    dates: 'October 2026 â€“ June 2027',
+    dates: 'October 2026 Ã¢â‚¬â€œ June 2027',
     targetDate: new Date(Date.now() + 65 * 24 * 60 * 60 * 1000)
   },
   supercup: {
@@ -1096,7 +1096,7 @@ const TOURNAMENTS_DATA = {
     title: 'CAF Champions League Preliminary',
     season: '2027 Pan-African Stage',
     teams: '54 African Champions',
-    dates: 'February 2027 â€“ November 2027',
+    dates: 'February 2027 Ã¢â‚¬â€œ November 2027',
     targetDate: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000)
   }
 };
@@ -1217,7 +1217,7 @@ function renderMatches(typeFilter = 'all') {
     // Time/score center box
     const isWin = f.result === 'W';
     const isLoss = f.result === 'L';
-    const resultTag = isWin ? 'WIN • FT' : isLoss ? 'LOSS • FT' : 'DRAW • FT';
+    const resultTag = isWin ? 'WIN â€¢ FT' : isLoss ? 'LOSS â€¢ FT' : 'DRAW â€¢ FT';
     const resultColor = isWin ? '#15803D' : isLoss ? '#B91C1C' : '#475569';
     const resultBg = isWin ? '#DCFCE7' : isLoss ? '#FEE2E2' : '#F1F5F9';
     const resultBorder = isWin ? '#86EFAC' : isLoss ? '#FCA5A5' : '#CBD5E1';
@@ -1226,7 +1226,7 @@ function renderMatches(typeFilter = 'all') {
       ? `<div class="match-score-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:${resultBg}; border:1px solid ${resultBorder}; min-width:74px;">
            <span style="font-size:0.62rem; font-weight:800; color:${resultColor}; letter-spacing:0.08em; text-transform:uppercase;">${resultTag}</span>
            <span style="font-size:1.25rem; font-weight:900; color:${resultColor}; line-height:1.2; letter-spacing:0.02em;">${f.score}</span>
-           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;">⚽ ${f.scorer}</span>` : ''}
+           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;">âš½ ${f.scorer}</span>` : ''}
          </div>`
       : `<div class="match-time-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:#F8FAFC; border:1px solid #E2E8F0; min-width:74px;">
            <span style="font-size:0.62rem; font-weight:800; color:#034694; letter-spacing:0.08em; text-transform:uppercase;">KICKOFF</span>
@@ -1317,7 +1317,7 @@ function updateCountdown() {
   if (headEl) headEl.textContent = `${isHome ? 'Home' : 'Away'} vs ${opponent}`;
   if (venEl) {
     const dateStr = nextMatch.kickoff.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
-    venEl.textContent = `${nextMatch.venue} Â· ${dateStr} Â· 15:00 GMT`;
+    venEl.textContent = `${nextMatch.venue} Ã‚Â· ${dateStr} Ã‚Â· 15:00 GMT`;
   }
 }
 
@@ -1348,7 +1348,7 @@ function showToast(msg) {
 
 // ==========================================
 // ==========================================
-// 14. APOSTLES TV â€” YOUTUBE VIDEOS SYSTEM (DYNAMIC & ADMIN CONTROLLED)
+// 14. APOSTLES TV Ã¢â‚¬â€ YOUTUBE VIDEOS SYSTEM (DYNAMIC & ADMIN CONTROLLED)
 // ==========================================
 const DEFAULT_APOSTLES_TV_VIDEOS = [
   {
@@ -1405,7 +1405,7 @@ const DEFAULT_UNIFIED_BLOGS = [
       "assets/prempeh-potm-boots.jpg"
     ],
     excerpt: "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month following his impressive performances in the Ghana Premier League, having scored all three goals for the Apostles after Matchday Six.",
-    content: `<p>Young Apostles FC striker <strong>Samuel Prempeh</strong> has been named the club’s <strong>AJ Construction & Building Player of the Month</strong> following his impressive performances in the Ghana Premier League.</p><p>Prempeh has scored all three of Young Apostles’ goals after Matchday Six of the 2026/27 Ghana Premier League season, underlining his importance to the team’s attacking efforts.</p><p>He emerged as the winner ahead of fellow nominees <strong>Samuel Adamu</strong> and <strong>John Afram Attah Jnr</strong> to claim the monthly award in recognition of his contribution to the club.</p><h4>Player of the Month Prize Package</h4><p>As part of his prize, Prempeh received an exclusive collection of official club gear:</p><ul><li>Customised Young Apostles FC team bag</li><li>Adidas Predator football boots</li><li>Customised shin guards</li><li>Official match socks and football hose</li></ul><div class="news-quote-box"><blockquote style="font-style:italic;font-size:1.05rem;color:var(--ya-blue-deep);margin:0 0 0.5rem 0;">“This recognition will serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.”</blockquote><cite style="font-weight:700;color:var(--ya-gold-hover);font-size:0.85rem;">&mdash; Samuel Prempeh, Striker</cite></div><p>Speaking after receiving the award, the striker expressed his determination to maintain his form and continue delivering for the club. He noted that the recognition would serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.</p><p>Prempeh’s achievement highlights his growing influence within the team as Young Apostles continue their campaign in the Ghana Premier League.</p><p>The club congratulates Samuel Prempeh on winning the award and looks forward to more goals and outstanding performances from the striker.</p><div class="article-gallery-grid"><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Receiving Player of the Month Award" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">🏆 Samuel Prempeh on pitch with award</div></div><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-boots.jpg" alt="Customized Bag, Predator Boots, and Shin Guards" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">⚽ Custom Bag, Predator Boots &amp; Shin Guards</div></div></div>`,
+    content: `<p>Young Apostles FC striker <strong>Samuel Prempeh</strong> has been named the clubâ€™s <strong>AJ Construction & Building Player of the Month</strong> following his impressive performances in the Ghana Premier League.</p><p>Prempeh has scored all three of Young Apostlesâ€™ goals after Matchday Six of the 2026/27 Ghana Premier League season, underlining his importance to the teamâ€™s attacking efforts.</p><p>He emerged as the winner ahead of fellow nominees <strong>Samuel Adamu</strong> and <strong>John Afram Attah Jnr</strong> to claim the monthly award in recognition of his contribution to the club.</p><h4>Player of the Month Prize Package</h4><p>As part of his prize, Prempeh received an exclusive collection of official club gear:</p><ul><li>Customised Young Apostles FC team bag</li><li>Adidas Predator football boots</li><li>Customised shin guards</li><li>Official match socks and football hose</li></ul><div class="news-quote-box"><blockquote style="font-style:italic;font-size:1.05rem;color:var(--ya-blue-deep);margin:0 0 0.5rem 0;">â€œThis recognition will serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.â€</blockquote><cite style="font-weight:700;color:var(--ya-gold-hover);font-size:0.85rem;">&mdash; Samuel Prempeh, Striker</cite></div><p>Speaking after receiving the award, the striker expressed his determination to maintain his form and continue delivering for the club. He noted that the recognition would serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.</p><p>Prempehâ€™s achievement highlights his growing influence within the team as Young Apostles continue their campaign in the Ghana Premier League.</p><p>The club congratulates Samuel Prempeh on winning the award and looks forward to more goals and outstanding performances from the striker.</p><div class="article-gallery-grid"><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Receiving Player of the Month Award" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">ðŸ† Samuel Prempeh on pitch with award</div></div><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-boots.jpg" alt="Customized Bag, Predator Boots, and Shin Guards" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">âš½ Custom Bag, Predator Boots &amp; Shin Guards</div></div></div>`,
     readTime: "3 min read"
   },
 
@@ -1659,7 +1659,7 @@ function shareCurrentModalArticleToTwitter() {
   if (!currentModalArticle) return;
   const title = currentModalArticle.title || 'Young Apostles FC Official Update';
   const excerpt = (currentModalArticle.excerpt || '').replace(/<[^>]+>/g, '').slice(0, 140);
-  const tweetText = `🏆 ${title}\n\n${excerpt}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
+  const tweetText = `ðŸ† ${title}\n\n${excerpt}\n\n#YAFC #AgyaNaÆ†wÉ”Tumi #GPL`;
   const shareUrl = window.location.origin + '/#news';
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
   window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
@@ -1842,7 +1842,7 @@ function playApostleVideo(videoId, title) {
   if (modalDirectBtn) {
     modalDirectBtn.href = ytUrl;
   }
-  if (titleEl) titleEl.textContent = title || 'Apostles TV · Young Apostles FC';
+  if (titleEl) titleEl.textContent = title || 'Apostles TV Â· Young Apostles FC';
   if (modal) modal.classList.add('open');
 }
 
@@ -2118,7 +2118,7 @@ let lastArticlesHash = '';
 let lastApostlesTvHash = '';
 let lastHeroHash = '';
 
-// Apply hero write-up from admin localStorage — full version defined below at applyHeroWriteup()
+// Apply hero write-up from admin localStorage â€” full version defined below at applyHeroWriteup()
 
 function checkStorageUpdates() {
   try {
@@ -2243,6 +2243,14 @@ if (window.BroadcastChannel) {
         loadProfileData();
         updateVipPassVisibility();
       }
+      if (ev.data && ev.data.type === 'STANDINGS_POSTER_UPDATED') {
+        if (ev.data.poster) localStorage.setItem('ya_standings_poster', ev.data.poster);
+        updateStandingsPosterVisibility();
+      }
+      if (ev.data && ev.data.type === 'STANDINGS_POSTER_REMOVED') {
+        localStorage.removeItem('ya_standings_poster');
+        updateStandingsPosterVisibility();
+      }
     };
   } catch(e) {}
 }
@@ -2258,7 +2266,7 @@ function startHeroSlideshow() {
   heroSlideshowTimer = setInterval(() => {
     const nextIdx = (currentHeroIndex + 1) % currentHeroImages.length;
     goToHeroSlide(nextIdx);
-  }, 5000); // Transitions to next photo automatically every 5 seconds
+  }, 4000); // Auto-advance every 4 seconds
 }
 
 function goToHeroSlide(index) {
@@ -2410,7 +2418,7 @@ async function initCloudSync() {
         renderDispatches();
       }
 
-      // Sync Hero — always overwrite so admin changes always reflect for all users
+      // Sync Hero â€” always overwrite so admin changes always reflect for all users
       if (data.hero) {
         localStorage.removeItem('ya_hero_custom'); // clear stale cache first
         localStorage.setItem('ya_hero_custom', JSON.stringify(data.hero));
@@ -2435,7 +2443,7 @@ async function initCloudSync() {
         renderStandingsTable(data.leagueTable);
       }
 
-      // Sync Fixtures — always overwrite so admin score updates always reflect for all users
+      // Sync Fixtures â€” always overwrite so admin score updates always reflect for all users
       if (Array.isArray(data.fixtures) && data.fixtures.length > 0) {
         localStorage.removeItem('ya_club_fixtures'); // clear stale cache first
         localStorage.setItem('ya_club_fixtures', JSON.stringify(data.fixtures));
@@ -2484,7 +2492,7 @@ async function fetchCmsStandings() {
       localStorage.setItem('ya_standings_record', JSON.stringify(s));
     }
   } catch (e) {
-    // Silently fail — hardcoded HTML will show as fallback
+    // Silently fail â€” hardcoded HTML will show as fallback
   }
 }
 
@@ -2526,7 +2534,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Match Category Tabs — real-time filter
+  // Match Category Tabs â€” real-time filter
   document.querySelectorAll('#matchCategoryTabs .tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('#matchCategoryTabs .tab-btn').forEach(b => b.classList.remove('active'));
@@ -2693,12 +2701,12 @@ function saveProfile(e) {
   const tier = document.getElementById('profileTier')?.value || 'Official Fan Pass';
 
   if (!name) {
-    showToast('⚠️ Please enter your Full Name.');
+    showToast('âš ï¸ Please enter your Full Name.');
     document.getElementById('profileName')?.focus();
     return;
   }
   if (!phone) {
-    showToast('⚠️ Please enter your Phone/WhatsApp Number.');
+    showToast('âš ï¸ Please enter your Phone/WhatsApp Number.');
     document.getElementById('profilePhone')?.focus();
     return;
   }
@@ -2778,19 +2786,19 @@ function saveProfile(e) {
   const waBtn = document.getElementById('btnProfileWhatsApp');
   if (waBtn) waBtn.style.display = 'flex';
 
-  showToast(`✅ Profile saved! Welcome to Young Apostles FC 2026/27 Season, ${name}!`);
+  showToast(`âœ… Profile saved! Welcome to Young Apostles FC 2026/27 Season, ${name}!`);
 }
 
 function sendProfileWhatsApp() {
   let profile = {};
   try { profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(e) {}
   const name = profile.name || document.getElementById('profileName')?.value.trim() || 'Apostle Fan';
-  const phone = profile.phone || document.getElementById('profilePhone')?.value.trim() || '—';
-  const email = profile.email || document.getElementById('profileEmail')?.value.trim() || '—';
+  const phone = profile.phone || document.getElementById('profilePhone')?.value.trim() || 'â€”';
+  const email = profile.email || document.getElementById('profileEmail')?.value.trim() || 'â€”';
   const tier = profile.tier || 'Standard Apostle';
   const passId = profile.id || 'YAFC-26-PASS';
 
-  const msg = `*OFFICIAL YOUNG APOSTLES FC — 2026/27 SEASONAL SUBSCRIPTION*%0A%0A` +
+  const msg = `*OFFICIAL YOUNG APOSTLES FC â€” 2026/27 SEASONAL SUBSCRIPTION*%0A%0A` +
               `*Pass ID:* ${passId}%0A` +
               `*Member Name:* ${name}%0A` +
               `*Phone / WhatsApp:* ${phone}%0A` +
@@ -2798,7 +2806,7 @@ function sendProfileWhatsApp() {
               `*Subscription:* 2026/27 Ghana Premier League Season Pass%0A` +
               `*Tier:* ${tier}%0A` +
               `*Status:* Active Member%0A%0A` +
-              `_Agya Na Ɔwɔ Tumi! Please confirm my 2026/27 official seasonal subscription._`;
+              `_Agya Na Æ†wÉ” Tumi! Please confirm my 2026/27 official seasonal subscription._`;
 
   window.open(`https://wa.me/233539779380?text=${msg}`, '_blank');
 }
@@ -2890,3 +2898,4 @@ function updateStandingsPosterVisibility() {
     }
   }
 }
+
