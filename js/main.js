@@ -2247,32 +2247,41 @@ if (window.BroadcastChannel) {
   } catch(e) {}
 }
 
+let heroSlideshowTimer = null;
 let currentHeroImages = [];
 let currentHeroIndex = 0;
 
-function switchHeroPhoto(photoNum) {
+function startHeroSlideshow() {
+  if (heroSlideshowTimer) clearInterval(heroSlideshowTimer);
+  if (!currentHeroImages || currentHeroImages.length <= 1) return;
+
+  heroSlideshowTimer = setInterval(() => {
+    const nextIdx = (currentHeroIndex + 1) % currentHeroImages.length;
+    goToHeroSlide(nextIdx);
+  }, 5000); // Transitions to next photo automatically every 5 seconds
+}
+
+function goToHeroSlide(index) {
+  if (!currentHeroImages || !currentHeroImages.length) return;
+  currentHeroIndex = index % currentHeroImages.length;
   const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
-  const btn1 = document.getElementById('heroPhotoBtn1');
-  const btn2 = document.getElementById('heroPhotoBtn2');
-  if (!bgImgEl || currentHeroImages.length < 2) return;
-
-  currentHeroIndex = (photoNum === 2) ? 1 : 0;
-  bgImgEl.style.transition = 'opacity 0.25s ease';
-  bgImgEl.style.opacity = '0.7';
-  setTimeout(() => {
-    bgImgEl.src = currentHeroImages[currentHeroIndex];
-    bgImgEl.style.opacity = '1';
-  }, 150);
-
-  if (btn1 && btn2) {
-    if (currentHeroIndex === 0) {
-      btn1.classList.add('active');
-      btn2.classList.remove('active');
-    } else {
-      btn1.classList.remove('active');
-      btn2.classList.add('active');
-    }
+  if (bgImgEl) {
+    bgImgEl.style.transition = 'opacity 0.6s ease-in-out';
+    bgImgEl.style.opacity = '0.35';
+    setTimeout(() => {
+      bgImgEl.src = currentHeroImages[currentHeroIndex];
+      bgImgEl.style.opacity = '1';
+    }, 250);
   }
+  updateHeroDots();
+}
+
+function updateHeroDots() {
+  const dots = document.querySelectorAll('.hero-slide-dot');
+  dots.forEach((d, idx) => {
+    if (idx === currentHeroIndex) d.classList.add('active');
+    else d.classList.remove('active');
+  });
 }
 
 function applyHeroWriteup() {
@@ -2288,7 +2297,7 @@ function applyHeroWriteup() {
   const subtitleEl = document.getElementById('heroSubtitleDisplay') || document.querySelector('.hero-subtitle');
   const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
   const ctaBtn = document.getElementById('heroCtaBtn') || document.querySelector('.hero-cta-row .btn-hero-primary');
-  const photoSwitchBar = document.getElementById('heroPhotoSwitchBar');
+  const dotsContainer = document.getElementById('heroSlideDots');
 
   if (headlineEl && heroData.headline) {
     headlineEl.textContent = heroData.headline;
@@ -2297,24 +2306,34 @@ function applyHeroWriteup() {
     subtitleEl.innerHTML = heroData.subtitle;
   }
 
-  // Handle Dual Hero Images
-  const img1 = heroData.image || 'assets/prempeh-potm-award.jpg';
-  const img2 = heroData.image2 || null;
-
-  if (img2) {
-    currentHeroImages = [img1, img2];
-    if (photoSwitchBar) {
-      photoSwitchBar.style.display = 'inline-flex';
-    }
+  // Collect all hero photos (supporting 1, 2, 3 or more photos in array or image/image2/image3)
+  let imgList = [];
+  if (Array.isArray(heroData.images) && heroData.images.length > 0) {
+    imgList = heroData.images.filter(Boolean);
   } else {
-    currentHeroImages = [img1];
-    if (photoSwitchBar) {
-      photoSwitchBar.style.display = 'none';
+    if (heroData.image) imgList.push(heroData.image);
+    if (heroData.image2) imgList.push(heroData.image2);
+    if (heroData.image3) imgList.push(heroData.image3);
+  }
+
+  if (imgList.length === 0) imgList = ['assets/home-hero.jpg'];
+  currentHeroImages = imgList;
+
+  if (dotsContainer) {
+    if (currentHeroImages.length > 1) {
+      dotsContainer.style.display = 'inline-flex';
+      dotsContainer.innerHTML = currentHeroImages.map((_, idx) => `
+        <button type="button" class="hero-slide-dot ${idx === currentHeroIndex ? 'active' : ''}" onclick="goToHeroSlide(${idx}); startHeroSlideshow();" aria-label="Photo ${idx + 1}"></button>
+      `).join('');
+      startHeroSlideshow();
+    } else {
+      dotsContainer.style.display = 'none';
+      if (heroSlideshowTimer) clearInterval(heroSlideshowTimer);
     }
   }
 
-  if (bgImgEl && img1) {
-    bgImgEl.src = currentHeroImages[currentHeroIndex] || img1;
+  if (bgImgEl && currentHeroImages.length > 0) {
+    bgImgEl.src = currentHeroImages[currentHeroIndex] || currentHeroImages[0];
     bgImgEl.style.objectPosition = 'center top';
   }
 
@@ -2842,3 +2861,32 @@ function updateWaitlistCount() {
 function openAnticipateOverlay() {}
 function closeAnticipateOverlay() {}
 function updateOverlayCountdown() {}
+
+
+function openStandingsPosterModal() {
+  const modal = document.getElementById('standingsPosterModal');
+  const img = document.getElementById('standingsPosterImg');
+  const storedPoster = localStorage.getItem('ya_standings_poster');
+  if (img && storedPoster) {
+    img.src = storedPoster;
+  }
+  if (modal) modal.classList.add('open');
+}
+
+function closeStandingsPosterModal() {
+  document.getElementById('standingsPosterModal')?.classList.remove('open');
+}
+
+function updateStandingsPosterVisibility() {
+  const btn = document.getElementById('viewStandingsGraphicBtn');
+  const img = document.getElementById('standingsPosterImg');
+  const storedPoster = localStorage.getItem('ya_standings_poster');
+  if (btn) {
+    if (storedPoster) {
+      btn.style.display = 'inline-flex';
+      if (img) img.src = storedPoster;
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+}

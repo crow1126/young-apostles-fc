@@ -997,14 +997,7 @@
     <div class="container hero-content">
       <div class="hero-content__inner">
         <div class="hero-left">
-          <div class="hero-photo-switch-bar" id="heroPhotoSwitchBar" style="display:none;">
-            <button type="button" class="hero-photo-btn active" id="heroPhotoBtn1" onclick="switchHeroPhoto(1)">
-              <i class="fa-solid fa-camera"></i> <span id="heroPhotoLabel1">Photo 1: Prempeh Award</span>
-            </button>
-            <button type="button" class="hero-photo-btn" id="heroPhotoBtn2" onclick="switchHeroPhoto(2)">
-              <i class="fa-solid fa-images"></i> <span id="heroPhotoLabel2">Photo 2: Boots &amp; Gear</span>
-            </button>
-          </div>
+          <div class="hero-slide-dots" id="heroSlideDots" style="display:none;" aria-label="Hero photo indicators"></div>
           <h1 class="hero-headline" id="heroHeadlineDisplay">
             Young Apostles FC: Fighting for Glory in Ghana's Premier League
           </h1>
@@ -1112,6 +1105,9 @@
           <h2 class="section-title">Schedule / Fixtures</h2>
           <p class="section-subtitle">Official Results &amp; Upcoming Ghana Premier League Matchdays</p>
         </div>
+        <button class="section-link-action" id="viewStandingsGraphicBtn" style="display:none; margin-right:0.5rem;" onclick="openStandingsPosterModal()">
+          <i class="fa-solid fa-image"></i> Official Graphic
+        </button>
         <button class="section-link-action" onclick="openFixturesModal()">
           Full 34-Week Calendar <i class="fa-solid fa-arrow-right"></i>
         </button>
@@ -1838,9 +1834,7 @@
             <span class="news-meta-dot">&bull;</span>
             <span id="newsModalSource" class="news-meta-source"><i class="fa-brands fa-x-twitter"></i> Apostles Media Dispatch</span>
           </div>
-          <button type="button" class="btn-hero-primary" id="modalTopTwitterBtn" onclick="shareCurrentModalArticleToTwitter()" style="background:#0F172A; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:0.4rem 0.95rem; font-size:0.78rem; display:inline-flex; align-items:center; gap:0.45rem; border-radius:999px; cursor:pointer;">
-            <i class="fa-brands fa-x-twitter" style="color:#1D9BF0;"></i> Share on X
-          </button>
+          
         </div>
         <h2 id="newsModalTitle" style="font-family:var(--font-heading); font-size:1.55rem; font-weight:900; color:var(--ya-blue-deep); line-height:1.25; margin-bottom:1.25rem;">
           Article Headline
@@ -1853,12 +1847,7 @@
             <img src="assets/official-logo.png" alt="YA" style="width:28px; height:28px; object-fit:contain;">
             <span>Young Apostles FC Official Media Department</span>
           </div>
-          <div style="display:flex; align-items:center; gap:0.6rem;">
-            <button type="button" class="btn-hero-primary" onclick="shareCurrentModalArticleToTwitter()" style="background:#000; color:#fff; border:1px solid #334155; padding:0.55rem 1.25rem; font-size:0.85rem; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer;">
-              <i class="fa-brands fa-x-twitter" style="color:#1D9BF0;"></i> Share on X (Twitter)
-            </button>
-            <button class="btn-hero-secondary" style="padding:0.55rem 1.25rem; font-size:0.85rem;" onclick="closeNewsArticle()">Close</button>
-          </div>
+          <button class="btn-hero-secondary" style="padding:0.55rem 1.4rem; font-size:0.85rem;" onclick="closeNewsArticle()">Close</button>
         </div>
       </div>
     </div>
@@ -1907,6 +1896,27 @@
       <div style="padding:1rem 1.75rem; border-top:1px solid var(--border-subtle); background:var(--bg-subtle); flex-shrink:0; display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--text-muted);">
         <span><i class="fa-solid fa-building" style="margin-right:5px;"></i>Young Apostles FC &middot; Wenchi, Ghana</span>
         <button class="btn-hero-secondary" style="padding:0.4rem 1rem; font-size:0.8rem;" onclick="closePolicyModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Standings Graphic Poster Modal (View Official Poster) -->
+  <div class="modal-overlay" id="standingsPosterModal" onclick="if(event.target===this) closeStandingsPosterModal()">
+    <div class="modal-box" style="max-width:680px; padding:0; overflow:hidden; border-radius:16px; background:#0B1220; color:#fff;">
+      <div style="padding:1rem 1.4rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1);">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <i class="fa-solid fa-trophy" style="color:var(--ya-gold);"></i>
+          <h3 style="font-family:var(--font-heading); font-size:1rem; font-weight:800; color:#fff; margin:0;">Official GPL Standings Graphic</h3>
+        </div>
+        <button class="modal-close-btn" onclick="closeStandingsPosterModal()" style="color:#fff; background:rgba(255,255,255,0.15); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; font-size:1.25rem;">&times;</button>
+      </div>
+      <div style="padding:1rem; text-align:center; background:#070E29;">
+        <img id="standingsPosterImg" src="" alt="GPL Official Standings Poster" style="max-width:100%; max-height:75vh; border-radius:10px; object-fit:contain; box-shadow:0 8px 30px rgba(0,0,0,0.5);">
+      </div>
+      <div style="padding:0.85rem 1.4rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+        <span style="font-size:0.78rem; color:#94A3B8;">Official Young Apostles FC Media &middot; Ghana Premier League</span>
+        <button class="btn-hero-secondary" style="padding:0.4rem 1rem; font-size:0.8rem;" onclick="closeStandingsPosterModal()">Close</button>
       </div>
     </div>
   </div>

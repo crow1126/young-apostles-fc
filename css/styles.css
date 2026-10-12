@@ -5704,46 +5704,47 @@ button {
 /* =========================================================
    HERO DUAL-PHOTO SWITCHER & READABILITY UPGRADES
    ========================================================= */
-.hero-photo-switch-bar {
+
+/* =========================================================
+   HERO AUTOMATIC SLIDESHOW INDICATOR DOTS
+   ========================================================= */
+.hero-slide-dots {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(7, 14, 41, 0.75);
+  gap: 8px;
+  background: rgba(7, 14, 41, 0.65);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: 5px 8px;
+  padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  margin-bottom: 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 1.25rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-.hero-photo-btn {
-  background: transparent;
-  color: rgba(255, 255, 255, 0.85);
+.hero-slide-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
   border: none;
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 999px;
+  padding: 0;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.hero-photo-btn:hover {
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.15);
+.hero-slide-dot:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(1.15);
 }
 
-.hero-photo-btn.active {
+.hero-slide-dot.active {
   background: var(--ya-gold);
-  color: var(--ya-blue-deep);
-  box-shadow: 0 2px 10px rgba(255, 184, 0, 0.45);
+  width: 24px;
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(255, 184, 0, 0.6);
 }
+
 
 /* =========================================================
    ARTICLE READER & MODAL LONG-TERM READABILITY STYLES
