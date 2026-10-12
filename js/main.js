@@ -2441,6 +2441,7 @@ function checkStorageUpdates() {
     applyHeroWriteup();
     updateStandingsUI();
     updateVipPassVisibility();
+    updateStandingsPosterVisibility();
   } catch(e) {}
 }
 
@@ -2486,7 +2487,14 @@ async function initCloudSync() {
         localStorage.setItem('ya_league_table', JSON.stringify(data.leagueTable));
         renderStandingsTable(data.leagueTable);
       }
-
+      // Sync Standings Poster Graphic (uploaded by admin)
+      if (data.standingsPoster) {
+        localStorage.setItem('ya_standings_poster', data.standingsPoster);
+        updateStandingsPosterVisibility();
+      } else if (Object.prototype.hasOwnProperty.call(data, 'standingsPoster') && !data.standingsPoster) {
+        localStorage.removeItem('ya_standings_poster');
+        updateStandingsPosterVisibility();
+      }
       // Sync Fixtures â€” always overwrite so admin score updates always reflect for all users
       if (Array.isArray(data.fixtures) && data.fixtures.length > 0) {
         localStorage.removeItem('ya_club_fixtures'); // clear stale cache first
