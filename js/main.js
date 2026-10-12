@@ -2271,15 +2271,22 @@ function startHeroSlideshow() {
 
 function goToHeroSlide(index) {
   if (!currentHeroImages || !currentHeroImages.length) return;
-  currentHeroIndex = index % currentHeroImages.length;
-  const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
-  if (bgImgEl) {
-    bgImgEl.style.transition = 'opacity 0.6s ease-in-out';
-    bgImgEl.style.opacity = '0.35';
-    setTimeout(() => {
+  currentHeroIndex = ((index % currentHeroImages.length) + currentHeroImages.length) % currentHeroImages.length;
+
+  const slides = document.querySelectorAll('.hero-bg-slide');
+  if (slides.length > 0) {
+    slides.forEach((sl, idx) => {
+      if (idx === currentHeroIndex) {
+        sl.classList.add('active');
+      } else {
+        sl.classList.remove('active');
+      }
+    });
+  } else {
+    const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
+    if (bgImgEl) {
       bgImgEl.src = currentHeroImages[currentHeroIndex];
-      bgImgEl.style.opacity = '1';
-    }, 250);
+    }
   }
   updateHeroDots();
 }
@@ -2290,6 +2297,33 @@ function updateHeroDots() {
     if (idx === currentHeroIndex) d.classList.add('active');
     else d.classList.remove('active');
   });
+}
+
+function initHeroSwipe() {
+  const heroSec = document.querySelector('.hero-section');
+  if (!heroSec || heroSec._swipeBound) return;
+  heroSec._swipeBound = true;
+  let startX = 0;
+  let startY = 0;
+  heroSec.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0]) {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  heroSec.addEventListener('touchend', (e) => {
+    if (!e.changedTouches || !e.changedTouches[0]) return;
+    const diffX = e.changedTouches[0].clientX - startX;
+    const diffY = e.changedTouches[0].clientY - startY;
+    if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX < 0) {
+        goToHeroSlide(currentHeroIndex + 1);
+      } else {
+        goToHeroSlide(currentHeroIndex - 1);
+      }
+      startHeroSlideshow();
+    }
+  }, { passive: true });
 }
 
 function applyHeroWriteup() {
@@ -2303,7 +2337,6 @@ function applyHeroWriteup() {
 
   const headlineEl = document.getElementById('heroHeadlineDisplay') || document.querySelector('.hero-headline');
   const subtitleEl = document.getElementById('heroSubtitleDisplay') || document.querySelector('.hero-subtitle');
-  const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
   const ctaBtn = document.getElementById('heroCtaBtn') || document.querySelector('.hero-cta-row .btn-hero-primary');
   const dotsContainer = document.getElementById('heroSlideDots');
 
@@ -2327,6 +2360,22 @@ function applyHeroWriteup() {
   if (imgList.length === 0) imgList = ['assets/home-hero.jpg'];
   currentHeroImages = imgList;
 
+  // Render multi-slide image layers inside .hero-slides-wrap for true 60fps GPU crossfade
+  const slidesWrap = document.getElementById('heroSlidesWrap') || document.querySelector('.hero-slides-wrap');
+  if (slidesWrap) {
+    slidesWrap.innerHTML = currentHeroImages.map((src, idx) => `
+      <img src="${src}" alt="Young Apostles FC Photo ${idx + 1}" class="hero-bg-slide ${idx === currentHeroIndex ? 'active' : ''}" ${idx === 0 ? 'id="heroBgImage"' : ''} style="object-fit:cover; object-position:center top !important;">
+    `).join('');
+  } else {
+    const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
+    if (bgImgEl && currentHeroImages.length > 0) {
+      bgImgEl.src = currentHeroImages[currentHeroIndex] || currentHeroImages[0];
+    }
+  }
+
+  // Wire mobile swipe gestures
+  initHeroSwipe();
+
   if (dotsContainer) {
     if (currentHeroImages.length > 1) {
       dotsContainer.style.display = 'inline-flex';
@@ -2338,11 +2387,6 @@ function applyHeroWriteup() {
       dotsContainer.style.display = 'none';
       if (heroSlideshowTimer) clearInterval(heroSlideshowTimer);
     }
-  }
-
-  if (bgImgEl && currentHeroImages.length > 0) {
-    bgImgEl.src = currentHeroImages[currentHeroIndex] || currentHeroImages[0];
-    bgImgEl.style.objectPosition = 'center top';
   }
 
   if (ctaBtn) {
@@ -2507,6 +2551,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateStandingsUI();
   fetchCmsStandings(); // Always fetch latest standings from server on load
   applyHeroWriteup();
+  updateStandingsPosterVisibility();
   initCloudSync(); // Fetch latest centralized cloud data for all devices
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
@@ -2887,15 +2932,22 @@ function closeStandingsPosterModal() {
 
 function updateStandingsPosterVisibility() {
   const btn = document.getElementById('viewStandingsGraphicBtn');
-  const img = document.getElementById('standingsPosterImg');
+  const modalImg = document.getElementById('standingsPosterImg');
+  const sectionGraphic = document.getElementById('standingsGraphicContainer');
+  const sectionImg = document.getElementById('standingsSectionImg');
+  const pendingNotice = document.getElementById('standingsPendingNotice');
   const storedPoster = localStorage.getItem('ya_standings_poster');
-  if (btn) {
-    if (storedPoster) {
-      btn.style.display = 'inline-flex';
-      if (img) img.src = storedPoster;
-    } else {
-      btn.style.display = 'none';
-    }
+
+  if (storedPoster) {
+    if (btn) btn.style.display = 'inline-flex';
+    if (modalImg) modalImg.src = storedPoster;
+    if (sectionImg) sectionImg.src = storedPoster;
+    if (sectionGraphic) sectionGraphic.style.display = 'block';
+    if (pendingNotice) pendingNotice.style.display = 'none';
+  } else {
+    if (btn) btn.style.display = 'none';
+    if (sectionGraphic) sectionGraphic.style.display = 'none';
+    if (pendingNotice) pendingNotice.style.display = 'block';
   }
 }
 

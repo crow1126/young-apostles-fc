@@ -1,6 +1,6 @@
-﻿/* ==========================================================================
-   YOUNG APOSTLES FOOTBALL CLUB â€” OFFICIAL STYLESHEET
-   Chelsea-Inspired UI Â· Royal Blue & White Â· Clean Premium Design
+/* ==========================================================================
+   YOUNG APOSTLES FOOTBALL CLUB — OFFICIAL STYLESHEET
+   Chelsea-Inspired UI · Royal Blue & White · Clean Premium Design
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
@@ -555,7 +555,7 @@ button {
   gap: 0.75rem;
 }
 
-/* Mobile Nav Action Buttons â€” Membership & Profile */
+/* Mobile Nav Action Buttons — Membership & Profile */
 .mobile-nav-actions {
   display: flex;
   flex-direction: column;
@@ -621,6 +621,60 @@ button {
   transform: translateZ(0);
   image-rendering: auto;
   transition: opacity 0.7s ease-in-out;
+}
+
+.hero-slides-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-bg-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top !important;
+  filter: contrast(1.04) saturate(1.05);
+  opacity: 0;
+  transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  pointer-events: none;
+}
+
+.hero-bg-slide.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Standings Section Styles */
+.section-standings {
+  padding: 4.5rem 0;
+}
+.standings-poster-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.standings-poster-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.55);
+}
+@media (max-width: 768px) {
+  .section-standings {
+    padding: 3rem 0;
+  }
+  .standings-poster-card {
+    padding: 0.85rem !important;
+    border-radius: 14px !important;
+  }
+  #standingsSectionImg {
+    max-height: 520px !important;
+  }
 }
 
 .hero-overlay {
@@ -778,7 +832,7 @@ button {
   gap: 1rem;
 }
 
-/* === SECTION HEADINGS â€” Chelsea "Latest News â†’" style === */
+/* === SECTION HEADINGS — Chelsea "Latest News →" style === */
 .section-title {
   font-family: var(--font-heading);
   font-size: 2.2rem;
@@ -811,7 +865,7 @@ button {
   color: #fff;
 }
 
-/* CATEGORY TABS â€” Chelsea underline style */
+/* CATEGORY TABS — Chelsea underline style */
 .category-tabs {
   display: flex;
   align-items: center;
@@ -856,7 +910,7 @@ button {
   background: #fff;
 }
 
-/* === MATCHES SECTION â€” Modern Elite Club Aesthetic === */
+/* === MATCHES SECTION — Modern Elite Club Aesthetic === */
 .section-matches {
   background: #F8FAFC;
   border-top: 1px solid var(--border-color);
@@ -1076,7 +1130,7 @@ button {
 .btn-match-tickets:hover {
 }
 
-/* Active (next match) card â€” deep blue with gold top */
+/* Active (next match) card — deep blue with gold top */
 .match-card--active {
   background: linear-gradient(160deg, #001489 0%, #0035b0 100%);
   border-color: #001489;
@@ -3334,7 +3388,7 @@ button {
     height: 38px;
   }
 
-  /* Mobile Drawer â€” offset below partner strip + nav bar */
+  /* Mobile Drawer — offset below partner strip + nav bar */
   .mobile-nav-drawer {
     top: 94px;
     box-shadow: 0 16px 36px rgba(0,0,0,0.55);
@@ -3704,7 +3758,7 @@ button {
 }
 
 /* ==========================================================================
-   SQUAD CARD â€” MINIMAL BODY
+   SQUAD CARD — MINIMAL BODY
    ========================================================================== */
 .squad-card__body--minimal {
   padding: 0.75rem 0.85rem;
@@ -3799,7 +3853,7 @@ button {
 }
 
 /* ==========================================================================
-   APOSTLE TV â€” VIDEOS GRID (Chelsea-style 3-column layout)
+   APOSTLE TV — VIDEOS GRID (Chelsea-style 3-column layout)
    ========================================================================== */
 .videos-grid {
   display: grid;

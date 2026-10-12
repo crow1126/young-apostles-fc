@@ -711,6 +711,9 @@
         <a class="sidebar-link" onclick="showPanel('hero')" href="#">
           <i class="fa-solid fa-image"></i> Hero Section
         </a>
+        <a class="sidebar-link" onclick="showPanel('standings')" href="#">
+          <i class="fa-solid fa-ranking-star"></i> Standings Poster
+        </a>
 
         <div class="sidebar-section-label">System</div>
         <a class="sidebar-link" onclick="showPanel('settings')" href="#">
@@ -1202,35 +1205,63 @@
               </button>
             </div>
 
-            <!-- ═══ STANDINGS GRAPHIC UPLOAD ═══════════════════════════════════════════ -->
-            <div style="margin-top:2rem; padding-top:1.5rem; border-top:2px solid var(--aborder);">
-              <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
-                <i class="fa-solid fa-table" style="color:var(--agold); font-size:1rem;"></i>
-                <span style="font-size:0.82rem; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.06em;">Matchday Standings Graphic</span>
-                <span style="font-size:0.7rem; background:rgba(212,175,55,0.18); color:var(--agold); padding:2px 8px; border-radius:99px; font-weight:700;">Admin Only</span>
-              </div>
-              <p style="font-size:0.78rem; color:var(--amuted); margin-bottom:1rem; line-height:1.5;">
-                Upload the official GPL standings table image after each game week. It will appear as a clickable graphic on the public website's Fixtures &amp; Results section.
-              </p>
+          </div>
+        </div>
 
-              <!-- Preview -->
-              <div id="standingsPosterPreviewWrap" style="display:none; position:relative; width:100%; border-radius:10px; overflow:hidden; border:1px solid var(--aborder); background:#0c1736; margin-bottom:0.85rem; box-shadow:0 4px 16px rgba(0,0,0,0.3);">
-                <img id="standingsPosterPreview" src="" alt="Standings Poster Preview" style="width:100%; max-height:280px; object-fit:contain; display:block;">
-                <div style="position:absolute; top:8px; right:8px;">
-                  <button type="button" onclick="removeStandingsPoster()" style="background:rgba(220,38,38,0.85); border:none; color:#fff; border-radius:99px; padding:4px 10px; font-size:0.72rem; cursor:pointer; font-weight:700;"><i class="fa-solid fa-trash"></i> Remove</button>
-                </div>
+        <!-- ===== STANDINGS POSTER MANAGEMENT ===== -->
+        <div class="admin-panel" id="panel-standings">
+          <div class="settings-card" style="max-width:900px;">
+            <div class="section-hdr-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.75rem;">
+              <div style="display:flex; align-items:center; gap:0.5rem;">
+                <i class="fa-solid fa-ranking-star" style="color:var(--agold);font-size:1.15rem;"></i>
+                <span style="font-size:1.05rem; font-weight:800; color:#fff;">League Standings Poster</span>
               </div>
+              <div id="standingsLiveBadge" style="font-size:0.72rem; padding:3px 10px; border-radius:99px; font-weight:700; background:rgba(148,163,184,0.15); color:#94a3b8; display:inline-flex; align-items:center; gap:0.35rem;">
+                <i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> No Graphic Published
+              </div>
+            </div>
 
-              <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
-                <label class="btn-admin-primary" style="cursor:pointer; display:inline-flex; align-items:center; gap:0.5rem; padding:0.6rem 1.1rem;">
-                  <i class="fa-solid fa-cloud-arrow-up"></i> Upload Standings Graphic
+            <p style="font-size:0.82rem; color:var(--amuted); margin-bottom:1.25rem; line-height:1.6;">
+              Upload the official Ghana Premier League table graphic (such as the official Matchweek standings poster) after each game week. When you click <strong>Save &amp; Push to Live Site</strong>, the image is automatically optimized and published live to the website so all fans can view it.
+            </p>
+
+            <!-- Upload Dropzone / Action Area -->
+            <div style="background:#09122a; border:2px dashed var(--aborder); border-radius:12px; padding:1.75rem 1.25rem; text-align:center; margin-bottom:1.5rem; transition:border-color 0.2s;" id="standingsDropzone">
+              <i class="fa-solid fa-cloud-arrow-up" style="font-size:2.2rem; color:var(--agold); margin-bottom:0.75rem; display:block;"></i>
+              <h4 style="color:#fff; font-size:0.95rem; margin-bottom:0.35rem;">Select Matchday Standings Image</h4>
+              <p style="font-size:0.78rem; color:var(--amuted); margin-bottom:1rem;">Supports PNG, JPG, or WebP. The graphic will be automatically optimized for high-definition display without slowing down the site.</p>
+              
+              <div style="display:inline-flex; gap:0.75rem; flex-wrap:wrap; justify-content:center;">
+                <label class="btn-admin-primary" style="cursor:pointer; display:inline-flex; align-items:center; gap:0.5rem; padding:0.65rem 1.25rem;">
+                  <i class="fa-solid fa-folder-open"></i> Browse / Choose Image
                   <input type="file" id="standingsPosterFileInput" accept="image/*" style="display:none;" onchange="handleStandingsPosterUpload(this)">
                 </label>
-                <button type="button" class="btn-admin-secondary" onclick="saveStandingsPoster()" id="saveStandingsPosterBtn" style="display:none;">
-                  <i class="fa-solid fa-floppy-disk"></i> Save to Live Site
-                </button>
               </div>
-              <div id="standingsPosterStatus" style="font-size:0.76rem; color:var(--amuted); margin-top:0.5rem;"></div>
+              <div id="standingsPosterStatus" style="font-size:0.78rem; color:var(--amuted); margin-top:0.75rem;"></div>
+            </div>
+
+            <!-- Preview Card (Proportioned for portrait/vertical standings graphics) -->
+            <div id="standingsPosterPreviewWrap" style="display:none; margin-bottom:1.5rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                <span style="font-size:0.78rem; font-weight:700; color:var(--agold); text-transform:uppercase; letter-spacing:0.06em;">Current Poster Preview</span>
+                <span id="standingsPosterDimensions" style="font-size:0.72rem; color:var(--amuted);"></span>
+              </div>
+              <div style="position:relative; width:100%; max-width:480px; margin:0 auto; border-radius:12px; overflow:hidden; border:1px solid var(--aborder); background:#050c1e; box-shadow:0 8px 30px rgba(0,0,0,0.45); text-align:center;">
+                <img id="standingsPosterPreview" src="" alt="Standings Graphic Preview" style="width:100%; max-height:560px; object-fit:contain; display:block; margin:0 auto;">
+              </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; padding-top:1rem; border-top:1px solid var(--aborder);">
+              <button type="button" class="btn-admin-primary" onclick="saveStandingsPoster()" id="saveStandingsPosterBtn" style="display:none;">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Save &amp; Push to Live Site
+              </button>
+              <button type="button" class="btn-admin-danger" onclick="removeStandingsPoster()" id="removeStandingsPosterBtn" style="display:none; background:rgba(220,38,38,0.85); color:#fff; border:none; padding:0.65rem 1.1rem; border-radius:8px; font-weight:700; cursor:pointer;">
+                <i class="fa-solid fa-trash"></i> Remove Graphic from Site
+              </button>
+              <a href="index.html#standings" target="_blank" class="btn-admin-secondary" style="display:inline-flex; align-items:center; gap:0.4rem; text-decoration:none;">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> View on Live Site
+              </a>
             </div>
           </div>
         </div>
@@ -1663,6 +1694,15 @@ function buildCmsPayload(remoteCms = null) {
   if (leagueTable && Array.isArray(leagueTable) && leagueTable.length) payload.leagueTable = leagueTable;
   else if (remote && Array.isArray(remote.leagueTable) && remote.leagueTable.length) payload.leagueTable = remote.leagueTable;
 
+  const standingsPoster = localStorage.getItem('ya_standings_poster');
+  if (standingsPoster) {
+    payload.standingsPoster = standingsPoster;
+  } else if (remote && remote.standingsPoster && standingsPoster !== '') {
+    payload.standingsPoster = remote.standingsPoster;
+  } else {
+    payload.standingsPoster = null;
+  }
+
   payload.fixtures = fixtures.length ? fixtures : (remote && Array.isArray(remote.fixtures) && remote.fixtures.length ? remote.fixtures : (typeof DEFAULT_FIXTURES !== 'undefined' ? DEFAULT_FIXTURES : []));
   payload.members = members.length ? members : (remote && Array.isArray(remote.members) ? remote.members : []);
   return payload;
@@ -1981,7 +2021,8 @@ const panelTitles = {
   fixtures: 'Fixtures CMS',
   apostlestv: 'Apostles TV',
   shop: 'Shop Products',
-  hero: 'Hero & Standings',
+  hero: 'Hero Section',
+  standings: 'Standings Poster',
   settings: 'Settings'
 };
 
@@ -2014,6 +2055,7 @@ function renderPanel(id) {
     case 'apostlestv':  renderTvPanel(); break;
     case 'shop':        renderShopPanel(); break;
     case 'hero':        loadHeroFields(); break;
+    case 'standings':   loadStandingsPosterAdmin(); break;
     case 'settings':    renderSettingsPanel(); break;
   }
 }
@@ -3232,20 +3274,66 @@ function saveHeroSection() {
   if (ctaText) heroData.ctaText = ctaText;
   if (ctaLink) heroData.ctaLink = ctaLink;
 
+  const heroImages = [image, image2].filter(Boolean);
+  if (heroImages.length > 0) heroData.images = heroImages;
+
   if (Object.keys(heroData).length > 0) {
     localStorage.setItem('ya_hero_custom', JSON.stringify(heroData));
+
+    // DUPLICATE HERO STORY INTO NEWS / BLOG SECTION
+    if (headline) {
+      try {
+        const blogs = getBlogs();
+        const slug = headline.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').substring(0, 50) || 'hero-announcement';
+        const existingIdx = blogs.findIndex(b => 
+          (b.id && b.id === slug) || 
+          (b.title && b.title.toLowerCase().trim() === headline.toLowerCase().trim())
+        );
+
+        const plainSubtitle = subtitle.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        const heroArticle = {
+          id: existingIdx >= 0 ? blogs[existingIdx].id : slug,
+          title: headline,
+          category: (headline.toLowerCase().includes('award') || headline.toLowerCase().includes('player of the month')) ? 'CLUB AWARD' : (headline.toLowerCase().includes('vs') || headline.toLowerCase().includes('derby') || headline.toLowerCase().includes('win') ? 'MATCH REPORT' : 'CLUB NEWS'),
+          badgeClass: 'news-badge-pill--club',
+          date: existingIdx >= 0 && blogs[existingIdx].date ? blogs[existingIdx].date : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          source: 'Apostles Media Dispatch',
+          author: 'Young Apostles FC',
+          image: image || (existingIdx >= 0 ? blogs[existingIdx].image : 'assets/home-hero.jpg'),
+          images: heroImages.length > 0 ? heroImages : (existingIdx >= 0 && blogs[existingIdx].images ? blogs[existingIdx].images : []),
+          excerpt: plainSubtitle || headline,
+          content: existingIdx >= 0 && blogs[existingIdx].content ? blogs[existingIdx].content : `<p>${subtitle || headline}</p>`,
+          readTime: '3 min read'
+        };
+
+        if (existingIdx >= 0) {
+          blogs[existingIdx] = Object.assign({}, blogs[existingIdx], heroArticle);
+        } else {
+          blogs.unshift(heroArticle);
+        }
+
+        localStorage.setItem('ya_club_unified_blogs', JSON.stringify(blogs));
+        localStorage.setItem('ya_unified_blogs', JSON.stringify(blogs));
+        localStorage.setItem('ya_club_dispatches', JSON.stringify(blogs));
+        if (typeof renderNewsPanel === 'function') renderNewsPanel();
+      } catch(err) {
+        console.warn('Error duplicating hero to news:', err);
+      }
+    }
+
     try {
       if (window.BroadcastChannel) {
         const bc = new BroadcastChannel('ya_channel');
         bc.postMessage({ type: 'HERO_UPDATED', hero: heroData });
+        bc.postMessage({ type: 'NEWS_UPDATED' });
         bc.close();
       }
       window.dispatchEvent(new Event('storage'));
     } catch(e) {}
   }
 
-  adminToast('Hero section saved! Reflects immediately on site.');
-  pushCmsToGitHub('hero section');
+  adminToast('✅ Hero saved & duplicated into News! Pushing to live site...');
+  pushCmsToGitHub('hero & news');
 }
 const saveHeroAndStandings = saveHeroSection;
 
@@ -3256,74 +3344,175 @@ function handleStandingsPosterUpload(input) {
   const file = input.files[0];
   if (!file) return;
   const statusEl = document.getElementById('standingsPosterStatus');
-  if (statusEl) statusEl.textContent = 'Loading image...';
+  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Preparing and optimizing image...';
+
   const reader = new FileReader();
   reader.onload = function(e) {
-    const dataUrl = e.target.result;
-    // Store temporarily in pending state
-    window._pendingStandingsPoster = dataUrl;
-    const preview = document.getElementById('standingsPosterPreview');
-    const previewWrap = document.getElementById('standingsPosterPreviewWrap');
-    const saveBtn = document.getElementById('saveStandingsPosterBtn');
-    if (preview) preview.src = dataUrl;
-    if (previewWrap) previewWrap.style.display = 'block';
-    if (saveBtn) saveBtn.style.display = 'inline-flex';
-    if (statusEl) statusEl.textContent = '✅ Image loaded. Click "Save to Live Site" to publish.';
+    const img = new Image();
+    img.onload = function() {
+      // Downscale if wider or taller than 1200px while maintaining exact aspect ratio
+      const maxDim = 1200;
+      let w = img.width;
+      let h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) {
+          h = Math.round((h * maxDim) / w);
+          w = maxDim;
+        } else {
+          w = Math.round((w * maxDim) / h);
+          h = maxDim;
+        }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+
+      // Export as high-quality JPEG (0.88)
+      const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+      window._pendingStandingsPoster = optimizedDataUrl;
+
+      const preview = document.getElementById('standingsPosterPreview');
+      const previewWrap = document.getElementById('standingsPosterPreviewWrap');
+      const saveBtn = document.getElementById('saveStandingsPosterBtn');
+      const dimEl = document.getElementById('standingsPosterDimensions');
+
+      if (preview) preview.src = optimizedDataUrl;
+      if (previewWrap) previewWrap.style.display = 'block';
+      if (saveBtn) {
+        saveBtn.style.display = 'inline-flex';
+        saveBtn.disabled = false;
+      }
+      if (dimEl) dimEl.textContent = `${w} × ${h}px • Optimized for Fast Display`;
+      if (statusEl) statusEl.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> Image loaded &amp; ready! Click <strong>Save &amp; Push to Live Site</strong> to publish.</span>';
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-function saveStandingsPoster() {
+async function saveStandingsPoster() {
   const dataUrl = window._pendingStandingsPoster;
   if (!dataUrl) { adminToast('No image loaded yet.'); return; }
-  // Save to localStorage so main site can display it
-  localStorage.setItem('ya_standings_poster', dataUrl);
-  // Broadcast to the public site
+  
+  const statusEl = document.getElementById('standingsPosterStatus');
+  const saveBtn = document.getElementById('saveStandingsPosterBtn');
+  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving and pushing to live website...';
+  if (saveBtn) saveBtn.disabled = true;
+
+  try {
+    localStorage.setItem('ya_standings_poster', dataUrl);
+  } catch(e) {
+    adminToast('Storage warning: could not save locally. Proceeding to push to live site.');
+  }
+
+  // Broadcast to open browser tabs
   try {
     if (window.BroadcastChannel) {
       const bc = new BroadcastChannel('ya_channel');
       bc.postMessage({ type: 'STANDINGS_POSTER_UPDATED', poster: dataUrl });
       bc.close();
     }
+    window.dispatchEvent(new Event('storage'));
   } catch(e) {}
-  const saveBtn = document.getElementById('saveStandingsPosterBtn');
-  if (saveBtn) saveBtn.style.display = 'none';
-  const statusEl = document.getElementById('standingsPosterStatus');
-  if (statusEl) statusEl.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> Standings graphic is now live on the website!</span>';
-  adminToast('✅ Standings graphic saved and live on site!');
+
+  // PUSH TO GITHUB LIVE
+  try {
+    await pushCmsToGitHub('standings poster');
+  } catch(e) {
+    console.warn('Push error:', e);
+  }
+
+  if (saveBtn) {
+    saveBtn.disabled = false;
+    saveBtn.style.display = 'none';
+  }
+  const removeBtn = document.getElementById('removeStandingsPosterBtn');
+  if (removeBtn) removeBtn.style.display = 'inline-flex';
+
+  const badge = document.getElementById('standingsLiveBadge');
+  if (badge) {
+    badge.style.background = 'rgba(74,222,128,0.18)';
+    badge.style.color = '#4ade80';
+    badge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> Live on Website';
+  }
+
+  if (statusEl) statusEl.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> <strong>Standings graphic is now live on the website!</strong></span>';
+  adminToast('✅ Standings graphic saved and pushed live to website!');
   window._pendingStandingsPoster = null;
 }
 
-function removeStandingsPoster() {
+async function removeStandingsPoster() {
+  if (!confirm('Are you sure you want to remove the standings graphic from the live website?')) return;
   localStorage.removeItem('ya_standings_poster');
   window._pendingStandingsPoster = null;
+
   const preview = document.getElementById('standingsPosterPreview');
   const previewWrap = document.getElementById('standingsPosterPreviewWrap');
   const saveBtn = document.getElementById('saveStandingsPosterBtn');
+  const removeBtn = document.getElementById('removeStandingsPosterBtn');
   const statusEl = document.getElementById('standingsPosterStatus');
+  const fileInput = document.getElementById('standingsPosterFileInput');
+  const badge = document.getElementById('standingsLiveBadge');
+
   if (preview) preview.src = '';
   if (previewWrap) previewWrap.style.display = 'none';
   if (saveBtn) saveBtn.style.display = 'none';
-  if (statusEl) statusEl.textContent = '';
+  if (removeBtn) removeBtn.style.display = 'none';
+  if (fileInput) fileInput.value = '';
+  if (badge) {
+    badge.style.background = 'rgba(148,163,184,0.15)';
+    badge.style.color = '#94a3b8';
+    badge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> No Graphic Published';
+  }
+  if (statusEl) statusEl.innerHTML = '<span style="color:#f87171;"><i class="fa-solid fa-circle-info"></i> Standings graphic removed from live site.</span>';
+
   try {
     if (window.BroadcastChannel) {
       const bc = new BroadcastChannel('ya_channel');
       bc.postMessage({ type: 'STANDINGS_POSTER_REMOVED' });
       bc.close();
     }
+    window.dispatchEvent(new Event('storage'));
   } catch(e) {}
-  adminToast('Standings graphic removed from site.');
+
+  await pushCmsToGitHub('remove standings poster');
+  adminToast('Standings graphic removed from live site.');
 }
 
 function loadStandingsPosterAdmin() {
   const stored = localStorage.getItem('ya_standings_poster');
-  if (!stored) return;
   const preview = document.getElementById('standingsPosterPreview');
   const previewWrap = document.getElementById('standingsPosterPreviewWrap');
-  if (preview) preview.src = stored;
-  if (previewWrap) previewWrap.style.display = 'block';
+  const removeBtn = document.getElementById('removeStandingsPosterBtn');
+  const saveBtn = document.getElementById('saveStandingsPosterBtn');
+  const badge = document.getElementById('standingsLiveBadge');
   const statusEl = document.getElementById('standingsPosterStatus');
-  if (statusEl) statusEl.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> A standings graphic is currently live.</span>';
+
+  if (stored) {
+    if (preview) preview.src = stored;
+    if (previewWrap) previewWrap.style.display = 'block';
+    if (removeBtn) removeBtn.style.display = 'inline-flex';
+    if (saveBtn) saveBtn.style.display = 'none';
+    if (badge) {
+      badge.style.background = 'rgba(74,222,128,0.18)';
+      badge.style.color = '#4ade80';
+      badge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> Live on Website';
+    }
+    if (statusEl) statusEl.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> An official standings graphic is currently live on the site.</span>';
+  } else {
+    if (preview) preview.src = '';
+    if (previewWrap) previewWrap.style.display = 'none';
+    if (removeBtn) removeBtn.style.display = 'none';
+    if (saveBtn) saveBtn.style.display = 'none';
+    if (badge) {
+      badge.style.background = 'rgba(148,163,184,0.15)';
+      badge.style.color = '#94a3b8';
+      badge.innerHTML = '<i class="fa-solid fa-circle" style="font-size:0.5rem;"></i> No Graphic Published';
+    }
+    if (statusEl) statusEl.textContent = '';
+  }
 }
 
 /* ==========================================
