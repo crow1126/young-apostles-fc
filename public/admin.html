@@ -9,7 +9,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <title>Admin Portal · Young Apostles FC</title>
+  <title>Admin Portal Â· Young Apostles FC</title>
   <link rel="icon" type="image/png" href="assets/official-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -416,9 +416,9 @@
     }
     .panel-intro strong { color:var(--agold); }
 
-    /* ═════════════════════════════════════════════════════════
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        SPLASH INTRO OVERLAY (4s loading on entry / refresh)
-       ═════════════════════════════════════════════════════════ */
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
     #ya-splash-overlay {
       position: fixed !important;
       top: 0 !important;
@@ -602,9 +602,9 @@
 </head>
 <body>
 
-  <!-- ═════════════════════════════════════════════════════════
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        SPLASH SCREEN INTRO OVERLAY (Loading on entry / tap to skip)
-       ═════════════════════════════════════════════════════════ -->
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <div id="ya-splash-overlay" onclick="dismissAdminSplash()" title="Tap to enter immediately">
     <canvas id="splash-canvas"></canvas>
 
@@ -637,12 +637,12 @@
   <div class="login-card">
     <img src="assets/official-logo.png" alt="Young Apostles FC" class="login-crest">
     <h1 class="login-title">Club Admin Portal</h1>
-    <p class="login-sub">Young Apostles FC · Secure CMS & Operations Dashboard</p>
+    <p class="login-sub">Young Apostles FC Â· Secure CMS & Operations Dashboard</p>
     <form onsubmit="handleAdminLogin(event)">
       <label class="login-label">Username / Email</label>
       <input type="text" id="loginUser" class="login-input" placeholder="admin" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
       <label class="login-label">Password</label>
-      <input type="password" id="loginPass" class="login-input" placeholder="••••••••" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false">
+      <input type="password" id="loginPass" class="login-input" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false">
       <div class="login-err" id="loginErr">Incorrect credentials. Try again.</div>
       <div style="display:flex;align-items:center;gap:0.55rem;margin-bottom:1.1rem;font-size:0.82rem;color:var(--amuted);">
         <input type="checkbox" id="loginRemember" checked style="accent-color:var(--agold);width:16px;height:16px;cursor:pointer;">
@@ -787,7 +787,7 @@
         <!-- ===== WAITING LIST ===== -->
         <div class="admin-panel" id="panel-waitlist">
           <div class="panel-intro">
-            <strong>Waiting List</strong> — All fans who joined the shop preorder list. Contact them via WhatsApp/SMS when items are ready to ship.
+            <strong>Waiting List</strong> â€” All fans who joined the shop preorder list. Contact them via WhatsApp/SMS when items are ready to ship.
           </div>
           <div class="section-hdr">
             <div class="section-hdr-title">Waiting List Entries</div>
@@ -802,7 +802,7 @@
         <!-- ===== PREORDERS ===== -->
         <div class="admin-panel" id="panel-preorders">
           <div class="panel-intro">
-            <strong>Preorders</strong> — Detailed view of all order items from the waitlist. Each entry shows items, sizes, totals, and customer contact.
+            <strong>Preorders</strong> â€” Detailed view of all order items from the waitlist. Each entry shows items, sizes, totals, and customer contact.
           </div>
           <div class="section-hdr">
             <div class="section-hdr-title">Preorder Details</div>
@@ -814,7 +814,7 @@
         <!-- ===== MEMBERS ===== -->
         <div class="admin-panel" id="panel-members">
           <div class="panel-intro">
-            <strong>2026/27 Seasonal Subscriptions &amp; Member Directory</strong> — Fans registered on the live site with their official digital pass. Reflects all profile submissions and seasonal subscriptions in real time.
+            <strong>2026/27 Seasonal Subscriptions &amp; Member Directory</strong> â€” Fans registered on the live site with their official digital pass. Reflects all profile submissions and seasonal subscriptions in real time.
           </div>
           <div class="section-hdr" style="flex-wrap:wrap; gap:0.6rem;">
             <div class="section-hdr-title">Registered Seasonal Members</div>
@@ -985,7 +985,7 @@
               <div class="admin-form-group">
                 <label>Result (W / L / D)</label>
                 <select class="admin-select" id="fxResult">
-                  <option value="">— Upcoming —</option>
+                  <option value="">â€” Upcoming â€”</option>
                   <option value="W">W (Win)</option>
                   <option value="L">L (Loss)</option>
                   <option value="D">D (Draw)</option>
@@ -1125,7 +1125,7 @@
 
             <div class="admin-form-group">
               <label>Hero Subtitle / Description (HTML allowed)</label>
-              <textarea class="admin-textarea" id="heroSubtitle" style="min-height:95px;" placeholder="<strong>AGYA NA ƆWƆ TUMI</strong> &middot; Wenchi's pride takes on Ghana's top flight..."></textarea>
+              <textarea class="admin-textarea" id="heroSubtitle" style="min-height:95px;" placeholder="<strong>AGYA NA Æ†WÆ† TUMI</strong> &middot; Wenchi's pride takes on Ghana's top flight..."></textarea>
             </div>
 
             <!-- HERO PICTURE UPLOAD & PREVIEW CARD -->
@@ -1302,7 +1302,7 @@
           </div>
 
           <div class="settings-card">
-            <h3><i class="fa-brands fa-github" style="color:var(--agold);margin-right:0.5rem;"></i> GitHub Sync — Push CMS to Live Site</h3>
+            <h3><i class="fa-brands fa-github" style="color:var(--agold);margin-right:0.5rem;"></i> GitHub Sync â€” Push CMS to Live Site</h3>
             <p class="settings-note" style="margin-bottom:0.75rem;">
               Enter your GitHub Personal Access Token so that when you save news, fixtures, standings or videos, the changes are automatically pushed to the live site for <strong style="color:#fff;">all visitors</strong>.<br><br>
               <strong>Multi-Device Notice:</strong> Browser security isolates saved tokens to each device. If you use both a laptop and a mobile phone, save the token on each device or use <strong>"Pair Mobile Phone"</strong> below to connect in seconds.
@@ -1319,7 +1319,7 @@
               <button class="btn-admin-secondary" id="btnShareWhatsApp" style="display:none;background:rgba(37,211,102,0.12);color:#25D366;border-color:rgba(37,211,102,0.3);" onclick="sharePairUrlWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Send to WhatsApp</button>
               <button class="btn-admin-secondary" id="btnClearGhToken" style="display:none;color:var(--adanger);border-color:rgba(239,68,68,0.3);" onclick="clearGhToken()"><i class="fa-solid fa-trash"></i> Remove</button>
             </div>
-            <p class="settings-note" style="margin-top:0.75rem;">Token is stored safely in this browser's localStorage. Repo: <code>crow1126/young-apostles-fc</code> · Branch: <code>main</code></p>
+            <p class="settings-note" style="margin-top:0.75rem;">Token is stored safely in this browser's localStorage. Repo: <code>crow1126/young-apostles-fc</code> Â· Branch: <code>main</code></p>
           </div>
 
           <div class="settings-card">
@@ -1365,7 +1365,7 @@
         </button>
       </div>
       <div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid var(--aborder);font-size:0.78rem;color:var(--amuted);text-align:center;line-height:1.4;">
-        💡 <strong>No Need to Type?</strong> Open Admin on your laptop, go to <strong>Settings</strong>, and click <strong>"One-Time Mobile Link"</strong> to send the setup directly to your WhatsApp!
+        ðŸ’¡ <strong>No Need to Type?</strong> Open Admin on your laptop, go to <strong>Settings</strong>, and click <strong>"One-Time Mobile Link"</strong> to send the setup directly to your WhatsApp!
       </div>
     </div>
   </div>
@@ -1410,7 +1410,7 @@
           <i class="fa-solid fa-circle-check"></i> How to Keep Connected Permanently:
         </div>
         1. Open the link on your phone in <strong>Safari (iPhone)</strong> or <strong>Chrome (Android)</strong>.<br>
-        2. Tap Share ⎋ / Menu ⋮ &rarr; Tap <strong>"Add to Home Screen"</strong> ➕.<br>
+        2. Tap Share âŽ‹ / Menu â‹® &rarr; Tap <strong>"Add to Home Screen"</strong> âž•.<br>
         3. This installs a dedicated <strong>YAFC Admin App</strong> icon that keeps your session and token permanently!
       </div>
     </div>
@@ -1419,7 +1419,7 @@
 
 <script>
 /* ==========================================
-   GITHUB SYNC — Push CMS to Live Site
+   GITHUB SYNC â€” Push CMS to Live Site
    ========================================== */
 const GH_OWNER = 'crow1126';
 const GH_REPO  = 'young-apostles-fc';
@@ -1460,7 +1460,7 @@ const GH_FILE  = 'data/cms.json';
       // Clean URL bar
       history.replaceState(null, '', window.location.pathname);
       setTimeout(() => {
-        adminToast('✅ GitHub Sync permanently connected to this device! You are ready.');
+        adminToast('âœ… GitHub Sync permanently connected to this device! You are ready.');
         if (typeof renderSettingsPanel === 'function') renderSettingsPanel();
       }, 600);
     }
@@ -1488,7 +1488,7 @@ function saveGhToken() {
   sessionStorage.setItem('ya_gh_token', t);
   document.cookie = `ya_gh_token=${encodeURIComponent(t)}; path=/; max-age=31536000; SameSite=Lax`;
   document.getElementById('ghToken').value = '';
-  adminToast('✅ GitHub token saved permanently to this device!');
+  adminToast('âœ… GitHub token saved permanently to this device!');
   renderSettingsPanel();
 }
 
@@ -1509,7 +1509,7 @@ function renderSettingsPanel() {
   const clearBtn = document.getElementById('btnClearGhToken');
   if (!statusEl) return;
   if (token) {
-    const masked = token.length > 8 ? `...${token.slice(-6)}` : '••••••••';
+    const masked = token.length > 8 ? `...${token.slice(-6)}` : 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢';
     statusEl.innerHTML = `
       <div style="background:rgba(22,163,74,0.12);border:1px solid rgba(22,163,74,0.3);border-radius:8px;padding:0.6rem 0.85rem;color:#4ade80;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
         <div style="display:flex;align-items:center;gap:0.5rem;font-weight:600;">
@@ -1545,7 +1545,7 @@ async function testGhSync() {
     });
     if (res.ok) {
       renderSettingsPanel();
-      adminToast('✅ GitHub connection successful!');
+      adminToast('âœ… GitHub connection successful!');
     } else {
       const d = await res.json().catch(() => ({}));
       el.innerHTML = `<span style="color:var(--adanger);"><i class="fa-solid fa-circle-xmark"></i> Error ${res.status}: ${d.message || 'Check your token permissions (repo scope required)'}</span>`;
@@ -1614,10 +1614,10 @@ function copyPairUrl() {
   input.select();
   input.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(input.value).then(() => {
-    adminToast('✅ Link copied! Paste into WhatsApp or your phone browser.');
+    adminToast('âœ… Link copied! Paste into WhatsApp or your phone browser.');
   }).catch(() => {
     document.execCommand('copy');
-    adminToast('✅ Link copied!');
+    adminToast('âœ… Link copied!');
   });
 }
 
@@ -1658,7 +1658,7 @@ async function saveTokenAndPushFromModal() {
   sessionStorage.setItem('ya_gh_token', t);
   document.cookie = `ya_gh_token=${encodeURIComponent(t)}; path=/; max-age=31536000; SameSite=Lax`;
   closeTokenModal();
-  adminToast('✅ Token permanently saved! Pushing to live site...');
+  adminToast('âœ… Token permanently saved! Pushing to live site...');
   if (typeof renderSettingsPanel === 'function') renderSettingsPanel();
   const labelToPush = pendingPushLabel || 'changes';
   pendingPushLabel = null;
@@ -1695,8 +1695,14 @@ function buildCmsPayload(remoteCms = null) {
   else if (remote && Array.isArray(remote.leagueTable) && remote.leagueTable.length) payload.leagueTable = remote.leagueTable;
 
   const standingsPoster = localStorage.getItem('ya_standings_poster');
-  if (standingsPoster) {
-    payload.standingsPoster = standingsPoster;
+  if (standingsPoster && !standingsPoster.startsWith('data:')) {
+    payload.standingsPoster = standingsPoster.split('?')[0].replace(/^\//, '');
+  } else if (standingsPoster && standingsPoster.startsWith('data:')) {
+    if (remote && remote.standingsPoster && !remote.standingsPoster.startsWith('data:')) {
+      payload.standingsPoster = remote.standingsPoster;
+    } else {
+      payload.standingsPoster = standingsPoster;
+    }
   } else if (remote && remote.standingsPoster && standingsPoster !== '') {
     payload.standingsPoster = remote.standingsPoster;
   } else {
@@ -1723,12 +1729,12 @@ async function pushCmsToGitHub(label) {
       body: JSON.stringify({ payload, label, token: token || undefined, adminToken })
     });
     if (syncRes.ok) {
-      adminToast(`✅ Pushed live! ${label || 'Changes'} will be visible in ~30s.`);
+      adminToast(`âœ… Pushed live! ${label || 'Changes'} will be visible in ~30s.`);
       return;
     } else {
       const errData = await syncRes.json().catch(() => ({}));
       if (syncRes.status === 401) {
-        adminToast('⚠️ Session expired or unauthorized. Please re-login.');
+        adminToast('âš ï¸ Session expired or unauthorized. Please re-login.');
         return;
       }
       // If serverless is not configured with environment token and client has no token, prompt
@@ -1756,7 +1762,7 @@ async function pushCmsToGitHub(label) {
       if (getRes.status === 401 || getRes.status === 403) {
         showMissingTokenModal(label, 'GitHub token is invalid or has expired. Please check or replace your token:');
       } else {
-        adminToast('⚠️ Saved locally. GitHub push failed — check token.');
+        adminToast('âš ï¸ Saved locally. GitHub push failed â€” check token.');
       }
       return;
     }
@@ -1785,13 +1791,13 @@ async function pushCmsToGitHub(label) {
       })
     });
     if (putRes.ok) {
-      adminToast(`✅ Pushed live! ${label || 'Changes'} visible in ~30s.`);
+      adminToast(`âœ… Pushed live! ${label || 'Changes'} visible in ~30s.`);
     } else {
       const d = await putRes.json().catch(() => ({}));
-      adminToast(`⚠️ Saved locally. GitHub error: ${d.message || 'Could not commit'}`);
+      adminToast(`âš ï¸ Saved locally. GitHub error: ${d.message || 'Could not commit'}`);
     }
   } catch(e) {
-    adminToast('⚠️ Saved locally. Network error pushing to GitHub.');
+    adminToast('âš ï¸ Saved locally. Network error pushing to GitHub.');
   }
 }
 
@@ -1802,7 +1808,7 @@ function handleImageUpload(input, targetFieldId) {
   const file = input.files[0];
   if (!file) return;
   if (file.size > 3 * 1024 * 1024) {
-    adminToast('Image too large — please use an image under 3MB');
+    adminToast('Image too large â€” please use an image under 3MB');
     return;
   }
   const reader = new FileReader();
@@ -1994,7 +2000,7 @@ async function saveCredentials() {
   localStorage.setItem('ya_admin_creds_v2', JSON.stringify({ userHash: uHash, passHash: pHash }));
   // Clear old plaintext storage if it existed
   localStorage.removeItem('ya_admin_creds');
-  adminToast('✅ Credentials updated securely!');
+  adminToast('âœ… Credentials updated securely!');
   document.getElementById('newUser').value = '';
   document.getElementById('newPass').value = '';
   document.getElementById('confirmPass').value = '';
@@ -2347,8 +2353,8 @@ function renderDashboard() {
       <thead><tr><th>Name</th><th>Phone</th><th>Items</th><th>Total</th></tr></thead>
       <tbody>${recentW.map(o => `
         <tr>
-          <td>${o.name || '—'}</td>
-          <td style="font-family:monospace;">${o.phone || '—'}</td>
+          <td>${o.name || 'â€”'}</td>
+          <td style="font-family:monospace;">${o.phone || 'â€”'}</td>
           <td>${(o.items||[]).length} item(s)</td>
           <td style="color:var(--agold);font-weight:700;">GHS ${Number(o.total||0).toFixed(2)}</td>
         </tr>
@@ -2364,14 +2370,14 @@ function renderDashboard() {
       <tbody>${recentM.map(m => `
         <tr>
           <td style="font-family:monospace;font-size:0.75rem;color:var(--agold);font-weight:700;">${m.id || 'YAFC-26'}</td>
-          <td><strong>${m.name || '—'}</strong></td>
+          <td><strong>${m.name || 'â€”'}</strong></td>
           <td>
             <span class="badge ${m.tier && m.tier.includes('Gold') ? 'badge-gold' : m.tier && m.tier.includes('Standard') ? 'badge-blue' : 'badge-green'}">${m.tier || 'Fan Pass'}</span>
             <span class="badge badge-blue" style="font-size:0.65rem;margin-left:3px;">2026/27</span>
           </td>
-          <td style="font-family:monospace;">${m.phone || '—'}</td>
+          <td style="font-family:monospace;">${m.phone || 'â€”'}</td>
           <td>
-            ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn-admin-sm" title="WhatsApp Member" style="color:#25D366;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i></a>` : '—'}
+            ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/[^0-9]/g, '')}" target="_blank" class="btn-admin-sm" title="WhatsApp Member" style="color:#25D366;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i></a>` : 'â€”'}
           </td>
         </tr>
       `).join('')}</tbody>
@@ -2397,7 +2403,7 @@ function renderDashboard() {
             <td style="${f.away==='Young Apostles'?'color:var(--agold);font-weight:700;':''}">${f.away}</td>
             <td style="font-size:0.75rem;color:var(--amuted);">${f.venue}</td>
             <td style="font-size:0.78rem;">${f.date}</td>
-            <td style="font-family:monospace;font-weight:800; font-size:0.95rem; ${f.score?'color:#10B981;':''}">${f.score || '—'}</td>
+            <td style="font-family:monospace;font-weight:800; font-size:0.95rem; ${f.score?'color:#10B981;':''}">${f.score || 'â€”'}</td>
             <td>${f.score ? `<span class="badge ${f.result==='W'?'badge-green':f.result==='L'?'badge-red':'badge-gold'}">${f.result||'FT'}</span>` : '<span class="badge badge-blue">UPCOMING</span>'}</td>
             <td>
               <button class="btn-admin-sm" onclick="showPanel('fixtures'); setTimeout(() => editFixtureByWeek(${f.week}), 100);" style="padding:3px 8px; font-size:0.75rem;">
@@ -2424,13 +2430,13 @@ function renderWaitlistTable() {
       <thead><tr><th>Ref</th><th>Name</th><th>Phone</th><th>City</th><th>Items</th><th>Total</th><th>Date</th><th>WA</th></tr></thead>
       <tbody>${data.map((o,i) => `
         <tr>
-          <td><span class="profile-order-ref" style="font-family:monospace;font-size:0.75rem;color:var(--agold);">${o.ref||'—'}</span></td>
-          <td>${o.name||'—'}</td>
-          <td style="font-family:monospace;">${o.phone||'—'}</td>
-          <td>${o.city||'—'}</td>
-          <td>${(o.items||[]).map(it=>it.name).join(', ') || '—'}</td>
+          <td><span class="profile-order-ref" style="font-family:monospace;font-size:0.75rem;color:var(--agold);">${o.ref||'â€”'}</span></td>
+          <td>${o.name||'â€”'}</td>
+          <td style="font-family:monospace;">${o.phone||'â€”'}</td>
+          <td>${o.city||'â€”'}</td>
+          <td>${(o.items||[]).map(it=>it.name).join(', ') || 'â€”'}</td>
           <td style="font-weight:700;color:var(--agold);">GHS ${Number(o.total||0).toFixed(2)}</td>
-          <td style="font-size:0.75rem;color:var(--amuted);">${o.date||'—'}</td>
+          <td style="font-size:0.75rem;color:var(--amuted);">${o.date||'â€”'}</td>
           <td><a href="https://wa.me/233${(o.phone||'').replace(/^0/,'').replace(/\s/g,'')}" target="_blank" style="color:#25D366;font-size:1.2rem;"><i class="fa-brands fa-whatsapp"></i></a></td>
         </tr>
       `).join('')}</tbody>
@@ -2453,14 +2459,14 @@ function renderPreordersTable() {
   all.forEach(o => {
     (o.items || []).forEach(item => {
       rows += `<tr>
-        <td><span style="font-family:monospace;font-size:0.75rem;color:var(--agold);">${o.ref||'—'}</span></td>
-        <td>${o.name||'—'}</td>
-        <td>${item.name||'—'}</td>
-        <td>${item.size||'—'}</td>
-        <td>${item.customName ? `${item.customName} #${item.customNumber}` : '—'}</td>
+        <td><span style="font-family:monospace;font-size:0.75rem;color:var(--agold);">${o.ref||'â€”'}</span></td>
+        <td>${o.name||'â€”'}</td>
+        <td>${item.name||'â€”'}</td>
+        <td>${item.size||'â€”'}</td>
+        <td>${item.customName ? `${item.customName} #${item.customNumber}` : 'â€”'}</td>
         <td>${item.qty||1}</td>
         <td>GHS ${Number((item.price||0)*(item.qty||1)).toFixed(2)}</td>
-        <td style="font-family:monospace;">${o.phone||'—'}</td>
+        <td style="font-family:monospace;">${o.phone||'â€”'}</td>
       </tr>`;
     });
   });
@@ -2518,15 +2524,15 @@ function renderMembersTable(filterText = '', filterTier = '') {
       <tbody>${data.map((m, idx) => `
         <tr>
           <td style="font-family:monospace;font-size:0.75rem;color:var(--agold);font-weight:700;">${m.id || 'YAFC-26'}</td>
-          <td><strong>${m.name || '—'}</strong></td>
+          <td><strong>${m.name || 'â€”'}</strong></td>
           <td><span class="badge badge-blue"><i class="fa-solid fa-ticket" style="margin-right:3px;"></i>${m.subscription || '2026/27 GPL Season Pass'}</span></td>
           <td><span class="badge ${m.tier && m.tier.includes('Gold') ? 'badge-gold' : m.tier && m.tier.includes('Standard') ? 'badge-blue' : 'badge-green'}">${m.tier || 'Fan Pass'}</span></td>
           <td style="font-family:monospace;">
-            ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/[^0-9]/g, '')}" target="_blank" style="color:var(--agold);text-decoration:none;"><i class="fa-brands fa-whatsapp" style="color:#25D366;margin-right:4px;"></i>${m.phone}</a>` : '—'}
+            ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/[^0-9]/g, '')}" target="_blank" style="color:var(--agold);text-decoration:none;"><i class="fa-brands fa-whatsapp" style="color:#25D366;margin-right:4px;"></i>${m.phone}</a>` : 'â€”'}
           </td>
-          <td>${m.email || '—'}</td>
+          <td>${m.email || 'â€”'}</td>
           <td><span class="badge badge-green">${m.status || 'Active'}</span></td>
-          <td style="font-size:0.75rem;color:var(--amuted);">${m.joinDate || m.updatedAt ? new Date(m.joinDate || m.updatedAt).toLocaleDateString() : '—'}</td>
+          <td style="font-size:0.75rem;color:var(--amuted);">${m.joinDate || m.updatedAt ? new Date(m.joinDate || m.updatedAt).toLocaleDateString() : 'â€”'}</td>
           <td>
             <div style="display:flex;gap:0.35rem;">
               ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/[^0-9]/g, '')}?text=Hello%20${encodeURIComponent(m.name||'Apostle Fan')},%20greetings%20from%20Young%20Apostles%20FC!%20Regarding%20your%202026/27%20GPL%20Seasonal%20Subscription..." target="_blank" class="btn-admin-sm" title="Message on WhatsApp" style="color:#25D366;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i></a>` : ''}
@@ -2587,9 +2593,9 @@ function shareArticleToTwitter(idx) {
   if (!b) return;
   // Build a clean article URL using the article ID as a hash anchor
   const articleUrl = `https://www.youngapostlesfcgh.com/#news?article=${encodeURIComponent(b.id)}`;
-  const imageHint = b.image ? `\n📸 ${b.image.startsWith('http') ? b.image : 'https://www.youngapostlesfcgh.com/' + b.image}` : '';
+  const imageHint = b.image ? `\nðŸ“¸ ${b.image.startsWith('http') ? b.image : 'https://www.youngapostlesfcgh.com/' + b.image}` : '';
   const excerpt = (b.excerpt || '').slice(0, 120);
-  const tweetText = `🏆 ${b.title}\n\n${excerpt}${imageHint}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
+  const tweetText = `ðŸ† ${b.title}\n\n${excerpt}${imageHint}\n\n#YAFC #AgyaNaÆ†wÉ”Tumi #GPL`;
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(articleUrl)}`;
   window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
 }
@@ -2602,9 +2608,9 @@ function shareHeroToTwitter() {
   try {
     const hd = JSON.parse(localStorage.getItem('ya_hero_custom') || '{}');
     const img = (hd.images && hd.images[0]) || hd.image || '';
-    if (img) heroImg = `\n📸 ${img.startsWith('http') ? img : 'https://www.youngapostlesfcgh.com/' + img}`;
+    if (img) heroImg = `\nðŸ“¸ ${img.startsWith('http') ? img : 'https://www.youngapostlesfcgh.com/' + img}`;
   } catch(e) {}
-  const tweetText = `📢 ${headline}\n\n${sub}${heroImg}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
+  const tweetText = `ðŸ“¢ ${headline}\n\n${sub}${heroImg}\n\n#YAFC #AgyaNaÆ†wÉ”Tumi #GPL`;
   const shareUrl = 'https://www.youngapostlesfcgh.com/';
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
   window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
@@ -2617,7 +2623,7 @@ async function handleHeroImage2Upload(input) {
   try {
     const dataUrl = await compressImage(file, 1920, 1080, 0.82);
     document.getElementById('heroImage2').value = dataUrl;
-    adminToast('✅ 2nd picture loaded! Click "Save & Push" to publish.');
+    adminToast('âœ… 2nd picture loaded! Click "Save & Push" to publish.');
   } catch(err) {
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -2639,7 +2645,7 @@ function renderNewsPanel() {
   el.innerHTML = blogs.map((b, i) => `
     <div class="cms-card">
       <div class="cms-card__body">
-        <div class="cms-card__tag">${b.category||'ARTICLE'} · ${b.date||''}</div>
+        <div class="cms-card__tag">${b.category||'ARTICLE'} Â· ${b.date||''}</div>
         <div class="cms-card__title">${b.title}</div>
         <div class="cms-card__meta">${b.id}</div>
       </div>
@@ -2744,9 +2750,9 @@ function renderFixturesPanel() {
           <td style="${f.away==='Young Apostles'?'color:var(--agold);font-weight:700;':''}">${f.away}</td>
           <td style="font-size:0.75rem;color:var(--amuted);">${f.venue}</td>
           <td style="font-size:0.78rem;">${f.date}</td>
-          <td style="font-family:monospace;font-weight:800; font-size:0.95rem; ${f.score?'color:#10B981;':''}">${f.score||'—'}</td>
-          <td>${f.result ? `<span class="badge ${f.result==='W'?'badge-green':f.result==='L'?'badge-red':'badge-gold'}">${f.result}</span>` : '—'}</td>
-          <td style="font-size:0.75rem;color:var(--amuted);">${f.scorer||'—'}</td>
+          <td style="font-family:monospace;font-weight:800; font-size:0.95rem; ${f.score?'color:#10B981;':''}">${f.score||'â€”'}</td>
+          <td>${f.result ? `<span class="badge ${f.result==='W'?'badge-green':f.result==='L'?'badge-red':'badge-gold'}">${f.result}</span>` : 'â€”'}</td>
+          <td style="font-size:0.75rem;color:var(--amuted);">${f.scorer||'â€”'}</td>
           <td style="display:flex; gap:4px; align-items:center;">
             <button class="btn-admin-sm" onclick="editFixtureByWeek(${f.week})" title="Edit score & details" style="padding:4px 8px; font-size:0.75rem;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
             <button class="btn-admin-danger" onclick="deleteFixture(${fullIdx})" title="Delete" style="padding:4px 7px;"><i class="fa-solid fa-trash"></i></button>
@@ -2882,7 +2888,7 @@ function renderShopPanel() {
   el.innerHTML = prods.map((p,i) => `
     <div class="cms-card">
       <div class="cms-card__body">
-        <div class="cms-card__tag">${p.tag||p.category} · GHS ${p.price}</div>
+        <div class="cms-card__tag">${p.tag||p.category} Â· GHS ${p.price}</div>
         <div class="cms-card__title">${p.name}</div>
         <div class="cms-card__meta">${p.id}</div>
       </div>
@@ -2967,7 +2973,7 @@ async function handleHeroImageUpload(input) {
     const dataUrl = await compressImage(file, 1920, 1080, 0.82);
     document.getElementById('heroImage').value = dataUrl;
     updateHeroPreview(dataUrl);
-    adminToast('✅ Picture loaded & optimized! Click "Save & Push" to publish.');
+    adminToast('âœ… Picture loaded & optimized! Click "Save & Push" to publish.');
   } catch(err) {
     // Fallback uncompressed if canvas fails
     const reader = new FileReader();
@@ -3241,7 +3247,7 @@ function applyLiveGplData(table, clubStats, notice, source) {
   if (notice) {
     notice.innerHTML = `<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> Live Standings Synced (${source})! Click <strong>"Save &amp; Push to Live Site"</strong> below to reflect on main site.</span>`;
   }
-  adminToast(`✅ Live GPL standings pulled (${source})! Click "Save & Push to Live Site" below to publish.`);
+  adminToast(`âœ… Live GPL standings pulled (${source})! Click "Save & Push to Live Site" below to publish.`);
 }
 
 function loadHeroFields() {
@@ -3280,60 +3286,18 @@ function saveHeroSection() {
   if (Object.keys(heroData).length > 0) {
     localStorage.setItem('ya_hero_custom', JSON.stringify(heroData));
 
-    // DUPLICATE HERO STORY INTO NEWS / BLOG SECTION
-    if (headline) {
-      try {
-        const blogs = getBlogs();
-        const slug = headline.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').substring(0, 50) || 'hero-announcement';
-        const existingIdx = blogs.findIndex(b => 
-          (b.id && b.id === slug) || 
-          (b.title && b.title.toLowerCase().trim() === headline.toLowerCase().trim())
-        );
-
-        const plainSubtitle = subtitle.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-        const heroArticle = {
-          id: existingIdx >= 0 ? blogs[existingIdx].id : slug,
-          title: headline,
-          category: (headline.toLowerCase().includes('award') || headline.toLowerCase().includes('player of the month')) ? 'CLUB AWARD' : (headline.toLowerCase().includes('vs') || headline.toLowerCase().includes('derby') || headline.toLowerCase().includes('win') ? 'MATCH REPORT' : 'CLUB NEWS'),
-          badgeClass: 'news-badge-pill--club',
-          date: existingIdx >= 0 && blogs[existingIdx].date ? blogs[existingIdx].date : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-          source: 'Apostles Media Dispatch',
-          author: 'Young Apostles FC',
-          image: image || (existingIdx >= 0 ? blogs[existingIdx].image : 'assets/home-hero.jpg'),
-          images: heroImages.length > 0 ? heroImages : (existingIdx >= 0 && blogs[existingIdx].images ? blogs[existingIdx].images : []),
-          excerpt: plainSubtitle || headline,
-          content: existingIdx >= 0 && blogs[existingIdx].content ? blogs[existingIdx].content : `<p>${subtitle || headline}</p>`,
-          readTime: '3 min read'
-        };
-
-        if (existingIdx >= 0) {
-          blogs[existingIdx] = Object.assign({}, blogs[existingIdx], heroArticle);
-        } else {
-          blogs.unshift(heroArticle);
-        }
-
-        localStorage.setItem('ya_club_unified_blogs', JSON.stringify(blogs));
-        localStorage.setItem('ya_unified_blogs', JSON.stringify(blogs));
-        localStorage.setItem('ya_club_dispatches', JSON.stringify(blogs));
-        if (typeof renderNewsPanel === 'function') renderNewsPanel();
-      } catch(err) {
-        console.warn('Error duplicating hero to news:', err);
-      }
-    }
-
     try {
       if (window.BroadcastChannel) {
         const bc = new BroadcastChannel('ya_channel');
         bc.postMessage({ type: 'HERO_UPDATED', hero: heroData });
-        bc.postMessage({ type: 'NEWS_UPDATED' });
         bc.close();
       }
       window.dispatchEvent(new Event('storage'));
     } catch(e) {}
   }
 
-  adminToast('✅ Hero saved & duplicated into News! Pushing to live site...');
-  pushCmsToGitHub('hero & news');
+  adminToast('✅ Hero saved! Pushing to live site...');
+  pushCmsToGitHub('hero');
 }
 const saveHeroAndStandings = saveHeroSection;
 
@@ -3384,7 +3348,7 @@ function handleStandingsPosterUpload(input) {
         saveBtn.style.display = 'inline-flex';
         saveBtn.disabled = false;
       }
-      if (dimEl) dimEl.textContent = `${w} × ${h}px • Optimized for Fast Display`;
+      if (dimEl) dimEl.textContent = `${w} Ã— ${h}px â€¢ Optimized for Fast Display`;
       if (statusEl) statusEl.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> Image loaded &amp; ready! Click <strong>Save &amp; Push to Live Site</strong> to publish.</span>';
     };
     img.src = e.target.result;
@@ -3395,29 +3359,57 @@ function handleStandingsPosterUpload(input) {
 async function saveStandingsPoster() {
   const dataUrl = window._pendingStandingsPoster;
   if (!dataUrl) { adminToast('No image loaded yet.'); return; }
-  
+
   const statusEl = document.getElementById('standingsPosterStatus');
   const saveBtn = document.getElementById('saveStandingsPosterBtn');
-  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving and pushing to live website...';
+  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading standings graphic to live website...';
   if (saveBtn) saveBtn.disabled = true;
 
+  const token = getGhToken();
+  const adminToken = sessionStorage.getItem('ya_admin_token') || localStorage.getItem('ya_admin_token') || '';
+
+  let finalPosterRef = null; // will be URL path or data URL
+
   try {
-    localStorage.setItem('ya_standings_poster', dataUrl);
+    // Step 1: Upload the image as a real file (not embedded in cms.json)
+    const uploadRes = await fetch('/api/upload-image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(adminToken ? {'x-admin-token': adminToken} : {}) },
+      body: JSON.stringify({ dataUrl, filename: 'standings-poster.jpg', label: 'standings poster', token: token || undefined, adminToken })
+    });
+    if (uploadRes.ok) {
+      // Store only the URL path with cache-buster (not the 380KB base64)
+      finalPosterRef = '/data/standings-poster.jpg?v=' + Date.now();
+      if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Image uploaded! Updating site config...';
+    } else {
+      const err = await uploadRes.json().catch(() => ({}));
+      if (uploadRes.status === 401) {
+        adminToast('⚠️ Session expired. Please re-login.');
+        if (saveBtn) { saveBtn.disabled = false; }
+        return;
+      }
+      console.warn('Upload-image failed, falling back to base64 embed:', err.error);
+      finalPosterRef = dataUrl; // fallback: store full base64
+    }
   } catch(e) {
-    adminToast('Storage warning: could not save locally. Proceeding to push to live site.');
+    console.warn('Upload endpoint unreachable, falling back to base64 embed:', e);
+    finalPosterRef = dataUrl; // fallback
   }
 
-  // Broadcast to open browser tabs
+  // Step 2: Store in localStorage and push to cms.json
+  try { localStorage.setItem('ya_standings_poster', finalPosterRef); } catch(e) {}
+
+  // Step 3: Broadcast to open browser tabs for instant preview
   try {
     if (window.BroadcastChannel) {
       const bc = new BroadcastChannel('ya_channel');
-      bc.postMessage({ type: 'STANDINGS_POSTER_UPDATED', poster: dataUrl });
+      bc.postMessage({ type: 'STANDINGS_POSTER_UPDATED', poster: finalPosterRef });
       bc.close();
     }
     window.dispatchEvent(new Event('storage'));
   } catch(e) {}
 
-  // PUSH TO GITHUB LIVE
+  // Step 4: Push cms.json (now stores path, not base64)
   try {
     await pushCmsToGitHub('standings poster');
   } catch(e) {
@@ -3439,7 +3431,7 @@ async function saveStandingsPoster() {
   }
 
   if (statusEl) statusEl.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> <strong>Standings graphic is now live on the website!</strong></span>';
-  adminToast('✅ Standings graphic saved and pushed live to website!');
+  adminToast('✅ Standings graphic uploaded and live!');
   window._pendingStandingsPoster = null;
 }
 
@@ -3599,7 +3591,7 @@ if (window.BroadcastChannel) {
       if (currentPanel === 'waitlist') renderWaitlistTable();
       if (currentPanel === 'preorders') renderPreordersTable();
       if (ev.data && ev.data.type === 'MEMBER_SAVED') {
-        adminToast('🔔 New member registration received: ' + (ev.data.profile?.name || 'Fan Member'));
+        adminToast('ðŸ”” New member registration received: ' + (ev.data.profile?.name || 'Fan Member'));
       }
     };
   } catch(e) {}
@@ -3669,9 +3661,9 @@ if (window.BroadcastChannel) {
   } catch(e) {}
 })();
 
-// ═════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 // ADMIN SPLASH CONTROLLER & SESSION INIT
-// ═════════════════════════════════════════════
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 let splashDismissed = false;
 function dismissAdminSplash() {
   if (splashDismissed) return;

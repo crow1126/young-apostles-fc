@@ -1695,8 +1695,14 @@ function buildCmsPayload(remoteCms = null) {
   else if (remote && Array.isArray(remote.leagueTable) && remote.leagueTable.length) payload.leagueTable = remote.leagueTable;
 
   const standingsPoster = localStorage.getItem('ya_standings_poster');
-  if (standingsPoster) {
-    payload.standingsPoster = standingsPoster;
+  if (standingsPoster && !standingsPoster.startsWith('data:')) {
+    payload.standingsPoster = standingsPoster.split('?')[0].replace(/^\//, '');
+  } else if (standingsPoster && standingsPoster.startsWith('data:')) {
+    if (remote && remote.standingsPoster && !remote.standingsPoster.startsWith('data:')) {
+      payload.standingsPoster = remote.standingsPoster;
+    } else {
+      payload.standingsPoster = standingsPoster;
+    }
   } else if (remote && remote.standingsPoster && standingsPoster !== '') {
     payload.standingsPoster = remote.standingsPoster;
   } else {
@@ -3353,29 +3359,57 @@ function handleStandingsPosterUpload(input) {
 async function saveStandingsPoster() {
   const dataUrl = window._pendingStandingsPoster;
   if (!dataUrl) { adminToast('No image loaded yet.'); return; }
-  
+
   const statusEl = document.getElementById('standingsPosterStatus');
   const saveBtn = document.getElementById('saveStandingsPosterBtn');
-  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving and pushing to live website...';
+  if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Uploading standings graphic to live website...';
   if (saveBtn) saveBtn.disabled = true;
 
+  const token = getGhToken();
+  const adminToken = sessionStorage.getItem('ya_admin_token') || localStorage.getItem('ya_admin_token') || '';
+
+  let finalPosterRef = null; // will be URL path or data URL
+
   try {
-    localStorage.setItem('ya_standings_poster', dataUrl);
+    // Step 1: Upload the image as a real file (not embedded in cms.json)
+    const uploadRes = await fetch('/api/upload-image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(adminToken ? {'x-admin-token': adminToken} : {}) },
+      body: JSON.stringify({ dataUrl, filename: 'standings-poster.jpg', label: 'standings poster', token: token || undefined, adminToken })
+    });
+    if (uploadRes.ok) {
+      // Store only the URL path with cache-buster (not the 380KB base64)
+      finalPosterRef = '/data/standings-poster.jpg?v=' + Date.now();
+      if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Image uploaded! Updating site config...';
+    } else {
+      const err = await uploadRes.json().catch(() => ({}));
+      if (uploadRes.status === 401) {
+        adminToast('⚠️ Session expired. Please re-login.');
+        if (saveBtn) { saveBtn.disabled = false; }
+        return;
+      }
+      console.warn('Upload-image failed, falling back to base64 embed:', err.error);
+      finalPosterRef = dataUrl; // fallback: store full base64
+    }
   } catch(e) {
-    adminToast('Storage warning: could not save locally. Proceeding to push to live site.');
+    console.warn('Upload endpoint unreachable, falling back to base64 embed:', e);
+    finalPosterRef = dataUrl; // fallback
   }
 
-  // Broadcast to open browser tabs
+  // Step 2: Store in localStorage and push to cms.json
+  try { localStorage.setItem('ya_standings_poster', finalPosterRef); } catch(e) {}
+
+  // Step 3: Broadcast to open browser tabs for instant preview
   try {
     if (window.BroadcastChannel) {
       const bc = new BroadcastChannel('ya_channel');
-      bc.postMessage({ type: 'STANDINGS_POSTER_UPDATED', poster: dataUrl });
+      bc.postMessage({ type: 'STANDINGS_POSTER_UPDATED', poster: finalPosterRef });
       bc.close();
     }
     window.dispatchEvent(new Event('storage'));
   } catch(e) {}
 
-  // PUSH TO GITHUB LIVE
+  // Step 4: Push cms.json (now stores path, not base64)
   try {
     await pushCmsToGitHub('standings poster');
   } catch(e) {
@@ -3397,7 +3431,7 @@ async function saveStandingsPoster() {
   }
 
   if (statusEl) statusEl.innerHTML = '<span style="color:#4ade80;"><i class="fa-solid fa-circle-check"></i> <strong>Standings graphic is now live on the website!</strong></span>';
-  adminToast('âœ… Standings graphic saved and pushed live to website!');
+  adminToast('✅ Standings graphic uploaded and live!');
   window._pendingStandingsPoster = null;
 }
 

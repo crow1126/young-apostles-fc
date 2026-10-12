@@ -595,7 +595,7 @@ button {
    ========================================================= */
 .hero-section {
   position: relative;
-  background: var(--ya-blue-dark);
+  background: #03050C;
   color: var(--text-white);
   min-height: 750px;
   display: flex;
@@ -607,7 +607,8 @@ button {
 .hero-bg {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 0;
+  background: #03050C;
 }
 
 .hero-bg-image {
@@ -620,7 +621,7 @@ button {
   backface-visibility: hidden;
   transform: translateZ(0);
   image-rendering: auto;
-  transition: opacity 0.7s ease-in-out;
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hero-slides-wrap {
@@ -629,7 +630,8 @@ button {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 1;
+  z-index: 0;
+  background: #03050C;
 }
 
 .hero-bg-slide {
@@ -641,11 +643,13 @@ button {
   object-position: center top !important;
   filter: contrast(1.04) saturate(1.05);
   opacity: 0;
-  transition: opacity 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   pointer-events: none;
+  z-index: 1;
 }
 
 .hero-bg-slide.active {
@@ -680,19 +684,21 @@ button {
 .hero-overlay {
   position: absolute;
   inset: 0;
+  z-index: 3;
   background: linear-gradient(
     180deg,
-    rgba(7, 14, 41, 0.55) 0%,
-    rgba(7, 14, 41, 0.72) 40%,
-    rgba(7, 14, 41, 0.90) 75%,
-    rgba(7, 14, 41, 0.98) 100%
+    rgba(0, 0, 0, 0.0) 0%,
+    rgba(0, 0, 0, 0.04) 25%,
+    rgba(3, 5, 12, 0.50) 55%,
+    rgba(3, 5, 12, 0.85) 80%,
+    rgba(3, 5, 12, 0.98) 100%
   );
   pointer-events: none;
 }
 
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   width: 100%;
 }
 
@@ -704,7 +710,14 @@ button {
 }
 
 .hero-left {
-  max-width: 720px;
+  max-width: 760px;
+  background: linear-gradient(135deg, rgba(3, 6, 16, 0.82) 0%, rgba(5, 10, 24, 0.65) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2rem 2.25rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
 }
 
 .hero-badge-tag {
@@ -723,19 +736,21 @@ button {
 
 .hero-headline {
   font-family: var(--font-heading);
-  font-size: 2.85rem;
+  font-size: 2.75rem;
   font-weight: 800;
-  line-height: 1.15;
-  color: var(--text-white);
+  line-height: 1.18;
+  color: #FFFFFF;
   margin-bottom: 1rem;
   letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
 .hero-subtitle {
-  color: var(--text-white-sub);
+  color: #E2E8F0;
   font-size: 1.05rem;
   margin-bottom: 1.5rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 .hero-cta-row {

@@ -2270,24 +2270,31 @@ function startHeroSlideshow() {
 }
 
 function goToHeroSlide(index) {
-  if (!currentHeroImages || !currentHeroImages.length) return;
-  currentHeroIndex = ((index % currentHeroImages.length) + currentHeroImages.length) % currentHeroImages.length;
-
+  if (!currentHeroImages || currentHeroImages.length <= 1) return;
   const slides = document.querySelectorAll('.hero-bg-slide');
-  if (slides.length > 0) {
-    slides.forEach((sl, idx) => {
-      if (idx === currentHeroIndex) {
-        sl.classList.add('active');
-      } else {
-        sl.classList.remove('active');
-      }
-    });
-  } else {
-    const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
-    if (bgImgEl) {
-      bgImgEl.src = currentHeroImages[currentHeroIndex];
-    }
+  if (!slides || slides.length === 0) return;
+
+  const prevIndex = currentHeroIndex;
+  currentHeroIndex = ((index % currentHeroImages.length) + currentHeroImages.length) % currentHeroImages.length;
+  if (prevIndex === currentHeroIndex) return;
+
+  const outgoingSlide = slides[prevIndex];
+  const incomingSlide = slides[currentHeroIndex];
+
+  if (incomingSlide && outgoingSlide) {
+    incomingSlide.style.zIndex = '3';
+    incomingSlide.classList.add('active');
+    outgoingSlide.style.zIndex = '2';
+
+    setTimeout(() => {
+      outgoingSlide.classList.remove('active');
+      outgoingSlide.style.zIndex = '1';
+      incomingSlide.style.zIndex = '2';
+    }, 1050);
+  } else if (incomingSlide) {
+    incomingSlide.classList.add('active');
   }
+
   updateHeroDots();
 }
 
@@ -2441,6 +2448,7 @@ function checkStorageUpdates() {
     applyHeroWriteup();
     updateStandingsUI();
     updateVipPassVisibility();
+    updateStandingsPosterVisibility();
   } catch(e) {}
 }
 
@@ -2486,7 +2494,14 @@ async function initCloudSync() {
         localStorage.setItem('ya_league_table', JSON.stringify(data.leagueTable));
         renderStandingsTable(data.leagueTable);
       }
-
+      // Sync Standings Poster Graphic (uploaded by admin)
+      if (data.standingsPoster) {
+        localStorage.setItem('ya_standings_poster', data.standingsPoster);
+        updateStandingsPosterVisibility();
+      } else if (Object.prototype.hasOwnProperty.call(data, 'standingsPoster') && !data.standingsPoster) {
+        localStorage.removeItem('ya_standings_poster');
+        updateStandingsPosterVisibility();
+      }
       // Sync Fixtures â€” always overwrite so admin score updates always reflect for all users
       if (Array.isArray(data.fixtures) && data.fixtures.length > 0) {
         localStorage.removeItem('ya_club_fixtures'); // clear stale cache first
@@ -2512,6 +2527,15 @@ async function fetchCmsStandings() {
     const res = await fetch('data/cms.json?v=' + Date.now());
     if (!res.ok) return;
     const cms = await res.json();
+
+    // Sync Standings Poster Graphic
+    if (cms.standingsPoster) {
+      localStorage.setItem('ya_standings_poster', cms.standingsPoster);
+      updateStandingsPosterVisibility();
+    } else if (Object.prototype.hasOwnProperty.call(cms, 'standingsPoster') && !cms.standingsPoster) {
+      localStorage.removeItem('ya_standings_poster');
+      updateStandingsPosterVisibility();
+    }
 
     // Render full 18-team table if present in cms
     if (Array.isArray(cms.leagueTable) && cms.leagueTable.length) {
@@ -2938,10 +2962,14 @@ function updateStandingsPosterVisibility() {
   const pendingNotice = document.getElementById('standingsPendingNotice');
   const storedPoster = localStorage.getItem('ya_standings_poster');
 
-  if (storedPoster) {
+  if (storedPoster && storedPoster !== 'null' && storedPoster !== 'undefined' && storedPoster.trim() !== '') {
+    const posterSrc = (storedPoster.startsWith('data:') || storedPoster.startsWith('http') || storedPoster.startsWith('/'))
+      ? storedPoster
+      : '/' + storedPoster;
+
     if (btn) btn.style.display = 'inline-flex';
-    if (modalImg) modalImg.src = storedPoster;
-    if (sectionImg) sectionImg.src = storedPoster;
+    if (modalImg) modalImg.src = posterSrc;
+    if (sectionImg) sectionImg.src = posterSrc;
     if (sectionGraphic) sectionGraphic.style.display = 'block';
     if (pendingNotice) pendingNotice.style.display = 'none';
   } else {
