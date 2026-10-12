@@ -1164,6 +1164,22 @@
                 <label style="font-size:0.7rem; color:var(--amuted); text-transform:uppercase; font-weight:700; display:block; margin-bottom:0.3rem;">Or Custom Image URL / Path:</label>
                 <input type="text" class="admin-input" id="heroImage" placeholder="assets/home-hero.jpg" style="font-size:0.82rem;" oninput="updateHeroPreview(this.value)">
               </div>
+              <!-- Secondary Hero Image (Dual Photo Showcase) -->
+              <div style="margin-top:0.85rem; padding-top:0.85rem; border-top:1px dashed var(--aborder);">
+                <label style="font-size:0.75rem; color:var(--agold); text-transform:uppercase; font-weight:800; display:flex; align-items:center; gap:0.4rem; margin-bottom:0.35rem;">
+                  <i class="fa-solid fa-images"></i> Secondary Hero Picture (Optional - Dual Photo Showcase):
+                </label>
+                <div style="display:flex; gap:0.5rem; align-items:center;">
+                  <input type="text" class="admin-input" id="heroImage2" placeholder="assets/prempeh-potm-boots.jpg" style="font-size:0.82rem; flex:1;">
+                  <label class="btn-admin-sm" style="cursor:pointer; display:inline-flex; align-items:center; gap:0.4rem; white-space:nowrap;">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload 2nd Photo
+                    <input type="file" id="heroFileInput2" accept="image/*" style="display:none;" onchange="handleHeroImage2Upload(this)">
+                  </label>
+                </div>
+                <small style="color:var(--amuted); font-size:0.72rem; display:block; margin-top:0.3rem;">
+                  Enables dual-photo switcher pill buttons on the website so fans can view both photos in the hero!
+                </small>
+              </div>
             </div>
 
             <div class="form-row">
@@ -2487,6 +2503,44 @@ function deleteMember(idx) {
 /* ==========================================
    NEWS CMS
    ========================================== */
+
+function shareArticleToTwitter(idx) {
+  const blogs = getBlogs();
+  const b = blogs[idx];
+  if (!b) return;
+  const tweetText = `🏆 ${b.title}\n\n${(b.excerpt || '').slice(0, 140)}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
+  const shareUrl = 'https://gapostlesfcgh.com/#news';
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
+  window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
+}
+
+function shareHeroToTwitter() {
+  const headline = (document.getElementById('heroHeadline') ? document.getElementById('heroHeadline').value.trim() : '') || 'Young Apostles FC Official Update';
+  const sub = (document.getElementById('heroSubtitle') ? document.getElementById('heroSubtitle').value.replace(/<[^>]+>/g, '').trim().slice(0, 140) : '');
+  const tweetText = `📢 ${headline}\n\n${sub}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
+  const shareUrl = 'https://gapostlesfcgh.com/';
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
+  window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
+}
+
+async function handleHeroImage2Upload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  adminToast('Optimizing secondary picture...');
+  try {
+    const dataUrl = await compressImage(file, 1920, 1080, 0.82);
+    document.getElementById('heroImage2').value = dataUrl;
+    adminToast('✅ 2nd picture loaded! Click "Save & Push" to publish.');
+  } catch(err) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('heroImage2').value = e.target.result;
+      adminToast('2nd picture loaded!');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
 function renderNewsPanel() {
   const blogs = getBlogs();
   const el = document.getElementById('newsList');
@@ -2503,6 +2557,7 @@ function renderNewsPanel() {
         <div class="cms-card__meta">${b.id}</div>
       </div>
       <div class="cms-card__actions">
+        <button class="btn-admin-sm" onclick="shareArticleToTwitter(${i})" title="Share to X (Twitter)" style="color:#1D9BF0;"><i class="fa-brands fa-x-twitter"></i></button>
         <button class="btn-admin-sm" onclick="editNewsArticle(${i})"><i class="fa-solid fa-pen"></i></button>
         <button class="btn-admin-danger" onclick="deleteNewsArticle(${i})"><i class="fa-solid fa-trash"></i></button>
       </div>
@@ -3127,6 +3182,8 @@ function saveHeroSection() {
   if (headline) heroData.headline = headline;
   if (subtitle) heroData.subtitle = subtitle;
   if (image) heroData.image = image;
+  const image2 = (document.getElementById('heroImage2') ? document.getElementById('heroImage2').value.trim() : '');
+  if (image2) heroData.image2 = image2;
   if (ctaText) heroData.ctaText = ctaText;
   if (ctaLink) heroData.ctaLink = ctaLink;
 

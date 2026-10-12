@@ -1392,6 +1392,24 @@ const UNIFIED_BLOGS_KEY = "ya_club_unified_blogs";
 
 const DEFAULT_UNIFIED_BLOGS = [
   {
+    id: 'samuel-prempeh-player-of-the-month',
+    title: "Samuel Prempeh Wins AJ Construction & Building Player of the Month",
+    category: "CLUB AWARD",
+    badgeClass: "news-badge-pill--club",
+    date: "Oct 12, 2026",
+    source: "Apostles Media Dispatch",
+    author: "Young Apostles FC",
+    image: "assets/prempeh-potm-award.jpg",
+    images: [
+      "assets/prempeh-potm-award.jpg",
+      "assets/prempeh-potm-boots.jpg"
+    ],
+    excerpt: "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month following his impressive performances in the Ghana Premier League, having scored all three goals for the Apostles after Matchday Six.",
+    content: `<p>Young Apostles FC striker <strong>Samuel Prempeh</strong> has been named the club’s <strong>AJ Construction & Building Player of the Month</strong> following his impressive performances in the Ghana Premier League.</p><p>Prempeh has scored all three of Young Apostles’ goals after Matchday Six of the 2026/27 Ghana Premier League season, underlining his importance to the team’s attacking efforts.</p><p>He emerged as the winner ahead of fellow nominees <strong>Samuel Adamu</strong> and <strong>John Afram Attah Jnr</strong> to claim the monthly award in recognition of his contribution to the club.</p><h4>Player of the Month Prize Package</h4><p>As part of his prize, Prempeh received an exclusive collection of official club gear:</p><ul><li>Customised Young Apostles FC team bag</li><li>Adidas Predator football boots</li><li>Customised shin guards</li><li>Official match socks and football hose</li></ul><div class="news-quote-box"><blockquote style="font-style:italic;font-size:1.05rem;color:var(--ya-blue-deep);margin:0 0 0.5rem 0;">“This recognition will serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.”</blockquote><cite style="font-weight:700;color:var(--ya-gold-hover);font-size:0.85rem;">&mdash; Samuel Prempeh, Striker</cite></div><p>Speaking after receiving the award, the striker expressed his determination to maintain his form and continue delivering for the club. He noted that the recognition would serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.</p><p>Prempeh’s achievement highlights his growing influence within the team as Young Apostles continue their campaign in the Ghana Premier League.</p><p>The club congratulates Samuel Prempeh on winning the award and looks forward to more goals and outstanding performances from the striker.</p><div class="article-gallery-grid"><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Receiving Player of the Month Award" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">🏆 Samuel Prempeh on pitch with award</div></div><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-boots.jpg" alt="Customized Bag, Predator Boots, and Shin Guards" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">⚽ Custom Bag, Predator Boots &amp; Shin Guards</div></div></div>`,
+    readTime: "3 min read"
+  },
+
+  {
     id: 'debibi-united-derby',
     title: "Young Apostles Face Debibi United in First Regional Derby of GPL Season",
     category: "MATCH PREVIEW",
@@ -1445,7 +1463,7 @@ const DEFAULT_UNIFIED_BLOGS = [
   }
 ];
 
-const CMS_CONTENT_VERSION = "2026-09-17-v1";
+const CMS_CONTENT_VERSION = "2026-10-12-potm-v2";
 
 function getUnifiedBlogs() {
   try {
@@ -1635,6 +1653,18 @@ function renderArchiveGrid() {
 }
 
 
+let currentModalArticle = null;
+
+function shareCurrentModalArticleToTwitter() {
+  if (!currentModalArticle) return;
+  const title = currentModalArticle.title || 'Young Apostles FC Official Update';
+  const excerpt = (currentModalArticle.excerpt || '').replace(/<[^>]+>/g, '').slice(0, 140);
+  const tweetText = `🏆 ${title}\n\n${excerpt}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
+  const shareUrl = window.location.origin + '/#news';
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
+  window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
+}
+
 function openNewsArticle(articleId) {
   const blogs = getUnifiedBlogs();
   let article = blogs.find(a => a.id === articleId);
@@ -1645,6 +1675,7 @@ function openNewsArticle(articleId) {
   }
 
   if (!article) return;
+  currentModalArticle = article;
 
   const modal = document.getElementById('newsArticleModal');
   const imgEl = document.getElementById('newsModalImg');
@@ -1653,21 +1684,50 @@ function openNewsArticle(articleId) {
   const srcEl = document.getElementById('newsModalSource');
   const titleEl = document.getElementById('newsModalTitle');
   const bodyEl = document.getElementById('newsModalContent');
+  const thumbWrap = document.getElementById('modalGalleryThumbWrap');
 
+  const mainImg = article.image || 'assets/apostle-tv-video1.jpg';
   if (imgEl) {
-    imgEl.src = article.image || 'assets/apostle-tv-video1.jpg';
+    imgEl.src = mainImg;
     imgEl.style.display = 'block';
   }
+
+  // Handle Multi-Photo Gallery in Modal
+  if (thumbWrap) {
+    const images = Array.isArray(article.images) && article.images.length > 1 ? article.images : null;
+    if (images) {
+      thumbWrap.style.display = 'flex';
+      thumbWrap.innerHTML = images.map((imgSrc, idx) => `
+        <button type="button" class="modal-gallery-thumb-btn ${idx === 0 ? 'active' : ''}" onclick="switchModalGalleryImage('${imgSrc}', this)">
+          <i class="fa-solid fa-camera"></i> Photo ${idx + 1}
+        </button>
+      `).join('');
+    } else {
+      thumbWrap.style.display = 'none';
+      thumbWrap.innerHTML = '';
+    }
+  }
+
   if (catEl) {
     catEl.textContent = article.category || 'CLUB NEWS';
     catEl.className = 'news-badge-pill ' + (article.badgeClass || 'news-badge-pill--match');
   }
-  if (dateEl) dateEl.innerHTML = `<i class="fa-regular fa-calendar"></i> ${article.date || 'Sep 16, 2026'}`;
+  if (dateEl) dateEl.innerHTML = `<i class="fa-regular fa-calendar"></i> ${article.date || 'Oct 12, 2026'}`;
   if (srcEl) srcEl.innerHTML = `<i class="fa-brands fa-x-twitter"></i> ${article.source || 'Apostles Media Dispatch'}`;
   if (titleEl) titleEl.textContent = article.title;
   if (bodyEl) bodyEl.innerHTML = article.content || `<p>${article.excerpt || ''}</p>`;
 
   if (modal) modal.classList.add('open');
+}
+
+function switchModalGalleryImage(imgSrc, btn) {
+  const imgEl = document.getElementById('newsModalImg');
+  if (imgEl) {
+    imgEl.src = imgSrc;
+  }
+  const buttons = document.querySelectorAll('.modal-gallery-thumb-btn');
+  buttons.forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
 }
 
 function closeNewsArticle() {
@@ -2187,6 +2247,34 @@ if (window.BroadcastChannel) {
   } catch(e) {}
 }
 
+let currentHeroImages = [];
+let currentHeroIndex = 0;
+
+function switchHeroPhoto(photoNum) {
+  const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
+  const btn1 = document.getElementById('heroPhotoBtn1');
+  const btn2 = document.getElementById('heroPhotoBtn2');
+  if (!bgImgEl || currentHeroImages.length < 2) return;
+
+  currentHeroIndex = (photoNum === 2) ? 1 : 0;
+  bgImgEl.style.transition = 'opacity 0.25s ease';
+  bgImgEl.style.opacity = '0.7';
+  setTimeout(() => {
+    bgImgEl.src = currentHeroImages[currentHeroIndex];
+    bgImgEl.style.opacity = '1';
+  }, 150);
+
+  if (btn1 && btn2) {
+    if (currentHeroIndex === 0) {
+      btn1.classList.add('active');
+      btn2.classList.remove('active');
+    } else {
+      btn1.classList.remove('active');
+      btn2.classList.add('active');
+    }
+  }
+}
+
 function applyHeroWriteup() {
   let heroData = null;
   try {
@@ -2200,6 +2288,7 @@ function applyHeroWriteup() {
   const subtitleEl = document.getElementById('heroSubtitleDisplay') || document.querySelector('.hero-subtitle');
   const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
   const ctaBtn = document.getElementById('heroCtaBtn') || document.querySelector('.hero-cta-row .btn-hero-primary');
+  const photoSwitchBar = document.getElementById('heroPhotoSwitchBar');
 
   if (headlineEl && heroData.headline) {
     headlineEl.textContent = heroData.headline;
@@ -2207,16 +2296,45 @@ function applyHeroWriteup() {
   if (subtitleEl && heroData.subtitle) {
     subtitleEl.innerHTML = heroData.subtitle;
   }
-  if (bgImgEl && heroData.image) {
-    bgImgEl.src = heroData.image;
+
+  // Handle Dual Hero Images
+  const img1 = heroData.image || 'assets/prempeh-potm-award.jpg';
+  const img2 = heroData.image2 || null;
+
+  if (img2) {
+    currentHeroImages = [img1, img2];
+    if (photoSwitchBar) {
+      photoSwitchBar.style.display = 'inline-flex';
+    }
+  } else {
+    currentHeroImages = [img1];
+    if (photoSwitchBar) {
+      photoSwitchBar.style.display = 'none';
+    }
+  }
+
+  if (bgImgEl && img1) {
+    bgImgEl.src = currentHeroImages[currentHeroIndex] || img1;
     bgImgEl.style.objectPosition = 'center top';
   }
+
   if (ctaBtn) {
     if (heroData.ctaText) {
-      ctaBtn.innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${heroData.ctaText}`;
+      ctaBtn.innerHTML = `<i class="fa-solid fa-trophy"></i> ${heroData.ctaText}`;
     }
     if (heroData.ctaLink) {
       ctaBtn.setAttribute('href', heroData.ctaLink);
+    }
+    // If it's the award announcement, wire direct modal opener
+    if (heroData.headline && (heroData.headline.includes('Player of the Month') || heroData.headline.includes('Prempeh'))) {
+      ctaBtn.onclick = function(e) {
+        if (typeof openNewsArticle === 'function') {
+          e.preventDefault();
+          openNewsArticle('samuel-prempeh-player-of-the-month');
+          const newsSection = document.getElementById('news');
+          if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      };
     }
   }
 }

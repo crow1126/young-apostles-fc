@@ -51,7 +51,7 @@
   <meta property="og:locale" content="en_GH">
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@youngapostlesfc">
   <meta name="twitter:title" content="Young Apostles FC - Official Website">
   <meta name="twitter:description" content="2026/27 Ghana Premier League. Squad, Fixtures, Highlights and Shop.">
@@ -997,6 +997,14 @@
     <div class="container hero-content">
       <div class="hero-content__inner">
         <div class="hero-left">
+          <div class="hero-photo-switch-bar" id="heroPhotoSwitchBar" style="display:none;">
+            <button type="button" class="hero-photo-btn active" id="heroPhotoBtn1" onclick="switchHeroPhoto(1)">
+              <i class="fa-solid fa-camera"></i> <span id="heroPhotoLabel1">Photo 1: Prempeh Award</span>
+            </button>
+            <button type="button" class="hero-photo-btn" id="heroPhotoBtn2" onclick="switchHeroPhoto(2)">
+              <i class="fa-solid fa-images"></i> <span id="heroPhotoLabel2">Photo 2: Boots &amp; Gear</span>
+            </button>
+          </div>
           <h1 class="hero-headline" id="heroHeadlineDisplay">
             Young Apostles FC: Fighting for Glory in Ghana's Premier League
           </h1>
@@ -1817,20 +1825,27 @@
   <div class="modal-overlay" id="newsArticleModal">
     <div class="modal-box" style="max-width:740px; padding:0; overflow:hidden; max-height:90vh; display:flex; flex-direction:column; border-radius:16px;">
       <div style="position:relative;">
-        <img id="newsModalImg" src="assets/news-1.jpg" alt="Article image" style="width:100%; height:260px; object-fit:cover; display:block;">
-        <button class="modal-close-btn" onclick="closeNewsArticle()" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.6); color:#fff; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; font-size:1.4rem;">&times;</button>
-        <span id="newsModalCategory" class="news-badge-pill news-badge-pill--match" style="position:absolute; bottom:16px; left:20px;">MATCH REPORT</span>
+        <img id="newsModalImg" src="assets/news-1.jpg" alt="Article image" style="width:100%; height:280px; object-fit:cover; display:block;">
+        <button class="modal-close-btn" onclick="closeNewsArticle()" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.65); color:#fff; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; font-size:1.4rem; z-index:10;">&times;</button>
+        <span id="newsModalCategory" class="news-badge-pill news-badge-pill--match" style="position:absolute; bottom:16px; left:20px; z-index:5;">MATCH REPORT</span>
+        <!-- Dual photo / Gallery thumbnail pills in modal -->
+        <div id="modalGalleryThumbWrap" class="modal-gallery-thumbs" style="display:none;"></div>
       </div>
       <div style="padding:1.75rem; overflow-y:auto; flex:1;">
-        <div class="news-meta-row" style="margin-bottom:0.75rem;">
-          <span id="newsModalDate" class="news-meta-date"><i class="fa-regular fa-calendar"></i> Sep 14, 2026</span>
-          <span class="news-meta-dot">&bull;</span>
-          <span id="newsModalSource" class="news-meta-source"><i class="fa-brands fa-x-twitter"></i> Apostles Media Dispatch</span>
+        <div class="news-meta-row" style="margin-bottom:0.75rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <span id="newsModalDate" class="news-meta-date"><i class="fa-regular fa-calendar"></i> Sep 14, 2026</span>
+            <span class="news-meta-dot">&bull;</span>
+            <span id="newsModalSource" class="news-meta-source"><i class="fa-brands fa-x-twitter"></i> Apostles Media Dispatch</span>
+          </div>
+          <button type="button" class="btn-hero-primary" id="modalTopTwitterBtn" onclick="shareCurrentModalArticleToTwitter()" style="background:#0F172A; color:#fff; border:1px solid rgba(255,255,255,0.2); padding:0.4rem 0.95rem; font-size:0.78rem; display:inline-flex; align-items:center; gap:0.45rem; border-radius:999px; cursor:pointer;">
+            <i class="fa-brands fa-x-twitter" style="color:#1D9BF0;"></i> Share on X
+          </button>
         </div>
         <h2 id="newsModalTitle" style="font-family:var(--font-heading); font-size:1.55rem; font-weight:900; color:var(--ya-blue-deep); line-height:1.25; margin-bottom:1.25rem;">
           Article Headline
         </h2>
-        <div id="newsModalContent" class="news-article-body" style="font-size:0.95rem; line-height:1.75; color:#374151;">
+        <div id="newsModalContent" class="news-article-body">
           <!-- Populated dynamically -->
         </div>
         <div style="margin-top:2rem; padding-top:1.25rem; border-top:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
@@ -1838,7 +1853,12 @@
             <img src="assets/official-logo.png" alt="YA" style="width:28px; height:28px; object-fit:contain;">
             <span>Young Apostles FC Official Media Department</span>
           </div>
-          <button class="btn-hero-secondary" style="padding:0.5rem 1.25rem; font-size:0.85rem;" onclick="closeNewsArticle()">Close Article</button>
+          <div style="display:flex; align-items:center; gap:0.6rem;">
+            <button type="button" class="btn-hero-primary" onclick="shareCurrentModalArticleToTwitter()" style="background:#000; color:#fff; border:1px solid #334155; padding:0.55rem 1.25rem; font-size:0.85rem; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer;">
+              <i class="fa-brands fa-x-twitter" style="color:#1D9BF0;"></i> Share on X (Twitter)
+            </button>
+            <button class="btn-hero-secondary" style="padding:0.55rem 1.25rem; font-size:0.85rem;" onclick="closeNewsArticle()">Close</button>
+          </div>
         </div>
       </div>
     </div>
