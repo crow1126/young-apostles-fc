@@ -1,4 +1,4 @@
-﻿/**
+/**
  * YOUNG APOSTLES FOOTBALL CLUB Ã¢â‚¬" OFFICIAL JAVASCRIPT
  * Dribbble Premier UI/UX Design System
  * 38-Player Squad, Team Shop, Cart System, GPL 2026/27 Fixtures, Rankings & Highlights
@@ -2286,7 +2286,6 @@ function updateHeroDots() {
     if (idx === currentHeroIndex) d.classList.add('active');
     else d.classList.remove('active');
   });
-});
 }
 
 function initHeroSwipe() {
