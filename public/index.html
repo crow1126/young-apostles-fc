@@ -97,7 +97,7 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=4.0">
+  <link rel="stylesheet" href="css/styles.css?v=4.2">
 
   <style id="ya-cool-modals-css">
     /* ─────────────────────────────────────────────────────
@@ -991,8 +991,8 @@
   <section class="hero-section" id="home">
     <div class="hero-bg" id="heroBgContainer">
       <div class="hero-slides-wrap" id="heroSlidesWrap">
-        <img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Player of the Month Award" class="hero-bg-slide active" id="heroBgImage">
-        <img src="assets/prempeh-potm-boots.jpg" alt="Samuel Prempeh Award Gear & Boots" class="hero-bg-slide">
+        <img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Player of the Month Award" class="hero-bg-slide active" id="heroBgImage" style="opacity:1; z-index:2;">
+        <img src="assets/prempeh-potm-boots.jpg" alt="Samuel Prempeh Award Gear & Boots" class="hero-bg-slide" style="opacity:0; z-index:1;">
       </div>
       <div class="hero-overlay"></div>
     </div>
@@ -1001,8 +1001,8 @@
       <div class="hero-content__inner">
         <div class="hero-left">
           <div class="hero-slide-dots" id="heroSlideDots" aria-label="Hero photo indicators">
-            <button type="button" class="hero-slide-dot active" onclick="goToHeroSlide(0); startHeroSlideshow();" aria-label="Photo 1"></button>
-            <button type="button" class="hero-slide-dot" onclick="goToHeroSlide(1); startHeroSlideshow();" aria-label="Photo 2"></button>
+            <button type="button" class="hero-slide-dot active" onclick="goToHeroSlide(0); resetHeroSlideshowTimer();" aria-label="Photo 1"></button>
+            <button type="button" class="hero-slide-dot" onclick="goToHeroSlide(1); resetHeroSlideshowTimer();" aria-label="Photo 2"></button>
           </div>
           <h1 class="hero-headline" id="heroHeadlineDisplay">
             Samuel Prempeh Wins AJ Construction &amp; Building Player of the Month
@@ -2002,7 +2002,7 @@
     <span id="toastText">Action completed successfully!</span>
   </div>
 
-  <script src="js/main.js?v=4.0" charset="utf-8"></script>
+  <script src="js/main.js?v=4.2" charset="utf-8"></script>
 
   <!-- ═══ Splash Screen Controller ═══ -->
   <script>

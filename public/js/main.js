@@ -2238,32 +2238,42 @@ if (window.BroadcastChannel) {
 }
 
 let heroSlideshowTimer = null;
-let currentHeroImages = [];
+let currentHeroImages = [
+  'assets/prempeh-potm-award.jpg',
+  'assets/prempeh-potm-boots.jpg'
+];
 let currentHeroIndex = 0;
 
 function startHeroSlideshow() {
-  if (heroSlideshowTimer) clearInterval(heroSlideshowTimer);
-  if (!currentHeroImages || currentHeroImages.length <= 1) return;
-
+  if (heroSlideshowTimer) return; // If already running, do NOT kill it!
   heroSlideshowTimer = setInterval(() => {
-    const nextIdx = (currentHeroIndex + 1) % currentHeroImages.length;
-    goToHeroSlide(nextIdx);
+    goToHeroSlide(currentHeroIndex + 1);
+  }, 4000);
+}
+
+function resetHeroSlideshowTimer() {
+  if (heroSlideshowTimer) clearInterval(heroSlideshowTimer);
+  heroSlideshowTimer = setInterval(() => {
+    goToHeroSlide(currentHeroIndex + 1);
   }, 4000);
 }
 
 function goToHeroSlide(index) {
-  if (!currentHeroImages || currentHeroImages.length <= 1) return;
   const slides = document.querySelectorAll('.hero-bg-slide');
-  if (!slides || slides.length === 0) return;
+  if (!slides || slides.length < 2) return;
 
-  const count = currentHeroImages.length;
+  const count = slides.length;
   currentHeroIndex = ((index % count) + count) % count;
 
   slides.forEach((sl, idx) => {
     if (idx === currentHeroIndex) {
       sl.classList.add('active');
+      sl.style.opacity = '1';
+      sl.style.zIndex = '2';
     } else {
       sl.classList.remove('active');
+      sl.style.opacity = '0';
+      sl.style.zIndex = '1';
     }
   });
 
@@ -2276,6 +2286,7 @@ function updateHeroDots() {
     if (idx === currentHeroIndex) d.classList.add('active');
     else d.classList.remove('active');
   });
+});
 }
 
 function initHeroSwipe() {
@@ -2346,6 +2357,9 @@ function applyHeroWriteup() {
     };
   }
 
+  // Keep lastHeroRaw in sync to avoid 2-second polling re-trigger
+  _lastHeroRaw = JSON.stringify(heroData);
+
   const headlineEl = document.getElementById('heroHeadlineDisplay') || document.querySelector('.hero-headline');
   const subtitleEl = document.getElementById('heroSubtitleDisplay') || document.querySelector('.hero-subtitle');
   const ctaBtn = document.getElementById('heroCtaBtn') || document.querySelector('.hero-cta-row .btn-hero-primary');
@@ -2358,7 +2372,6 @@ function applyHeroWriteup() {
     subtitleEl.innerHTML = sanitizeHeroText(heroData.subtitle);
   }
 
-  // Collect hero photos
   let imgList = [];
   if (Array.isArray(heroData.images) && heroData.images.length > 0) {
     imgList = heroData.images.filter(Boolean);
@@ -2376,13 +2389,10 @@ function applyHeroWriteup() {
   const slidesWrap = document.getElementById('heroSlidesWrap') || document.querySelector('.hero-slides-wrap');
   if (slidesWrap) {
     const existingSlides = Array.from(slidesWrap.querySelectorAll('.hero-bg-slide'));
-    const existingSrcs = existingSlides.map(s => s.getAttribute('src'));
-    const isMatching = existingSrcs.length === currentHeroImages.length && existingSrcs.every((src, i) => src === currentHeroImages[i]);
-
-    if (!isMatching) {
+    if (existingSlides.length !== currentHeroImages.length) {
       currentHeroIndex = 0;
       slidesWrap.innerHTML = currentHeroImages.map((src, idx) => `
-        <img src="${src}" alt="Young Apostles FC Photo ${idx + 1}" class="hero-bg-slide ${idx === 0 ? 'active' : ''}" ${idx === 0 ? 'id="heroBgImage"' : ''} style="object-fit:cover; object-position:center 12% !important;">
+        <img src="${src}" alt="Young Apostles FC Photo ${idx + 1}" class="hero-bg-slide ${idx === 0 ? 'active' : ''}" ${idx === 0 ? 'id="heroBgImage"' : ''} style="opacity:${idx === 0 ? '1' : '0'}; z-index:${idx === 0 ? '2' : '1'}; object-fit:cover; object-position:center 12% !important;">
       `).join('');
     }
   }
@@ -2395,7 +2405,7 @@ function applyHeroWriteup() {
       const existingDots = dotsContainer.querySelectorAll('.hero-slide-dot');
       if (existingDots.length !== currentHeroImages.length) {
         dotsContainer.innerHTML = currentHeroImages.map((_, idx) => `
-          <button type="button" class="hero-slide-dot ${idx === currentHeroIndex ? 'active' : ''}" onclick="goToHeroSlide(${idx}); startHeroSlideshow();" aria-label="Photo ${idx + 1}"></button>
+          <button type="button" class="hero-slide-dot ${idx === currentHeroIndex ? 'active' : ''}" onclick="goToHeroSlide(${idx}); resetHeroSlideshowTimer();" aria-label="Photo ${idx + 1}"></button>
         `).join('');
       } else {
         updateHeroDots();
@@ -2425,32 +2435,6 @@ function applyHeroWriteup() {
         if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth' });
       }
     };
-  }
-}
-
-function updateVipPassVisibility() {
-  let profile = {};
-  try { profile = JSON.parse(localStorage.getItem('ya_user_profile') || '{}'); } catch(e) {}
-
-  // The VIP pass button should be present ONLY after paying
-  const isPaid = Boolean(
-    profile.hasPaid === true ||
-    profile.paymentStatus === 'paid' ||
-    profile.moolreTxId ||
-    profile.momoTxId ||
-    profile.paidRef
-  );
-
-  const vipBtn = document.getElementById('mobileVipPassBtn');
-  if (vipBtn) {
-    if (isPaid) {
-      vipBtn.style.display = 'inline-flex';
-      vipBtn.classList.add('is-active-paid');
-      vipBtn.title = `${profile.tier || 'VIP'} Member Pass Active`;
-    } else {
-      vipBtn.style.display = 'none';
-      vipBtn.classList.remove('is-active-paid');
-    }
   }
 }
 
