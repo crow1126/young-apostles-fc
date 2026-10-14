@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -2140,6 +2140,9 @@ function getBlogs() {
     const raw = localStorage.getItem(DEFAULT_KEY);
     if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) return p; }
   } catch(e) {}
+  if (window.remoteCms && Array.isArray(window.remoteCms.blogs) && window.remoteCms.blogs.length) {
+    return window.remoteCms.blogs;
+  }
   return [];
 }
 function saveBlogs(arr) {

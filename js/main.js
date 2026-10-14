@@ -1392,99 +1392,112 @@ const UNIFIED_BLOGS_KEY = "ya_club_unified_blogs";
 
 const DEFAULT_UNIFIED_BLOGS = [
   {
-    id: 'young-apostles-edge-aduana-bono-derby',
-    title: "Young Apostles Edge Aduana in Bono Derby",
-    category: "MATCH REPORT",
-    badgeClass: "news-badge-pill--match",
-    date: "Oct 11, 2026",
-    source: "Apostles Media Dispatch",
-    author: "Young Apostles FC",
-    image: "assets/md2-prempeh-win.jpg",
-    excerpt: "Young Apostles claimed a hard-fought 1-0 victory over Aduana FC in an exciting Bono Derby encounter, with Samuel Prempeh's penalty proving decisive in a crucial Ghana Premier League clash.",
-    content: `<p>Young Apostles claimed a hard-fought 1-0 victory over Aduana FC in an exciting Bono Derby encounter, with Samuel Prempeh's penalty proving decisive in a crucial Ghana Premier League clash.</p><p>Prempeh stepped up to convert from the spot in the 46th minute of the first half, securing all three points for Young Apostles and taking his goal tally to three for the season.</p><p>Head coach Abdul Abu-Hanan hailed the victory as a significant moment for his side, expressing confidence that the result could serve as a turning point for his players as they look to build momentum in the league.</p><p>Meanwhile, Samuel Adamu emerged as another standout performer, earning the Man of the Match award for the second time this season. Adamu praised his teammates for their impressive performance, insisting that the team was well prepared for the victory.</p><p>He added that winning the individual accolade would further motivate him to work harder and continue delivering strong performances for the club.</p><p>With this important victory, Young Apostles will hope to build on the momentum and carry their renewed confidence into their upcoming fixtures.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;"><p style="font-weight:800;color:#001489;font-size:1.1rem;margin:0 0 0.25rem;">FULL TIME: Young Apostles FC 1-0 Aduana Stars</p><p style="margin:0;color:#64748B;">⚽ Scorer: Samuel Prempeh (46' pen) &bull; Man of the Match: Samuel Adamu</p></div>`,
-    readTime: "3 min read"
+    "id": "young-apostles-edge-aduana-bono-derby",
+    "title": "Young Apostles Edge Aduana in Bono Derby",
+    "category": "MATCH REPORT",
+    "badgeClass": "news-badge-pill--match",
+    "date": "Oct 11, 2026",
+    "source": "Apostles Media Dispatch",
+    "author": "Young Apostles FC",
+    "image": "assets/md6-aduana-win.jpg",
+    "excerpt": "Young Apostles claimed a hard-fought 1-0 victory over Aduana FC in an exciting Bono Derby encounter, with Samuel Prempeh's penalty proving decisive in a crucial Ghana Premier League clash.",
+    "content": "<p>Young Apostles claimed a hard-fought 1-0 victory over Aduana FC in an exciting Bono Derby encounter, with Samuel Prempeh’s penalty proving decisive in a crucial Ghana Premier League clash.</p><p>Prempeh stepped up to convert from the spot in the 46th minute of the first half, securing all three points for Young Apostles and taking his goal tally to three for the season.</p><p>Head coach Abdul Abu-Hanan hailed the victory as a significant moment for his side, expressing confidence that the result could serve as a turning point for his players as they look to build momentum in the league.</p><p>Meanwhile, Samuel Adamu emerged as another standout performer, earning the Man of the Match award for the second time this season. Adamu praised his teammates for their impressive performance, insisting that the team was well prepared for the victory.</p><p>He added that winning the individual accolade would further motivate him to work harder and continue delivering strong performances for the club.</p><p>With this important victory, Young Apostles will hope to build on the momentum and carry their renewed confidence into their upcoming fixtures.</p><div style=\"margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;\"><p style=\"font-weight:800;color:#001489;font-size:1.1rem;margin:0 0 0.25rem;\">FULL TIME: Young Apostles FC 1-0 Aduana Stars</p><p style=\"margin:0 0 0.5rem 0;color:#64748B;\">⚽ Scorer: Samuel Prempeh (46' pen) &bull; 🏆 Man of the Match: Samuel Adamu</p><p style=\"margin:0;color:#0057B8;font-weight:700;\">Up Next: Asante Kotoko vs Young Apostles</p></div>",
+    "readTime": "3 min read"
   },
   {
-    id: 'young-apostles-second-home-test-lions',
-    title: "Young Apostles Set for Second Home Test Against Hearts of Lions",
-    category: "CLUB NEWS",
-    badgeClass: "news-badge-pill--preview",
-    date: "Sep 26, 2026",
-    source: "Apostles Media Dispatch",
-    author: "Young Apostles FC",
-    image: "assets/md2-holy-stars-preview.jpg",
-    excerpt: "Young Apostles FC return to the Nana Abrefa VII Stadium in Wenchi on Sunday as they host Hearts of Lions in their second home game of the 2026/27 Ghana Premier League season.",
-    content: `<p>Young Apostles FC return to the Nana Abrefa VII Stadium in Wenchi on Sunday as they host Hearts of Lions in their second home game of the 2026/27 Ghana Premier League season.</p><p>The Apostles head into Matchday 4 with three points from their opening three matches, having recorded one win and two defeats.</p><p>Young Apostles opened their campaign with a 3-0 defeat away to Vision FC before responding with a 1-0 victory over Basake Holy Stars in their first home game of the season.</p><p>They were, however, beaten 2-1 by Debibi United in their most recent outing and will be determined to return to winning ways in front of their home supporters.</p><p>Hearts of Lions are also searching for their first victory of the campaign. The Kpando-based side began the season with a goalless draw against Aduana FC before suffering a 2-1 away defeat to Asante Kotoko. They were held to another draw, this time 1-1, by Swedru All Blacks in their third match.</p><h4>Apostles Hold Recent Home Advantage</h4><p>Young Apostles have enjoyed a strong record against Hearts of Lions at the Nana Abrefa VII Stadium in recent meetings, winning both of the last two visits.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;"><blockquote style="font-style:italic;font-size:1.05rem;color:#001489;margin:0 0 0.5rem 0;">"We can't afford to drop points at home. We have to go all out and fight for all three points against Hearts of Lions."</blockquote><cite style="font-weight:700;color:#C9943A;font-size:0.85rem;">&mdash; Assistant Coach Abubakar Fuseini</cite></div><p><strong>DATE: Sunday, September 27, 2026 &bull; Kick Off: 3:00 PM &bull; Nana Abrefa VII Stadium, Wenchi</strong></p>`,
-    readTime: "3 min read"
+    "id": "young-apostles-face-samartex-test-away-md5",
+    "title": "Young Apostles Face Samartex Test Away in Matchday Five",
+    "category": "MATCH PREVIEW",
+    "badgeClass": "news-badge-pill--preview",
+    "date": "Oct 4, 2026",
+    "source": "Apostles Media Dispatch",
+    "author": "Young Apostles FC",
+    "image": "assets/md5-samartex-preview.jpg",
+    "excerpt": "Young Apostles FC will return to Ghana Premier League action on Sunday, October 4, when they travel to the Nsenkyire Sports Arena to face FC Samartex 1996 in Matchday Five.",
+    "content": "<p>Young Apostles FC will return to Ghana Premier League action on Sunday, October 4, when they travel to the Nsenkyire Sports Arena to face FC Samartex 1996 in Matchday Five.</p><p>The Apostles head into the fixture looking to respond after a difficult opening four matches, having recorded one victory and three defeats so far. Their only win came at home against Basake Holy Stars, while defeats against Vision FC, Debibi United and Hearts of Lions have left the team with three points from four games.</p><p>The latest setback came on Matchday Four, when Young Apostles suffered a 2–1 home defeat to Hearts of Lions. The team will now be looking to turn their fortunes around on the road and return to winning ways.</p><p>Samartex, meanwhile, have made an unbeaten start to the campaign, with two wins and two draws from their opening four matches. They currently have eight points and most recently drew 1–1 with Asante Kotoko at the Nsenkyire Sports Arena.</p><p>Sunday’s encounter therefore presents another demanding test for the Apostles, but the previous meetings between the two clubs provide an interesting backdrop.</p><h4>Head-to-Head Record</h4><p>Young Apostles and Samartex have met four times in their recent Ghana Premier League history, with both sides recording two victories and one draw?</p><p>Actually, the four results shown in the supplied head-to-head record are:</p><div style=\"margin:1rem 0;padding:1rem;background:rgba(0,0,0,0.03);border-radius:8px;\"><p style=\"margin:0 0 0.35rem;font-weight:600;\">&bull; 24 May 2026: Young Apostles 2–0 Samartex</p><p style=\"margin:0 0 0.35rem;font-weight:600;\">&bull; 4 January 2026: Samartex 2–0 Young Apostles</p><p style=\"margin:0 0 0.35rem;font-weight:600;\">&bull; 2025: Young Apostles 1–1 Samartex</p><p style=\"margin:0;font-weight:600;\">&bull; 2024: Samartex 0–1 Young Apostles</p></div><p>That gives Young Apostles two wins, one draw and one defeat across those four meetings, with five goals scored and three conceded. The most recent meeting ended in a 2–0 victory for Young Apostles.</p><p>With the points at stake and both teams looking to make progress in the early stages of the campaign, the Apostles will aim to produce a strong away performance and return from Samreboi with a positive result.</p><div style=\"margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;\"><p style=\"font-weight:800;color:#001489;font-size:1.05rem;margin:0 0 0.25rem;\">FC Samartex 1996 vs Young Apostles FC</p><p style=\"margin:0;color:#64748B;\">📅 Sunday, October 4, 2026 &bull; ⏰ 3:00 PM &bull; 📍 Nsenkyire Sports Arena, Samreboi</p></div>",
+    "readTime": "3 min read"
   },
   {
-    id: 'debibi-united-derby',
-    title: "Young Apostles Face Debibi United in First Regional Derby of GPL Season",
-    category: "MATCH PREVIEW",
-    badgeClass: "news-badge-pill--preview",
-    date: "Sep 16, 2026",
-    source: "Apostles Media Dispatch",
-    author: "Young Apostles FC",
-    image: "assets/md3-debibi-derby.jpg",
-    excerpt: "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season.",
-    content: `<p>Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League.</p><p>The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season, with both sides set for another chapter in a growing local rivalry.</p><p>Young Apostles head into the contest with momentum after securing their first league victory of the campaign, a 1-0 home win over Basake Holy Stars, courtesy of an early Samuel Prempeh strike.</p><h4>Apostles Hold the Head-to-Head Advantage</h4><p>The two clubs have met five times in all competitions, with Young Apostles holding the better record. The Apostles have recorded three wins, one draw and one defeat, scoring six goals and conceding four.</p><h4>A Strong Record at Derby Presby Park</h4><p>Young Apostles have enjoyed success at Debibi Presby Park in their previous competitive meetings. The Apostles became the first club to defeat Debibi United at their home ground, winning 1-0 in a Division One League encounter.</p><p><strong>The first regional derby of the season awaits. Debibi United FC vs Young Apostles FC &bull; GPL MD3 &bull; Derby Presby Park &bull; Sun 20th Sep &bull; 3:00PM</strong></p>`,
-    readTime: "4 min read"
+    "id": "young-apostles-second-home-test-lions",
+    "title": "Young Apostles Set for Second Home Test Against Hearts of Lions",
+    "category": "CLUB NEWS",
+    "badgeClass": "news-badge-pill--preview",
+    "date": "Sep 26, 2026",
+    "source": "Apostles Media Dispatch",
+    "author": "Young Apostles FC",
+    "image": "assets/md2-holy-stars-preview.jpg",
+    "excerpt": "Young Apostles FC return to the Nana Abrefa VII Stadium in Wenchi on Sunday as they host Hearts of Lions in their second home game of the 2026/27 Ghana Premier League season.",
+    "content": "<p>Young Apostles FC return to the Nana Abrefa VII Stadium in Wenchi on Sunday as they host Hearts of Lions in their second home game of the 2026/27 Ghana Premier League season.</p><p>The Apostles head into Matchday 4 with three points from their opening three matches, having recorded one win and two defeats.</p><p>Young Apostles opened their campaign with a 3-0 defeat away to Vision FC before responding with a 1-0 victory over Basake Holy Stars in their first home game of the season.</p><p>They were, however, beaten 2-1 by Debibi United in their most recent outing and will be determined to return to winning ways in front of their home supporters.</p><p>Hearts of Lions are also searching for their first victory of the campaign. The Kpando-based side began the season with a goalless draw against Aduana FC before suffering a 2-1 away defeat to Asante Kotoko. They were held to another draw, this time 1-1, by Swedru All Blacks in their third match.</p><h4>Apostles Hold Recent Home Advantage</h4><p>Young Apostles have enjoyed a strong record against Hearts of Lions at the Nana Abrefa VII Stadium in recent meetings, winning both of the last two visits.</p><div style=\"margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;\"><blockquote style=\"font-style:italic;font-size:1.05rem;color:#001489;margin:0 0 0.5rem 0;\">\"We can't afford to drop points at home. We have to go all out and fight for all three points against Hearts of Lions.\"</blockquote><cite style=\"font-weight:700;color:#C9943A;font-size:0.85rem;\">&mdash; Assistant Coach Abubakar Fuseini</cite></div><p><strong>DATE: Sunday, September 27, 2026 &bull; Kick Off: 3:00 PM &bull; Nana Abrefa VII Stadium, Wenchi</strong></p>",
+    "readTime": "3 min read"
   },
   {
-    id: 'samuel-prempeh-player-of-the-month',
-    title: "Samuel Prempeh Wins AJ Construction & Building Player of the Month",
-    category: "CLUB AWARD",
-    badgeClass: "news-badge-pill--club",
-    date: "Oct 12, 2026",
-    source: "Apostles Media Dispatch",
-    author: "Young Apostles FC",
-    image: "assets/prempeh-potm-award.jpg",
-    images: [
+    "id": "debibi-united-derby",
+    "title": "Young Apostles Face Debibi United in First Regional Derby of GPL Season",
+    "category": "MATCH PREVIEW",
+    "badgeClass": "news-badge-pill--preview",
+    "date": "Sep 16, 2026",
+    "source": "Apostles Media Dispatch",
+    "author": "Young Apostles FC",
+    "image": "assets/md3-debibi-derby.jpg",
+    "excerpt": "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season.",
+    "content": "<p>Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League.</p><p>The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season, with both sides set for another chapter in a growing local rivalry.</p><p>Young Apostles head into the contest with momentum after securing their first league victory of the campaign, a 1-0 home win over Basake Holy Stars, courtesy of an early Samuel Prempeh strike.</p><h4>Apostles Hold the Head-to-Head Advantage</h4><p>The two clubs have met five times in all competitions, with Young Apostles holding the better record. The Apostles have recorded three wins, one draw and one defeat, scoring six goals and conceding four.</p><h4>A Strong Record at Derby Presby Park</h4><p>Young Apostles have enjoyed success at Debibi Presby Park in their previous competitive meetings. The Apostles became the first club to defeat Debibi United at their home ground, winning 1-0 in a Division One League encounter.</p><p><strong>The first regional derby of the season awaits. Debibi United FC vs Young Apostles FC &bull; GPL MD3 &bull; Derby Presby Park &bull; Sun 20th Sep &bull; 3:00PM</strong></p>",
+    "readTime": "4 min read"
+  },
+  {
+    "id": "samuel-prempeh-player-of-the-month",
+    "title": "Samuel Prempeh Wins AJ Construction & Building Player of the Month",
+    "category": "CLUB AWARD",
+    "badgeClass": "news-badge-pill--club",
+    "date": "Oct 12, 2026",
+    "source": "Apostles Media Dispatch",
+    "author": "Young Apostles FC",
+    "image": "assets/prempeh-potm-award.jpg",
+    "images": [
       "assets/prempeh-potm-award.jpg",
       "assets/prempeh-potm-boots.jpg"
     ],
-    excerpt: "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month following his impressive performances in the Ghana Premier League, having scored all three goals for the Apostles after Matchday Six.",
-    content: `<p>Young Apostles FC striker <strong>Samuel Prempeh</strong> has been named the club's <strong>AJ Construction & Building Player of the Month</strong> following his impressive performances in the Ghana Premier League.</p><p>Prempeh has scored all three of Young Apostles' goals after Matchday Six of the 2026/27 Ghana Premier League season, underlining his importance to the team's attacking efforts.</p><p>He emerged as the winner ahead of fellow nominees <strong>Samuel Adamu</strong> and <strong>John Afram Attah Jnr</strong> to claim the monthly award in recognition of his contribution to the club.</p><h4>Player of the Month Prize Package</h4><p>As part of his prize, Prempeh received an exclusive collection of official club gear:</p><ul><li>Customised Young Apostles FC team bag</li><li>Adidas Predator football boots</li><li>Customised shin guards</li><li>Official match socks and football hose</li></ul><div class="news-quote-box" style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;"><blockquote style="font-style:italic;font-size:1.05rem;color:#001489;margin:0 0 0.5rem 0;">"This recognition will serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season."</blockquote><cite style="font-weight:700;color:#C9943A;font-size:0.85rem;">&mdash; Samuel Prempeh, Striker</cite></div><p>Speaking after receiving the award, the striker expressed his determination to maintain his form and continue delivering for the club. He noted that the recognition would serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.</p><p>Prempeh's achievement highlights his growing influence within the team as Young Apostles continue their campaign in the Ghana Premier League.</p><p>The club congratulates Samuel Prempeh on winning the award and looks forward to more goals and outstanding performances from the striker.</p><div class="article-gallery-grid" style="margin:1.75rem 0;display:grid;grid-template-columns:1fr 1fr;gap:1rem;"><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Receiving Player of the Month Award" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">🏆 Samuel Prempeh on pitch with award</div></div><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-boots.jpg" alt="Customized Bag, Predator Boots, and Shin Guards" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">⚽ Custom Bag, Predator Boots &amp; Shin Guards</div></div></div>`,
-    readTime: "3 min read"
+    "excerpt": "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month following his impressive performances in the Ghana Premier League, having scored all three goals for the Apostles after Matchday Six.",
+    "content": "<p>Young Apostles FC striker <strong>Samuel Prempeh</strong> has been named the club's <strong>AJ Construction & Building Player of the Month</strong> following his impressive performances in the Ghana Premier League.</p><p>Prempeh has scored all three of Young Apostles' goals after Matchday Six of the 2026/27 Ghana Premier League season, underlining his importance to the team's attacking efforts.</p><p>He emerged as the winner ahead of fellow nominees <strong>Samuel Adamu</strong> and <strong>John Afram Attah Jnr</strong> to claim the monthly award in recognition of his contribution to the club.</p><h4>Player of the Month Prize Package</h4><p>As part of his prize, Prempeh received an exclusive collection of official club gear:</p><ul><li>Customised Young Apostles FC team bag</li><li>Adidas Predator football boots</li><li>Customised shin guards</li><li>Official match socks and football hose</li></ul><div class=\"news-quote-box\" style=\"margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;\"><blockquote style=\"font-style:italic;font-size:1.05rem;color:#001489;margin:0 0 0.5rem 0;\">\"This recognition will serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.\"</blockquote><cite style=\"font-weight:700;color:#C9943A;font-size:0.85rem;\">&mdash; Samuel Prempeh, Striker</cite></div><p>Speaking after receiving the award, the striker expressed his determination to maintain his form and continue delivering for the club. He noted that the recognition would serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.</p><p>Prempeh's achievement highlights his growing influence within the team as Young Apostles continue their campaign in the Ghana Premier League.</p><p>The club congratulates Samuel Prempeh on winning the award and looks forward to more goals and outstanding performances from the striker.</p><div class=\"article-gallery-grid\" style=\"margin:1.75rem 0;display:grid;grid-template-columns:1fr 1fr;gap:1rem;\"><div style=\"border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;\"><img src=\"assets/prempeh-potm-award.jpg\" alt=\"Samuel Prempeh Receiving Player of the Month Award\" style=\"width:100%;height:260px;object-fit:cover;display:block;\"><div style=\"padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;\">🏆 Samuel Prempeh on pitch with award</div></div><div style=\"border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;\"><img src=\"assets/prempeh-potm-boots.jpg\" alt=\"Customized Bag, Predator Boots, and Shin Guards\" style=\"width:100%;height:260px;object-fit:cover;display:block;\"><div style=\"padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;\">⚽ Custom Bag, Predator Boots &amp; Shin Guards</div></div></div>",
+    "readTime": "3 min read"
   },
   {
-    id: 'prempeh-winner-holy-stars',
-    title: "Samuel Prempeh Strike Earns Young Apostles First Win of the Season",
-    category: "MATCH REPORT",
-    badgeClass: "news-badge-pill--match",
-    date: "Sep 13, 2026",
-    source: "Apostles Media Dispatch",
-    author: "Young Apostles FC",
-    image: "assets/md2-prempeh-win.jpg",
-    excerpt: "Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi. Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead.",
-    content: `<p>Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi.</p><p>Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead and set the tone for a determined home performance.</p><p>Having suffered a 3-0 defeat to Vision FC on Matchday 1, Young Apostles responded with a disciplined display to claim all three points in their first home league game of the campaign.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;"><p style="font-weight:800;color:#001489;font-size:1.1rem;margin:0 0 0.25rem;">FULL TIME: Young Apostles FC 1-0 Basake Holy Stars</p><p style="margin:0;color:#64748B;">⚽ Scorer: Samuel Prempeh</p></div>`,
-    readTime: "3 min read"
+    "id": "prempeh-winner-holy-stars",
+    "title": "Samuel Prempeh Strike Earns Young Apostles First Win of the Season",
+    "category": "MATCH REPORT",
+    "badgeClass": "news-badge-pill--match",
+    "date": "Sep 13, 2026",
+    "source": "Apostles Media Dispatch",
+    "author": "Young Apostles FC",
+    "image": "assets/md2-prempeh-win.jpg",
+    "excerpt": "Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi. Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead.",
+    "content": "<p>Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi.</p><p>Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead and set the tone for a determined home performance.</p><p>Having suffered a 3-0 defeat to Vision FC on Matchday 1, Young Apostles responded with a disciplined display to claim all three points in their first home league game of the campaign.</p><div style=\"margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;\"><p style=\"font-weight:800;color:#001489;font-size:1.1rem;margin:0 0 0.25rem;\">FULL TIME: Young Apostles FC 1-0 Basake Holy Stars</p><p style=\"margin:0;color:#64748B;\">⚽ Scorer: Samuel Prempeh</p></div>",
+    "readTime": "3 min read"
   },
   {
-    id: 'holy-stars-matchday2-preview',
-    title: "Young Apostles Set for Basake Holy Stars Test in Wenchi",
-    category: "MATCH PREVIEW",
-    badgeClass: "news-badge-pill--preview",
-    date: "Sep 11, 2026",
-    source: "Apostles Media Dispatch",
-    author: "Young Apostles FC",
-    image: "assets/md2-holy-stars-preview.jpg",
-    excerpt: "Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.",
-    content: `<p>Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.</p><p>The Apostles will be looking to bounce back from their opening-day defeat to Vision FC, where they suffered a 3-0 loss in Tema.</p><p><strong>Young Apostles FC vs Basake Holy Stars &bull; Sun 12th Sep &bull; 3:00PM &bull; Wenchi Sports Stadium</strong></p>`,
-    readTime: "3 min read"
+    "id": "holy-stars-matchday2-preview",
+    "title": "Young Apostles Set for Basake Holy Stars Test in Wenchi",
+    "category": "MATCH PREVIEW",
+    "badgeClass": "news-badge-pill--preview",
+    "date": "Sep 11, 2026",
+    "source": "Apostles Media Dispatch",
+    "author": "Young Apostles FC",
+    "image": "assets/md2-holy-stars-preview.jpg",
+    "excerpt": "Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.",
+    "content": "<p>Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.</p><p>The Apostles will be looking to bounce back from their opening-day defeat to Vision FC, where they suffered a 3-0 loss in Tema.</p><p><strong>Young Apostles FC vs Basake Holy Stars &bull; Sun 12th Sep &bull; 3:00PM &bull; Wenchi Sports Stadium</strong></p>",
+    "readTime": "3 min read"
   },
   {
-    id: 'gpl-opener-vision-fc',
-    title: "Young Apostles Fall to 3-0 Defeat Against Vision FC in GPL Opener",
-    category: "MATCH REPORT",
-    badgeClass: "news-badge-pill--match",
-    date: "Sep 6, 2026",
-    source: "GPL MD 1",
-    author: "Young Apostles FC",
-    image: "assets/md1-vision-loss.jpg",
-    excerpt: "Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.",
-    content: `<p>Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(220,38,38,0.05);border-left:4px solid #dc2626;border-radius:0 8px 8px 0;"><p style="font-weight:800;color:#dc2626;font-size:1.05rem;margin:0 0 0.25rem;">FULL TIME: Vision FC 3-0 Young Apostles FC</p><p style="margin:0;color:#64748B;font-size:0.9rem;">⚽ Naziru (5') &bull; Aqetey (40', 68')</p></div>`,
-    readTime: "3 min read"
+    "id": "gpl-opener-vision-fc",
+    "title": "Young Apostles Fall to 3-0 Defeat Against Vision FC in GPL Opener",
+    "category": "MATCH REPORT",
+    "badgeClass": "news-badge-pill--match",
+    "date": "Sep 6, 2026",
+    "source": "GPL MD 1",
+    "author": "Young Apostles FC",
+    "image": "assets/md1-vision-loss.jpg",
+    "excerpt": "Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.",
+    "content": "<p>Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.</p><div style=\"margin:1.5rem 0;padding:1.25rem;background:rgba(220,38,38,0.05);border-left:4px solid #dc2626;border-radius:0 8px 8px 0;\"><p style=\"font-weight:800;color:#dc2626;font-size:1.05rem;margin:0 0 0.25rem;\">FULL TIME: Vision FC 3-0 Young Apostles FC</p><p style=\"margin:0;color:#64748B;font-size:0.9rem;\">⚽ Naziru (5') &bull; Aqetey (40', 68')</p></div>",
+    "readTime": "3 min read"
   }
 ];
 
@@ -2421,7 +2434,8 @@ function applyHeroWriteup() {
   const slidesWrap = document.getElementById('heroSlidesWrap') || document.querySelector('.hero-slides-wrap');
   if (slidesWrap) {
     const existingSlides = Array.from(slidesWrap.querySelectorAll('.hero-bg-slide'));
-    if (existingSlides.length !== currentHeroImages.length) {
+    const needsUpdate = existingSlides.length !== currentHeroImages.length || existingSlides.some((img, i) => !img.src.includes(currentHeroImages[i]) && img.src !== currentHeroImages[i]);
+    if (needsUpdate) {
       currentHeroIndex = 0;
       slidesWrap.innerHTML = currentHeroImages.map((src, idx) => `
         <img src="${src}" alt="Young Apostles FC Photo ${idx + 1}" class="hero-bg-slide ${idx === 0 ? 'active' : ''}" ${idx === 0 ? 'id="heroBgImage"' : ''} style="opacity:${idx === 0 ? '1' : '0'}; z-index:${idx === 0 ? '2' : '1'}; object-fit:cover; object-position:center 12% !important;">
