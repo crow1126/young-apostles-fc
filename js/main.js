@@ -1,4 +1,4 @@
-/**
+﻿/**
  * YOUNG APOSTLES FOOTBALL CLUB Ã¢â‚¬" OFFICIAL JAVASCRIPT
  * Dribbble Premier UI/UX Design System
  * 38-Player Squad, Team Shop, Cart System, GPL 2026/27 Fixtures, Rankings & Highlights
@@ -1488,16 +1488,25 @@ const DEFAULT_UNIFIED_BLOGS = [
   }
 ];
 
-const CMS_CONTENT_VERSION = "2026-10-12-potm-v2";
+function getRelativeTime(dateStr) {
+  if (!dateStr) return null;
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return null;
+    const diff = Date.now() - d.getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins} min${mins > 1 ? 's' : ''} ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs} hour${hrs > 1 ? 's' : ''} ago`;
+    const days = Math.floor(hrs / 24);
+    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+    return null; // fall back to static date string
+  } catch(e) { return null; }
+}
 
 function getUnifiedBlogs() {
   try {
-    if (localStorage.getItem('ya_cms_content_version') !== CMS_CONTENT_VERSION) {
-      localStorage.removeItem('ya_club_unified_blogs');
-      localStorage.removeItem('ya_unified_blogs');
-      localStorage.removeItem('ya_club_dispatches');
-      localStorage.setItem('ya_cms_content_version', CMS_CONTENT_VERSION);
-    }
     const raw = localStorage.getItem(UNIFIED_BLOGS_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
@@ -1526,7 +1535,8 @@ function renderNews() {
     const lead = blogs[0];
     const leadImg = lead.image || 'assets/md2-prempeh-win.jpg';
     const tag = (lead.category || 'MATCH REPORT').toUpperCase();
-    const dateText = lead.date || 'Oct 11, 2026';
+    const relTime = getRelativeTime(lead.postedAt);
+    const dateText = relTime || lead.date || 'Oct 11, 2026';
     const readTime = lead.readTime || '3 min read';
 
     heroContainer.innerHTML = `
@@ -1552,7 +1562,8 @@ function renderNews() {
     stackedContainer.innerHTML = stackedBlogs.map(art => {
       const artImg = art.image || 'assets/md2-holy-stars-preview.jpg';
       const tag = (art.category || 'ARTICLE').toUpperCase();
-      const dateText = art.date || 'Recent';
+      const relTime = getRelativeTime(art.postedAt);
+      const dateText = relTime || art.date || 'Recent';
       const readTime = art.readTime || '3 min read';
 
       return `
@@ -1588,7 +1599,8 @@ function renderNews() {
       bottomStrip.innerHTML = olderBlogs.map(art => {
         const artImg = art.image || 'assets/kit-home-2026.jpg';
         const tag = (art.category || 'CLUB NEWS').toUpperCase();
-        const dateText = art.date || 'Past';
+        const relTime2 = getRelativeTime(art.postedAt);
+        const dateText = relTime2 || art.date || 'Past';
 
         return `
           <div class="news-strip-item" onclick="openNewsArticle('${art.id}')">
@@ -2455,11 +2467,25 @@ async function initCloudSync() {
       const data = await res.json();
       if (!data) return;
 
-      // Sync blogs & dispatches
+      // Sync blogs - MERGE: admin-saved articles (with postedAt) take priority; cms.json fills in defaults
       if (Array.isArray(data.blogs) && data.blogs.length > 0) {
-        localStorage.setItem('ya_unified_blogs', JSON.stringify(data.blogs));
-        localStorage.setItem('ya_club_unified_blogs', JSON.stringify(data.blogs));
-        localStorage.setItem('ya_club_dispatches', JSON.stringify(data.blogs));
+        let merged = [];
+        try {
+          const existingRaw = localStorage.getItem('ya_club_unified_blogs');
+          const existing = existingRaw ? JSON.parse(existingRaw) : [];
+          const adminArticles = Array.isArray(existing) ? existing.filter(a => a.postedAt) : [];
+          const adminIds = new Set(adminArticles.map(a => a.id));
+          const serverArticles = data.blogs.filter(a => !adminIds.has(a.id));
+          merged = [...adminArticles, ...serverArticles];
+          merged.sort((a, b) => {
+            const da = a.postedAt ? new Date(a.postedAt) : new Date(a.date || 0);
+            const db = b.postedAt ? new Date(b.postedAt) : new Date(b.date || 0);
+            return db - da;
+          });
+        } catch(e) { merged = data.blogs; }
+        localStorage.setItem('ya_unified_blogs', JSON.stringify(merged));
+        localStorage.setItem('ya_club_unified_blogs', JSON.stringify(merged));
+        localStorage.setItem('ya_club_dispatches', JSON.stringify(merged));
         renderNews();
         renderDispatches();
       }

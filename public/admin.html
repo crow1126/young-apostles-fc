@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -2670,7 +2670,8 @@ function saveNewsArticle() {
     excerpt: document.getElementById('nExcerpt').value.trim(),
     content: document.getElementById('nContent').value.trim(),
     source: 'Apostles Media Dispatch', readTime: '3 min read',
-    badgeClass: document.getElementById('nCategory').value.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--preview'
+    badgeClass: document.getElementById('nCategory').value.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--preview',
+    postedAt: new Date().toISOString()
   };
   const existing = blogs.findIndex(b => b.id === id);
   if (existing >= 0) { blogs[existing] = article; } else { blogs.unshift(article); }
