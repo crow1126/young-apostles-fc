@@ -1521,6 +1521,20 @@ function getNewsArticles() {
   return getUnifiedBlogs();
 }
 
+function getHeroExclusiveId() {
+  // Returns the article ID that is exclusively featured in the hero section
+  // so it can be filtered out of the news grid (no duplication)
+  try {
+    const raw = localStorage.getItem('ya_hero_custom');
+    if (raw) {
+      const h = JSON.parse(raw);
+      if (h && h.exclusiveArticleId) return h.exclusiveArticleId;
+    }
+  } catch(e) {}
+  // Default: the POTM article is hardcoded as hero-exclusive
+  return 'samuel-prempeh-player-of-the-month';
+}
+
 function renderNews() {
   const heroContainer = document.getElementById('newsHeroContainer');
   const stackedContainer = document.getElementById('newsStackedContainer');
@@ -1529,6 +1543,11 @@ function renderNews() {
 
   let blogs = getUnifiedBlogs();
   if (!blogs || blogs.length === 0) return;
+
+  // CRITICAL: Filter out the hero-exclusive article so it ONLY appears in the hero section
+  const heroExclusiveId = getHeroExclusiveId();
+  blogs = blogs.filter(b => b.id !== heroExclusiveId);
+  if (blogs.length === 0) return;
 
   // POSITION 1: Featured News Card (Left)
   if (heroContainer && blogs[0]) {
@@ -1624,8 +1643,9 @@ function renderArchiveGrid() {
   const countBadge = document.getElementById('newsArchiveCountBadge');
   if (!archiveGrid) return;
 
-  const blogs = getUnifiedBlogs();
-  const allOlder = blogs.slice(3);
+  const heroExclusiveId = getHeroExclusiveId();
+  const allBlogs = getUnifiedBlogs().filter(b => b.id !== heroExclusiveId);
+  const allOlder = allBlogs.slice(3);
 
   if (countBadge) {
     countBadge.textContent = `${allOlder.length} article${allOlder.length === 1 ? '' : 's'}`;
@@ -2364,7 +2384,8 @@ function applyHeroWriteup() {
         "assets/prempeh-potm-boots.jpg"
       ],
       ctaText: "Read Full Award Story & Gallery",
-      ctaLink: "#news"
+      ctaLink: "#news",
+      exclusiveArticleId: 'samuel-prempeh-player-of-the-month'
     };
   }
 
