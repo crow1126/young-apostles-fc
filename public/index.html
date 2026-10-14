@@ -97,7 +97,7 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=3.6">
+  <link rel="stylesheet" href="css/styles.css?v=4.0">
 
   <style id="ya-cool-modals-css">
     /* ─────────────────────────────────────────────────────
@@ -991,7 +991,8 @@
   <section class="hero-section" id="home">
     <div class="hero-bg" id="heroBgContainer">
       <div class="hero-slides-wrap" id="heroSlidesWrap">
-        <img src="assets/home-hero.jpg" alt="Young Apostles FC First Team Lineup" class="hero-bg-slide active" id="heroBgImage">
+        <img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Player of the Month Award" class="hero-bg-slide active" id="heroBgImage">
+        <img src="assets/prempeh-potm-boots.jpg" alt="Samuel Prempeh Award Gear & Boots" class="hero-bg-slide">
       </div>
       <div class="hero-overlay"></div>
     </div>
@@ -999,15 +1000,32 @@
     <div class="container hero-content">
       <div class="hero-content__inner">
         <div class="hero-left">
-          <div class="hero-slide-dots" id="heroSlideDots" style="display:none;" aria-label="Hero photo indicators"></div>
+          <div class="hero-slide-dots" id="heroSlideDots" aria-label="Hero photo indicators">
+            <button type="button" class="hero-slide-dot active" onclick="goToHeroSlide(0); startHeroSlideshow();" aria-label="Photo 1"></button>
+            <button type="button" class="hero-slide-dot" onclick="goToHeroSlide(1); startHeroSlideshow();" aria-label="Photo 2"></button>
+          </div>
           <h1 class="hero-headline" id="heroHeadlineDisplay">
-            Young Apostles FC: Fighting for Glory in Ghana's Premier League
+            Samuel Prempeh Wins AJ Construction &amp; Building Player of the Month
           </h1>
           <p class="hero-subtitle" id="heroSubtitleDisplay">
-            <strong>"AGYA NA ƆWƆ TUMI"</strong> &middot; Wenchi's pride takes on Ghana's top flight under Head Coach Abu Abdul-Hanan. Follow our latest fixtures, match results, and official club dispatches as we compete at the highest level.
+            Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction &amp; Building Player of the Month after scoring all 3 goals after Matchday Six of the 2026/27 Ghana Premier League season.<br><br><strong>#YAFC #AgyaNa&#390;w&#596;Tumi</strong>
           </p>
           <div class="hero-cta-row">
-            <a href="#matches" class="btn-hero-primary" id="heroCtaBtn"><i class="fa-solid fa-calendar-check"></i> View GPL Fixtures</a>
+            <a href="#news" class="btn-hero-primary" id="heroCtaBtn" onclick="if(typeof openNewsArticle==='function'){event.preventDefault();openNewsArticle('samuel-prempeh-player-of-the-month');document.getElementById('news')?.scrollIntoView({behavior:'smooth'});}"><i class="fa-solid fa-trophy"></i> Read Full Award Story &amp; Gallery</a>
+            <a href="#matches" class="btn-hero-secondary"><i class="fa-solid fa-calendar-check"></i> View GPL Fixtures</a>
+          </div>
+        </div>
+
+        <div class="hero-right-badge">
+          <div class="hero-badge-card">
+            <div class="hero-badge-glow"></div>
+            <div class="hero-badge-icon">
+              <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div class="hero-badge-meta">
+              <span class="hero-badge-sub">2026/27 CAMPAIGN</span>
+              <strong class="hero-badge-title">GHANA PREMIER LEAGUE</strong>
+            </div>
           </div>
         </div>
       </div>
@@ -1036,16 +1054,16 @@
       <div class="news-pl-grid">
         <!-- LEFT: 1 Large Featured Hero Card (Position 1 from CMS) -->
         <div class="news-pl-hero" id="newsHeroContainer">
-          <article class="news-hero-card" onclick="openNewsArticle('debibi-united-derby')">
-            <img src="assets/md3-debibi-derby.jpg" alt="Young Apostles Face Debibi United" class="news-hero-card__bg">
+          <article class="news-hero-card" onclick="openNewsArticle('young-apostles-edge-aduana-bono-derby')">
+            <img src="assets/md2-prempeh-win.jpg" alt="Young Apostles Edge Aduana in Bono Derby" class="news-hero-card__bg">
             <div class="news-hero-card__overlay"></div>
             <div class="news-hero-card__content">
-              <span class="news-tag-badge">MATCH PREVIEW</span>
-              <h3 class="news-hero-card__title">Young Apostles Face Debibi United in First Regional Derby of GPL Season</h3>
+              <span class="news-tag-badge">MATCH REPORT</span>
+              <h3 class="news-hero-card__title">Young Apostles Edge Aduana in Bono Derby</h3>
               <div class="news-hero-card__meta">
-                <span><i class="fa-regular fa-calendar"></i> Sep 16, 2026</span>
+                <span><i class="fa-regular fa-calendar"></i> Oct 11, 2026</span>
                 <span>&bull;</span>
-                <span>4 min read</span>
+                <span>3 min read</span>
               </div>
             </div>
           </article>
@@ -1054,27 +1072,27 @@
         <!-- RIGHT: 2 Stacked Secondary Cards (Positions 2 & 3 from CMS) -->
         <div class="news-pl-stacked" id="newsStackedContainer">
           <!-- Card 1 -->
-          <article class="news-stacked-card" onclick="openNewsArticle('prempeh-winner-holy-stars')">
-            <img src="assets/md2-prempeh-win.jpg" alt="Samuel Prempeh Strike Earns Young Apostles First Win" class="news-stacked-card__bg">
+          <article class="news-stacked-card" onclick="openNewsArticle('young-apostles-second-home-test-lions')">
+            <img src="assets/md2-holy-stars-preview.jpg" alt="Young Apostles Set for Second Home Test Against Hearts of Lions" class="news-stacked-card__bg">
             <div class="news-stacked-card__overlay"></div>
             <div class="news-stacked-card__content">
-              <span class="news-tag-badge">MATCH REPORT</span>
-              <h4 class="news-stacked-card__title">Samuel Prempeh Strike Earns Young Apostles First Win of the Season</h4>
+              <span class="news-tag-badge">CLUB NEWS</span>
+              <h4 class="news-stacked-card__title">Young Apostles Set for Second Home Test Against Hearts of Lions</h4>
               <div class="news-hero-card__meta" style="font-size:0.75rem;">
-                <span>Sep 13, 2026 &bull; 3 min read</span>
+                <span>Sep 26, 2026 &bull; 3 min read</span>
               </div>
             </div>
           </article>
 
           <!-- Card 2 -->
-          <article class="news-stacked-card" onclick="openNewsArticle('holy-stars-matchday2-preview')">
-            <img src="assets/md2-holy-stars-preview.jpg" alt="Young Apostles Set for Basake Holy Stars Test" class="news-stacked-card__bg">
+          <article class="news-stacked-card" onclick="openNewsArticle('debibi-united-derby')">
+            <img src="assets/md3-debibi-derby.jpg" alt="Young Apostles Face Debibi United in First Regional Derby" class="news-stacked-card__bg">
             <div class="news-stacked-card__overlay"></div>
             <div class="news-stacked-card__content">
               <span class="news-tag-badge">MATCH PREVIEW</span>
-              <h4 class="news-stacked-card__title">Young Apostles Set for Basake Holy Stars Test in Wenchi</h4>
+              <h4 class="news-stacked-card__title">Young Apostles Face Debibi United in First Regional Derby of GPL Season</h4>
               <div class="news-hero-card__meta" style="font-size:0.75rem;">
-                <span>Sep 11, 2026 &bull; 3 min read</span>
+                <span>Sep 16, 2026 &bull; 4 min read</span>
               </div>
             </div>
           </article>
@@ -1984,7 +2002,7 @@
     <span id="toastText">Action completed successfully!</span>
   </div>
 
-  <script src="js/main.js?v=3.7"></script>
+  <script src="js/main.js?v=4.0" charset="utf-8"></script>
 
   <!-- ═══ Splash Screen Controller ═══ -->
   <script>

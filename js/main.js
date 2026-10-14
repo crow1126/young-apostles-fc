@@ -1,5 +1,5 @@
 ﻿/**
- * YOUNG APOSTLES FOOTBALL CLUB Ã¢â‚¬â€ OFFICIAL JAVASCRIPT
+ * YOUNG APOSTLES FOOTBALL CLUB Ã¢â‚¬" OFFICIAL JAVASCRIPT
  * Dribbble Premier UI/UX Design System
  * 38-Player Squad, Team Shop, Cart System, GPL 2026/27 Fixtures, Rankings & Highlights
  */
@@ -87,11 +87,11 @@ const PRODUCTS_DATA = [
   },
   {
     id: 'fan-scarf',
-    name: 'Official "Agya Na Æ†wÉ” Tumi" Stadium Scarf',
+    name: 'Official "Agya Na Ɔwɔ Tumi" Stadium Scarf',
     category: 'accessories',
     image: 'assets/ya-official-scarf.jpg',
     tag: 'CLUB HERITAGE',
-    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Æ†wÉ” Tumi" in bold white lettering, radiant golden yellow and navy stripes, embroidered club shield crests on both ends, and classic gold and white fringe tassels.',
+    description: 'Premium double-knit jacquard stadium scarf featuring the club motto "Agya Na Ɔwɔ Tumi" in bold white lettering, radiant golden yellow and navy stripes, embroidered club shield crests on both ends, and classic gold and white fringe tassels.',
     customizable: false
   }
 ];
@@ -581,8 +581,8 @@ function renderFixturesModal(roundNum) {
         <span style="font-weight:700; color:var(--ya-green); font-size:0.8rem; margin-right:0.5rem;">WK ${fx.week}</span>
         <strong>${fx.home}</strong> vs <strong>${fx.away}</strong>
         <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">
-          ${fx.venue} Ã‚Â· ${fx.date}
-          ${fx.scorer ? `<span style="color:#15803d; font-weight:700; margin-left:6px;">Ã¢Å¡Â½ ${fx.scorer}</span>` : ''}
+          ${fx.venue} &bull; ${fx.date}
+          ${fx.scorer ? `<span style="color:#15803d; font-weight:700; margin-left:6px;"><i class="fa-solid fa-futbol"></i> ${fx.scorer}</span>` : ''}
         </div>
       </div>
       <span style="padding:4px 10px; border-radius:var(--radius-pill); font-size:0.75rem; font-weight:800; ${badgeColor}">
@@ -718,7 +718,7 @@ function handleDetailsSubmit(e) {
 
 function sendWaitlistWhatsApp() {
   if (!currentPendingOrder) return;
-  const itemsStr = (currentPendingOrder.items || []).map(i => `â€¢ ${i.name} (Size: ${i.size || 'L'}${i.customName ? ', Print: ' + i.customName + ' #' + i.customNum : ''}) x${i.qty}`).join('%0A');
+  const itemsStr = (currentPendingOrder.items || []).map(i => `• ${i.name} (Size: ${i.size || 'L'}${i.customName ? ', Print: ' + i.customName + ' #' + i.customNum : ''}) x${i.qty}`).join('%0A');
   const msg = `*OFFICIAL YOUNG APOSTLES FC PRE-ORDER WAITLIST*%0A%0A` +
               `*Queue No:* ${currentPendingOrder.ref}%0A` +
               `*Customer:* ${currentPendingOrder.name}%0A` +
@@ -726,7 +726,7 @@ function sendWaitlistWhatsApp() {
               `*Location:* ${currentPendingOrder.city} (${currentPendingOrder.address})%0A%0A` +
               `*Reserved Gear:*%0A${itemsStr}%0A%0A` +
               `*Total Value:* GHS ${currentPendingOrder.total.toFixed(2)} (Pay on delivery)%0A%0A` +
-              `_Agya Na Æ†wÉ” Tumi! Please confirm my waitlist allocation._`;
+              `_Agya Na Ɔwɔ Tumi! Please confirm my waitlist allocation._`;
 
   window.open(`https://wa.me/233539779380?text=${msg}`, '_blank');
 }
@@ -841,11 +841,11 @@ function sendOrderViaWhatsApp() {
 
   const order = currentPendingOrder;
   const itemsText = order.items.map(i => 
-    `â€¢ ${i.name} (Size: ${i.size}${i.customName ? `, ${i.customName} #${i.customNumber}` : ''}) x${i.qty} = GHS ${(i.price * i.qty).toFixed(2)}`
+    `• ${i.name} (Size: ${i.size}${i.customName ? `, ${i.customName} #${i.customNumber}` : ''}) x${i.qty} = GHS ${(i.price * i.qty).toFixed(2)}`
   ).join('\n');
 
   const message = 
-`âš½ *YOUNG APOSTLES FC â€” OFFICIAL STORE ORDER*
+`⚽ *YOUNG APOSTLES FC â€” OFFICIAL STORE ORDER*
 â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 ðŸ“‹ *Order Reference:* ${order.ref}
 ðŸ‘¤ *Customer Name:* ${order.name}
@@ -861,10 +861,10 @@ ${itemsText}
 ðŸ’³ *TOTAL AMOUNT:* GHS ${order.total.toFixed(2)}
 
 ðŸ“± *MOMO PAYMENT DETAILS:*
-â€¢ Paid to MoMo: *0539779380*
-â€¢ Recipient: *Gerald Damoah Domfeh* (Young Apostles FC)
-â€¢ Transaction ID: ${order.txId || document.getElementById('coTxId')?.value || 'Pending Verification'}
-â€¢ Date: ${order.date}
+• Paid to MoMo: *0539779380*
+• Recipient: *Gerald Damoah Domfeh* (Young Apostles FC)
+• Transaction ID: ${order.txId || document.getElementById('coTxId')?.value || 'Pending Verification'}
+• Date: ${order.date}
 â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 _Submitted via Official Young Apostles FC Digital Portal_`;
 
@@ -938,7 +938,7 @@ function handleMembershipPaymentSubmit(e) {
   e.preventDefault();
   const txId = (document.getElementById('memTxIdInput')?.value || '').trim();
   if (!txId) {
-    showToast('âš ï¸ Please enter your MoMo Transaction ID.');
+    showToast('⚽ ï¸ Please enter your MoMo Transaction ID.');
     return;
   }
 
@@ -992,7 +992,7 @@ function openNewsModal() {
 }
 
 function openAboutModal() {
-  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012â€“2026)');
+  showToast('Young Apostles FC Heritage & Academy Archive (Wenchi, 2012–2026)');
 }
 
 function openYouTubeLink(url) {
@@ -1072,7 +1072,7 @@ const TOURNAMENTS_DATA = {
     title: 'Ghana Premier League',
     season: '2026/2027 Season',
     teams: '18 Clubs',
-    dates: '15 August 2026 Ã¢â‚¬â€œ 25 May 2027',
+    dates: '15 August 2026 – 25 May 2027',
     targetDate: new Date(Date.now() + 48 * 24 * 60 * 60 * 1000)
   },
   facup: {
@@ -1080,7 +1080,7 @@ const TOURNAMENTS_DATA = {
     title: 'MTN FA Cup Ghana',
     season: '2026/2027 Knockout Tournament',
     teams: '64 Clubs Nationwide',
-    dates: 'October 2026 Ã¢â‚¬â€œ June 2027',
+    dates: 'October 2026 – June 2027',
     targetDate: new Date(Date.now() + 65 * 24 * 60 * 60 * 1000)
   },
   supercup: {
@@ -1096,7 +1096,7 @@ const TOURNAMENTS_DATA = {
     title: 'CAF Champions League Preliminary',
     season: '2027 Pan-African Stage',
     teams: '54 African Champions',
-    dates: 'February 2027 Ã¢â‚¬â€œ November 2027',
+    dates: 'February 2027 – November 2027',
     targetDate: new Date(Date.now() + 120 * 24 * 60 * 60 * 1000)
   }
 };
@@ -1217,7 +1217,7 @@ function renderMatches(typeFilter = 'all') {
     // Time/score center box
     const isWin = f.result === 'W';
     const isLoss = f.result === 'L';
-    const resultTag = isWin ? 'WIN â€¢ FT' : isLoss ? 'LOSS â€¢ FT' : 'DRAW â€¢ FT';
+    const resultTag = isWin ? 'WIN &bull; FT' : isLoss ? 'LOSS &bull; FT' : 'DRAW &bull; FT';
     const resultColor = isWin ? '#15803D' : isLoss ? '#B91C1C' : '#475569';
     const resultBg = isWin ? '#DCFCE7' : isLoss ? '#FEE2E2' : '#F1F5F9';
     const resultBorder = isWin ? '#86EFAC' : isLoss ? '#FCA5A5' : '#CBD5E1';
@@ -1226,7 +1226,7 @@ function renderMatches(typeFilter = 'all') {
       ? `<div class="match-score-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:${resultBg}; border:1px solid ${resultBorder}; min-width:74px;">
            <span style="font-size:0.62rem; font-weight:800; color:${resultColor}; letter-spacing:0.08em; text-transform:uppercase;">${resultTag}</span>
            <span style="font-size:1.25rem; font-weight:900; color:${resultColor}; line-height:1.2; letter-spacing:0.02em;">${f.score}</span>
-           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;">âš½ ${f.scorer}</span>` : ''}
+           ${f.scorer ? `<span style="font-size:0.62rem; color:#1F2937; margin-top:2px; font-weight:700; white-space:nowrap;"><i class="fa-solid fa-futbol" style="color:#001489; font-size:0.65rem; margin-right:3px;"></i>${f.scorer}</span>` : ''}
          </div>`
       : `<div class="match-time-pill" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px 12px; border-radius:10px; background:#F8FAFC; border:1px solid #E2E8F0; min-width:74px;">
            <span style="font-size:0.62rem; font-weight:800; color:#034694; letter-spacing:0.08em; text-transform:uppercase;">KICKOFF</span>
@@ -1317,7 +1317,7 @@ function updateCountdown() {
   if (headEl) headEl.textContent = `${isHome ? 'Home' : 'Away'} vs ${opponent}`;
   if (venEl) {
     const dateStr = nextMatch.kickoff.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
-    venEl.textContent = `${nextMatch.venue} Ã‚Â· ${dateStr} Ã‚Â· 15:00 GMT`;
+    venEl.textContent = `${nextMatch.venue} &bull; ${dateStr} &bull; 15:00 GMT`;
   }
 }
 
@@ -1348,7 +1348,7 @@ function showToast(msg) {
 
 // ==========================================
 // ==========================================
-// 14. APOSTLES TV Ã¢â‚¬â€ YOUTUBE VIDEOS SYSTEM (DYNAMIC & ADMIN CONTROLLED)
+// 14. APOSTLES TV Ã¢â‚¬" YOUTUBE VIDEOS SYSTEM (DYNAMIC & ADMIN CONTROLLED)
 // ==========================================
 const DEFAULT_APOSTLES_TV_VIDEOS = [
   {
@@ -1392,6 +1392,45 @@ const UNIFIED_BLOGS_KEY = "ya_club_unified_blogs";
 
 const DEFAULT_UNIFIED_BLOGS = [
   {
+    id: 'young-apostles-edge-aduana-bono-derby',
+    title: "Young Apostles Edge Aduana in Bono Derby",
+    category: "MATCH REPORT",
+    badgeClass: "news-badge-pill--match",
+    date: "Oct 11, 2026",
+    source: "Apostles Media Dispatch",
+    author: "Young Apostles FC",
+    image: "assets/md2-prempeh-win.jpg",
+    excerpt: "Young Apostles claimed a hard-fought 1-0 victory over Aduana FC in an exciting Bono Derby encounter, with Samuel Prempeh's penalty proving decisive in a crucial Ghana Premier League clash.",
+    content: `<p>Young Apostles claimed a hard-fought 1-0 victory over Aduana FC in an exciting Bono Derby encounter, with Samuel Prempeh's penalty proving decisive in a crucial Ghana Premier League clash.</p><p>Prempeh stepped up to convert from the spot in the 46th minute of the first half, securing all three points for Young Apostles and taking his goal tally to three for the season.</p><p>Head coach Abdul Abu-Hanan hailed the victory as a significant moment for his side, expressing confidence that the result could serve as a turning point for his players as they look to build momentum in the league.</p><p>Meanwhile, Samuel Adamu emerged as another standout performer, earning the Man of the Match award for the second time this season. Adamu praised his teammates for their impressive performance, insisting that the team was well prepared for the victory.</p><p>He added that winning the individual accolade would further motivate him to work harder and continue delivering strong performances for the club.</p><p>With this important victory, Young Apostles will hope to build on the momentum and carry their renewed confidence into their upcoming fixtures.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;"><p style="font-weight:800;color:#001489;font-size:1.1rem;margin:0 0 0.25rem;">FULL TIME: Young Apostles FC 1-0 Aduana Stars</p><p style="margin:0;color:#64748B;">⚽ Scorer: Samuel Prempeh (46' pen) &bull; Man of the Match: Samuel Adamu</p></div>`,
+    readTime: "3 min read"
+  },
+  {
+    id: 'young-apostles-second-home-test-lions',
+    title: "Young Apostles Set for Second Home Test Against Hearts of Lions",
+    category: "CLUB NEWS",
+    badgeClass: "news-badge-pill--preview",
+    date: "Sep 26, 2026",
+    source: "Apostles Media Dispatch",
+    author: "Young Apostles FC",
+    image: "assets/md2-holy-stars-preview.jpg",
+    excerpt: "Young Apostles FC return to the Nana Abrefa VII Stadium in Wenchi on Sunday as they host Hearts of Lions in their second home game of the 2026/27 Ghana Premier League season.",
+    content: `<p>Young Apostles FC return to the Nana Abrefa VII Stadium in Wenchi on Sunday as they host Hearts of Lions in their second home game of the 2026/27 Ghana Premier League season.</p><p>The Apostles head into Matchday 4 with three points from their opening three matches, having recorded one win and two defeats.</p><p>Young Apostles opened their campaign with a 3-0 defeat away to Vision FC before responding with a 1-0 victory over Basake Holy Stars in their first home game of the season.</p><p>They were, however, beaten 2-1 by Debibi United in their most recent outing and will be determined to return to winning ways in front of their home supporters.</p><p>Hearts of Lions are also searching for their first victory of the campaign. The Kpando-based side began the season with a goalless draw against Aduana FC before suffering a 2-1 away defeat to Asante Kotoko. They were held to another draw, this time 1-1, by Swedru All Blacks in their third match.</p><h4>Apostles Hold Recent Home Advantage</h4><p>Young Apostles have enjoyed a strong record against Hearts of Lions at the Nana Abrefa VII Stadium in recent meetings, winning both of the last two visits.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;"><blockquote style="font-style:italic;font-size:1.05rem;color:#001489;margin:0 0 0.5rem 0;">"We can't afford to drop points at home. We have to go all out and fight for all three points against Hearts of Lions."</blockquote><cite style="font-weight:700;color:#C9943A;font-size:0.85rem;">&mdash; Assistant Coach Abubakar Fuseini</cite></div><p><strong>DATE: Sunday, September 27, 2026 &bull; Kick Off: 3:00 PM &bull; Nana Abrefa VII Stadium, Wenchi</strong></p>`,
+    readTime: "3 min read"
+  },
+  {
+    id: 'debibi-united-derby',
+    title: "Young Apostles Face Debibi United in First Regional Derby of GPL Season",
+    category: "MATCH PREVIEW",
+    badgeClass: "news-badge-pill--preview",
+    date: "Sep 16, 2026",
+    source: "Apostles Media Dispatch",
+    author: "Young Apostles FC",
+    image: "assets/md3-debibi-derby.jpg",
+    excerpt: "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season.",
+    content: `<p>Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League.</p><p>The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season, with both sides set for another chapter in a growing local rivalry.</p><p>Young Apostles head into the contest with momentum after securing their first league victory of the campaign, a 1-0 home win over Basake Holy Stars, courtesy of an early Samuel Prempeh strike.</p><h4>Apostles Hold the Head-to-Head Advantage</h4><p>The two clubs have met five times in all competitions, with Young Apostles holding the better record. The Apostles have recorded three wins, one draw and one defeat, scoring six goals and conceding four.</p><h4>A Strong Record at Derby Presby Park</h4><p>Young Apostles have enjoyed success at Debibi Presby Park in their previous competitive meetings. The Apostles became the first club to defeat Debibi United at their home ground, winning 1-0 in a Division One League encounter.</p><p><strong>The first regional derby of the season awaits. Debibi United FC vs Young Apostles FC &bull; GPL MD3 &bull; Derby Presby Park &bull; Sun 20th Sep &bull; 3:00PM</strong></p>`,
+    readTime: "4 min read"
+  },
+  {
     id: 'samuel-prempeh-player-of-the-month',
     title: "Samuel Prempeh Wins AJ Construction & Building Player of the Month",
     category: "CLUB AWARD",
@@ -1405,22 +1444,8 @@ const DEFAULT_UNIFIED_BLOGS = [
       "assets/prempeh-potm-boots.jpg"
     ],
     excerpt: "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month following his impressive performances in the Ghana Premier League, having scored all three goals for the Apostles after Matchday Six.",
-    content: `<p>Young Apostles FC striker <strong>Samuel Prempeh</strong> has been named the clubâ€™s <strong>AJ Construction & Building Player of the Month</strong> following his impressive performances in the Ghana Premier League.</p><p>Prempeh has scored all three of Young Apostlesâ€™ goals after Matchday Six of the 2026/27 Ghana Premier League season, underlining his importance to the teamâ€™s attacking efforts.</p><p>He emerged as the winner ahead of fellow nominees <strong>Samuel Adamu</strong> and <strong>John Afram Attah Jnr</strong> to claim the monthly award in recognition of his contribution to the club.</p><h4>Player of the Month Prize Package</h4><p>As part of his prize, Prempeh received an exclusive collection of official club gear:</p><ul><li>Customised Young Apostles FC team bag</li><li>Adidas Predator football boots</li><li>Customised shin guards</li><li>Official match socks and football hose</li></ul><div class="news-quote-box"><blockquote style="font-style:italic;font-size:1.05rem;color:var(--ya-blue-deep);margin:0 0 0.5rem 0;">â€œThis recognition will serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.â€</blockquote><cite style="font-weight:700;color:var(--ya-gold-hover);font-size:0.85rem;">&mdash; Samuel Prempeh, Striker</cite></div><p>Speaking after receiving the award, the striker expressed his determination to maintain his form and continue delivering for the club. He noted that the recognition would serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.</p><p>Prempehâ€™s achievement highlights his growing influence within the team as Young Apostles continue their campaign in the Ghana Premier League.</p><p>The club congratulates Samuel Prempeh on winning the award and looks forward to more goals and outstanding performances from the striker.</p><div class="article-gallery-grid"><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Receiving Player of the Month Award" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">ðŸ† Samuel Prempeh on pitch with award</div></div><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-boots.jpg" alt="Customized Bag, Predator Boots, and Shin Guards" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">âš½ Custom Bag, Predator Boots &amp; Shin Guards</div></div></div>`,
+    content: `<p>Young Apostles FC striker <strong>Samuel Prempeh</strong> has been named the club's <strong>AJ Construction & Building Player of the Month</strong> following his impressive performances in the Ghana Premier League.</p><p>Prempeh has scored all three of Young Apostles' goals after Matchday Six of the 2026/27 Ghana Premier League season, underlining his importance to the team's attacking efforts.</p><p>He emerged as the winner ahead of fellow nominees <strong>Samuel Adamu</strong> and <strong>John Afram Attah Jnr</strong> to claim the monthly award in recognition of his contribution to the club.</p><h4>Player of the Month Prize Package</h4><p>As part of his prize, Prempeh received an exclusive collection of official club gear:</p><ul><li>Customised Young Apostles FC team bag</li><li>Adidas Predator football boots</li><li>Customised shin guards</li><li>Official match socks and football hose</li></ul><div class="news-quote-box" style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;"><blockquote style="font-style:italic;font-size:1.05rem;color:#001489;margin:0 0 0.5rem 0;">"This recognition will serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season."</blockquote><cite style="font-weight:700;color:#C9943A;font-size:0.85rem;">&mdash; Samuel Prempeh, Striker</cite></div><p>Speaking after receiving the award, the striker expressed his determination to maintain his form and continue delivering for the club. He noted that the recognition would serve as additional motivation to keep working hard and scoring goals for the Apostles throughout the season.</p><p>Prempeh's achievement highlights his growing influence within the team as Young Apostles continue their campaign in the Ghana Premier League.</p><p>The club congratulates Samuel Prempeh on winning the award and looks forward to more goals and outstanding performances from the striker.</p><div class="article-gallery-grid" style="margin:1.75rem 0;display:grid;grid-template-columns:1fr 1fr;gap:1rem;"><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Receiving Player of the Month Award" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">🏆 Samuel Prempeh on pitch with award</div></div><div style="border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);background:#0F172A;"><img src="assets/prempeh-potm-boots.jpg" alt="Customized Bag, Predator Boots, and Shin Guards" style="width:100%;height:260px;object-fit:cover;display:block;"><div style="padding:0.6rem 0.8rem;color:#F8FAFC;font-size:0.78rem;text-align:center;font-weight:600;">⚽ Custom Bag, Predator Boots &amp; Shin Guards</div></div></div>`,
     readTime: "3 min read"
-  },
-
-  {
-    id: 'debibi-united-derby',
-    title: "Young Apostles Face Debibi United in First Regional Derby of GPL Season",
-    category: "MATCH PREVIEW",
-    badgeClass: "news-badge-pill--preview",
-    date: "Sep 16, 2026",
-    source: "Apostles Media Dispatch",
-    author: "Young Apostles FC",
-    image: "assets/md3-debibi-derby.jpg",
-    excerpt: "Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League. The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season.",
-    content: `<p>Young Apostles FC will make the short trip to Derby Presby Park on Sunday for a Matchday 3 encounter against Debibi United FC in the 2026/27 Ghana Premier League.</p><p>The fixture will mark the first regional derby involving Young Apostles in the Ghana Premier League this season, with both sides set for another chapter in a growing local rivalry.</p><p>Young Apostles head into the contest with momentum after securing their first league victory of the campaign, a 1-0 home win over Basake Holy Stars, courtesy of an early Samuel Prempeh strike.</p><h4>Apostles Hold the Head-to-Head Advantage</h4><p>The two clubs have met five times in all competitions, with Young Apostles holding the better record. The Apostles have recorded three wins, one draw and one defeat, scoring six goals and conceding four. In their four previous Division One League meetings, Young Apostles have also dominated the head-to-head record, winning three and losing one.</p><h4>A Strong Record at Derby Presby Park</h4><p>Young Apostles have enjoyed success at Debibi Presby Park in their previous competitive meetings. The Apostles became the first club to defeat Debibi United at their home ground, winning 1-0 in a Division One League encounter.</p><p>With both clubs now competing in the Ghana Premier League, Sunday's meeting carries added significance. Young Apostles will be looking to build on their Matchday 2 victory and maintain their positive record against Debibi United, while the hosts will be seeking to claim the points on home soil.</p><p><strong>The first regional derby of the season awaits. Debibi United FC vs Young Apostles FC &bull; GPL MD3 &bull; Derby Presby Park &bull; Sun 20th Sep &bull; 3:00PM</strong></p>`,
-    readTime: "4 min read"
   },
   {
     id: 'prempeh-winner-holy-stars',
@@ -1432,7 +1457,7 @@ const DEFAULT_UNIFIED_BLOGS = [
     author: "Young Apostles FC",
     image: "assets/md2-prempeh-win.jpg",
     excerpt: "Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi. Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead.",
-    content: `<p>Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi.</p><p>Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead and set the tone for a determined home performance.</p><p>Having suffered a 3-0 defeat to Vision FC on Matchday 1, Young Apostles responded with a disciplined display to claim all three points in their first home league game of the campaign.</p><p>The victory also extends Young Apostles' unbeaten record against Basake Holy Stars in Wenchi. The Apostles had won the previous two meetings at home by identical 2-0 scorelines, and Prempeh's early strike ensured that Holy Stars once again left Wenchi without a victory.</p><p>The Apostles managed the game effectively after taking the lead, protecting their advantage until the final whistle to give the home supporters a winning start to the club's home league campaign.</p><p>The result moves Young Apostles onto three points after two matches.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid var(--ya-blue);border-radius:0 8px 8px 0;"><p style="font-weight:800;color:var(--ya-blue-deep);font-size:1.1rem;margin:0 0 0.25rem;">FULL TIME: Young Apostles FC 1-0 Basake Holy Stars</p><p style="margin:0;color:var(--text-muted);">&#9917; Scorer: Samuel Prempeh</p></div>`,
+    content: `<p>Young Apostles FC secured their first victory of the 2026/27 Ghana Premier League season with a narrow 1-0 win over Basake Holy Stars in Wenchi.</p><p>Samuel Prempeh provided the decisive moment, scoring early to give the Apostles the lead and set the tone for a determined home performance.</p><p>Having suffered a 3-0 defeat to Vision FC on Matchday 1, Young Apostles responded with a disciplined display to claim all three points in their first home league game of the campaign.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;"><p style="font-weight:800;color:#001489;font-size:1.1rem;margin:0 0 0.25rem;">FULL TIME: Young Apostles FC 1-0 Basake Holy Stars</p><p style="margin:0;color:#64748B;">⚽ Scorer: Samuel Prempeh</p></div>`,
     readTime: "3 min read"
   },
   {
@@ -1445,7 +1470,7 @@ const DEFAULT_UNIFIED_BLOGS = [
     author: "Young Apostles FC",
     image: "assets/md2-holy-stars-preview.jpg",
     excerpt: "Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.",
-    content: `<p>Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.</p><p>The Apostles will be looking to bounce back from their opening-day defeat to Vision FC, where they suffered a 3-0 loss in Tema. With the home support behind them, Young Apostles will be aiming to put their first points of the season on the board.</p><h4>Holy Stars Yet to Win in Wenchi</h4><p>Basake Holy Stars arrive in Wenchi looking for a first victory at the venue, but their previous visits have ended in defeats. The two most recent meetings between the sides in Wenchi have both gone the way of Young Apostles, with the Apostles recording 2-0 victories in each encounter.</p><h4>Apostles Ready to Respond</h4><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid var(--ya-blue);border-radius:0 8px 8px 0;"><blockquote style="font-style:italic;font-size:1.05rem;color:var(--ya-blue-deep);margin:0 0 0.5rem 0;">"The players lost concentration at certain moments against Vision, but we've worked on those mistakes and we are fully prepared for Holy Stars."</blockquote><cite style="font-weight:700;color:var(--ya-gold-hover);font-size:0.85rem;">&mdash; Assistant Coach Abubakar Fuseini</cite></div><p><strong>Young Apostles FC vs Basake Holy Stars &bull; Sun 12th Sep &bull; 3:00PM &bull; Wenchi Sports Stadium</strong></p>`,
+    content: `<p>Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.</p><p>The Apostles will be looking to bounce back from their opening-day defeat to Vision FC, where they suffered a 3-0 loss in Tema.</p><p><strong>Young Apostles FC vs Basake Holy Stars &bull; Sun 12th Sep &bull; 3:00PM &bull; Wenchi Sports Stadium</strong></p>`,
     readTime: "3 min read"
   },
   {
@@ -1458,7 +1483,7 @@ const DEFAULT_UNIFIED_BLOGS = [
     author: "Young Apostles FC",
     image: "assets/md1-vision-loss.jpg",
     excerpt: "Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.",
-    content: `<p>Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.</p><p>The Apostles entered the opening fixture looking to start the new campaign on a positive note, but Vision FC took control early and opened the scoring in the fifth minute through Nyenye Naziru.</p><p>Young Apostles were unable to find an equaliser before the break, and Vision doubled their advantage in the 40th minute when Setsofia Aqetey found the back of the net to send the hosts into halftime with a 2-0 lead.</p><p>The second half saw Young Apostles push for a response, but Vision remained in control. Aqetey completed his brace in the 68th minute to make it 3-0.</p><p>Despite efforts from the Apostles to get back into the contest, Vision held on to secure all three points in the opening game of the 2026/27 league season. Young Apostles will now turn their attention to their next fixture, against Basake Holy Stars.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(220,38,38,0.05);border-left:4px solid #dc2626;border-radius:0 8px 8px 0;"><p style="font-weight:800;color:#dc2626;font-size:1.05rem;margin:0 0 0.25rem;">FULL TIME: Vision FC 3-0 Young Apostles FC</p><p style="margin:0;color:var(--text-muted);font-size:0.9rem;">&#9917; Naziru (5') &bull; Aqetey (40', 68')</p></div>`,
+    content: `<p>Young Apostles FC began their 2026/27 Ghana Premier League campaign with a 3-0 defeat to Vision FC on Saturday, September 5, 2026, at the Nii Adjei Kraku II Sports Complex.</p><div style="margin:1.5rem 0;padding:1.25rem;background:rgba(220,38,38,0.05);border-left:4px solid #dc2626;border-radius:0 8px 8px 0;"><p style="font-weight:800;color:#dc2626;font-size:1.05rem;margin:0 0 0.25rem;">FULL TIME: Vision FC 3-0 Young Apostles FC</p><p style="margin:0;color:#64748B;font-size:0.9rem;">⚽ Naziru (5') &bull; Aqetey (40', 68')</p></div>`,
     readTime: "3 min read"
   }
 ];
@@ -1493,20 +1518,20 @@ function renderNews() {
   const bottomStrip = document.getElementById('newsBottomStrip');
   const stripCount = document.getElementById('newsStripCount');
 
-  const blogs = getUnifiedBlogs();
+  let blogs = getUnifiedBlogs();
   if (!blogs || blogs.length === 0) return;
 
-  // POSITION 1: Hero Card (Left)
+  // POSITION 1: Featured News Card (Left)
   if (heroContainer && blogs[0]) {
     const lead = blogs[0];
-    const leadImg = lead.image || 'assets/md3-debibi-derby.jpg';
-    const tag = (lead.category || 'ARTICLE').toUpperCase();
-    const dateText = lead.date || 'Sep 16, 2026';
-    const readTime = lead.readTime || '4 min read';
+    const leadImg = lead.image || 'assets/md2-prempeh-win.jpg';
+    const tag = (lead.category || 'MATCH REPORT').toUpperCase();
+    const dateText = lead.date || 'Oct 11, 2026';
+    const readTime = lead.readTime || '3 min read';
 
     heroContainer.innerHTML = `
       <article class="news-hero-card" onclick="openNewsArticle('${lead.id}')">
-        <img src="${leadImg}" alt="${lead.title}" class="news-hero-card__bg" onerror="this.src='assets/md3-debibi-derby.jpg'">
+        <img src="${leadImg}" alt="${lead.title}" class="news-hero-card__bg" onerror="this.src='assets/md2-prempeh-win.jpg'">
         <div class="news-hero-card__overlay"></div>
         <div class="news-hero-card__content">
           <span class="news-tag-badge">${tag}</span>
@@ -1525,14 +1550,14 @@ function renderNews() {
   if (stackedContainer) {
     const stackedBlogs = blogs.slice(1, 3);
     stackedContainer.innerHTML = stackedBlogs.map(art => {
-      const artImg = art.image || 'assets/md2-prempeh-win.jpg';
+      const artImg = art.image || 'assets/md2-holy-stars-preview.jpg';
       const tag = (art.category || 'ARTICLE').toUpperCase();
       const dateText = art.date || 'Recent';
       const readTime = art.readTime || '3 min read';
 
       return `
         <article class="news-stacked-card" onclick="openNewsArticle('${art.id}')">
-          <img src="${artImg}" alt="${art.title}" class="news-stacked-card__bg" onerror="this.src='assets/md2-prempeh-win.jpg'">
+          <img src="${artImg}" alt="${art.title}" class="news-stacked-card__bg" onerror="this.src='assets/md3-debibi-derby.jpg'">
           <div class="news-stacked-card__overlay"></div>
           <div class="news-stacked-card__content">
             <span class="news-tag-badge">${tag}</span>
@@ -1546,7 +1571,7 @@ function renderNews() {
     }).join('');
   }
 
-  // POSITIONS 4+: Bottom Strip (Older Stories)
+  // POSITIONS 4+: Bottom Strip (Older Stories / Archive)
   if (bottomStrip) {
     const olderBlogs = blogs.slice(3);
     if (stripCount) {
@@ -1568,11 +1593,11 @@ function renderNews() {
         return `
           <div class="news-strip-item" onclick="openNewsArticle('${art.id}')">
             <div class="news-strip-thumb">
-              <img src="${artImg}" alt="${art.title}" onerror="this.src='assets/apostle-tv-video3.jpg'">
+              <img src="${artImg}" alt="${art.title}" onerror="this.src='assets/kit-home-2026.jpg'">
             </div>
-            <div class="news-strip-text">
-              <div class="news-strip-tag">${tag}</div>
-              <h5 class="news-strip-heading">${art.title}</h5>
+            <div class="news-strip-info">
+              <span class="news-strip-tag">${tag}</span>
+              <div class="news-strip-headline">${art.title}</div>
               <div class="news-strip-date">${dateText}</div>
             </div>
           </div>
@@ -1580,16 +1605,6 @@ function renderNews() {
       }).join('');
     }
   }
-}
-
-let currentArchiveFilter = 'all';
-
-function filterArchiveCategory(category, buttonEl) {
-  currentArchiveFilter = category;
-  const buttons = document.querySelectorAll('.archive-filter-btn');
-  buttons.forEach(btn => btn.classList.remove('active'));
-  if (buttonEl) buttonEl.classList.add('active');
-  renderArchiveGrid();
 }
 
 function renderArchiveGrid() {
@@ -1659,7 +1674,7 @@ function shareCurrentModalArticleToTwitter() {
   if (!currentModalArticle) return;
   const title = currentModalArticle.title || 'Young Apostles FC Official Update';
   const excerpt = (currentModalArticle.excerpt || '').replace(/<[^>]+>/g, '').slice(0, 140);
-  const tweetText = `ðŸ† ${title}\n\n${excerpt}\n\n#YAFC #AgyaNaÆ†wÉ”Tumi #GPL`;
+  const tweetText = `🏆 ${title}\n\n${excerpt}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
   const shareUrl = window.location.origin + '/#news';
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
   window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
@@ -1842,7 +1857,7 @@ function playApostleVideo(videoId, title) {
   if (modalDirectBtn) {
     modalDirectBtn.href = ytUrl;
   }
-  if (titleEl) titleEl.textContent = title || 'Apostles TV Â· Young Apostles FC';
+  if (titleEl) titleEl.textContent = title || 'Apostles TV · Young Apostles FC';
   if (modal) modal.classList.add('open');
 }
 
@@ -2120,56 +2135,23 @@ let lastHeroHash = '';
 
 // Apply hero write-up from admin localStorage â€” full version defined below at applyHeroWriteup()
 
+let _lastHeroRaw = null;
+let _lastPosterRaw = null;
 function checkStorageUpdates() {
   try {
-    const unifiedRaw = localStorage.getItem('ya_club_unified_blogs');
-    if (unifiedRaw && unifiedRaw !== lastUnifiedBlogsHash) {
-      lastUnifiedBlogsHash = unifiedRaw;
-      renderNews();
-      renderDispatches();
-    }
-
-    const dispRaw = localStorage.getItem('ya_club_dispatches');
-    if (dispRaw && dispRaw !== lastDispatchesHash) {
-      lastDispatchesHash = dispRaw;
-      renderDispatches();
-    }
-
-    const fxRaw = localStorage.getItem('ya_club_fixtures');
-    if (fxRaw && fxRaw !== lastFixturesHash) {
-      lastFixturesHash = fxRaw;
-      renderMatches();
-      if (document.getElementById('fixturesModal')?.classList.contains('open')) {
-        renderFixturesModal(currentFixturesRound);
-      }
-    }
-
-    const standRaw = localStorage.getItem('ya_standings_record');
-    if (standRaw && standRaw !== lastStandingsHash) {
-      lastStandingsHash = standRaw;
-      updateStandingsUI();
-    }
-
-    const artRaw = localStorage.getItem('ya_club_articles');
-    if (artRaw && artRaw !== lastArticlesHash) {
-      lastArticlesHash = artRaw;
-      renderNews();
-    }
-
-    const tvRaw = localStorage.getItem('ya_apostles_tv_videos');
-    if (tvRaw && tvRaw !== lastApostlesTvHash) {
-      lastApostlesTvHash = tvRaw;
-      renderApostlesTv();
-    }
-
-    const heroRaw = localStorage.getItem('ya_hero_custom');
-    if (heroRaw && heroRaw !== lastHeroHash) {
-      lastHeroHash = heroRaw;
+    const rawHero = localStorage.getItem('ya_hero_custom');
+    if (rawHero && rawHero !== _lastHeroRaw) {
+      _lastHeroRaw = rawHero;
       applyHeroWriteup();
     }
-  } catch (err) {
-    // Ignore storage polling errors
-  }
+    const rawPoster = localStorage.getItem('ya_standings_poster');
+    if (rawPoster !== _lastPosterRaw) {
+      _lastPosterRaw = rawPoster;
+      updateStandingsPosterVisibility();
+    }
+    updateStandingsUI();
+    updateVipPassVisibility();
+  } catch(e) {}
 }
 
 // Storage event across tabs/windows
@@ -2266,7 +2248,7 @@ function startHeroSlideshow() {
   heroSlideshowTimer = setInterval(() => {
     const nextIdx = (currentHeroIndex + 1) % currentHeroImages.length;
     goToHeroSlide(nextIdx);
-  }, 4000); // Auto-advance every 4 seconds
+  }, 4000);
 }
 
 function goToHeroSlide(index) {
@@ -2274,26 +2256,16 @@ function goToHeroSlide(index) {
   const slides = document.querySelectorAll('.hero-bg-slide');
   if (!slides || slides.length === 0) return;
 
-  const prevIndex = currentHeroIndex;
-  currentHeroIndex = ((index % currentHeroImages.length) + currentHeroImages.length) % currentHeroImages.length;
-  if (prevIndex === currentHeroIndex) return;
+  const count = currentHeroImages.length;
+  currentHeroIndex = ((index % count) + count) % count;
 
-  const outgoingSlide = slides[prevIndex];
-  const incomingSlide = slides[currentHeroIndex];
-
-  if (incomingSlide && outgoingSlide) {
-    incomingSlide.style.zIndex = '3';
-    incomingSlide.classList.add('active');
-    outgoingSlide.style.zIndex = '2';
-
-    setTimeout(() => {
-      outgoingSlide.classList.remove('active');
-      outgoingSlide.style.zIndex = '1';
-      incomingSlide.style.zIndex = '2';
-    }, 1050);
-  } else if (incomingSlide) {
-    incomingSlide.classList.add('active');
-  }
+  slides.forEach((sl, idx) => {
+    if (idx === currentHeroIndex) {
+      sl.classList.add('active');
+    } else {
+      sl.classList.remove('active');
+    }
+  });
 
   updateHeroDots();
 }
@@ -2333,6 +2305,27 @@ function initHeroSwipe() {
   }, { passive: true });
 }
 
+function sanitizeHeroText(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/WIN\s+[Ââ][\s\S]{0,4}FT/gi, 'WIN &bull; FT')
+    .replace(/LOSS\s+[Ââ][\s\S]{0,4}FT/gi, 'LOSS &bull; FT')
+    .replace(/DRAW\s+[Ââ][\s\S]{0,4}FT/gi, 'DRAW &bull; FT')
+    .replace(/â€™/g, "'").replace(/â€˜/g, "'").replace(/[’‘]/g, "'")
+    .replace(/â€œ/g, '&ldquo;').replace(/â€ /g, '&rdquo;')
+    .replace(/â€”/g, '&mdash;').replace(/â€“/g, '&ndash;')
+    .replace(/Ã¢â‚¬[^s"']+/g, '&ndash;')
+    .replace(/Æ†/g, '&#390;').replace(/É”/g, '&#596;')
+    .replace(/Ã†/g, '&#390;').replace(/Ã‰/g, '&#596;')
+    .replace(/AgyaNa[^s"'>]+Tumi/g, 'AgyaNa&#390;w&#596;Tumi')
+    .replace(/AGYA NA [^s"'>]+ TUMI/g, 'AGYA NA &#390;W&#596; TUMI')
+    .replace(/Agya Na [^s"'>]+ Tumi/g, 'Agya Na &#390;w&#596; Tumi')
+    .replace(/Ã¢Å¡½/g, '<i class="fa-solid fa-futbol"></i>')
+    .replace(/âš½/g, '<i class="fa-solid fa-futbol"></i>')
+    .replace(/Ã‚·/g, '&bull;').replace(/Â·/g, '&bull;').replace(/Â¢/g, '&bull;').replace(/Â/g, '')
+    .replace(/ðŸ †/g, '🏆').replace(/âœ…/g, '✅');
+}
+
 function applyHeroWriteup() {
   let heroData = null;
   try {
@@ -2340,7 +2333,18 @@ function applyHeroWriteup() {
     if (raw) heroData = JSON.parse(raw);
   } catch(e) {}
 
-  if (!heroData) return;
+  if (!heroData) {
+    heroData = {
+      headline: "Samuel Prempeh Wins AJ Construction & Building Player of the Month",
+      subtitle: "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month after scoring all 3 goals after Matchday Six of the 2026/27 Ghana Premier League season.<br><br><strong>#YAFC #AgyaNa&#390;w&#596;Tumi</strong>",
+      images: [
+        "assets/prempeh-potm-award.jpg",
+        "assets/prempeh-potm-boots.jpg"
+      ],
+      ctaText: "Read Full Award Story & Gallery",
+      ctaLink: "#news"
+    };
+  }
 
   const headlineEl = document.getElementById('heroHeadlineDisplay') || document.querySelector('.hero-headline');
   const subtitleEl = document.getElementById('heroSubtitleDisplay') || document.querySelector('.hero-subtitle');
@@ -2348,13 +2352,13 @@ function applyHeroWriteup() {
   const dotsContainer = document.getElementById('heroSlideDots');
 
   if (headlineEl && heroData.headline) {
-    headlineEl.textContent = heroData.headline;
+    headlineEl.innerHTML = sanitizeHeroText(heroData.headline);
   }
   if (subtitleEl && heroData.subtitle) {
-    subtitleEl.innerHTML = heroData.subtitle;
+    subtitleEl.innerHTML = sanitizeHeroText(heroData.subtitle);
   }
 
-  // Collect all hero photos (supporting 1, 2, 3 or more photos in array or image/image2/image3)
+  // Collect hero photos
   let imgList = [];
   if (Array.isArray(heroData.images) && heroData.images.length > 0) {
     imgList = heroData.images.filter(Boolean);
@@ -2364,35 +2368,45 @@ function applyHeroWriteup() {
     if (heroData.image3) imgList.push(heroData.image3);
   }
 
-  if (imgList.length === 0) imgList = ['assets/home-hero.jpg'];
+  if (imgList.length === 0) {
+    imgList = ['assets/prempeh-potm-award.jpg', 'assets/prempeh-potm-boots.jpg'];
+  }
   currentHeroImages = imgList;
 
-  // Render multi-slide image layers inside .hero-slides-wrap for true 60fps GPU crossfade
   const slidesWrap = document.getElementById('heroSlidesWrap') || document.querySelector('.hero-slides-wrap');
   if (slidesWrap) {
-    slidesWrap.innerHTML = currentHeroImages.map((src, idx) => `
-      <img src="${src}" alt="Young Apostles FC Photo ${idx + 1}" class="hero-bg-slide ${idx === currentHeroIndex ? 'active' : ''}" ${idx === 0 ? 'id="heroBgImage"' : ''} style="object-fit:cover; object-position:center top !important;">
-    `).join('');
-  } else {
-    const bgImgEl = document.getElementById('heroBgImage') || document.querySelector('.hero-bg-image');
-    if (bgImgEl && currentHeroImages.length > 0) {
-      bgImgEl.src = currentHeroImages[currentHeroIndex] || currentHeroImages[0];
+    const existingSlides = Array.from(slidesWrap.querySelectorAll('.hero-bg-slide'));
+    const existingSrcs = existingSlides.map(s => s.getAttribute('src'));
+    const isMatching = existingSrcs.length === currentHeroImages.length && existingSrcs.every((src, i) => src === currentHeroImages[i]);
+
+    if (!isMatching) {
+      currentHeroIndex = 0;
+      slidesWrap.innerHTML = currentHeroImages.map((src, idx) => `
+        <img src="${src}" alt="Young Apostles FC Photo ${idx + 1}" class="hero-bg-slide ${idx === 0 ? 'active' : ''}" ${idx === 0 ? 'id="heroBgImage"' : ''} style="object-fit:cover; object-position:center 12% !important;">
+      `).join('');
     }
   }
 
-  // Wire mobile swipe gestures
   initHeroSwipe();
 
   if (dotsContainer) {
     if (currentHeroImages.length > 1) {
       dotsContainer.style.display = 'inline-flex';
-      dotsContainer.innerHTML = currentHeroImages.map((_, idx) => `
-        <button type="button" class="hero-slide-dot ${idx === currentHeroIndex ? 'active' : ''}" onclick="goToHeroSlide(${idx}); startHeroSlideshow();" aria-label="Photo ${idx + 1}"></button>
-      `).join('');
+      const existingDots = dotsContainer.querySelectorAll('.hero-slide-dot');
+      if (existingDots.length !== currentHeroImages.length) {
+        dotsContainer.innerHTML = currentHeroImages.map((_, idx) => `
+          <button type="button" class="hero-slide-dot ${idx === currentHeroIndex ? 'active' : ''}" onclick="goToHeroSlide(${idx}); startHeroSlideshow();" aria-label="Photo ${idx + 1}"></button>
+        `).join('');
+      } else {
+        updateHeroDots();
+      }
       startHeroSlideshow();
     } else {
       dotsContainer.style.display = 'none';
-      if (heroSlideshowTimer) clearInterval(heroSlideshowTimer);
+      if (heroSlideshowTimer) {
+        clearInterval(heroSlideshowTimer);
+        heroSlideshowTimer = null;
+      }
     }
   }
 
@@ -2403,17 +2417,14 @@ function applyHeroWriteup() {
     if (heroData.ctaLink) {
       ctaBtn.setAttribute('href', heroData.ctaLink);
     }
-    // If it's the award announcement, wire direct modal opener
-    if (heroData.headline && (heroData.headline.includes('Player of the Month') || heroData.headline.includes('Prempeh'))) {
-      ctaBtn.onclick = function(e) {
-        if (typeof openNewsArticle === 'function') {
-          e.preventDefault();
-          openNewsArticle('samuel-prempeh-player-of-the-month');
-          const newsSection = document.getElementById('news');
-          if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      };
-    }
+    ctaBtn.onclick = function(e) {
+      if (typeof openNewsArticle === 'function') {
+        e.preventDefault();
+        openNewsArticle('samuel-prempeh-player-of-the-month');
+        const newsSection = document.getElementById('news');
+        if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
   }
 }
 
@@ -2770,12 +2781,12 @@ function saveProfile(e) {
   const tier = document.getElementById('profileTier')?.value || 'Official Fan Pass';
 
   if (!name) {
-    showToast('âš ï¸ Please enter your Full Name.');
+    showToast('⚽ ï¸ Please enter your Full Name.');
     document.getElementById('profileName')?.focus();
     return;
   }
   if (!phone) {
-    showToast('âš ï¸ Please enter your Phone/WhatsApp Number.');
+    showToast('⚽ ï¸ Please enter your Phone/WhatsApp Number.');
     document.getElementById('profilePhone')?.focus();
     return;
   }
@@ -2855,7 +2866,7 @@ function saveProfile(e) {
   const waBtn = document.getElementById('btnProfileWhatsApp');
   if (waBtn) waBtn.style.display = 'flex';
 
-  showToast(`âœ… Profile saved! Welcome to Young Apostles FC 2026/27 Season, ${name}!`);
+  showToast(`✅ Profile saved! Welcome to Young Apostles FC 2026/27 Season, ${name}!`);
 }
 
 function sendProfileWhatsApp() {
@@ -2875,7 +2886,7 @@ function sendProfileWhatsApp() {
               `*Subscription:* 2026/27 Ghana Premier League Season Pass%0A` +
               `*Tier:* ${tier}%0A` +
               `*Status:* Active Member%0A%0A` +
-              `_Agya Na Æ†wÉ” Tumi! Please confirm my 2026/27 official seasonal subscription._`;
+              `_Agya Na Ɔwɔ Tumi! Please confirm my 2026/27 official seasonal subscription._`;
 
   window.open(`https://wa.me/233539779380?text=${msg}`, '_blank');
 }
