@@ -257,6 +257,140 @@
     .form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
     @media (max-width:600px) { .form-row { grid-template-columns:1fr; } }
 
+    /* ===== TWITTER / X STYLE COMPOSER ===== */
+    .x-composer-box {
+      background: var(--as); border: 1.5px solid var(--aborder); border-radius: 16px;
+      padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35); transition: border-color 0.2s;
+    }
+    .x-composer-box:focus-within { border-color: rgba(29,155,240,0.4); }
+    .x-composer-header {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem;
+    }
+    .x-composer-avatar {
+      width: 42px; height: 42px; border-radius: 50%; object-fit: contain;
+      background: rgba(255,255,255,0.06); border: 1.5px solid var(--agold); flex-shrink: 0;
+    }
+    .x-composer-meta { flex: 1; min-width: 0; }
+    .x-composer-user { display: flex; align-items: center; gap: 0.4rem; font-size: 0.92rem; font-weight: 800; color: #fff; }
+    .x-composer-handle { font-size: 0.72rem; color: var(--amuted); }
+    
+    .x-cat-pills-bar {
+      display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;
+      margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--aborder);
+    }
+    .x-cat-label { font-size: 0.7rem; font-weight: 800; color: var(--amuted); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 0.25rem; }
+    .x-cat-pill {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--aborder);
+      color: var(--amuted); padding: 4px 12px; border-radius: 999px;
+      font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.18s;
+    }
+    .x-cat-pill:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .x-cat-pill.active {
+      background: rgba(29,155,240,0.15); border-color: #1D9BF0; color: #1D9BF0;
+      box-shadow: 0 0 12px rgba(29,155,240,0.25);
+    }
+
+    .x-composer-title-input {
+      width: 100%; background: transparent; border: none; border-bottom: 1.5px solid var(--aborder);
+      color: #fff; font-family: var(--fh); font-size: 1.25rem; font-weight: 800;
+      padding: 0.5rem 0 0.75rem; outline: none; margin-bottom: 0.85rem;
+      transition: border-color 0.2s;
+    }
+    .x-composer-title-input::placeholder { color: rgba(255,255,255,0.32); }
+    .x-composer-title-input:focus { border-color: var(--agold); }
+
+    .x-composer-body-input {
+      width: 100%; background: transparent; border: none;
+      color: #fff; font-size: 0.95rem; line-height: 1.6;
+      padding: 0; outline: none; resize: vertical; min-height: 110px;
+      margin-bottom: 1rem;
+    }
+    .x-composer-body-input::placeholder { color: rgba(255,255,255,0.3); font-size: 0.95rem; }
+
+    .x-summary-box {
+      background: rgba(29,155,240,0.05); border: 1px solid rgba(29,155,240,0.2);
+      border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1rem;
+    }
+    .x-summary-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+    .x-summary-lbl { font-size: 0.74rem; font-weight: 700; color: #60a5fa; display: flex; align-items: center; gap: 0.35rem; }
+    .x-auto-gen-btn {
+      background: none; border: none; color: var(--agold); font-size: 0.72rem;
+      font-weight: 700; cursor: pointer; text-decoration: underline;
+    }
+    .x-summary-input {
+      width: 100%; background: transparent; border: none; color: #e2e8f0;
+      font-size: 0.86rem; line-height: 1.5; outline: none; resize: none; min-height: 48px;
+    }
+
+    .x-photo-strip {
+      display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;
+    }
+    .x-photo-card {
+      position: relative; width: 140px; height: 95px; border-radius: 10px;
+      overflow: hidden; border: 1.5px solid var(--aborder); background: #000;
+    }
+    .x-photo-card img { width: 100%; height: 100%; object-fit: cover; }
+    .x-photo-remove {
+      position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.75);
+      color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .x-photo-remove:hover { background: #ef4444; }
+
+    .x-composer-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 0.85rem; border-top: 1px solid var(--aborder); flex-wrap: wrap; gap: 0.75rem;
+    }
+    .x-tools-left { display: flex; align-items: center; gap: 0.75rem; }
+    .x-tool-btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      background: rgba(29,155,240,0.1); border: 1px solid rgba(29,155,240,0.25);
+      color: #1D9BF0; font-size: 0.8rem; font-weight: 700; padding: 0.45rem 0.9rem;
+      border-radius: 8px; cursor: pointer; transition: all 0.2s;
+    }
+    .x-tool-btn:hover { background: rgba(29,155,240,0.2); }
+    .x-date-text { font-size: 0.75rem; color: var(--amuted); }
+
+    .x-tools-right { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+    .btn-x-publish {
+      background: var(--agold); color: var(--ab); font-family: var(--fh);
+      font-size: 0.86rem; font-weight: 800; border: none; border-radius: 8px;
+      padding: 0.55rem 1.15rem; display: inline-flex; align-items: center; gap: 0.45rem;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-x-publish:hover { background: #fff; }
+    .btn-x-tweet {
+      background: #000; color: #fff; font-family: var(--fh);
+      font-size: 0.86rem; font-weight: 800; border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 8px; padding: 0.55rem 1.15rem; display: inline-flex; align-items: center;
+      gap: 0.45rem; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-x-tweet:hover { background: #1D9BF0; border-color: #1D9BF0; }
+
+    /* Live Twitter Preview Card */
+    .x-live-preview {
+      background: #000; border: 1px solid rgba(255,255,255,0.15); border-radius: 14px;
+      padding: 1.1rem; margin-top: 1.25rem;
+    }
+    .x-lp-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.65rem; }
+    .x-lp-tag { font-size: 0.7rem; font-weight: 800; color: #1D9BF0; text-transform: uppercase; letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.35rem; }
+    .x-lp-author { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .x-lp-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: contain; }
+    .x-lp-name { font-weight: 800; font-size: 0.86rem; color: #fff; }
+    .x-lp-handle { font-size: 0.75rem; color: #71767b; }
+    .x-lp-text { font-size: 0.88rem; line-height: 1.5; color: #e7e9ea; white-space: pre-wrap; margin-bottom: 0.85rem; }
+    .x-lp-link-card {
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; overflow: hidden;
+      background: #16181c; cursor: pointer;
+    }
+    .x-lp-card-img { width: 100%; height: 160px; object-fit: cover; display: block; }
+    .x-lp-card-body { padding: 0.75rem 0.9rem; }
+    .x-lp-card-domain { font-size: 0.7rem; color: #71767b; text-transform: lowercase; }
+    .x-lp-card-title { font-weight: 700; font-size: 0.86rem; color: #fff; margin-top: 0.15rem; }
+    .x-lp-card-desc { font-size: 0.75rem; color: #71767b; margin-top: 0.2rem; }
+
     /* ===== TOAST ===== */
     #adminToast {
       position:fixed; bottom:1.5rem; right:1.5rem; z-index:9998;
@@ -877,66 +1011,127 @@
           <div class="admin-table-wrap" id="membersTable"></div>
         </div>
 
-        <!-- ===== NEWS CMS ===== -->
+        <!-- ===== NEWS CMS (TWITTER / X STYLE COMPOSER) ===== -->
         <div class="admin-panel" id="panel-news">
           <div class="section-hdr">
-            <div class="section-hdr-title">News Articles</div>
-            <button class="btn-admin-primary" onclick="toggleAddForm('newsAddForm')">
-              <i class="fa-solid fa-plus"></i> New Article
-            </button>
+            <div class="section-hdr-title">
+              <i class="fa-brands fa-x-twitter" style="color:#1D9BF0;margin-right:0.4rem;"></i> News &amp; Match Dispatches
+            </div>
+            <div style="font-size:0.75rem; color:var(--amuted);">
+              Compose like Twitter &bull; Publishes to site &amp; shares to X
+            </div>
           </div>
 
-          <!-- Add Form -->
-          <div class="add-form-panel" id="newsAddForm">
-            <div class="add-form-title">Add / Edit News Article</div>
-            <div class="form-row">
-              <div class="admin-form-group">
-                <label>Article ID (slug)</label>
-                <input type="text" class="admin-input" id="nId" placeholder="e.g. matchday-4-preview">
+          <!-- TWITTER / X STYLE COMPOSER BOX -->
+          <div class="x-composer-box" id="xComposerBox">
+            <!-- Author Identity Header -->
+            <div class="x-composer-header">
+              <img src="assets/official-logo.png" alt="Young Apostles FC" class="x-composer-avatar">
+              <div class="x-composer-meta">
+                <div class="x-composer-user">
+                  <span>Young Apostles FC Media</span>
+                  <i class="fa-solid fa-circle-check" style="color:#1D9BF0;" title="Verified Club Media"></i>
+                </div>
+                <div class="x-composer-handle">@YoungApostlesFC &middot; Official Matchday &amp; Club Dispatch</div>
               </div>
-              <div class="admin-form-group">
-                <label>Category</label>
-                <select class="admin-select" id="nCategory">
-                  <option value="MATCH PREVIEW">Match Preview</option>
-                  <option value="MATCH REPORT">Match Report</option>
-                  <option value="CLUB NEWS">Club News</option>
-                  <option value="ANNOUNCEMENT">Announcement</option>
-                  <option value="TRANSFER">Transfer</option>
-                </select>
+              <input type="hidden" id="nCategory" value="MATCH REPORT">
+              <input type="hidden" id="nId" value="">
+              <input type="hidden" id="nDate" value="">
+              <input type="hidden" id="nImage" value="">
+            </div>
+
+            <!-- Category Pills Bar -->
+            <div class="x-cat-pills-bar">
+              <span class="x-cat-label"><i class="fa-solid fa-tag"></i> Type:</span>
+              <button type="button" class="x-cat-pill active" onclick="selectXCategory(this, 'MATCH REPORT')">⚽ Match Report</button>
+              <button type="button" class="x-cat-pill" onclick="selectXCategory(this, 'MATCH PREVIEW')">🏟️ Match Preview</button>
+              <button type="button" class="x-cat-pill" onclick="selectXCategory(this, 'CLUB NEWS')">📢 Club News</button>
+              <button type="button" class="x-cat-pill" onclick="selectXCategory(this, 'TRANSFER')">🔄 Transfer</button>
+              <button type="button" class="x-cat-pill" onclick="selectXCategory(this, 'ANNOUNCEMENT')">🏆 Announcement</button>
+            </div>
+
+            <!-- Big Headline Input -->
+            <input type="text" id="nTitle" class="x-composer-title-input" placeholder="What's the headline? (e.g. Young Apostles Edge Aduana 1-0 in Bono Derby)" oninput="updateLiveXPreview()">
+
+            <!-- Story Body / Full Dispatch -->
+            <textarea id="nContent" class="x-composer-body-input" placeholder="What happened in Wenchi? Write the full match report, quotes, or story summary..." oninput="updateLiveXPreview()"></textarea>
+
+            <!-- Short Summary (Read First on Twitter) -->
+            <div class="x-summary-box">
+              <div class="x-summary-hdr">
+                <span class="x-summary-lbl"><i class="fa-brands fa-x-twitter"></i> X (Twitter) Hook &bull; Short Summary:</span>
+                <button type="button" class="x-auto-gen-btn" onclick="autoGenerateSummary()">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Generate from Story
+                </button>
+              </div>
+              <textarea id="nExcerpt" class="x-summary-input" placeholder="1-2 punchy sentences fans will read on Twitter before clicking the site link..." oninput="updateLiveXPreview()"></textarea>
+            </div>
+
+            <!-- Attached Photo Strip -->
+            <div id="xPhotoAttachmentStrip" class="x-photo-strip" style="display:none;">
+              <div class="x-photo-card" id="xPhotoCard">
+                <img id="xPhotoPreviewImg" src="" alt="Attached Photo">
+                <button type="button" class="x-photo-remove" onclick="removeXPhoto()" title="Remove photo">&times;</button>
               </div>
             </div>
-            <div class="admin-form-group">
-              <label>Title</label>
-              <input type="text" class="admin-input" id="nTitle" placeholder="Article headline">
-            </div>
-            <div class="form-row">
-              <div class="admin-form-group">
-                <label>Date</label>
-                <input type="text" class="admin-input" id="nDate" placeholder="Sep 20, 2026">
-              </div>
-              <div class="admin-form-group">
-                <label>Article Image</label>
-                <input type="text" class="admin-input" id="nImage" placeholder="assets/md3-debibi-derby.jpg" style="margin-bottom:0.4rem;">
-                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;background:rgba(255,255,255,0.05);border:1.5px dashed var(--aborder);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.8rem;color:var(--amuted);">
-                  <i class="fa-solid fa-image" style="color:var(--agold);"></i> Upload from PC
-                  <input type="file" accept="image/*" style="display:none;" onchange="handleImageUpload(this,'nImage')">
+
+            <!-- Footer Toolbar: Media Upload + Actions -->
+            <div class="x-composer-footer">
+              <div class="x-tools-left">
+                <label class="x-tool-btn" title="Add Photo from device">
+                  <i class="fa-regular fa-image"></i>
+                  <span>Add Photo</span>
+                  <input type="file" accept="image/*" style="display:none;" onchange="handleXPhotoUpload(this)">
                 </label>
+                <span class="x-date-text" id="xComposerDateDisplay">📅 Today</span>
+              </div>
+
+              <div class="x-tools-right">
+                <button type="button" class="btn-admin-secondary" onclick="resetXComposer()">
+                  Clear
+                </button>
+                <button type="button" class="btn-x-publish" onclick="saveNewsArticle()">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> Publish to Site
+                </button>
+                <button type="button" class="btn-x-tweet" onclick="postDraftToTwitter()">
+                  <i class="fa-brands fa-x-twitter"></i> Post to X
+                </button>
               </div>
             </div>
-            <div class="admin-form-group">
-              <label>Excerpt (short summary)</label>
-              <textarea class="admin-textarea" id="nExcerpt" placeholder="Short preview shown on cards..."></textarea>
+
+            <!-- Live Tweet Preview Card -->
+            <div class="x-live-preview" id="xLivePreviewBox">
+              <div class="x-lp-hdr">
+                <span class="x-lp-tag"><i class="fa-brands fa-x-twitter"></i> Live Tweet Preview</span>
+                <span style="font-size:0.72rem; color:#71767b;"><i class="fa-solid fa-arrow-pointer"></i> Fans click link &rarr; opens story on website</span>
+              </div>
+              <div class="x-lp-author">
+                <img src="assets/official-logo.png" class="x-lp-avatar" alt="YAFC">
+                <div>
+                  <div class="x-lp-name">Young Apostles FC <i class="fa-solid fa-circle-check" style="color:#1D9BF0; font-size:0.75rem;"></i></div>
+                  <div class="x-lp-handle">@YoungApostlesFC &middot; Just now</div>
+                </div>
+              </div>
+              <div class="x-lp-text" id="xLiveTweetText">
+                🚨 MATCH REPORT | Headline will appear here...
+              </div>
+              <!-- Twitter OpenGraph Link Card -->
+              <div class="x-lp-link-card" id="xLiveLinkCard">
+                <img id="xLiveCardImg" class="x-lp-card-img" src="assets/official-crest-transparent.png" alt="Card Preview" style="display:none;">
+                <div class="x-lp-card-body">
+                  <div class="x-lp-card-domain">youngapostlesfcgh.com</div>
+                  <div class="x-lp-card-title" id="xLiveCardTitle">Young Apostles FC &middot; Official Club Dispatch</div>
+                  <div class="x-lp-card-desc">Tap to read the full report on the official club portal.</div>
+                </div>
+              </div>
             </div>
-            <div class="admin-form-group">
-              <label>Full Article Body (HTML allowed)</label>
-              <textarea class="admin-textarea" id="nContent" style="min-height:140px;" placeholder="<p>Full article body...</p>"></textarea>
-            </div>
-            <div style="display:flex;gap:0.5rem;margin-top:0.5rem;">
-              <button class="btn-admin-primary" onclick="saveNewsArticle()"><i class="fa-solid fa-floppy-disk"></i> Save Article</button>
-              <button class="btn-admin-secondary" onclick="toggleAddForm('newsAddForm')">Cancel</button>
-            </div>
+
           </div>
 
+          <!-- Published Stories List -->
+          <div class="section-hdr" style="margin-top:2rem;">
+            <div class="section-hdr-title">Published Stories &amp; Match Dispatches</div>
+          </div>
           <div id="newsList"></div>
         </div>
 
@@ -2590,51 +2785,156 @@ function deleteMember(idx) {
    NEWS CMS
    ========================================== */
 
+function selectXCategory(btn, cat) {
+  document.querySelectorAll('.x-cat-pill').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const catInput = document.getElementById('nCategory');
+  if (catInput) catInput.value = cat;
+  updateLiveXPreview();
+}
+
+async function handleXPhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  adminToast('Optimizing matchday photo...');
+  try {
+    const dataUrl = await compressImage(file, 1600, 900, 0.85);
+    setComposerPhoto(dataUrl);
+    adminToast('✅ Photo attached! Ready to publish.');
+  } catch(err) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      setComposerPhoto(e.target.result);
+      adminToast('Photo attached!');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function setComposerPhoto(src) {
+  const strip = document.getElementById('xPhotoAttachmentStrip');
+  const img = document.getElementById('xPhotoPreviewImg');
+  const input = document.getElementById('nImage');
+  const cardImg = document.getElementById('xLiveCardImg');
+
+  if (strip) strip.style.display = 'flex';
+  if (img) img.src = src;
+  if (input) input.value = src;
+  if (cardImg) {
+    cardImg.src = src;
+    cardImg.style.display = 'block';
+  }
+  updateLiveXPreview();
+}
+
+function removeXPhoto() {
+  const strip = document.getElementById('xPhotoAttachmentStrip');
+  const input = document.getElementById('nImage');
+  const cardImg = document.getElementById('xLiveCardImg');
+  if (strip) strip.style.display = 'none';
+  if (input) input.value = '';
+  if (cardImg) cardImg.style.display = 'none';
+  updateLiveXPreview();
+}
+
+function autoGenerateSummary() {
+  const content = (document.getElementById('nContent')?.value || '').trim();
+  if (!content) {
+    adminToast('Write the story body first to generate a summary.');
+    return;
+  }
+  // Strip any HTML tags and get first 1-2 punchy sentences (up to 150 chars)
+  const plain = content.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ');
+  const sentences = plain.match(/[^\.!\?]+[\.!\?]+/g) || [plain];
+  let summary = (sentences.slice(0, 2).join(' ')).trim();
+  if (summary.length > 160) summary = summary.slice(0, 157) + '...';
+  
+  const excerptEl = document.getElementById('nExcerpt');
+  if (excerptEl) excerptEl.value = summary;
+  updateLiveXPreview();
+  adminToast('✨ Summary generated for Twitter!');
+}
+
+function updateLiveXPreview() {
+  const cat = document.getElementById('nCategory')?.value || 'MATCH REPORT';
+  const title = (document.getElementById('nTitle')?.value || '').trim() || 'Headline will appear here...';
+  const content = (document.getElementById('nContent')?.value || '').trim();
+  const excerpt = (document.getElementById('nExcerpt')?.value || '').trim() || (content ? content.slice(0, 130) + '...' : 'A brief summary of the story will appear here for fans reading on Twitter...');
+  
+  let slug = (document.getElementById('nId')?.value || '').trim();
+  if (!slug && title && title !== 'Headline will appear here...') {
+    slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  }
+  const articleUrl = `https://www.youngapostlesfcgh.com/#news-${slug || 'story'}`;
+
+  const previewTextEl = document.getElementById('xLiveTweetText');
+  const previewTitleEl = document.getElementById('xLiveCardTitle');
+
+  if (previewTextEl) {
+    previewTextEl.innerHTML = `<strong>🚨 ${cat} | ${title}</strong><br><br>${excerpt}<br><br><span style="color:#1D9BF0;">📖 Read full report on official site:</span><br><span style="color:#1D9BF0;text-decoration:underline;">${articleUrl}</span><br><br><span style="color:#1D9BF0;">#YoungApostlesFC #GPL #AgyaNaOwuoTumi</span>`;
+  }
+  if (previewTitleEl) {
+    previewTitleEl.textContent = title !== 'Headline will appear here...' ? title : 'Young Apostles FC · Official Club Dispatch';
+  }
+}
+
+function postDraftToTwitter() {
+  const title = (document.getElementById('nTitle')?.value || '').trim();
+  const content = (document.getElementById('nContent')?.value || '').trim();
+  const excerpt = (document.getElementById('nExcerpt')?.value || '').trim() || (content ? content.slice(0, 140) : '');
+  const cat = document.getElementById('nCategory')?.value || 'MATCH REPORT';
+
+  if (!title) {
+    adminToast('Please write a headline before sharing to Twitter.');
+    document.getElementById('nTitle')?.focus();
+    return;
+  }
+
+  let slug = (document.getElementById('nId')?.value || '').trim();
+  if (!slug) {
+    slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  }
+  const articleUrl = `https://www.youngapostlesfcgh.com/#news-${slug}`;
+  const tweetText = `🚨 ${cat} | ${title}\n\n${excerpt}\n\n📖 Read full story on official site:\n${articleUrl}\n\n#YoungApostlesFC #GPL #AgyaNaOwuoTumi @YoungApostlesFC`;
+
+  const twitterIntent = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+  window.open(twitterIntent, '_blank', 'width=620,height=580,menubar=no,toolbar=no');
+}
+
 function shareArticleToTwitter(idx) {
   const blogs = getBlogs();
   const b = blogs[idx];
   if (!b) return;
-  // Build a clean article URL using the article ID as a hash anchor
-  const articleUrl = `https://www.youngapostlesfcgh.com/#news?article=${encodeURIComponent(b.id)}`;
-  const imageHint = b.image ? `\n📸 ${b.image.startsWith('http') ? b.image : 'https://www.youngapostlesfcgh.com/' + b.image}` : '';
-  const excerpt = (b.excerpt || '').slice(0, 120);
-  const tweetText = `🏆 ${b.title}\n\n${excerpt}${imageHint}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(articleUrl)}`;
-  window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
+  const articleUrl = `https://www.youngapostlesfcgh.com/#news-${b.id}`;
+  const excerpt = (b.excerpt || '').slice(0, 140);
+  const cat = (b.category || 'CLUB NEWS').toUpperCase();
+  const tweetText = `🚨 ${cat} | ${b.title}\n\n${excerpt}\n\n📖 Read full dispatch on official site:\n${articleUrl}\n\n#YoungApostlesFC #GPL #AgyaNaOwuoTumi @YoungApostlesFC`;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+  window.open(twitterUrl, '_blank', 'width=620,height=580,menubar=no,toolbar=no');
 }
 
 function shareHeroToTwitter() {
   const headline = (document.getElementById('heroHeadline') ? document.getElementById('heroHeadline').value.trim() : '') || 'Young Apostles FC Official Update';
   const sub = (document.getElementById('heroSubtitle') ? document.getElementById('heroSubtitle').value.replace(/<[^>]+>/g, '').trim().slice(0, 120) : '');
-  // Get the current hero image to hint Twitter card
   let heroImg = '';
   try {
     const hd = JSON.parse(localStorage.getItem('ya_hero_custom') || '{}');
     const img = (hd.images && hd.images[0]) || hd.image || '';
     if (img) heroImg = `\n📸 ${img.startsWith('http') ? img : 'https://www.youngapostlesfcgh.com/' + img}`;
   } catch(e) {}
-  const tweetText = `📢 ${headline}\n\n${sub}${heroImg}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
-  const shareUrl = 'https://www.youngapostlesfcgh.com/';
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
+  const tweetText = `📢 ${headline}\n\n${sub}${heroImg}\n\nhttps://www.youngapostlesfcgh.com/\n\n#YAFC #AgyaNaƆwɔTumi #GPL @YoungApostlesFC`;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
   window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
 }
 
-async function handleHeroImage2Upload(input) {
-  const file = input.files[0];
-  if (!file) return;
-  adminToast('Optimizing secondary picture...');
-  try {
-    const dataUrl = await compressImage(file, 1920, 1080, 0.82);
-    document.getElementById('heroImage2').value = dataUrl;
-    adminToast('✅ 2nd picture loaded! Click "Save & Push" to publish.');
-  } catch(err) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      document.getElementById('heroImage2').value = e.target.result;
-      adminToast('2nd picture loaded!');
-    };
-    reader.readAsDataURL(file);
-  }
+function resetXComposer() {
+  ['nId','nTitle','nExcerpt','nContent','nImage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  removeXPhoto();
+  selectXCategory(document.querySelector('.x-cat-pill'), 'MATCH REPORT');
+  updateLiveXPreview();
 }
 
 function renderNewsPanel() {
@@ -2642,20 +2942,26 @@ function renderNewsPanel() {
   const el = document.getElementById('newsList');
   if (!el) return;
   if (!blogs.length) {
-    el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-newspaper"></i><p>No custom articles. Default articles showing on site.</p></div>`;
+    el.innerHTML = `<div class="empty-state"><i class="fa-solid fa-newspaper"></i><p>No custom articles published yet. Default articles showing on site.</p></div>`;
     return;
   }
   el.innerHTML = blogs.map((b, i) => `
     <div class="cms-card">
       <div class="cms-card__body">
-        <div class="cms-card__tag">${b.category||'ARTICLE'} · ${b.date||''}</div>
+        <div class="cms-card__tag" style="display:flex;align-items:center;gap:0.4rem;">
+          <span>${b.category||'ARTICLE'} &bull; ${b.date||''}</span>
+        </div>
         <div class="cms-card__title">${b.title}</div>
-        <div class="cms-card__meta">${b.id}</div>
+        <div class="cms-card__meta" style="color:var(--amuted);font-size:0.75rem;">
+          Slug: <code style="color:var(--agold);">${b.id}</code> &bull; Link: <code>#news-${b.id}</code>
+        </div>
       </div>
       <div class="cms-card__actions">
-        <button class="btn-admin-sm" onclick="shareArticleToTwitter(${i})" title="Share to X (Twitter)" style="color:#1D9BF0;"><i class="fa-brands fa-x-twitter"></i></button>
-        <button class="btn-admin-sm" onclick="editNewsArticle(${i})"><i class="fa-solid fa-pen"></i></button>
-        <button class="btn-admin-danger" onclick="deleteNewsArticle(${i})"><i class="fa-solid fa-trash"></i></button>
+        <button class="btn-admin-sm" onclick="shareArticleToTwitter(${i})" title="Share to X (Twitter)" style="color:#1D9BF0;font-weight:700;">
+          <i class="fa-brands fa-x-twitter"></i> Post to X
+        </button>
+        <button class="btn-admin-sm" onclick="editNewsArticle(${i})" title="Edit in Composer"><i class="fa-solid fa-pen"></i> Edit</button>
+        <button class="btn-admin-danger" onclick="deleteNewsArticle(${i})" title="Delete"><i class="fa-solid fa-trash"></i></button>
       </div>
     </div>
   `).join('');
@@ -2663,25 +2969,56 @@ function renderNewsPanel() {
 
 function saveNewsArticle() {
   const blogs = getBlogs();
-  const id = document.getElementById('nId').value.trim();
-  if (!id) { adminToast('Article ID required'); return; }
+  const title = (document.getElementById('nTitle')?.value || '').trim();
+  if (!title) { adminToast('Please write a headline'); document.getElementById('nTitle')?.focus(); return; }
+
+  let id = (document.getElementById('nId')?.value || '').trim();
+  if (!id) {
+    id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || ('yafc-news-' + Date.now());
+  }
+
+  let date = (document.getElementById('nDate')?.value || '').trim();
+  if (!date) {
+    date = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  const content = (document.getElementById('nContent')?.value || '').trim();
+  let excerpt = (document.getElementById('nExcerpt')?.value || '').trim();
+  if (!excerpt && content) {
+    excerpt = content.replace(/<[^>]+>/g, '').slice(0, 150) + '...';
+  }
+
+  const category = document.getElementById('nCategory')?.value || 'MATCH REPORT';
+  const image = (document.getElementById('nImage')?.value || '').trim() || 'assets/md6-aduana-win.jpg';
+
+  const formattedContent = content.startsWith('<p>') ? content : `<p>${content.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
+
   const article = {
-    id, title: document.getElementById('nTitle').value.trim(),
-    category: document.getElementById('nCategory').value,
-    date: document.getElementById('nDate').value.trim(),
-    image: document.getElementById('nImage').value.trim(),
-    excerpt: document.getElementById('nExcerpt').value.trim(),
-    content: document.getElementById('nContent').value.trim(),
-    source: 'Apostles Media Dispatch', readTime: '3 min read',
-    badgeClass: document.getElementById('nCategory').value.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--preview',
+    id,
+    title,
+    category,
+    date,
+    image,
+    excerpt,
+    content: formattedContent,
+    source: 'Apostles Media Dispatch',
+    readTime: '3 min read',
+    badgeClass: category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--preview',
     postedAt: new Date().toISOString()
   };
+
   const existing = blogs.findIndex(b => b.id === id);
   if (existing >= 0) { blogs[existing] = article; } else { blogs.unshift(article); }
   saveBlogs(blogs);
-  ['nId','nTitle','nDate','nImage','nExcerpt','nContent'].forEach(f => document.getElementById(f).value = '');
-  toggleAddForm('newsAddForm');
+
+  adminToast('🎉 Story published live to website!');
+  resetXComposer();
   renderNewsPanel();
+
+  // If token is configured, auto-trigger live publish push
+  if (typeof syncCmsToLive === 'function') {
+    syncCmsToLive('News & Dispatches');
+  }
 }
 
 function editNewsArticle(index) {
@@ -2689,12 +3026,24 @@ function editNewsArticle(index) {
   if (!b) return;
   document.getElementById('nId').value = b.id || '';
   document.getElementById('nTitle').value = b.title || '';
-  document.getElementById('nCategory').value = b.category || 'MATCH PREVIEW';
+  document.getElementById('nCategory').value = b.category || 'MATCH REPORT';
   document.getElementById('nDate').value = b.date || '';
-  document.getElementById('nImage').value = b.image || '';
   document.getElementById('nExcerpt').value = b.excerpt || '';
-  document.getElementById('nContent').value = b.content || '';
-  if (!document.getElementById('newsAddForm').classList.contains('open')) toggleAddForm('newsAddForm');
+  document.getElementById('nContent').value = (b.content || '').replace(/<\/p><p>/g, '\n\n').replace(/<br>/g, '\n').replace(/<\/?p>/g, '');
+
+  if (b.image) {
+    setComposerPhoto(b.image);
+  } else {
+    removeXPhoto();
+  }
+
+  document.querySelectorAll('.x-cat-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().includes((b.category || '').toLowerCase()));
+  });
+
+  updateLiveXPreview();
+  document.getElementById('xComposerBox')?.scrollIntoView({ behavior: 'smooth' });
+  adminToast('Editing story in Twitter composer');
 }
 
 function deleteNewsArticle(index) {
@@ -2703,6 +3052,7 @@ function deleteNewsArticle(index) {
   blogs.splice(index, 1);
   saveBlogs(blogs);
   renderNewsPanel();
+  adminToast('Article deleted.');
 }
 
 /* ==========================================

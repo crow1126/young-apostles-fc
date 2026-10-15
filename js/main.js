@@ -1,4 +1,4 @@
-﻿/**
+/**
  * YOUNG APOSTLES FOOTBALL CLUB Ã¢â‚¬" OFFICIAL JAVASCRIPT
  * Dribbble Premier UI/UX Design System
  * 38-Player Squad, Team Shop, Cart System, GPL 2026/27 Fixtures, Rankings & Highlights
@@ -1794,6 +1794,27 @@ function closeNewsArticle() {
   document.getElementById('newsArticleModal')?.classList.remove('open');
 }
 
+function checkArticleDeepLink() {
+  try {
+    const hash = window.location.hash || '';
+    const search = window.location.search || '';
+    let targetId = null;
+    if (hash.startsWith('#news-')) {
+      targetId = hash.replace('#news-', '');
+    } else if (hash.includes('article=')) {
+      targetId = hash.split('article=')[1].split('&')[0];
+    } else if (search.includes('article=')) {
+      const params = new URLSearchParams(search);
+      targetId = params.get('article');
+    }
+    if (targetId) {
+      openNewsArticle(decodeURIComponent(targetId));
+      const el = document.getElementById('news');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  } catch(e) {}
+}
+
 // ==========================================
 // 15B. APOSTLES TV SYSTEM (DYNAMIC & ADMIN SYNCED)
 // ==========================================
@@ -2635,6 +2656,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCountdown(); // Call immediately so numbers show right away
   setInterval(updateCountdown, 1000);
   setInterval(checkStorageUpdates, 2000); // Poll for Admin live updates
+  setTimeout(checkArticleDeepLink, 450);
 
   // Mobile Toggle & gestures
   document.getElementById('mobileToggle')?.addEventListener('click', toggleMobileNav);
