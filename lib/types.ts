@@ -66,3 +66,39 @@ export interface CommitInfo {
   message: string;
   url: string;
 }
+
+export interface MemberRecord {
+  id: string; // e.g. YAFC-26-8492
+  name: string;
+  phone: string;
+  email?: string;
+  tier: string; // e.g. 'Gold VIP Apostle' | 'Standard Apostle'
+  subscription: string; // e.g. '2026/27 GPL Season Pass'
+  status: 'Active' | 'Pending' | 'Expired';
+  hasPaid: boolean;
+  paidRef?: string;
+  paidAmount?: number;
+  moolreTxId?: string;
+  joinDate: string;
+  updatedAt: string;
+}
+
+export interface OrderRecord {
+  id: string;
+  reference: string; // e.g. YAFC-MERCH-..., YAFC-MEMB-...
+  category: 'merch' | 'membership';
+  customer: {
+    name: string;
+    phone: string;
+    email?: string;
+    city?: string;
+    address?: string;
+  };
+  items?: Array<{ id?: string; name: string; qty: number; price: number; size?: string }>;
+  grossAmount: number;
+  status: 'PENDING' | 'PAID' | 'FAILED';
+  moolreTxId?: string;
+  createdAt: string;
+  paidAt?: string;
+}
+

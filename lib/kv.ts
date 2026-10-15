@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Draft, ScrapeLog, AdminSettings } from './types';
+import { Draft, ScrapeLog, AdminSettings, MemberRecord, OrderRecord } from './types';
 
 const DEFAULT_SETTINGS: AdminSettings = {
   publish_mode: 'pr',
@@ -12,6 +12,8 @@ interface LocalKVData {
   drafts: Record<string, Draft>;
   logs: ScrapeLog[];
   settings: AdminSettings;
+  members: Record<string, MemberRecord>;
+  orders: Record<string, OrderRecord>;
 }
 
 const LOCAL_DATA_DIR = path.join(process.cwd(), '.data');
@@ -34,12 +36,14 @@ function getLocalKV(): LocalKVData {
         drafts: data.drafts || {},
         logs: Array.isArray(data.logs) ? data.logs : [],
         settings: { ...DEFAULT_SETTINGS, ...(data.settings || {}) },
+        members: data.members || {},
+        orders: data.orders || {},
       };
     }
   } catch (err) {
     console.error('Error reading local KV file:', err);
   }
-  return { drafts: {}, logs: [], settings: DEFAULT_SETTINGS };
+  return { drafts: {}, logs: [], settings: DEFAULT_SETTINGS, members: {}, orders: {} };
 }
 
 function saveLocalKV(data: LocalKVData): void {
@@ -183,3 +187,150 @@ export async function saveSettings(settings: Partial<AdminSettings>): Promise<Ad
   saveLocalKV(local);
   return updated;
 }
+
+// --- MEMBERS ---
+
+export async function getMembers(): Promise<MemberRecord[]> {
+  if (isVercelKVConfigured()) {
+    try {
+      const { kv } = await import('@vercel/kv');
+      const membersMap = await kv.hgetall<Record<string, MemberRecord>>('yafc:members');
+      if (membersMap) {
+        return Object.values(membersMap).sort(
+          (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        );
+      }
+    } catch (err) {
+      console.warn('Vercel KV getMembers failed, falling back to local file:', err);
+    }
+  }
+
+  const local = getLocalKV();
+  return Object.values(local.members || {}).sort(
+    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+  );
+}
+
+export async function getMember(idOrPhone: string): Promise<MemberRecord | null> {
+  const query = (idOrPhone || '').trim().toLowerCase().replace(/[\s\-\+]/g, '');
+  if (!query) return null;
+
+  if (isVercelKVConfigured()) {
+    try {
+      const { kv } = await import('@vercel/kv');
+      const direct = await kv.hget<MemberRecord>('yafc:members', query);
+      if (direct) return direct;
+      
+      const all = await kv.hgetall<Record<string, MemberRecord>>('yafc:members');
+      if (all) {
+        for (const m of Object.values(all)) {
+          const mPhone = (m.phone || '').replace(/[\s\-\+]/g, '').toLowerCase();
+          const mId = (m.id || '').toLowerCase();
+          if (mId === query || mPhone === query || (query.length >= 9 && mPhone.endsWith(query.slice(-9)))) {
+            return m;
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Vercel KV getMember failed, falling back to local file:', err);
+    }
+  }
+
+  const local = getLocalKV();
+  const members = local.members || {};
+  if (members[query]) return members[query];
+
+  for (const m of Object.values(members)) {
+    const mPhone = (m.phone || '').replace(/[\s\-\+]/g, '').toLowerCase();
+    const mId = (m.id || '').toLowerCase();
+    if (mId === query || mPhone === query || (query.length >= 9 && mPhone.endsWith(query.slice(-9)))) {
+      return m;
+    }
+  }
+  return null;
+}
+
+export async function saveMember(member: MemberRecord): Promise<void> {
+  if (isVercelKVConfigured()) {
+    try {
+      const { kv } = await import('@vercel/kv');
+      await kv.hset('yafc:members', { [member.id]: member });
+      if (member.phone) {
+        const cleanPhone = member.phone.replace(/[\s\-\+]/g, '');
+        await kv.hset('yafc:members', { [cleanPhone]: member });
+      }
+      return;
+    } catch (err) {
+      console.warn('Vercel KV saveMember failed, falling back to local file:', err);
+    }
+  }
+
+  const local = getLocalKV();
+  if (!local.members) local.members = {};
+  local.members[member.id] = member;
+  if (member.phone) {
+    const cleanPhone = member.phone.replace(/[\s\-\+]/g, '');
+    local.members[cleanPhone] = member;
+  }
+  saveLocalKV(local);
+}
+
+// --- ORDERS ---
+
+export async function getOrders(): Promise<OrderRecord[]> {
+  if (isVercelKVConfigured()) {
+    try {
+      const { kv } = await import('@vercel/kv');
+      const map = await kv.hgetall<Record<string, OrderRecord>>('yafc:orders');
+      if (map) {
+        return Object.values(map).sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      }
+    } catch (err) {
+      console.warn('Vercel KV getOrders failed, falling back to local file:', err);
+    }
+  }
+
+  const local = getLocalKV();
+  return Object.values(local.orders || {}).sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+}
+
+export async function getOrder(reference: string): Promise<OrderRecord | null> {
+  const ref = (reference || '').trim();
+  if (!ref) return null;
+
+  if (isVercelKVConfigured()) {
+    try {
+      const { kv } = await import('@vercel/kv');
+      const order = await kv.hget<OrderRecord>('yafc:orders', ref);
+      return order || null;
+    } catch (err) {
+      console.warn('Vercel KV getOrder failed, falling back to local file:', err);
+    }
+  }
+
+  const local = getLocalKV();
+  return (local.orders || {})[ref] || null;
+}
+
+export async function saveOrder(order: OrderRecord): Promise<void> {
+  if (isVercelKVConfigured()) {
+    try {
+      const { kv } = await import('@vercel/kv');
+      await kv.hset('yafc:orders', { [order.reference]: order });
+      return;
+    } catch (err) {
+      console.warn('Vercel KV saveOrder failed, falling back to local file:', err);
+    }
+  }
+
+  const local = getLocalKV();
+  if (!local.orders) local.orders = {};
+  local.orders[order.reference] = order;
+  saveLocalKV(local);
+}
+
+
