@@ -6435,3 +6435,158 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ==========================================================================
+   CROSS-PLATFORM, iOS, ANDROID, WINDOWS & ACCESSIBILITY OPTIMIZATIONS
+   ========================================================================== */
+
+/* Universal text rendering, tap hygiene & box sizing */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  background-color: var(--ya-blue-deep, #0B1220);
+}
+
+body {
+  /* iOS Safe Area Padding */
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* iOS & Mobile Tap Highlight Hygiene (Removes ugly grey rectangles on tap) */
+button,
+a,
+input,
+select,
+textarea,
+.btn-hero-primary,
+.btn-hero-secondary,
+.news-card-share-trigger,
+.news-strip-share-trigger,
+.archive-card-share-btn,
+.qs-btn,
+.article-share-btn,
+.nav-link,
+.drawer-link {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* iOS Momentum Smooth Scrolling on all scrollable modal dialogs and strips */
+.modal-overlay,
+.modal-box,
+.news-article-body,
+.news-pl-strip,
+.news-pl-strip-wrap,
+.mobile-drawer,
+.table-responsive,
+.vip-pass-scroll-wrap {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Dynamic Viewport Height (dvh) with vh fallback for iOS Safari and Android Chrome address bar collapses */
+.modal-box {
+  max-height: 90vh;
+  max-height: 90dvh;
+}
+.mobile-drawer {
+  max-height: 100vh;
+  max-height: 100dvh;
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
+}
+.quick-share-box {
+  max-height: 92vh;
+  max-height: 92dvh;
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
+}
+
+/* Touch Targets: minimum 40-44px for primary mobile tap targets */
+.modal-close-btn {
+  min-width: 36px;
+  min-height: 36px;
+}
+.news-card-share-trigger {
+  min-height: 32px;
+}
+.article-share-btn {
+  min-height: 42px;
+}
+.qs-btn {
+  min-height: 44px;
+}
+
+/* Windows Desktop & Chrome/Edge/Firefox Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0B1220;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 200, 0, 0.4);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ya-gold, #F5C800);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(245, 200, 0, 0.4) #0B1220;
+}
+
+/* Keyboard Accessibility Focus Visible Ring */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--ya-gold, #F5C800);
+  outline-offset: 2px;
+}
+
+/* Responsive Image Defensive Fallbacks */
+img {
+  max-width: 100%;
+  height: auto;
+}
+img:not([src]),
+img[src=""] {
+  visibility: hidden;
+}
+
+/* Responsive Breakpoints for Compact Phones (<= 380px, e.g. iPhone SE, Galaxy A) */
+@media (max-width: 380px) {
+  .news-hero-card__title {
+    font-size: 1.15rem !important;
+  }
+  .news-stacked-card__title {
+    font-size: 0.95rem !important;
+  }
+  .section-title {
+    font-size: 1.6rem !important;
+  }
+  .article-share-heading {
+    font-size: 1rem !important;
+  }
+  .qs-btn {
+    font-size: 0.78rem !important;
+    padding: 8px 10px !important;
+  }
+  .quick-share-copy-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .quick-share-copy-btn {
+    justify-content: center;
+    width: 100%;
+  }
+}

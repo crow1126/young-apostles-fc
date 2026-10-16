@@ -1,3 +1,41 @@
+
+// ==========================================
+// SECURITY & CROSS-PLATFORM UTILITIES
+// ==========================================
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function copyToClipboardSafe(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  }
+  return new Promise((resolve, reject) => {
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      textArea.setAttribute('readonly', '');
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      textArea.remove();
+      if (successful) resolve();
+      else reject(new Error('Copy failed'));
+    } catch (err) {
+      reject(err);
+    }
+  });
+}
 /**
  * YOUNG APOSTLES FOOTBALL CLUB Ã¢â‚¬" OFFICIAL JAVASCRIPT
  * Dribbble Premier UI/UX Design System
@@ -981,7 +1019,7 @@ function handleMembershipPaymentSubmit(e) {
   closeMembershipPaymentModal();
   loadProfileData();
   updateVipPassVisibility();
-  showToast('ðŸŽ‰ MoMo Payment confirmed! Your VIP Pass is now activated.');
+  showToast('🎉 MoMo Payment confirmed! Your VIP Pass is now activated.');
   setTimeout(() => {
     openProfileModal();
   }, 400);
@@ -1790,7 +1828,7 @@ async function shareCurrentModalArticleNative() {
 function copyModalArticleLink(btn) {
   if (!currentModalArticle) return;
   const url = getArticleShareUrl(currentModalArticle);
-  navigator.clipboard.writeText(url).then(() => {
+  copyToClipboardSafe(url).then(() => {
     const notice = document.getElementById('modalShareCopyNotice');
     if (notice) notice.style.display = 'flex';
     if (btn) {
@@ -1859,7 +1897,7 @@ function dispatchQuickShare(platform) {
 function copyQuickShareLink(btn) {
   if (!currentQuickShareArticle) return;
   const url = getArticleShareUrl(currentQuickShareArticle);
-  navigator.clipboard.writeText(url).then(() => {
+  copyToClipboardSafe(url).then(() => {
     const toast = document.getElementById('quickShareCopyToast');
     if (toast) toast.style.display = 'flex';
     if (btn) {
