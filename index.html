@@ -1048,6 +1048,10 @@
             Official match previews, match reports, and club statements &middot; Young Apostles FC Media
           </p>
         </div>
+        <div class="news-share-info-pill">
+          <i class="fa-solid fa-paper-plane" style="color:var(--ya-gold);"></i>
+          <span>Share stories with friends on <strong>WhatsApp</strong>, <strong>X</strong>, &amp; <strong>Socials</strong></span>
+        </div>
       </div>
 
       <!-- Chelsea-Style Grid: 1 Large Hero on Left + 2 Stacked Cards on Right -->
@@ -1909,6 +1913,9 @@
             <span class="news-meta-dot">&bull;</span>
             <span id="newsModalSource" class="news-meta-source"><i class="fa-brands fa-x-twitter"></i> Apostles Media Dispatch</span>
           </div>
+          <button type="button" class="modal-top-share-pill" onclick="scrollToModalShare()" title="Share story with friends">
+            <i class="fa-solid fa-share-nodes"></i> Share Story
+          </button>
           
         </div>
         <h2 id="newsModalTitle" style="font-family:var(--font-heading); font-size:1.55rem; font-weight:900; color:var(--ya-blue-deep); line-height:1.25; margin-bottom:1.25rem;">
@@ -1917,6 +1924,59 @@
         <div id="newsModalContent" class="news-article-body">
           <!-- Populated dynamically -->
         </div>
+
+        <!-- Interactive Article Share Box with Thumbnail Preview -->
+        <div class="article-share-widget" id="newsModalShareWidget">
+          <div class="article-share-header">
+            <span class="article-share-badge"><i class="fa-solid fa-share-nodes"></i> Share with Friends</span>
+            <h4 class="article-share-heading">Send this official update to fellow Apostles</h4>
+            <span class="article-share-subtext">Click below to share directly via WhatsApp, socials, or copy link</span>
+          </div>
+
+          <!-- Thumbnail & Story Preview Card -->
+          <div class="article-share-preview-card">
+            <div class="article-share-preview-thumb">
+              <img id="newsSharePreviewThumb" src="assets/news-1.jpg" alt="Article Preview" onerror="this.src='assets/md2-prempeh-win.jpg'">
+              <span class="article-share-preview-tag" id="newsSharePreviewTag">MATCH REPORT</span>
+            </div>
+            <div class="article-share-preview-info">
+              <div class="article-share-preview-site"><i class="fa-solid fa-shield-halved"></i> youngapostlesfc.com &bull; Official Dispatch</div>
+              <h5 class="article-share-preview-title" id="newsSharePreviewTitle">Article Title</h5>
+              <p class="article-share-preview-snippet" id="newsSharePreviewSnippet">Preview excerpt...</p>
+            </div>
+          </div>
+
+          <!-- Social Share Action Buttons -->
+          <div class="article-share-buttons">
+            <button type="button" class="article-share-btn article-share-btn--whatsapp" onclick="shareCurrentModalArticleToWhatsApp()" title="Share on WhatsApp">
+              <i class="fa-brands fa-whatsapp"></i>
+              <span>WhatsApp</span>
+            </button>
+            <button type="button" class="article-share-btn article-share-btn--twitter" onclick="shareCurrentModalArticleToTwitter()" title="Share on X / Twitter">
+              <i class="fa-brands fa-x-twitter"></i>
+              <span>X (Twitter)</span>
+            </button>
+            <button type="button" class="article-share-btn article-share-btn--facebook" onclick="shareCurrentModalArticleToFacebook()" title="Share on Facebook">
+              <i class="fa-brands fa-facebook-f"></i>
+              <span>Facebook</span>
+            </button>
+            <button type="button" class="article-share-btn article-share-btn--telegram" onclick="shareCurrentModalArticleToTelegram()" title="Share on Telegram">
+              <i class="fa-brands fa-telegram"></i>
+              <span>Telegram</span>
+            </button>
+            <button type="button" class="article-share-btn article-share-btn--copy" id="modalCopyLinkBtn" onclick="copyModalArticleLink(this)" title="Copy Link to Clipboard">
+              <i class="fa-regular fa-clone"></i>
+              <span>Copy Link</span>
+            </button>
+            <button type="button" class="article-share-btn article-share-btn--native" id="modalNativeShareBtn" onclick="shareCurrentModalArticleNative()" title="More Sharing Options" style="display:none;">
+              <i class="fa-solid fa-share-nodes"></i>
+              <span>More Options</span>
+            </button>
+          </div>
+          <div id="modalShareCopyNotice" class="modal-share-copy-toast" style="display:none;">
+            <i class="fa-solid fa-check-circle"></i> Link copied to clipboard! Ready to send to friends.
+          </div>
+        </div>
         <div style="margin-top:2rem; padding-top:1.25rem; border-top:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
           <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.8rem; color:var(--text-muted);">
             <img src="assets/official-logo.png" alt="YA" style="width:28px; height:28px; object-fit:contain;">
@@ -1924,6 +1984,69 @@
           </div>
           <button class="btn-hero-secondary" style="padding:0.55rem 1.4rem; font-size:0.85rem;" onclick="closeNewsArticle()">Close</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Quick Share Floating Modal (Usable from news cards anywhere on the website) -->
+  <div class="modal-overlay" id="quickShareModal" onclick="if(event.target===this) closeQuickShareModal()">
+    <div class="modal-box quick-share-box" style="max-width:520px; width:92%; background:#0B1220; color:#fff; padding:1.5rem; border-radius:18px; border:1px solid rgba(255,255,255,0.15); box-shadow:0 25px 60px -10px rgba(0,0,0,0.8);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.15rem; gap:0.75rem;">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <div style="width:34px; height:34px; border-radius:10px; background:rgba(245,200,0,0.15); color:var(--ya-gold); display:flex; align-items:center; justify-content:center; font-size:1rem;">
+            <i class="fa-solid fa-share-nodes"></i>
+          </div>
+          <div>
+            <h3 style="font-family:var(--font-heading); font-size:1.1rem; font-weight:800; color:#fff; margin:0; line-height:1.2;">Share Story with Friends</h3>
+            <span style="font-size:0.75rem; color:#9CA3AF;">Pass along official Young Apostles FC news</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="closeQuickShareModal()" aria-label="Close share dialog" style="color:#fff; background:rgba(255,255,255,0.15); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; font-size:1.2rem;">&times;</button>
+      </div>
+
+      <!-- Quick Share Thumbnail Preview -->
+      <div class="quick-share-preview">
+        <div class="quick-share-preview-thumb-wrap">
+          <img id="quickShareThumb" src="assets/news-1.jpg" alt="Story Thumbnail" onerror="this.src='assets/md2-prempeh-win.jpg'">
+          <span class="quick-share-tag" id="quickShareTag">MATCH REPORT</span>
+        </div>
+        <div class="quick-share-preview-details">
+          <div style="font-size:0.7rem; color:var(--ya-gold); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Official News</div>
+          <h4 id="quickShareTitle" style="font-size:0.95rem; font-weight:700; color:#fff; margin:0.25rem 0 0.35rem; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Young Apostles FC News Headline</h4>
+          <span id="quickShareDate" style="font-size:0.75rem; color:#9CA3AF;"><i class="fa-regular fa-calendar"></i> Recent update</span>
+        </div>
+      </div>
+
+      <!-- Direct Share Buttons Grid -->
+      <div class="quick-share-buttons-grid">
+        <button type="button" class="qs-btn qs-btn--whatsapp" onclick="dispatchQuickShare('whatsapp')">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>WhatsApp</span>
+        </button>
+        <button type="button" class="qs-btn qs-btn--twitter" onclick="dispatchQuickShare('twitter')">
+          <i class="fa-brands fa-x-twitter"></i>
+          <span>X / Twitter</span>
+        </button>
+        <button type="button" class="qs-btn qs-btn--facebook" onclick="dispatchQuickShare('facebook')">
+          <i class="fa-brands fa-facebook-f"></i>
+          <span>Facebook</span>
+        </button>
+        <button type="button" class="qs-btn qs-btn--telegram" onclick="dispatchQuickShare('telegram')">
+          <i class="fa-brands fa-telegram"></i>
+          <span>Telegram</span>
+        </button>
+      </div>
+
+      <!-- Copy Link row -->
+      <div class="quick-share-copy-row">
+        <div class="quick-share-url-box" id="quickShareUrlDisplay">https://youngapostlesfc.com/#news</div>
+        <button type="button" class="quick-share-copy-btn" id="quickShareCopyBtn" onclick="copyQuickShareLink(this)">
+          <i class="fa-regular fa-clone"></i> Copy
+        </button>
+      </div>
+      <div id="quickShareCopyToast" class="modal-share-copy-toast" style="display:none; margin-top:0.6rem;">
+        <i class="fa-solid fa-check-circle"></i> Link copied! Ready to paste in any chat.
       </div>
     </div>
   </div>

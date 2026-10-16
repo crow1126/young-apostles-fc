@@ -1573,6 +1573,9 @@ function renderNews() {
 
     heroContainer.innerHTML = `
       <article class="news-hero-card" onclick="openNewsArticle('${lead.id}')">
+        <button type="button" class="news-card-share-trigger" onclick="event.stopPropagation(); triggerQuickShare('${lead.id}')" title="Share story with friends">
+          <i class="fa-solid fa-share-nodes"></i> Share
+        </button>
         <img src="${leadImg}" alt="${lead.title}" class="news-hero-card__bg" onerror="this.src='assets/md2-prempeh-win.jpg'">
         <div class="news-hero-card__overlay"></div>
         <div class="news-hero-card__content">
@@ -1600,6 +1603,9 @@ function renderNews() {
 
       return `
         <article class="news-stacked-card" onclick="openNewsArticle('${art.id}')">
+          <button type="button" class="news-card-share-trigger" onclick="event.stopPropagation(); triggerQuickShare('${art.id}')" title="Share story with friends">
+            <i class="fa-solid fa-share-nodes"></i> Share
+          </button>
           <img src="${artImg}" alt="${art.title}" class="news-stacked-card__bg" onerror="this.src='assets/md3-debibi-derby.jpg'">
           <div class="news-stacked-card__overlay"></div>
           <div class="news-stacked-card__content">
@@ -1644,6 +1650,9 @@ function renderNews() {
               <div class="news-strip-headline">${art.title}</div>
               <div class="news-strip-date">${dateText}</div>
             </div>
+            <button type="button" class="news-strip-share-trigger" onclick="event.stopPropagation(); triggerQuickShare('${art.id}')" title="Share story">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
           </div>
         `;
       }).join('');
@@ -1704,7 +1713,12 @@ function renderArchiveGrid() {
           <p class="archive-card__excerpt">${excerpt}</p>
           <div class="archive-card__footer">
             <span>Read Article &rarr;</span>
-            <span style="color:var(--text-muted); font-weight:600; font-size:0.72rem;">${art.readTime || '3 min read'}</span>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <button type="button" class="archive-card-share-btn" onclick="event.stopPropagation(); triggerQuickShare('${art.id}')" title="Share story">
+                <i class="fa-solid fa-share-nodes"></i> Share
+              </button>
+              <span style="color:var(--text-muted); font-weight:600; font-size:0.72rem;">${art.readTime || '3 min read'}</span>
+            </div>
           </div>
         </div>
       </article>
@@ -1714,15 +1728,148 @@ function renderArchiveGrid() {
 
 
 let currentModalArticle = null;
+let currentQuickShareArticle = null;
+
+function getArticleShareUrl(article) {
+  if (!article) return window.location.origin + '/#news';
+  const base = window.location.origin + window.location.pathname;
+  return `${base}?article=${encodeURIComponent(article.id)}`;
+}
+
+function scrollToModalShare() {
+  const widget = document.getElementById('newsModalShareWidget');
+  if (widget) {
+    widget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    widget.style.outline = '2px solid var(--ya-gold)';
+    setTimeout(() => { widget.style.outline = 'none'; }, 1500);
+  }
+}
+
+function shareCurrentModalArticleToWhatsApp() {
+  if (!currentModalArticle) return;
+  const title = currentModalArticle.title || 'Young Apostles FC News';
+  const url = getArticleShareUrl(currentModalArticle);
+  const msg = `⚽ *${title}*\n\nRead the official Young Apostles FC story & match coverage:\n${url}`;
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+}
 
 function shareCurrentModalArticleToTwitter() {
   if (!currentModalArticle) return;
   const title = currentModalArticle.title || 'Young Apostles FC Official Update';
-  const excerpt = (currentModalArticle.excerpt || '').replace(/<[^>]+>/g, '').slice(0, 140);
+  const excerpt = (currentModalArticle.excerpt || '').replace(/<[^>]+>/g, '').slice(0, 120);
+  const shareUrl = getArticleShareUrl(currentModalArticle);
   const tweetText = `🏆 ${title}\n\n${excerpt}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
-  const shareUrl = window.location.origin + '/#news';
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(shareUrl)}`;
   window.open(twitterUrl, '_blank', 'width=620,height=540,menubar=no,toolbar=no');
+}
+
+function shareCurrentModalArticleToFacebook() {
+  if (!currentModalArticle) return;
+  const url = getArticleShareUrl(currentModalArticle);
+  window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'width=620,height=540');
+}
+
+function shareCurrentModalArticleToTelegram() {
+  if (!currentModalArticle) return;
+  const title = currentModalArticle.title || 'Young Apostles FC';
+  const url = getArticleShareUrl(currentModalArticle);
+  window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
+}
+
+async function shareCurrentModalArticleNative() {
+  if (!currentModalArticle || !navigator.share) return;
+  try {
+    await navigator.share({
+      title: currentModalArticle.title,
+      text: (currentModalArticle.excerpt || '').replace(/<[^>]+>/g, '').slice(0, 100),
+      url: getArticleShareUrl(currentModalArticle)
+    });
+  } catch(e) {}
+}
+
+function copyModalArticleLink(btn) {
+  if (!currentModalArticle) return;
+  const url = getArticleShareUrl(currentModalArticle);
+  navigator.clipboard.writeText(url).then(() => {
+    const notice = document.getElementById('modalShareCopyNotice');
+    if (notice) notice.style.display = 'flex';
+    if (btn) {
+      const origHtml = btn.innerHTML;
+      btn.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+      setTimeout(() => {
+        btn.innerHTML = origHtml;
+      }, 2500);
+    }
+  }).catch(() => {
+    alert('Link: ' + url);
+  });
+}
+
+function triggerQuickShare(articleId) {
+  const blogs = getUnifiedBlogs();
+  let article = blogs.find(a => a.id === articleId);
+  if (!article && typeof CLUB_NEWS_ARTICLES !== 'undefined') {
+    article = CLUB_NEWS_ARTICLES[articleId];
+  }
+  if (!article) return;
+
+  currentQuickShareArticle = article;
+  const thumb = document.getElementById('quickShareThumb');
+  const tag = document.getElementById('quickShareTag');
+  const title = document.getElementById('quickShareTitle');
+  const date = document.getElementById('quickShareDate');
+  const urlDisplay = document.getElementById('quickShareUrlDisplay');
+  const toast = document.getElementById('quickShareCopyToast');
+
+  if (thumb) thumb.src = article.image || 'assets/md2-prempeh-win.jpg';
+  if (tag) tag.textContent = (article.category || 'CLUB NEWS').toUpperCase();
+  if (title) title.textContent = article.title;
+  if (date) date.innerHTML = `<i class="fa-regular fa-calendar"></i> ${article.date || 'Official Update'}`;
+  
+  const shareUrl = getArticleShareUrl(article);
+  if (urlDisplay) urlDisplay.textContent = shareUrl;
+  if (toast) toast.style.display = 'none';
+
+  const modal = document.getElementById('quickShareModal');
+  if (modal) modal.classList.add('open');
+}
+
+function closeQuickShareModal() {
+  document.getElementById('quickShareModal')?.classList.remove('open');
+}
+
+function dispatchQuickShare(platform) {
+  if (!currentQuickShareArticle) return;
+  const title = currentQuickShareArticle.title || 'Young Apostles FC News';
+  const url = getArticleShareUrl(currentQuickShareArticle);
+
+  if (platform === 'whatsapp') {
+    const msg = `⚽ *${title}*\n\nRead the official Young Apostles FC story & match coverage:\n${url}`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+  } else if (platform === 'twitter') {
+    const tweetText = `🏆 ${title}\n\n#YAFC #AgyaNaƆwɔTumi #GPL`;
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(url)}`, '_blank', 'width=620,height=540');
+  } else if (platform === 'facebook') {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'width=620,height=540');
+  } else if (platform === 'telegram') {
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
+  }
+}
+
+function copyQuickShareLink(btn) {
+  if (!currentQuickShareArticle) return;
+  const url = getArticleShareUrl(currentQuickShareArticle);
+  navigator.clipboard.writeText(url).then(() => {
+    const toast = document.getElementById('quickShareCopyToast');
+    if (toast) toast.style.display = 'flex';
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+      setTimeout(() => { btn.innerHTML = orig; }, 2500);
+    }
+  }).catch(() => {
+    alert('Link: ' + url);
+  });
 }
 
 function openNewsArticle(articleId) {
@@ -1776,6 +1923,26 @@ function openNewsArticle(articleId) {
   if (srcEl) srcEl.innerHTML = `<i class="fa-brands fa-x-twitter"></i> ${article.source || 'Apostles Media Dispatch'}`;
   if (titleEl) titleEl.textContent = article.title;
   if (bodyEl) bodyEl.innerHTML = article.content || `<p>${article.excerpt || ''}</p>`;
+
+  // Populate Share Preview in Modal
+  const shareThumb = document.getElementById('newsSharePreviewThumb');
+  if (shareThumb) shareThumb.src = mainImg;
+  const shareTag = document.getElementById('newsSharePreviewTag');
+  if (shareTag) shareTag.textContent = (article.category || 'CLUB NEWS').toUpperCase();
+  const shareTitle = document.getElementById('newsSharePreviewTitle');
+  if (shareTitle) shareTitle.textContent = article.title;
+  const shareSnippet = document.getElementById('newsSharePreviewSnippet');
+  if (shareSnippet) {
+    const rawExcerpt = (article.excerpt || article.content || '').replace(/<[^>]+>/g, '').trim();
+    shareSnippet.textContent = rawExcerpt.slice(0, 115) + (rawExcerpt.length > 115 ? '...' : '');
+  }
+  const copyNotice = document.getElementById('modalShareCopyNotice');
+  if (copyNotice) copyNotice.style.display = 'none';
+
+  const nativeBtn = document.getElementById('modalNativeShareBtn');
+  if (nativeBtn && typeof navigator !== 'undefined' && navigator.share) {
+    nativeBtn.style.display = 'inline-flex';
+  }
 
   if (modal) modal.classList.add('open');
 }
