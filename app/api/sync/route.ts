@@ -202,7 +202,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Personal GitHub PAT provided by caller is also accepted
-    if (!isAuthenticated && body.token && typeof body.token === 'string' && body.token.startsWith('ghp_')) {
+    if (
+      !isAuthenticated &&
+      body.token &&
+      typeof body.token === 'string' &&
+      (body.token.startsWith('ghp_') || body.token.startsWith('github_pat_'))
+    ) {
       isAuthenticated = true;
     }
 

@@ -1921,6 +1921,7 @@ async function pushCmsToGitHub(label) {
     const syncRes = await fetch('/api/sync', {
       method: 'POST',
       headers: headers,
+      credentials: 'include',
       body: JSON.stringify({ payload, label, token: token || undefined, adminToken })
     });
     if (syncRes.ok) {
@@ -2156,10 +2157,10 @@ async function handleAdminLogin(e) {
       sessionStorage.setItem('ya_admin_logged_in', '1');
       if (serverToken) {
         sessionStorage.setItem('ya_admin_token', serverToken);
+        localStorage.setItem('ya_admin_token', serverToken);
       }
       if (remember) {
         localStorage.setItem('ya_admin_remember', '1');
-        if (serverToken) localStorage.setItem('ya_admin_token', serverToken);
         document.cookie = 'ya_admin_logged=1; path=/; max-age=31536000; SameSite=Strict';
       }
     } catch(err) {}
@@ -2344,8 +2345,21 @@ function getBlogs() {
   return [];
 }
 function saveBlogs(arr) {
+  const nowIso = new Date().toISOString();
   localStorage.setItem('ya_club_unified_blogs', JSON.stringify(arr));
+  localStorage.setItem('ya_unified_blogs', JSON.stringify(arr));
   localStorage.setItem('ya_club_dispatches', JSON.stringify(arr));
+  localStorage.setItem('ya_cms_last_updated', nowIso);
+  if (window.remoteCms) {
+    window.remoteCms.blogs = arr;
+    window.remoteCms.lastUpdated = nowIso;
+  }
+  if (window.BroadcastChannel) {
+    try {
+      const bc = new BroadcastChannel('ya_channel');
+      bc.postMessage({ type: 'NEWS_UPDATED', blogs: arr });
+    } catch(e) {}
+  }
   adminToast('News saved locally...');
   pushCmsToGitHub('news articles');
 }
@@ -2996,7 +3010,11 @@ function saveNewsArticle() {
 
   const formattedContent = content.startsWith('<p>') ? content : `<p>${content.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>`;
 
+  const existing = blogs.findIndex(b => b.id === id);
+  const existingArt = existing >= 0 ? blogs[existing] : {};
+
   const article = {
+    ...existingArt,
     id,
     title,
     category,
@@ -3004,13 +3022,12 @@ function saveNewsArticle() {
     image,
     excerpt,
     content: formattedContent,
-    source: 'Apostles Media Dispatch',
-    readTime: '3 min read',
-    badgeClass: category.includes('MATCH') ? 'news-badge-pill--match' : 'news-badge-pill--preview',
+    source: existingArt.source || 'Apostles Media Dispatch',
+    readTime: existingArt.readTime || '3 min read',
+    badgeClass: category.includes('MATCH') ? 'news-badge-pill--match' : (category.includes('CLUB') ? 'news-badge-pill--club' : 'news-badge-pill--preview'),
     postedAt: new Date().toISOString()
   };
 
-  const existing = blogs.findIndex(b => b.id === id);
   if (existing >= 0) { blogs[existing] = article; } else { blogs.unshift(article); }
   saveBlogs(blogs);
 

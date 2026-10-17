@@ -2408,8 +2408,15 @@ let lastHeroHash = '';
 
 let _lastHeroRaw = null;
 let _lastPosterRaw = null;
+let _lastBlogsRaw = null;
 function checkStorageUpdates() {
   try {
+    const rawBlogs = localStorage.getItem('ya_club_unified_blogs');
+    if (rawBlogs && rawBlogs !== _lastBlogsRaw) {
+      _lastBlogsRaw = rawBlogs;
+      renderNews();
+      renderDispatches();
+    }
     const rawHero = localStorage.getItem('ya_hero_custom');
     if (rawHero && rawHero !== _lastHeroRaw) {
       _lastHeroRaw = rawHero;
@@ -2427,7 +2434,7 @@ function checkStorageUpdates() {
 
 // Storage event across tabs/windows
 window.addEventListener('storage', (e) => {
-  if (e.key === 'ya_club_unified_blogs' || e.key === 'ya_club_articles' || e.key === 'ya_club_dispatches') {
+  if (e.key === 'ya_club_unified_blogs' || e.key === 'ya_unified_blogs' || e.key === 'ya_club_articles' || e.key === 'ya_club_dispatches') {
     renderNews();
     renderDispatches();
   }
@@ -2458,6 +2465,15 @@ if (window.BroadcastChannel) {
   try {
     const bc = new BroadcastChannel('ya_channel');
     bc.onmessage = (ev) => {
+      if (ev.data && (ev.data.type === 'NEWS_UPDATED' || ev.data.type === 'BLOGS_UPDATED')) {
+        if (ev.data.blogs && Array.isArray(ev.data.blogs)) {
+          localStorage.setItem('ya_club_unified_blogs', JSON.stringify(ev.data.blogs));
+          localStorage.setItem('ya_unified_blogs', JSON.stringify(ev.data.blogs));
+          localStorage.setItem('ya_club_dispatches', JSON.stringify(ev.data.blogs));
+        }
+        renderNews();
+        renderDispatches();
+      }
       if (ev.data && (ev.data.type === 'TV_UPDATED' || ev.data.type === 'CMS_UPDATED')) {
         if (ev.data.videos) {
           localStorage.setItem('ya_apostles_tv_videos', JSON.stringify(ev.data.videos));
@@ -2728,21 +2744,17 @@ async function initCloudSync() {
       const data = await res.json();
       if (!data) return;
 
-      // Sync blogs - MERGE: admin-saved articles (with postedAt) take priority; cms.json fills in defaults
+      // Sync blogs - Authoritative sync from data/cms.json with unpushed draft retention
       if (Array.isArray(data.blogs) && data.blogs.length > 0) {
         let merged = [];
         try {
           const existingRaw = localStorage.getItem('ya_club_unified_blogs');
           const existing = existingRaw ? JSON.parse(existingRaw) : [];
-          const adminArticles = Array.isArray(existing) ? existing.filter(a => a.postedAt) : [];
-          const adminIds = new Set(adminArticles.map(a => a.id));
-          const serverArticles = data.blogs.filter(a => !adminIds.has(a.id));
-          merged = [...adminArticles, ...serverArticles];
-          merged.sort((a, b) => {
-            const da = a.postedAt ? new Date(a.postedAt) : new Date(a.date || 0);
-            const db = b.postedAt ? new Date(b.postedAt) : new Date(b.date || 0);
-            return db - da;
-          });
+          const serverArticles = data.blogs;
+          const serverIds = new Set(serverArticles.map(a => a.id));
+          // Preserve any unpushed local-only drafts that do not exist on the server yet
+          const localOnlyArticles = Array.isArray(existing) ? existing.filter(a => a && a.id && !serverIds.has(a.id)) : [];
+          merged = [...localOnlyArticles, ...serverArticles];
         } catch(e) { merged = data.blogs; }
         localStorage.setItem('ya_unified_blogs', JSON.stringify(merged));
         localStorage.setItem('ya_club_unified_blogs', JSON.stringify(merged));
