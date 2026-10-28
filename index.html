@@ -986,37 +986,99 @@
   </header>
 
   <!-- =========================================================
-       3. CINEMATIC HERO SECTION
+       3. CINEMATIC HERO SECTION (PREMIER 6-NEWS SHOWCASE)
        ========================================================= -->
-  <section class="hero-section" id="home">
+  <section class="hero-section" id="home" aria-label="Featured Club News Showcase">
+    <!-- 5-Second Auto-Slide Progress Bar -->
+    <div class="hero-progress-track" aria-hidden="true">
+      <div class="hero-progress-bar" id="heroProgressBar"></div>
+    </div>
+
+    <!-- Background Images Slides Container -->
     <div class="hero-bg" id="heroBgContainer">
       <div class="hero-slides-wrap" id="heroSlidesWrap">
-        <img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Player of the Month Award" class="hero-bg-slide active" id="heroBgImage" style="opacity:1; z-index:2;">
-        <img src="assets/prempeh-potm-boots.jpg" alt="Samuel Prempeh Award Gear & Boots" class="hero-bg-slide" style="opacity:0; z-index:1;">
+        <img src="assets/prempeh-potm-award.jpg" alt="Young Apostles FC News" class="hero-bg-slide active" id="heroBgImage" style="opacity:1; z-index:2;">
       </div>
       <div class="hero-overlay"></div>
     </div>
 
+    <!-- Floating Navigation Arrows (Desktop & Mobile) -->
+    <button type="button" class="hero-nav-arrow hero-nav-arrow--prev" id="heroPrevBtn" onclick="slideHeroNews(-1)" aria-label="Newer story" title="Newer story">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button type="button" class="hero-nav-arrow hero-nav-arrow--next" id="heroNextBtn" onclick="slideHeroNews(1)" aria-label="Older story" title="Older story">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
     <div class="container hero-content">
       <div class="hero-content__inner">
-        <div class="hero-left">
-          <div class="hero-slide-dots" id="heroSlideDots" aria-label="Hero photo indicators">
-            <button type="button" class="hero-slide-dot active" onclick="goToHeroSlide(0); resetHeroSlideshowTimer();" aria-label="Photo 1"></button>
-            <button type="button" class="hero-slide-dot" onclick="goToHeroSlide(1); resetHeroSlideshowTimer();" aria-label="Photo 2"></button>
+        <!-- Left: Active News Story Info -->
+        <div class="hero-left" id="heroNewsInfo">
+          <!-- Slide Eyebrow Meta -->
+          <div class="hero-eyebrow-row">
+            <span class="hero-badge-tag" id="heroBadgeTag">
+              <i class="fa-solid fa-bolt"></i> <span id="heroCategoryText">MATCH PREVIEW</span>
+            </span>
+            <span class="hero-date-tag" id="heroDateDisplay">
+              <i class="fa-regular fa-calendar"></i> Oct 17, 2026
+            </span>
+            <span class="hero-counter-tag" id="heroCounterDisplay">
+              LATEST &bull; 01 / 06
+            </span>
           </div>
+
+          <!-- Headline -->
           <h1 class="hero-headline" id="heroHeadlineDisplay">
-            Samuel Prempeh Wins AJ Construction &amp; Building Player of the Month
+            MATCH PREVIEW: Young Apostles Set for Asante Kotoko Test at Baba Yara
           </h1>
+
+          <!-- Excerpt -->
           <p class="hero-subtitle" id="heroSubtitleDisplay">
-            Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction &amp; Building Player of the Month after scoring all 3 goals after Matchday Six of the 2026/27 Ghana Premier League season.<br><br><strong>#YAFC #AgyaNa&#390;w&#596;Tumi</strong>
+            Young Apostles FC will be aiming to secure a positive result when they travel to Kumasi to face Asante Kotoko SC in Matchday 7 of the Ghana Premier League.
           </p>
+
+          <!-- CTA Row -->
           <div class="hero-cta-row">
-            <a href="#news" class="btn-hero-primary" id="heroCtaBtn" onclick="if(typeof openNewsArticle==='function'){event.preventDefault();openNewsArticle('samuel-prempeh-player-of-the-month');document.getElementById('news')?.scrollIntoView({behavior:'smooth'});}"><i class="fa-solid fa-trophy"></i> Read Full Award Story &amp; Gallery</a>
-            <a href="#matches" class="btn-hero-secondary"><i class="fa-solid fa-calendar-check"></i> View GPL Fixtures</a>
+            <button type="button" class="btn-hero-primary" id="heroCtaBtn" onclick="openActiveHeroArticle()">
+              <i class="fa-solid fa-book-open"></i> Read Full Story
+            </button>
+            <button type="button" class="btn-hero-share" id="heroShareBtn" onclick="shareActiveHeroArticle()" title="Share story">
+              <i class="fa-solid fa-share-nodes"></i> Share
+            </button>
+            <a href="#matches" class="btn-hero-secondary">
+              <i class="fa-solid fa-calendar-check"></i> GPL Fixtures
+            </a>
+          </div>
+
+          <!-- Slide Selector Navigation Pills -->
+          <div class="hero-slide-nav-wrap">
+            <div class="hero-slide-dots" id="heroSlideDots" role="tablist" aria-label="6 News Stories Indicators">
+              <!-- Populated dynamically by renderHeroNews() -->
+            </div>
+            <div class="hero-auto-slide-badge" title="Auto-slides every 5 seconds to next story">
+              <i class="fa-solid fa-rotate"></i> <span>5s auto-slide</span>
+            </div>
           </div>
         </div>
 
-        <div class="hero-right-badge">
+        <!-- Right: Next Up Preview Card + GPL Badge -->
+        <div class="hero-right-col">
+          <!-- Up Next Sneak Peek Card (Click to advance) -->
+          <div class="hero-up-next-card" id="heroUpNextCard" onclick="slideHeroNews(1)" role="button" tabindex="0" title="Click to view next story">
+            <div class="hero-up-next-hdr">
+              <span class="hero-up-next-label"><i class="fa-solid fa-forward-step"></i> UP NEXT</span>
+              <span class="hero-up-next-timer" id="heroNextTimerBadge">5s</span>
+            </div>
+            <div class="hero-up-next-body">
+              <img src="assets/prempeh-potm-award.jpg" alt="Next Story" class="hero-up-next-thumb" id="heroNextThumb">
+              <div class="hero-up-next-text">
+                <span class="hero-up-next-cat" id="heroNextCat">CLUB AWARD</span>
+                <h4 class="hero-up-next-title" id="heroNextTitle">Samuel Prempeh Wins AJ Construction POTM</h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- GPL Campaign Badge -->
           <div class="hero-badge-card">
             <div class="hero-badge-glow"></div>
             <div class="hero-badge-icon">
