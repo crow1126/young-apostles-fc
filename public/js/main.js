@@ -2600,94 +2600,9 @@ if (window.BroadcastChannel) {
   } catch(e) {}
 }
 
-let heroSlideshowTimer = null;
-let currentHeroImages = [
-  'assets/prempeh-potm-award.jpg',
-  'assets/prempeh-potm-boots.jpg'
-];
-let currentHeroIndex = 0;
-
-function startHeroSlideshow() {
-  if (heroSlideshowTimer) return; // If already running, do NOT kill it!
-  heroSlideshowTimer = setInterval(() => {
-    goToHeroSlide(currentHeroIndex + 1);
-  }, 5000); // 5 seconds auto-slide
-}
-
-function resetHeroSlideshowTimer() {
-  if (heroSlideshowTimer) {
-    clearInterval(heroSlideshowTimer);
-    heroSlideshowTimer = null;
-  }
-  heroSlideshowTimer = setInterval(() => {
-    goToHeroSlide(currentHeroIndex + 1);
-  }, 5000); // 5 seconds auto-slide
-}
-
-// Window global bindings for inline HTML onclick handlers
-if (typeof window !== 'undefined') {
-  window.goToHeroSlide = goToHeroSlide;
-  window.resetHeroSlideshowTimer = resetHeroSlideshowTimer;
-  window.startHeroSlideshow = startHeroSlideshow;
-}
-
-function goToHeroSlide(index) {
-  const slides = document.querySelectorAll('.hero-bg-slide');
-  if (!slides || slides.length < 2) return;
-
-  const count = slides.length;
-  currentHeroIndex = ((index % count) + count) % count;
-
-  slides.forEach((sl, idx) => {
-    if (idx === currentHeroIndex) {
-      sl.classList.add('active');
-      sl.style.opacity = '1';
-      sl.style.zIndex = '2';
-    } else {
-      sl.classList.remove('active');
-      sl.style.opacity = '0';
-      sl.style.zIndex = '1';
-    }
-  });
-
-  updateHeroDots();
-}
-
-function updateHeroDots() {
-  const dots = document.querySelectorAll('.hero-slide-dot');
-  dots.forEach((d, idx) => {
-    if (idx === currentHeroIndex) d.classList.add('active');
-    else d.classList.remove('active');
-  });
-}
-
-function initHeroSwipe() {
-  const heroSec = document.querySelector('.hero-section');
-  if (!heroSec || heroSec._swipeBound) return;
-  heroSec._swipeBound = true;
-  let startX = 0;
-  let startY = 0;
-  heroSec.addEventListener('touchstart', (e) => {
-    if (e.touches && e.touches[0]) {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    }
-  }, { passive: true });
-  heroSec.addEventListener('touchend', (e) => {
-    if (!e.changedTouches || !e.changedTouches[0]) return;
-    const diffX = e.changedTouches[0].clientX - startX;
-    const diffY = e.changedTouches[0].clientY - startY;
-    if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
-      if (diffX < 0) {
-        goToHeroSlide(currentHeroIndex + 1);
-      } else {
-        goToHeroSlide(currentHeroIndex - 1);
-      }
-      startHeroSlideshow();
-    }
-  }, { passive: true });
-}
-
+// -------------------------------------------------------------
+// HERO SECTION CONTROLLER (Single Exclusive Award Story)
+// -------------------------------------------------------------
 function sanitizeHeroText(str) {
   if (!str) return '';
   return String(str)
@@ -2720,82 +2635,32 @@ function applyHeroWriteup() {
     heroData = {
       headline: "Samuel Prempeh Wins AJ Construction & Building Player of the Month",
       subtitle: "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month after scoring all 3 goals after Matchday Six of the 2026/27 Ghana Premier League season.<br><br><strong>#YAFC #AgyaNa&#390;w&#596;Tumi</strong>",
-      images: [
-        "assets/prempeh-potm-award.jpg",
-        "assets/prempeh-potm-boots.jpg"
-      ],
+      image: "assets/prempeh-potm-award.jpg",
       ctaText: "Read Full Award Story & Gallery",
       ctaLink: "#news",
       exclusiveArticleId: 'samuel-prempeh-player-of-the-month'
     };
   }
 
-  // Keep lastHeroRaw in sync to avoid 2-second polling re-trigger
-  const _heroHash = JSON.stringify(heroData);
-  if (_lastHeroRaw === _heroHash && heroSlideshowTimer) {
-    return;
+  // Update hero background image directly
+  const bgImg = document.getElementById('heroBgImage');
+  if (bgImg) {
+    const targetSrc = heroData.image || (Array.isArray(heroData.images) && heroData.images[0]) || 'assets/prempeh-potm-award.jpg';
+    if (!bgImg.src.includes(targetSrc)) {
+      bgImg.src = targetSrc;
+    }
   }
-  _lastHeroRaw = _heroHash;
 
+  // Update headline & subtitle
   const headlineEl = document.getElementById('heroHeadlineDisplay') || document.querySelector('.hero-headline');
   const subtitleEl = document.getElementById('heroSubtitleDisplay') || document.querySelector('.hero-subtitle');
   const ctaBtn = document.getElementById('heroCtaBtn') || document.querySelector('.hero-cta-row .btn-hero-primary');
-  const dotsContainer = document.getElementById('heroSlideDots');
 
   if (headlineEl && heroData.headline) {
     headlineEl.innerHTML = sanitizeHeroText(heroData.headline);
   }
   if (subtitleEl && heroData.subtitle) {
     subtitleEl.innerHTML = sanitizeHeroText(heroData.subtitle);
-  }
-
-  let imgList = [];
-  if (Array.isArray(heroData.images) && heroData.images.length > 0) {
-    imgList = heroData.images.filter(Boolean);
-  } else {
-    if (heroData.image) imgList.push(heroData.image);
-    if (heroData.image2) imgList.push(heroData.image2);
-    if (heroData.image3) imgList.push(heroData.image3);
-  }
-
-  if (imgList.length === 0) {
-    imgList = ['assets/prempeh-potm-award.jpg', 'assets/prempeh-potm-boots.jpg'];
-  }
-  currentHeroImages = imgList;
-
-  const slidesWrap = document.getElementById('heroSlidesWrap') || document.querySelector('.hero-slides-wrap');
-  if (slidesWrap) {
-    const existingSlides = Array.from(slidesWrap.querySelectorAll('.hero-bg-slide'));
-    const needsUpdate = existingSlides.length !== currentHeroImages.length || existingSlides.some((img, i) => !img.src.includes(currentHeroImages[i]) && img.src !== currentHeroImages[i]);
-    if (needsUpdate) {
-      currentHeroIndex = 0;
-      slidesWrap.innerHTML = currentHeroImages.map((src, idx) => `
-        <img src="${src}" alt="Young Apostles FC Photo ${idx + 1}" class="hero-bg-slide ${idx === 0 ? 'active' : ''}" ${idx === 0 ? 'id="heroBgImage"' : ''} style="opacity:${idx === 0 ? '1' : '0'}; z-index:${idx === 0 ? '2' : '1'}; object-fit:cover; object-position:center 12% !important;">
-      `).join('');
-    }
-  }
-
-  initHeroSwipe();
-
-  if (dotsContainer) {
-    if (currentHeroImages.length > 1) {
-      dotsContainer.style.display = 'inline-flex';
-      const existingDots = dotsContainer.querySelectorAll('.hero-slide-dot');
-      if (existingDots.length !== currentHeroImages.length) {
-        dotsContainer.innerHTML = currentHeroImages.map((_, idx) => `
-          <button type="button" class="hero-slide-dot ${idx === currentHeroIndex ? 'active' : ''}" onclick="goToHeroSlide(${idx}); resetHeroSlideshowTimer();" aria-label="Photo ${idx + 1}"></button>
-        `).join('');
-      } else {
-        updateHeroDots();
-      }
-      startHeroSlideshow();
-    } else {
-      dotsContainer.style.display = 'none';
-      if (heroSlideshowTimer) {
-        clearInterval(heroSlideshowTimer);
-        heroSlideshowTimer = null;
-      }
-    }
   }
 
   if (ctaBtn) {

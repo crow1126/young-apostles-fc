@@ -6590,3 +6590,21 @@ img[src=""] {
     width: 100%;
   }
 }
+
+
+/* Hero Award Badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 184, 0, 0.16);
+  border: 1px solid rgba(255, 184, 0, 0.45);
+  color: var(--ya-gold);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: 1.25rem;
+}
