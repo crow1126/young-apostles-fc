@@ -2370,7 +2370,7 @@ const DEFAULT_FIXTURES = [
   { week: 4, home: 'Young Apostles', away: 'Heart of Lions', venue: 'Wenchi Sports Stadium', date: 'Sep 27, 2026', type: 'Home', score: '1 - 2', result: 'L' },
   { week: 5, home: 'Samartex', away: 'Young Apostles', venue: 'Nsenkyire Sports Complex', date: 'Oct 4, 2026', type: 'Away', score: '1 - 0', result: 'L' },
   { week: 6, home: 'Young Apostles', away: 'Aduana Stars', venue: 'Wenchi Sports Stadium', date: 'Oct 11, 2026', type: 'Home', score: '1 - 0', result: 'W', scorer: 'Prempeh' },
-  { week: 7, home: 'Asante Kotoko', away: 'Young Apostles', venue: 'Baba Yara Sports Stadium', date: 'Oct 18, 2026', type: 'Away' },
+  { week: 7, home: 'Asante Kotoko', away: 'Young Apostles', venue: 'Baba Yara Sports Stadium', date: 'Oct 18, 2026', type: 'Away', score: '2 - 1', result: 'L' },
   { week: 8, home: 'Young Apostles', away: 'Swedru All Blacks', venue: 'Wenchi Sports Stadium', date: 'Oct 25, 2026', type: 'Home' },
   { week: 9, home: 'Young Apostles', away: 'Karela United', venue: 'Wenchi Sports Stadium', date: 'Nov 1, 2026', type: 'Home' },
   { week: 10, home: 'Ashgold', away: 'Young Apostles', venue: 'Len Clay Stadium', date: 'Nov 8, 2026', type: 'Away' },
@@ -3095,22 +3095,54 @@ function renderFixturesPanel() {
     return;
   }
 
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  const isFixturePending = f => {
+    if (f.score) return false;
+    const d = new Date(f.date);
+    d.setHours(0, 0, 0, 0);
+    return !isNaN(d.getTime()) && d < now;
+  };
+
+  const pendingFixtures = data.filter(isFixturePending);
+
   let filtered = [...data];
   if (currentFixturesFilter === 'r1') {
     filtered = filtered.filter(f => f.week <= 17);
   } else if (currentFixturesFilter === 'r2') {
     filtered = filtered.filter(f => f.week >= 18);
   } else if (currentFixturesFilter === 'played') {
-    filtered = filtered.filter(f => Boolean(f.score));
+    filtered = filtered.filter(f => Boolean(f.score) || isFixturePending(f));
+  } else if (currentFixturesFilter === 'pending') {
+    filtered = filtered.filter(isFixturePending);
   } else if (currentFixturesFilter === 'upcoming') {
-    filtered = filtered.filter(f => !f.score);
+    filtered = filtered.filter(f => !f.score && !isFixturePending(f));
   }
 
+  const alertBanner = pendingFixtures.length ? `
+    <div style="background:linear-gradient(135deg, rgba(245,158,11,0.18), rgba(180,83,9,0.22)); border:1px solid #F59E0B; border-radius:12px; padding:14px 18px; margin-bottom:1.25rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <div style="color:#F59E0B; font-weight:800; font-size:0.85rem; letter-spacing:0.04em; display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> ACTION REQUIRED: MATCH PLAYED &bull; AWAITING SCORE ENTRY
+        </div>
+        <div style="color:#FFF; font-size:0.95rem; margin-top:3px;">
+          <strong>Week ${pendingFixtures[0].week}: ${pendingFixtures[0].home} vs ${pendingFixtures[0].away}</strong> (${pendingFixtures[0].date}) &bull; ${pendingFixtures[0].venue}
+        </div>
+      </div>
+      <button class="btn-admin-primary" onclick="editFixtureByWeek(${pendingFixtures[0].week})" style="background:#F59E0B; border-color:#D97706; color:#090E1A; font-weight:800; padding:8px 16px; border-radius:8px;">
+        <i class="fa-solid fa-pen-to-square"></i> Enter Week ${pendingFixtures[0].week} Score
+      </button>
+    </div>
+  ` : '';
+
   el.innerHTML = `
+    ${alertBanner}
     <div style="display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap;">
       <button class="btn-admin-sm ${currentFixturesFilter==='all'?'btn-admin-primary':''}" onclick="setFixturesFilter('all')">All 34 Rounds (${data.length})</button>
-      <button class="btn-admin-sm ${currentFixturesFilter==='played'?'btn-admin-primary':''}" onclick="setFixturesFilter('played')">Played / Scores (${data.filter(f=>f.score).length})</button>
-      <button class="btn-admin-sm ${currentFixturesFilter==='upcoming'?'btn-admin-primary':''}" onclick="setFixturesFilter('upcoming')">Upcoming (${data.filter(f=>!f.score).length})</button>
+      <button class="btn-admin-sm ${currentFixturesFilter==='pending'?'btn-admin-primary':''}" onclick="setFixturesFilter('pending')" style="${pendingFixtures.length?'border-color:#F59E0B;color:#F59E0B;font-weight:800;':''}">⚡ Awaiting Score (${pendingFixtures.length})</button>
+      <button class="btn-admin-sm ${currentFixturesFilter==='played'?'btn-admin-primary':''}" onclick="setFixturesFilter('played')">Played Matches (${data.filter(f=>f.score||isFixturePending(f)).length})</button>
+      <button class="btn-admin-sm ${currentFixturesFilter==='upcoming'?'btn-admin-primary':''}" onclick="setFixturesFilter('upcoming')">Future Upcoming (${data.filter(f=>!f.score&&!isFixturePending(f)).length})</button>
       <button class="btn-admin-sm ${currentFixturesFilter==='r1'?'btn-admin-primary':''}" onclick="setFixturesFilter('r1')">Round 1 (Wks 1-17)</button>
       <button class="btn-admin-sm ${currentFixturesFilter==='r2'?'btn-admin-primary':''}" onclick="setFixturesFilter('r2')">Round 2 (Wks 18-34)</button>
     </div>
@@ -3118,18 +3150,34 @@ function renderFixturesPanel() {
       <thead><tr><th>WK</th><th>Home</th><th>Away</th><th>Venue</th><th>Date</th><th>Score</th><th>Result</th><th>Scorer</th><th>Actions</th></tr></thead>
       <tbody>${filtered.map(f => {
         const fullIdx = data.findIndex(x => x.week === f.week);
+        const pending = isFixturePending(f);
+        const rowStyle = pending ? 'style="background:rgba(245,158,11,0.08); border-left:3px solid #F59E0B;"' : '';
+        const scoreHtml = f.score
+          ? `<span style="font-family:monospace;font-weight:800; font-size:0.95rem; color:#10B981;">${f.score}</span>`
+          : pending
+            ? `<span style="color:#F59E0B; font-weight:800; font-size:0.75rem; background:rgba(245,158,11,0.18); padding:3px 8px; border-radius:6px; border:1px solid rgba(245,158,11,0.4);"><i class="fa-solid fa-clock"></i> Pending</span>`
+            : '—';
+        const resultHtml = f.result
+          ? `<span class="badge ${f.result==='W'?'badge-green':f.result==='L'?'badge-red':'badge-gold'}">${f.result}</span>`
+          : pending
+            ? `<span class="badge" style="background:#FED7AA; color:#9A3412; font-weight:800;">PLAYED</span>`
+            : '—';
+        const actionButton = pending
+          ? `<button class="btn-admin-sm" onclick="editFixtureByWeek(${f.week})" title="Enter score" style="background:#F59E0B; color:#090E1A; font-weight:800; padding:4px 10px; font-size:0.75rem; border-radius:6px;"><i class="fa-solid fa-pen-to-square"></i> Enter Score</button>`
+          : `<button class="btn-admin-sm" onclick="editFixtureByWeek(${f.week})" title="Edit score & details" style="padding:4px 8px; font-size:0.75rem;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>`;
+
         return `
-        <tr>
+        <tr ${rowStyle}>
           <td><strong style="color:var(--agold);">#${f.week}</strong></td>
           <td style="font-weight:700; ${f.home==='Young Apostles'?'color:var(--agold);':''}">${f.home}</td>
           <td style="${f.away==='Young Apostles'?'color:var(--agold);font-weight:700;':''}">${f.away}</td>
           <td style="font-size:0.75rem;color:var(--amuted);">${f.venue}</td>
           <td style="font-size:0.78rem;">${f.date}</td>
-          <td style="font-family:monospace;font-weight:800; font-size:0.95rem; ${f.score?'color:#10B981;':''}">${f.score||'—'}</td>
-          <td>${f.result ? `<span class="badge ${f.result==='W'?'badge-green':f.result==='L'?'badge-red':'badge-gold'}">${f.result}</span>` : '—'}</td>
+          <td>${scoreHtml}</td>
+          <td>${resultHtml}</td>
           <td style="font-size:0.75rem;color:var(--amuted);">${f.scorer||'—'}</td>
           <td style="display:flex; gap:4px; align-items:center;">
-            <button class="btn-admin-sm" onclick="editFixtureByWeek(${f.week})" title="Edit score & details" style="padding:4px 8px; font-size:0.75rem;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+            ${actionButton}
             <button class="btn-admin-danger" onclick="deleteFixture(${fullIdx})" title="Delete" style="padding:4px 7px;"><i class="fa-solid fa-trash"></i></button>
           </td>
         </tr>
