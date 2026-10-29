@@ -990,15 +990,24 @@
        ========================================================= -->
   <section class="hero-section" id="home">
     <div class="hero-bg" id="heroBgContainer">
-      <img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Player of the Month Award" class="hero-bg-image" id="heroBgImage">
+      <div class="hero-slides-wrap" id="heroSlidesWrap">
+        <img src="assets/prempeh-potm-award.jpg" alt="Samuel Prempeh Player of the Month Award" class="hero-bg-slide active" id="heroBgImage" style="opacity: 1; z-index: 2;">
+        <img src="assets/prempeh-potm-boots.jpg" alt="Samuel Prempeh Award Gear &amp; Boots" class="hero-bg-slide" style="opacity: 0; z-index: 1;">
+      </div>
       <div class="hero-overlay"></div>
     </div>
 
     <div class="container hero-content">
       <div class="hero-content__inner">
         <div class="hero-left">
-          <div class="hero-badge">
-            <i class="fa-solid fa-trophy"></i> AJ CONSTRUCTION &amp; BUILDING PLAYER OF THE MONTH
+          <div class="hero-badge-row" style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.75rem;">
+            <div class="hero-badge">
+              <i class="fa-solid fa-trophy"></i> AJ CONSTRUCTION &amp; BUILDING PLAYER OF THE MONTH
+            </div>
+            <div class="hero-slide-dots" id="heroSlideDots" aria-label="Hero photo indicators">
+              <button type="button" class="hero-slide-dot active" onclick="goToHeroSlide(0); resetHeroSlideshowTimer();" aria-label="Photo 1"></button>
+              <button type="button" class="hero-slide-dot" onclick="goToHeroSlide(1); resetHeroSlideshowTimer();" aria-label="Photo 2"></button>
+            </div>
           </div>
           <h1 class="hero-headline" id="heroHeadlineDisplay">
             Samuel Prempeh Wins AJ Construction &amp; Building Player of the Month
@@ -1007,7 +1016,7 @@
             Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction &amp; Building Player of the Month after scoring all 3 goals after Matchday Six of the 2026/27 Ghana Premier League season.<br><br><strong>#YAFC #AgyaNa&#390;w&#596;Tumi</strong>
           </p>
           <div class="hero-cta-row">
-            <a href="#news" class="btn-hero-primary" id="heroCtaBtn" onclick="if(typeof openNewsArticle==='function'){event.preventDefault();openNewsArticle('samuel-prempeh-player-of-the-month');document.getElementById('news')?.scrollIntoView({behavior:'smooth'});}"><i class="fa-solid fa-trophy"></i> Read Full Award Story &amp; Gallery</a>
+            <a href="#news" class="btn-hero-primary" id="heroCtaBtn" onclick="if(typeof openNewsArticle==='function'){event.preventDefault();openNewsArticle('samuel-prempeh-player-of-the-month');}"><i class="fa-solid fa-trophy"></i> Read Full Award Story &amp; Gallery</a>
             <a href="#matches" class="btn-hero-secondary"><i class="fa-solid fa-calendar-check"></i> View GPL Fixtures</a>
           </div>
         </div>
@@ -1095,14 +1104,23 @@
         </div>
       </div>
 
-      <!-- BOTTOM STRIP: Older Stories & Match Archive (Positions 4+ from CMS - Matching Image 3 Bottom Bar) -->
+      <!-- BOTTOM STRIP: 4th Latest News (Hearts of Lions, Sep 26) -->
       <div class="news-pl-strip-wrap" id="newsBottomStripWrap">
         <div class="news-pl-strip-header">
-          <span class="news-pl-strip-title"><i class="fa-solid fa-layer-group" style="color:var(--ya-gold);"></i> More Club Stories &amp; Past Reports</span>
-          <span class="news-pl-strip-count" id="newsStripCount">Archive Stories</span>
+          <span class="news-pl-strip-title"><i class="fa-solid fa-layer-group" style="color:var(--ya-gold);"></i> More Club Stories</span>
+          <span class="news-pl-strip-count" id="newsStripCount">1 Story</span>
         </div>
         <div class="news-pl-strip" id="newsBottomStrip">
-          <!-- Populated dynamically via renderNews() in main.js -->
+          <div class="news-strip-item" onclick="openNewsArticle('young-apostles-second-home-test-lions')">
+            <div class="news-strip-thumb">
+              <img src="assets/md2-holy-stars-preview.jpg" alt="Young Apostles Set for Second Home Test Against Hearts of Lions" onerror="this.src='assets/kit-home-2026.jpg'">
+            </div>
+            <div class="news-strip-info">
+              <span class="news-strip-tag">CLUB NEWS</span>
+              <div class="news-strip-headline">Young Apostles Set for Second Home Test Against Hearts of Lions</div>
+              <div class="news-strip-date">Sep 26, 2026</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
