@@ -6608,3 +6608,111 @@ img[src=""] {
   border-radius: var(--radius-pill);
   margin-bottom: 1.25rem;
 }
+
+/* =============================================
+   MOBILE UI IMPROVEMENTS - NEWS & GENERAL
+   ============================================= */
+
+/* News section header on mobile — clean single column */
+@media (max-width: 768px) {
+  .section-header {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  /* News grid: full-width stacked on mobile */
+  .news-pl-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  /* Hero card shorter on mobile */
+  .news-hero-card {
+    min-height: 300px;
+  }
+
+  .news-hero-card__content {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .news-hero-card__title {
+    font-size: 1.35rem;
+  }
+
+  /* Stacked cards on mobile */
+  .news-stacked-card {
+    height: 200px;
+  }
+
+  .news-stacked-card__content {
+    padding: 1rem 1.25rem;
+  }
+
+  .news-stacked-card__title {
+    font-size: 1rem;
+  }
+
+  /* News strip — full width single column */
+  .news-pl-strip {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .news-strip-item {
+    padding: 0.65rem 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .news-strip-thumb {
+    width: 52px;
+    height: 52px;
+  }
+
+  .news-strip-headline {
+    font-size: 0.84rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Bottom strip wrap tighter padding */
+  .news-pl-strip-wrap {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+  }
+
+  /* Section header eyebrow */
+  .news-header-eyebrow {
+    font-size: 0.72rem;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 420px) {
+  .news-hero-card {
+    min-height: 260px;
+  }
+
+  .news-hero-card__title {
+    font-size: 1.2rem !important;
+  }
+
+  .news-stacked-card {
+    height: 180px;
+  }
+
+  .news-strip-thumb {
+    width: 46px;
+    height: 46px;
+  }
+}
+
+/* Hide share info pill everywhere since it was removed */
+.news-share-info-pill {
+  display: none !important;
+}
+

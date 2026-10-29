@@ -1506,6 +1506,19 @@ const UNIFIED_BLOGS_KEY = "ya_club_unified_blogs";
 
 const DEFAULT_UNIFIED_BLOGS = [
   {
+    "id": "match-preview-young-apostles-set-for-asante-kotoko-test-at-baba-yara",
+    "title": "MATCH PREVIEW: Young Apostles Set for Asante Kotoko Test at Baba Yara",
+    "category": "MATCH PREVIEW",
+    "badgeClass": "news-badge-pill--preview",
+    "date": "Oct 17, 2026",
+    "source": "Apostles Media Dispatch",
+    "author": "Young Apostles FC",
+    "image": "assets/md7-kotoko-preview.jpg",
+    "excerpt": "Young Apostles FC travel to the Baba Yara Sports Stadium in Kumasi this weekend for a blockbuster Matchday 7 fixture against giants Asante Kotoko in the 2026/27 Ghana Premier League.",
+    "content": "<p>Young Apostles FC travel to the Baba Yara Sports Stadium in Kumasi this weekend for a blockbuster Matchday 7 fixture against giants Asante Kotoko in the 2026/27 Ghana Premier League.</p><p>The Apostles head into the match in good form after their impressive 1-0 victory over Aduana FC in the Bono Derby on Matchday 6, a result that signalled their growing confidence in the campaign.</p><p>Asante Kotoko present one of the biggest challenges in Ghanaian football, and facing them at Baba Yara will test the character and quality of the Young Apostles squad.</p><div style=\"margin:1.5rem 0;padding:1.25rem;background:rgba(0,87,184,0.06);border-left:4px solid #0057B8;border-radius:0 8px 8px 0;\"><p style=\"font-weight:800;color:#001489;font-size:1.05rem;margin:0 0 0.25rem;\">Asante Kotoko SC vs Young Apostles FC</p><p style=\"margin:0;color:#64748B;\">&#128197; Saturday, October 18, 2026 &bull; &#9200; 3:00 PM &bull; &#128205; Baba Yara Sports Stadium, Kumasi</p></div>",
+    "readTime": "3 min read"
+  },
+  {
     "id": "young-apostles-edge-aduana-bono-derby",
     "title": "Young Apostles Edge Aduana in Bono Derby",
     "category": "MATCH REPORT",
@@ -1588,19 +1601,6 @@ const DEFAULT_UNIFIED_BLOGS = [
     "readTime": "3 min read"
   },
   {
-    "id": "holy-stars-matchday2-preview",
-    "title": "Young Apostles Set for Basake Holy Stars Test in Wenchi",
-    "category": "MATCH PREVIEW",
-    "badgeClass": "news-badge-pill--preview",
-    "date": "Sep 11, 2026",
-    "source": "Apostles Media Dispatch",
-    "author": "Young Apostles FC",
-    "image": "assets/md2-holy-stars-preview.jpg",
-    "excerpt": "Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.",
-    "content": "<p>Young Apostles FC will return to action on Matchday 2 of the 2026/27 Ghana Premier League season when they host Basake Holy Stars in their first home league fixture of the campaign at Wenchi.</p><p>The Apostles will be looking to bounce back from their opening-day defeat to Vision FC, where they suffered a 3-0 loss in Tema.</p><p><strong>Young Apostles FC vs Basake Holy Stars &bull; Sun 12th Sep &bull; 3:00PM &bull; Wenchi Sports Stadium</strong></p>",
-    "readTime": "3 min read"
-  },
-  {
     "id": "gpl-opener-vision-fc",
     "title": "Young Apostles Fall to 3-0 Defeat Against Vision FC in GPL Opener",
     "category": "MATCH REPORT",
@@ -1676,6 +1676,9 @@ function renderNews() {
   blogs = blogs.filter(b => b.id !== heroExclusiveId);
   if (blogs.length === 0) return;
 
+  // LIMIT to 4 latest news articles only
+  blogs = blogs.slice(0, 4);
+
   // POSITION 1: Featured News Card (Left)
   if (heroContainer && blogs[0]) {
     const lead = blogs[0];
@@ -1687,9 +1690,6 @@ function renderNews() {
 
     heroContainer.innerHTML = `
       <article class="news-hero-card" onclick="openNewsArticle('${lead.id}')">
-        <button type="button" class="news-card-share-trigger" onclick="event.stopPropagation(); triggerQuickShare('${lead.id}')" title="Share story with friends">
-          <i class="fa-solid fa-share-nodes"></i> Share
-        </button>
         <img src="${leadImg}" alt="${lead.title}" class="news-hero-card__bg" onerror="this.src='assets/md2-prempeh-win.jpg'">
         <div class="news-hero-card__overlay"></div>
         <div class="news-hero-card__content">
@@ -1717,9 +1717,6 @@ function renderNews() {
 
       return `
         <article class="news-stacked-card" onclick="openNewsArticle('${art.id}')">
-          <button type="button" class="news-card-share-trigger" onclick="event.stopPropagation(); triggerQuickShare('${art.id}')" title="Share story with friends">
-            <i class="fa-solid fa-share-nodes"></i> Share
-          </button>
           <img src="${artImg}" alt="${art.title}" class="news-stacked-card__bg" onerror="this.src='assets/md3-debibi-derby.jpg'">
           <div class="news-stacked-card__overlay"></div>
           <div class="news-stacked-card__content">
@@ -1764,9 +1761,6 @@ function renderNews() {
               <div class="news-strip-headline">${art.title}</div>
               <div class="news-strip-date">${dateText}</div>
             </div>
-            <button type="button" class="news-strip-share-trigger" onclick="event.stopPropagation(); triggerQuickShare('${art.id}')" title="Share story">
-              <i class="fa-solid fa-share-nodes"></i>
-            </button>
           </div>
         `;
       }).join('');
