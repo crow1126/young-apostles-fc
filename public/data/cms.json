@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-16T13:30:36.545Z",
+  "lastUpdated": "2026-11-16T13:32:40.546Z",
   "hero": {
     "headline": "Samuel Prempeh Wins AJ Construction & Building Player of the Month",
     "subtitle": "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month after scoring all 3 goals after Matchday Six of the 2026/27 Ghana Premier League season.<br><br><strong>#YAFC #AgyaNa&#390;w&#596;Tumi</strong>",
@@ -69,6 +69,12 @@
   ],
   "apostlesTv": [
     {
+      "id": "2PG19aSs6VM",
+      "title": "Ghana Premier League Highlights: Young Apostles FC vs Medeama SC",
+      "tag": "Match Highlights",
+      "thumb": "https://img.youtube.com/vi/2PG19aSs6VM/hqdefault.jpg"
+    },
+    {
       "id": "p9WJMvxTL9Y",
       "title": "Match Highlights: Young Apostles 1-0 Aduana FC",
       "tag": "Match Highlights",
@@ -97,24 +103,6 @@
       "title": "Match Highlights: Young Apostles 1 - 0 Basake Holy Stars",
       "tag": "MATCH HIGHLIGHTS",
       "thumb": "assets/apostle-tv-video1.jpg"
-    },
-    {
-      "id": "ixgmCVIplsk",
-      "title": "Pre-Match Interview | Young Apostles vs Basake Holy Stars | Assistant Coach Abubakar Fuseini",
-      "tag": "PRE-MATCH INTERVIEW",
-      "thumb": "assets/apostle-tv-video2.jpg"
-    },
-    {
-      "id": "9SFZE0KVGak",
-      "title": "Match Highlights: Vision FC 3 - 0 Young Apostles FC",
-      "tag": "MATCH HIGHLIGHTS",
-      "thumb": "assets/apostle-tv-video3.jpg"
-    },
-    {
-      "id": "9AX0fmXUMU4",
-      "title": "Season 2026/27 Training Camp: Behind The Scenes",
-      "tag": "BEHIND THE SCENES",
-      "thumb": "assets/apostle-tv-video4.jpg"
     }
   ],
   "standings": {
