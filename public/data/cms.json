@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-09T08:16:29.953Z",
+  "lastUpdated": "2026-11-16T13:30:36.545Z",
   "hero": {
     "headline": "Samuel Prempeh Wins AJ Construction & Building Player of the Month",
     "subtitle": "Young Apostles FC striker Samuel Prempeh has been named the club's AJ Construction & Building Player of the Month after scoring all 3 goals after Matchday Six of the 2026/27 Ghana Premier League season.<br><br><strong>#YAFC #AgyaNa&#390;w&#596;Tumi</strong>",
@@ -119,8 +119,8 @@
   ],
   "standings": {
     "rank": "17",
-    "played": "10",
-    "diff": "-8",
+    "played": "11",
+    "diff": "-9",
     "points": "8"
   },
   "leagueTable": [
@@ -272,8 +272,8 @@
       "pos": 17,
       "name": "Young Apostles",
       "crest": "assets/official-logo.png",
-      "played": 10,
-      "diff": "-8",
+      "played": 11,
+      "diff": "-9",
       "points": 8,
       "isClub": true
     },
@@ -403,6 +403,9 @@
       "away": "Medeama SC",
       "venue": "Wenchi Sports Stadium",
       "date": "Nov 15, 2026",
+      "score": "1 - 2",
+      "result": "L",
+      "scorer": "",
       "type": "Home"
     },
     {
